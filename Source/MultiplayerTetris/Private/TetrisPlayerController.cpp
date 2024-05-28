@@ -146,7 +146,7 @@ void ATetrisPlayerController::EndMovement(const EKeyFlags KeyReleased)
 		const FVector2D& DirectionReleased = GetDirectionByKeyFlag(KeyReleased);
 		if (TetrominoPawn->GetMovementDirection().Equals(DirectionReleased))
 		{
-			const FVector2D& OppositeDirection = -DirectionReleased;
+			const FVector2D OppositeDirection = -DirectionReleased;
 			TetrominoPawn->OnMove(OppositeDirection);
 		}
 	}
