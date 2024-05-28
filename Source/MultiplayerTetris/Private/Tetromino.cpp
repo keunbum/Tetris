@@ -1,4 +1,4 @@
-﻿// Copyright Ryu KeunBeom, Inc. All Rights Reserved.
+// Copyright Ryu KeunBeom, Inc. All Rights Reserved.
 
 #include "Tetromino.h"
 
@@ -7,6 +7,10 @@
 #include "UObject/ConstructorHelpers.h"
 
 #include "Mino.h"
+
+const FVector2D ATetromino::DirectionLeft = FVector2D(-1, 0);
+const FVector2D ATetromino::DirectionRight = FVector2D(1, 0);
+const FVector2D ATetromino::DirectionDown = FVector2D(0, -1);
 
 const TArray<ATetromino::FTetrominoInfo> ATetromino::Infos =
 {
@@ -47,17 +51,16 @@ const TArray<ATetromino::FTetrominoInfo> ATetromino::Infos =
 	}
 };
 
-const FVector2D ATetromino::DirectionLeft = FVector2D(-1, 0);
-const FVector2D ATetromino::DirectionRight = FVector2D(1, 0);
-const FVector2D ATetromino::DirectionDown = FVector2D(0, -1);
-
 ATetromino::ATetromino()
+	: TetrominoType(ETetrominoType::None)
+	, MinoClass(AMino::StaticClass())
+	, Minos()
+	, GhostPiece(nullptr)
 {
 	PrimaryActorTick.bCanEverTick = true;
 
-	TetrominoType = ETetrominoType::None;
-	MinoClass = AMino::StaticClass();
-	GhostPiece = nullptr;
+	// Create and set the default root component
+	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
 }
 
 // Called when the game starts or when spawned
@@ -72,9 +75,22 @@ void ATetromino::Tick(const float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
+void ATetromino::Initialize()
+{
+	InitializeMinos();
+}
+
 void ATetromino::SetTetrominoType(const ETetrominoType NewTetrominoType)
 {
 	TetrominoType = NewTetrominoType;
+}
+
+void ATetromino::Move(const FVector2D& Direction)
+{
+	const FVector Movement(Direction * AMino::UnitLength, 0.f);
+	UE_LOG(LogTemp, Warning, TEXT("Movement: %s"), *Movement.ToString());
+	AddActorLocalOffset(Movement);
+	DebugPrintState();
 }
 
 void ATetromino::InitializeMinos()
@@ -83,7 +99,6 @@ void ATetromino::InitializeMinos()
 	if (!Infos.IsValidIndex(TetrominoIndex))
 	{
 		UE_LOG(LogTemp, Error, TEXT("Invalid TetrominoIndex: %d\n"), TetrominoIndex);
-		DebugPrintState();
 		return;
 	}
 
@@ -97,6 +112,7 @@ void ATetromino::InitializeMinos()
 	}
 
 	Minos.Reserve(Info.MinoPositions.Num());
+
 	for (const FVector2D& MinoPosition : Info.MinoPositions)
 	{
 		if (AMino* const Mino = GetWorld()->SpawnActor<AMino>(MinoClass, FVector::ZeroVector, FRotator::ZeroRotator))
@@ -111,11 +127,6 @@ void ATetromino::InitializeMinos()
 			Minos.Add(Mino);
 		}
 	}
-}
-
-void ATetromino::Initialize()
-{
-	InitializeMinos();
 }
 
 void ATetromino::DebugPrintState() const
@@ -133,14 +144,6 @@ void ATetromino::DebugPrintState() const
 			UE_LOG(LogTemp, Log, TEXT("Mino %d: Relative Location: %s"), Index, *MinoRelativeLocation.ToString());
 		}
 	}
-}
-
-void ATetromino::Move(const FVector2D& Direction)
-{
-	const FVector Movement(Direction * AMino::UnitLength, 0.f);
-	UE_LOG(LogTemp, Warning, TEXT("Movement: %s"), *Movement.ToString());
-	AddActorLocalOffset(Movement);
-	DebugPrintState();
 }
 
 FString ATetromino::GetTetrominoTypeName(const ETetrominoType TetrominoType)

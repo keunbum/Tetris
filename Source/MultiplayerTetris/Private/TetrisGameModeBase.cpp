@@ -1,4 +1,4 @@
-﻿// Copyright Ryu KeunBeom, Inc. All Rights Reserved.
+// Copyright Ryu KeunBeom, Inc. All Rights Reserved.
 
 
 #include "TetrisGameModeBase.h"
@@ -8,18 +8,48 @@
 #include "Kismet/GameplayStatics.h"
 #include "UObject/ConstructorHelpers.h"
 
-AMultiplayerTetrisGameModeBase::AMultiplayerTetrisGameModeBase()
+#include "TetrominoPawn.h"
+
+ATetrisGameModeBase::ATetrisGameModeBase()
+	: GameLevel(DefaultGameLevel)
 {
 }
 
-void AMultiplayerTetrisGameModeBase::BeginPlay()
+void ATetrisGameModeBase::BeginPlay()
 {
 	Super::BeginPlay();
 
 	Initialize();
 }
 
-void AMultiplayerTetrisGameModeBase::Initialize()
+void ATetrisGameModeBase::Initialize()
 {
-
 }
+
+int32 ATetrisGameModeBase::GetGameLevel() const
+{
+	return GameLevel;
+}
+
+void ATetrisGameModeBase::SetGameLevel(const int32 NewGameLevel)
+{
+	GameLevel = NewGameLevel;
+
+	if (APawn* const PlayerPawn = UGameplayStatics::GetPlayerPawn(this, PlayerIndex);
+		ATetrominoPawn* const TetrominoPawn = Cast<ATetrominoPawn>(PlayerPawn))
+	{
+		const float NewFallSpeed = GetFallSpeed();
+		TetrominoPawn->UpdateFallSpeed(NewFallSpeed);
+	}
+}
+
+float ATetrisGameModeBase::GetFallSpeed() const
+{
+	return CalculateFallSpeed(GameLevel);
+}
+
+float ATetrisGameModeBase::CalculateFallSpeed(const int32 Level)
+{
+	return FMath::Max(0.007f, (0.8f - ((Level - 1) * 0.007f)) * FMath::Pow(0.8f, (Level - 1)));
+}
+

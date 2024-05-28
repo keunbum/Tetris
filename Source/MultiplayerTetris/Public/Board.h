@@ -1,4 +1,4 @@
-﻿// Copyright Ryu KeunBeom, Inc. All Rights Reserved.
+// Copyright Ryu KeunBeom, Inc. All Rights Reserved.
 
 #pragma once
 
@@ -29,12 +29,14 @@ public:
 	virtual void Tick(const float DeltaTime) override;
 
 public:
-	void AttachTetromino(ATetromino* const NewTetrominoInPlay);
+	void AttachTetromino(ATetromino* const NewTetromino);
 
 private:
 	void Initialize();
 	void SpawnTetromino(const FVector& SpawnLocation, const FRotator& SpawnRotation, const ETetrominoType TetrominoType);
 	void SpawnTetrominos();
+
+	void TestTetrominoSpawning();
 
 private:
 	static constexpr int32 TotalHeight = 40;
@@ -42,10 +44,10 @@ private:
 	static constexpr int32 Width = 10;
 
 	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<AMino> MinoClass = nullptr;
+	TSubclassOf<AMino> MinoClass;
 
 	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<ATetromino> TetrominoClass = nullptr;
+	TSubclassOf<ATetromino> TetrominoClass;
 
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<ATetromino> TetrominoInPlay;

@@ -1,13 +1,15 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
+// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
+#include "Engine/EngineTypes.h"
 
 #include "TetrominoPawn.generated.h"
 
 class ATetromino;
+class ATetrisGameModeBase;
 
 UCLASS()
 class MULTIPLAYERTETRIS_API ATetrominoPawn : public APawn
@@ -37,8 +39,23 @@ public:
 	void SoftDrop();
 	void HardDrop();
 
+	void UpdateFallSpeed(const float NewFallSpeed);
+
 private:
+	void Initialize();
+	void OnFallTimer();
+
+private:
+	static constexpr bool bIsFallTimerLoop = true;
+	static constexpr float FallTimerFirstDelayTime = 0.f;
+
 	// 조작 중인 테트로미노
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<ATetromino> TetrominoInPlay;
+
+	// 타이머 핸들러
+	FTimerHandle FallTimerHandle;
+
+	UPROPERTY()
+	TObjectPtr<ATetrisGameModeBase> GameMode;
 };

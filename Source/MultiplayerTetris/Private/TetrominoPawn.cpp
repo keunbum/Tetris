@@ -1,10 +1,11 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
+// Fill out your copyright notice in the Description page of Project Settings.
 
 
 #include "TetrominoPawn.h"
 
-#include "Tetromino.h"
 #include "Board.h"
+#include "TetrisGameModeBase.h"
+#include "Tetromino.h"
 
 // Sets default values
 ATetrominoPawn::ATetrominoPawn()
@@ -17,6 +18,8 @@ ATetrominoPawn::ATetrominoPawn()
 void ATetrominoPawn::BeginPlay()
 {
 	Super::BeginPlay();
+
+	Initialize();
 }
 
 // Called every frame
@@ -34,28 +37,62 @@ void ATetrominoPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 void ATetrominoPawn::SetTetrominoInPlay(ATetromino* const NewTetrominoInPlay)
 {
 	TetrominoInPlay = NewTetrominoInPlay;
-	ensureMsgf(TetrominoInPlay != nullptr, TEXT("FUCK. TetrominoInPlay is nullptr"));
 }
 
 void ATetrominoPawn::MoveLeft()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Hi! I'm ATetrominoPawn::MoveLeft()!"));
-	TetrominoInPlay->Move(ATetromino::DirectionLeft);
+	if (TetrominoInPlay)
+	{
+		TetrominoInPlay->Move(ATetromino::DirectionLeft);
+	}
 }
 
 void ATetrominoPawn::MoveRight()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Hi! I'm ATetrominoPawn::MoveRight()!"));
-	TetrominoInPlay->Move(ATetromino::DirectionRight);
+	if (TetrominoInPlay)
+	{
+		TetrominoInPlay->Move(ATetromino::DirectionRight);
+	}
 }
 
 void ATetrominoPawn::SoftDrop()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Hi! I'm ATetrominoPawn::SoftDrop()!"));
-	TetrominoInPlay->Move(ATetromino::DirectionDown);
+	if (TetrominoInPlay)
+	{
+		TetrominoInPlay->Move(ATetromino::DirectionDown);
+	}
 }
 
 void ATetrominoPawn::HardDrop()
 {
+	// TODO: 하드 드롭 로직 추가
+}
+
+void ATetrominoPawn::UpdateFallSpeed(const float NewFallSpeed)
+{
+	GetWorld()->GetTimerManager().ClearTimer(FallTimerHandle);
+	GetWorld()->GetTimerManager().SetTimer(FallTimerHandle, this, &ATetrominoPawn::OnFallTimer, NewFallSpeed, true);
+}
+
+void ATetrominoPawn::Initialize()
+{
+	GameMode = GetWorld()->GetAuthGameMode<ATetrisGameModeBase>();
+	if (GameMode)
+	{
+		const float FallSpeed = GameMode->GetFallSpeed();
+		// 타이머 설정
+		GetWorld()->GetTimerManager().SetTimer(FallTimerHandle, this, &ATetrominoPawn::OnFallTimer, FallSpeed, bIsFallTimerLoop, FallTimerFirstDelayTime);
+	}
+}
+
+void ATetrominoPawn::OnFallTimer()
+{
+	if (TetrominoInPlay)
+	{
+		TetrominoInPlay->Move(ATetromino::DirectionDown);
+	}
 }
 
