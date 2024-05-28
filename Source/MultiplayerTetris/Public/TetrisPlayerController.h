@@ -1,4 +1,4 @@
-﻿// Copyright Ryu KeunBeom, Inc. All Rights Reserved.
+// Copyright Ryu KeunBeom, Inc. All Rights Reserved.
 
 #pragma once
 
@@ -32,6 +32,7 @@ private:
 	void MoveLeft(const FInputActionValue& ActionValue);
 	void MoveRight(const FInputActionValue& ActionValue);
 	void SoftDrop(const FInputActionValue& ActionValue);
+	void StopSoftDrop(const FInputActionValue& ActionValue);
 	void HardDrop(const FInputActionValue& ActionValue);
 
 private:
@@ -48,6 +49,9 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	TObjectPtr<UInputAction> SoftDropAction;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	TObjectPtr<UInputAction> StopSoftDropAction;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	TObjectPtr<UInputAction> HardDropAction;

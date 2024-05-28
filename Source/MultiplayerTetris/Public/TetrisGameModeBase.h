@@ -28,7 +28,11 @@ public:
 	int32 GetGameLevel() const;
 	void SetGameLevel(const int32 NewGameLevel);
 
+	/**
+	* Here, speed means the seconds it takes to move one line.
+	*/
 	float GetFallSpeed() const;
+	float GetSoftDropSpeed() const { return SoftDropSpeed; }
 
 private:
 	static float CalculateFallSpeed(const int32 Level);
@@ -40,6 +44,8 @@ public:
 private:
 	static constexpr int32 PlayerIndex = 0;
 	static constexpr int32 DefaultGameLevel = 1;
+	static constexpr float NormalFallingSpeed = 1.f;
+	static constexpr float SoftDropSpeed = NormalFallingSpeed / 20.0f;
 
 	int32 GameLevel;
 };

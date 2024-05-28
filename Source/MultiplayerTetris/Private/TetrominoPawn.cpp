@@ -39,34 +39,43 @@ void ATetrominoPawn::SetTetrominoInPlay(ATetromino* const NewTetrominoInPlay)
 	TetrominoInPlay = NewTetrominoInPlay;
 }
 
-void ATetrominoPawn::MoveLeft()
+void ATetrominoPawn::OnMoveLeft()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Hi! I'm ATetrominoPawn::MoveLeft()!"));
+	UE_LOG(LogTemp, Warning, TEXT("Hi! I'm ATetrominoPawn::OnMoveLeft()!"));
 	if (TetrominoInPlay)
 	{
 		TetrominoInPlay->Move(ATetromino::DirectionLeft);
 	}
 }
 
-void ATetrominoPawn::MoveRight()
+void ATetrominoPawn::OnMoveRight()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Hi! I'm ATetrominoPawn::MoveRight()!"));
+	UE_LOG(LogTemp, Warning, TEXT("Hi! I'm ATetrominoPawn::OnMoveRight()!"));
 	if (TetrominoInPlay)
 	{
 		TetrominoInPlay->Move(ATetromino::DirectionRight);
 	}
 }
 
-void ATetrominoPawn::SoftDrop()
+void ATetrominoPawn::OnSoftDrop()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Hi! I'm ATetrominoPawn::SoftDrop()!"));
-	if (TetrominoInPlay)
+	UE_LOG(LogTemp, Warning, TEXT("Hi! I'm ATetrominoPawn::OnSoftDrop()!"));
+	if (TetrominoInPlay && GameMode)
 	{
-		TetrominoInPlay->Move(ATetromino::DirectionDown);
+		// 소프트 드롭 타이머 설정 (반복 실행되도록 설정)
+		const float SoftDropSpeed = GameMode->GetSoftDropSpeed();
+		GetWorld()->GetTimerManager().SetTimer(SoftDropTimerHandle, this, &ATetrominoPawn::OnFallTimer, SoftDropSpeed, bSoftDropTimerLoop);
 	}
 }
 
-void ATetrominoPawn::HardDrop()
+void ATetrominoPawn::OnStopSoftDrop()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Hi! I'm ATetrominoPawn::OnStopSoftDrop()!"));
+	// 소프트 드롭 타이머 해제
+	GetWorld()->GetTimerManager().ClearTimer(SoftDropTimerHandle);
+}
+
+void ATetrominoPawn::OnHardDrop()
 {
 	// TODO: 하드 드롭 로직 추가
 }
@@ -74,7 +83,7 @@ void ATetrominoPawn::HardDrop()
 void ATetrominoPawn::UpdateFallSpeed(const float NewFallSpeed)
 {
 	GetWorld()->GetTimerManager().ClearTimer(FallTimerHandle);
-	GetWorld()->GetTimerManager().SetTimer(FallTimerHandle, this, &ATetrominoPawn::OnFallTimer, NewFallSpeed, true);
+	SetFallTimer(NewFallSpeed);
 }
 
 void ATetrominoPawn::Initialize()
@@ -91,9 +100,14 @@ void ATetrominoPawn::SetInitialTimers()
 	if (!GameMode->bTetrominoFallOff)
 	{
 		// 기본 낙하 타이머 설정
-		const float FallSpeed = GameMode->GetFallSpeed();
-		GetWorld()->GetTimerManager().SetTimer(FallTimerHandle, this, &ATetrominoPawn::OnFallTimer, FallSpeed, bIsFallTimerLoop, FallTimerFirstDelayTime);
+		const float InitialFallSpeed = GameMode->GetFallSpeed();
+		SetFallTimer(InitialFallSpeed);
 	}
+}
+
+void ATetrominoPawn::SetFallTimer(const float NewFallSpeed)
+{
+	GetWorld()->GetTimerManager().SetTimer(FallTimerHandle, this, &ATetrominoPawn::OnFallTimer, NewFallSpeed, bIsFallTimerLoop, FallTimerFirstDelayTime);
 }
 
 void ATetrominoPawn::OnFallTimer()

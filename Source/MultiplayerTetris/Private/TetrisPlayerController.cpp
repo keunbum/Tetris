@@ -1,4 +1,4 @@
-﻿// Copyright Ryu KeunBeom, Inc. All Rights Reserved.
+// Copyright Ryu KeunBeom, Inc. All Rights Reserved.
 
 
 #include "TetrisPlayerController.h"
@@ -37,6 +37,7 @@ void ATetrisPlayerController::SetInput()
 		EnhancedInputComponent->BindAction(MoveLeftAction, ETriggerEvent::Started, this, &ATetrisPlayerController::MoveLeft);
 		EnhancedInputComponent->BindAction(MoveRightAction, ETriggerEvent::Started, this, &ATetrisPlayerController::MoveRight);
 		EnhancedInputComponent->BindAction(SoftDropAction, ETriggerEvent::Started, this, &ATetrisPlayerController::SoftDrop);
+		EnhancedInputComponent->BindAction(SoftDropAction, ETriggerEvent::Completed, this, &ATetrisPlayerController::StopSoftDrop);
 		EnhancedInputComponent->BindAction(HardDropAction, ETriggerEvent::Started, this, &ATetrisPlayerController::HardDrop);
 	}
 
@@ -65,23 +66,29 @@ void ATetrisPlayerController::Initialize()
 void ATetrisPlayerController::MoveLeft(const FInputActionValue& ActionValue)
 {
 	UE_LOG(LogTemp, Warning, TEXT("Hi! I'm ATetrisPlayerController::MoveLeft()!"));
-	TetrominoPawn->MoveLeft();
+	TetrominoPawn->OnMoveLeft();
 }
 
 void ATetrisPlayerController::MoveRight(const FInputActionValue& ActionValue)
 {
 	UE_LOG(LogTemp, Warning, TEXT("Hi! I'm ATetrisPlayerController::MoveRight()!"));
-	TetrominoPawn->MoveRight();
+	TetrominoPawn->OnMoveRight();
 }
 
 void ATetrisPlayerController::SoftDrop(const FInputActionValue& ActionValue)
 {
 	UE_LOG(LogTemp, Warning, TEXT("Hi! I'm ATetrisPlayerController::SoftDrop()!"));
-	TetrominoPawn->SoftDrop();
+	TetrominoPawn->OnSoftDrop();
+}
+
+void ATetrisPlayerController::StopSoftDrop(const FInputActionValue& ActionValue)
+{
+	UE_LOG(LogTemp, Warning, TEXT("Hi! I'm ATetrisPlayerController::StopSoftDrop()!"));
+	TetrominoPawn->OnStopSoftDrop();
 }
 
 void ATetrisPlayerController::HardDrop(const FInputActionValue& ActionValue)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Hi! I'm ATetrisPlayerController::HardDrop()!"));
-	TetrominoPawn->HardDrop();
+	UE_LOG(LogTemp, Warning, TEXT("Hi! I'm ATetrisPlayerController::OnHardDrop()!"));
+	TetrominoPawn->OnHardDrop();
 }

@@ -34,21 +34,24 @@ public:
 public:
 	void SetTetrominoInPlay(ATetromino* const NewTetrominoInPlay);
 
-	void MoveLeft();
-	void MoveRight();
-	void SoftDrop();
-	void HardDrop();
+	void OnMoveLeft();
+	void OnMoveRight();
+	void OnSoftDrop();
+	void OnStopSoftDrop();
+	void OnHardDrop();
 
 	void UpdateFallSpeed(const float NewFallSpeed);
 
 private:
 	void Initialize();
 	void SetInitialTimers();
+	void SetFallTimer(const float NewFallSpeed);
 	void OnFallTimer();
 
 private:
 	static constexpr bool bIsFallTimerLoop = true;
 	static constexpr float FallTimerFirstDelayTime = 0.f;
+	static const bool bSoftDropTimerLoop = true;
 
 	// 조작 중인 테트로미노
 	UPROPERTY(VisibleAnywhere)
@@ -57,6 +60,7 @@ private:
 	UPROPERTY()
 	TObjectPtr<ATetrisGameModeBase> GameMode;
 
-	// 기본 낙하 타이머 핸들러
+	// 타이머 핸들러
 	FTimerHandle FallTimerHandle;
+	FTimerHandle SoftDropTimerHandle;
 };
