@@ -10,6 +10,7 @@
 
 class ATetromino;
 class ATetrisGameModeBase;
+class UWorld;
 
 UCLASS()
 class MULTIPLAYERTETRIS_API ATetrominoPawn : public APawn
@@ -40,27 +41,29 @@ public:
 	void OnStopSoftDrop();
 	void OnHardDrop();
 
-	void UpdateFallSpeed(const float NewFallSpeed);
+	void UpdateNormalFallSpeed(const float NewFallSpeed);
 
 private:
 	void Initialize();
 	void SetInitialTimers();
-	void SetFallTimer(const float NewFallSpeed);
+	void ClearTimer(FTimerHandle& InOutTimerHandle);
+	void SetFallTimer(FTimerHandle& InOutFallTimerHandle, const float NewFallSpeed, const bool bIsTimerLoop, const float FirstDelayTime);
 	void OnFallTimer();
 
 private:
-	static constexpr bool bIsFallTimerLoop = true;
-	static constexpr float FallTimerFirstDelayTime = 0.f;
+	static constexpr bool bIsNormalFallTimerLoop = true;
+	static constexpr float NormalFallTimerFirstDelayTime = 0.f;
 	static const bool bSoftDropTimerLoop = true;
+	static constexpr float SoftDropTimerFirstDelayTime = 0.f;
+
+	UPROPERTY()
+	TObjectPtr<ATetrisGameModeBase> GameMode;
 
 	// 조작 중인 테트로미노
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<ATetromino> TetrominoInPlay;
 
-	UPROPERTY()
-	TObjectPtr<ATetrisGameModeBase> GameMode;
-
 	// 타이머 핸들러
-	FTimerHandle FallTimerHandle;
+	FTimerHandle NormalFallTimerHandle;
 	FTimerHandle SoftDropTimerHandle;
 };

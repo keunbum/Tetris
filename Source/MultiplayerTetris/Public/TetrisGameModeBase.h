@@ -32,20 +32,19 @@ public:
 	* Here, speed means the seconds it takes to move one line.
 	*/
 	float GetFallSpeed() const;
-	float GetSoftDropSpeed() const { return SoftDropSpeed; }
+	float GetSoftDropSpeed() const { return GetFallSpeed() / SoftDropMultiplier; }
 
 private:
 	static float CalculateFallSpeed(const int32 Level);
 
 public:
 	UPROPERTY(EditDefaultsOnly, Category = "Tetromino")
-	bool bTetrominoFallOff = false;
+	bool bNormalFallOff = false;
 
 private:
 	static constexpr int32 PlayerIndex = 0;
 	static constexpr int32 DefaultGameLevel = 1;
-	static constexpr float NormalFallingSpeed = 1.f;
-	static constexpr float SoftDropSpeed = NormalFallingSpeed / 20.0f;
+	static constexpr float SoftDropMultiplier = 20.0f;
 
 	int32 GameLevel;
 };

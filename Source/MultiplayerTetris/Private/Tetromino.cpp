@@ -88,9 +88,7 @@ void ATetromino::SetTetrominoType(const ETetrominoType NewTetrominoType)
 void ATetromino::Move(const FVector2D& Direction)
 {
 	const FVector Movement(Direction * AMino::UnitLength, 0.f);
-	UE_LOG(LogTemp, Warning, TEXT("Movement: %s"), *Movement.ToString());
 	AddActorLocalOffset(Movement);
-	DebugPrintState();
 }
 
 void ATetromino::InitializeMinos()
