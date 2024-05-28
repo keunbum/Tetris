@@ -33,9 +33,13 @@ public:
 private:
 	static float CalculateFallSpeed(const int32 Level);
 
+public:
+	UPROPERTY(EditDefaultsOnly, Category = "Tetromino")
+	bool bTetrominoFallOff = false;
+
 private:
 	static constexpr int32 PlayerIndex = 0;
-	static constexpr int32 DefaultGameLevel = 0;
+	static constexpr int32 DefaultGameLevel = 1;
 
 	int32 GameLevel;
 };

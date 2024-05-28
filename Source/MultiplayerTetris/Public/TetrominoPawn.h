@@ -43,6 +43,7 @@ public:
 
 private:
 	void Initialize();
+	void SetInitialTimers();
 	void OnFallTimer();
 
 private:
@@ -53,9 +54,9 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<ATetromino> TetrominoInPlay;
 
-	// 타이머 핸들러
-	FTimerHandle FallTimerHandle;
-
 	UPROPERTY()
 	TObjectPtr<ATetrisGameModeBase> GameMode;
+
+	// 기본 낙하 타이머 핸들러
+	FTimerHandle FallTimerHandle;
 };

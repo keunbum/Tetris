@@ -82,8 +82,16 @@ void ATetrominoPawn::Initialize()
 	GameMode = GetWorld()->GetAuthGameMode<ATetrisGameModeBase>();
 	if (GameMode)
 	{
+		SetInitialTimers();
+	}
+}
+
+void ATetrominoPawn::SetInitialTimers()
+{
+	if (!GameMode->bTetrominoFallOff)
+	{
+		// 기본 낙하 타이머 설정
 		const float FallSpeed = GameMode->GetFallSpeed();
-		// 타이머 설정
 		GetWorld()->GetTimerManager().SetTimer(FallTimerHandle, this, &ATetrominoPawn::OnFallTimer, FallSpeed, bIsFallTimerLoop, FallTimerFirstDelayTime);
 	}
 }
