@@ -1,4 +1,4 @@
-// Copyright Ryu KeunBeom, Inc. All Rights Reserved.
+﻿// Copyright Ryu KeunBeom, Inc. All Rights Reserved.
 
 
 #include "TetrisGameModeBase.h"

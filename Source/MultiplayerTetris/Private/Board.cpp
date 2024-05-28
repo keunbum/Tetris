@@ -1,4 +1,4 @@
-// Copyright Ryu KeunBeom, Inc. All Rights Reserved.
+ï»¿// Copyright Ryu KeunBeom, Inc. All Rights Reserved.
 
 
 #include "Board.h"
@@ -48,7 +48,7 @@ void ABoard::AttachTetromino(ATetromino* const NewTetrominoInPlay)
 		NewTetrominoInPlay->AttachToActor(this, FAttachmentTransformRules::KeepRelativeTransform);
 		NewTetrominoInPlay->Initialize();
 
-		// TetrominoPawn¿¡ TetrominoInPlay ¼³Á¤
+		// TetrominoPawnì— TetrominoInPlay ì„¤ì •
 		if (APlayerController* const PlayerController = GetWorld()->GetFirstPlayerController())
 		{
 			if (ATetrominoPawn* const TetrominoPawn = Cast<ATetrominoPawn>(PlayerController->GetPawn()))

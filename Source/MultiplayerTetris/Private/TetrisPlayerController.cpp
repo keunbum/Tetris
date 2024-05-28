@@ -1,4 +1,4 @@
-// Copyright Ryu KeunBeom, Inc. All Rights Reserved.
+ï»¿// Copyright Ryu KeunBeom, Inc. All Rights Reserved.
 
 
 #include "TetrisPlayerController.h"
@@ -24,7 +24,7 @@ void ATetrisPlayerController::SetCamera()
 	{
 		if (AActor* const CameraActor = UGameplayStatics::GetActorOfClass(World, ACameraActor::StaticClass()))
 		{
-			// ViewTargetÀ» GameStartCamera·Î ¼³Á¤ÇÕ´Ï´Ù.
+			// ViewTargetì„ GameStartCameraë¡œ ì„¤ì •í•©ë‹ˆë‹¤.
 			SetViewTarget(CameraActor);
 		}
 	}

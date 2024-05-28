@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+ï»¿// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
@@ -38,7 +38,7 @@ public:
 	void HardDrop();
 
 private:
-	// Á¶ÀÛ ÁßÀÎ Å×Æ®·Î¹Ì³ë
+	// ì¡°ì‘ ì¤‘ì¸ í…ŒíŠ¸ë¡œë¯¸ë…¸
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<ATetromino> TetrominoInPlay;
 };

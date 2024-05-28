@@ -1,4 +1,4 @@
-// Copyright Ryu KeunBeom, Inc. All Rights Reserved.
+ï»¿// Copyright Ryu KeunBeom, Inc. All Rights Reserved.
 
 #pragma once
 
@@ -28,7 +28,7 @@ private:
 	void SetInput();
 	void Initialize();
 
-	// ÀÔ·Â ÄÝ¹é ÇÔ¼ö
+	// ìž…ë ¥ ì½œë°± í•¨ìˆ˜
 	void MoveLeft(const FInputActionValue& ActionValue);
 	void MoveRight(const FInputActionValue& ActionValue);
 	void SoftDrop(const FInputActionValue& ActionValue);

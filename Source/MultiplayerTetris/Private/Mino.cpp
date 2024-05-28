@@ -1,4 +1,4 @@
-// Copyright Ryu KeunBeom, Inc. All Rights Reserved.
+ï»¿// Copyright Ryu KeunBeom, Inc. All Rights Reserved.
 
 
 #include "Mino.h"
@@ -15,14 +15,14 @@ AMino::AMino()
 	MinoMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MinoMesh"));
 	RootComponent = MinoMesh;
 
-	// ±âº» Å¥ºê ¸Ş½Ã¸¦ »ç¿ëÇÕ´Ï´Ù. ÇÊ¿äÇÑ °æ¿ì ÀÌ¸¦ º¯°æÇÒ ¼ö ÀÖ½À´Ï´Ù.
+	// ê¸°ë³¸ íë¸Œ ë©”ì‹œë¥¼ ì‚¬ìš©í•©ë‹ˆë‹¤. í•„ìš”í•œ ê²½ìš° ì´ë¥¼ ë³€ê²½í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
 	static ConstructorHelpers::FObjectFinder<UStaticMesh> CubeMesh(TEXT("/Engine/BasicShapes/Cube.Cube"));
 	if (CubeMesh.Succeeded())
 	{
 		MinoMesh->SetStaticMesh(CubeMesh.Object);
 	}
 
-	// Å©±â¸¦ Å×Æ®¸®½º ºí·Ï Å©±â¿¡ ¸Â°Ô Á¶Á¤ÇÕ´Ï´Ù.
+	// í¬ê¸°ë¥¼ í…ŒíŠ¸ë¦¬ìŠ¤ ë¸”ë¡ í¬ê¸°ì— ë§ê²Œ ì¡°ì •í•©ë‹ˆë‹¤.
 	MinoMesh->SetWorldScale3D(FVector(0.5f, 0.5f, 0.5f));
 }
 
