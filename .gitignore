@@ -1,0 +1,69 @@
+# .gitignore for Unreal Engine 5.1
+
+# Visual Studio files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+.vs/
+
+# Build results
+[Bb]uild/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+
+# UE specific ignores
+Binaries/
+DerivedDataCache/
+Intermediate/
+Saved/
+*.sln
+*.vcxproj*
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Compiled Static libraries
+*.lib
+*.a
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Executables
+*.exe
+*.out
+*.app
+*.ipa
+
+# Backup and temporary files
+*_BuiltData.uasset
+*.tmp
+*.bak
+*.backup
+*.swp
+*.lock
+*.log
+
+# Ignore configuration files
+*.ini
+
+# Ignore Mac OS files
+.DS_Store
+
+# Ignore Windows system files
+Thumbs.db
+ehthumbs.db
