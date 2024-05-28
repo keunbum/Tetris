@@ -51,9 +51,6 @@ private:
 	TObjectPtr<UInputAction> SoftDropAction;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
-	TObjectPtr<UInputAction> StopSoftDropAction;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	TObjectPtr<UInputAction> HardDropAction;
 
 	UPROPERTY(VisibleAnywhere)
