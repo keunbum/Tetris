@@ -59,7 +59,6 @@ ATetromino::ATetromino()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
-	// Create and set the default root component
 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
 }
 
@@ -87,8 +86,8 @@ void ATetromino::SetTetrominoType(const ETetrominoType NewTetrominoType)
 
 void ATetromino::Move(const FVector2D& Direction)
 {
-	const FVector Movement(Direction * AMino::UnitLength, 0.f);
-	AddActorLocalOffset(Movement);
+	const FVector DeltaLocation(AMino::GetUnitLengthVectorByVector2D(Direction));
+	AddActorLocalOffset(DeltaLocation);
 }
 
 void ATetromino::InitializeMinos()
@@ -115,11 +114,11 @@ void ATetromino::InitializeMinos()
 	{
 		if (AMino* const Mino = GetWorld()->SpawnActor<AMino>(MinoClass, FVector::ZeroVector, FRotator::ZeroRotator))
 		{
-			const int32 ElementIndex = 0;
+			static constexpr int32 ElementIndex = 0;
 			Mino->SetMaterial(ElementIndex, Material);
 
 			Mino->AttachToActor(this, FAttachmentTransformRules::KeepRelativeTransform);
-			const FVector MinoRelativeLocation(AMino::UnitLength * MinoPosition, 0.0f);
+			const FVector MinoRelativeLocation(AMino::GetUnitLengthVectorByVector2D(MinoPosition));
 			Mino->SetRelativeLocation(MinoRelativeLocation);
 
 			Minos.Add(Mino);
@@ -130,9 +129,7 @@ void ATetromino::InitializeMinos()
 void ATetromino::DebugPrintState() const
 {
 	UE_LOG(LogTemp, Log, TEXT("TetrominoInPlay Type: %s"), *GetTetrominoTypeName(TetrominoType));
-
-	const FVector TetrominoLocation = GetActorLocation();
-	UE_LOG(LogTemp, Log, TEXT("Tetromino: Location: %s"), *TetrominoLocation.ToString());
+	UE_LOG(LogTemp, Log, TEXT("Tetromino: Location: %s"), *GetActorLocation().ToString());
 
 	for (int32 Index = 0; Index < Minos.Num(); ++Index)
 	{
@@ -155,6 +152,7 @@ FString ATetromino::GetTetrominoTypeName(const ETetrominoType TetrominoType)
 		{ETetrominoType::S, TEXT("S")},
 		{ETetrominoType::Z, TEXT("Z")}
 	};
+
 	if (const FString* Name = TetrominoTypeNames.Find(TetrominoType))
 	{
 		return *Name;

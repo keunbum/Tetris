@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright Ryu KeunBeom, Inc. All Rights Reserved.
 
 #pragma once
 
@@ -10,7 +10,7 @@
 
 class ATetromino;
 class ATetrisGameModeBase;
-class UWorld;
+class UInputComponent;
 
 UCLASS()
 class MULTIPLAYERTETRIS_API ATetrominoPawn : public APawn
@@ -27,35 +27,50 @@ protected:
 
 public:	
 	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+	virtual void Tick(const float DeltaTime) override;
 
 	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	virtual void SetupPlayerInputComponent(UInputComponent* const PlayerInputComponent) override;
 
 public:
 	void SetTetrominoInPlay(ATetromino* const NewTetrominoInPlay);
-
-	void OnMoveLeft();
-	void OnMoveRight();
-	void OnSoftDrop();
-	void OnStopSoftDrop();
-	void OnHardDrop();
-
 	void UpdateNormalFallSpeed(const float NewFallSpeed);
+
+	FVector2D GetMovementDirection() const { return MovementDirection; }
+
+	// Event Handlers
+	void OnMove(const FVector2D& InMovementDirection);
+	void OnEndMove();
+	void OnSoftDrop();
+	void OnEndSoftDrop();
+	void OnHardDrop();
 
 private:
 	void Initialize();
-	void SetInitialTimers();
 	void ClearTimer(FTimerHandle& InOutTimerHandle);
-	void SetFallTimer(FTimerHandle& InOutFallTimerHandle, const float NewFallSpeed, const bool bIsTimerLoop, const float FirstDelayTime);
-	void OnFallTimer();
+
+	void MoveTo(const FVector2D& Direction);
+	void MoveToCurrentDirection();
+	void MoveDown();
+	void NormalFall();
+
+	void SetAutoRepeatMovement();
+
+	void SetNormalFallTimer();
+
+	void SetMovementDirection(const FVector2D& NewMovementDirection);
 
 private:
 	static constexpr bool bIsNormalFallTimerLoop = true;
-	static constexpr float NormalFallTimerFirstDelayTime = 0.f;
-	static const bool bSoftDropTimerLoop = true;
-	static constexpr float SoftDropTimerFirstDelayTime = 0.f;
+	static constexpr float NormalFallTimerInitialDelay = 0.0f;
 
+	static const bool bSoftDropTimerLoop = true;
+	static constexpr float SoftDropTimerInitialDelay = 0.0f;
+
+	static constexpr float AutoRepeatMovementInitialDelay = 0.3f;
+	static constexpr float AutoRepeatMovementInterval = 0.05f; // Adjust this value as needed
+
+private:
 	UPROPERTY()
 	TObjectPtr<ATetrisGameModeBase> GameMode;
 
@@ -66,4 +81,7 @@ private:
 	// 타이머 핸들러
 	FTimerHandle NormalFallTimerHandle;
 	FTimerHandle SoftDropTimerHandle;
+	FTimerHandle AutoRepeatMovementTimerHandle;
+
+	FVector2D MovementDirection;
 };

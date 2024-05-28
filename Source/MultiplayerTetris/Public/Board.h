@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+
 #include "Tetromino.h"
 
 #include "Board.generated.h"
@@ -33,9 +34,9 @@ public:
 
 private:
 	void Initialize();
-	void SpawnTetromino(const FVector& SpawnLocation, const FRotator& SpawnRotation, const ETetrominoType TetrominoType);
-	void SpawnTetrominos();
 
+	void SpawnTetromino(const FVector& SpawnLocation, const FRotator& SpawnRotation, const ETetrominoType TetrominoType);
+	void TestTetrominosSpawning();
 	void TestTetrominoSpawning();
 
 private:

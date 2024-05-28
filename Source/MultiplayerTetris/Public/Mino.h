@@ -1,4 +1,4 @@
-﻿// Copyright Ryu KeunBeom, Inc. All Rights Reserved.
+// Copyright Ryu KeunBeom, Inc. All Rights Reserved.
 
 #pragma once
 
@@ -28,12 +28,16 @@ public:
 	virtual void Tick(const float DeltaTime) override;
 
 public:
+	static FVector GetUnitLengthVectorByVector2D(const FVector2D& Vector2D);
+
 	FVector GetRelativeLocation() const;
-	void SetRelativeLocation(const FVector NewLocation);
+	void SetRelativeLocation(const FVector& NewLocation);
 	void SetMaterial(const int32 ElementIndex, UMaterialInterface* const Material);
 
 public:
-	static constexpr float UnitLength = 50.f;
+	static constexpr float DefaultUnitLength = 100.f;
+	static constexpr float MinoScale = 0.125f;
+	static constexpr float UnitLength = DefaultUnitLength * MinoScale;
 
 private:
 	UPROPERTY(EditDefaultsOnly)

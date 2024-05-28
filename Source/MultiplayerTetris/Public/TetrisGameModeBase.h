@@ -46,5 +46,6 @@ private:
 	static constexpr int32 DefaultGameLevel = 1;
 	static constexpr float SoftDropMultiplier = 20.0f;
 
+private:
 	int32 GameLevel;
 };

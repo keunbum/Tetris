@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright Ryu KeunBeom, Inc. All Rights Reserved.
 
 
 #include "TetrominoPawn.h"
@@ -10,7 +10,7 @@
 // Sets default values
 ATetrominoPawn::ATetrominoPawn()
 {
- 	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 }
 
@@ -23,13 +23,13 @@ void ATetrominoPawn::BeginPlay()
 }
 
 // Called every frame
-void ATetrominoPawn::Tick(float DeltaTime)
+void ATetrominoPawn::Tick(const float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 }
 
 // Called to bind functionality to input
-void ATetrominoPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+void ATetrominoPawn::SetupPlayerInputComponent(UInputComponent* const PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 }
@@ -39,35 +39,40 @@ void ATetrominoPawn::SetTetrominoInPlay(ATetromino* const NewTetrominoInPlay)
 	TetrominoInPlay = NewTetrominoInPlay;
 }
 
-void ATetrominoPawn::OnMoveLeft()
+void ATetrominoPawn::UpdateNormalFallSpeed(const float NewNormalFallSpeed)
 {
-	if (TetrominoInPlay)
-	{
-		TetrominoInPlay->Move(ATetromino::DirectionLeft);
-	}
+	GetWorldTimerManager().SetTimer(NormalFallTimerHandle, this, &ATetrominoPawn::NormalFall, NewNormalFallSpeed, bIsNormalFallTimerLoop, NormalFallTimerInitialDelay);
 }
 
-void ATetrominoPawn::OnMoveRight()
+void ATetrominoPawn::OnMove(const FVector2D& InMovementDirection)
 {
-	if (TetrominoInPlay)
-	{
-		TetrominoInPlay->Move(ATetromino::DirectionRight);
-	}
+	SetMovementDirection(InMovementDirection);
+	MoveToCurrentDirection();
+	SetAutoRepeatMovement();
+}
+
+void ATetrominoPawn::OnEndMove()
+{
+	ClearTimer(AutoRepeatMovementTimerHandle);
 }
 
 void ATetrominoPawn::OnSoftDrop()
 {
-	if (TetrominoInPlay && GameMode)
+	if (TetrominoInPlay)
 	{
-		// 소프트 드롭 타이머 설정 (반복 실행되도록 설정)
-		const float SoftDropSpeed = GameMode->GetSoftDropSpeed();
-		SetFallTimer(SoftDropTimerHandle, SoftDropSpeed, bSoftDropTimerLoop, SoftDropTimerFirstDelayTime);
+		// NormalFall 일시 중지
+		ClearTimer(NormalFallTimerHandle);
+
+		GetWorldTimerManager().SetTimer(SoftDropTimerHandle, this, &ATetrominoPawn::MoveDown, GameMode->GetSoftDropSpeed(), bSoftDropTimerLoop, SoftDropTimerInitialDelay);
 	}
 }
 
-void ATetrominoPawn::OnStopSoftDrop()
+void ATetrominoPawn::OnEndSoftDrop()
 {
 	ClearTimer(SoftDropTimerHandle);
+
+	// NormalFall 재개
+	SetNormalFallTimer();
 }
 
 void ATetrominoPawn::OnHardDrop()
@@ -75,29 +80,11 @@ void ATetrominoPawn::OnHardDrop()
 	// TODO: 하드 드롭 로직 추가
 }
 
-void ATetrominoPawn::UpdateNormalFallSpeed(const float NewFallSpeed)
-{
-	ClearTimer(NormalFallTimerHandle);
-	SetFallTimer(NormalFallTimerHandle, NewFallSpeed, bIsNormalFallTimerLoop, NormalFallTimerFirstDelayTime);
-}
-
 void ATetrominoPawn::Initialize()
 {
 	GameMode = GetWorld()->GetAuthGameMode<ATetrisGameModeBase>();
-	if (GameMode)
-	{
-		SetInitialTimers();
-	}
-}
-
-void ATetrominoPawn::SetInitialTimers()
-{
-	if (!GameMode->bNormalFallOff)
-	{
-		// 기본 낙하 타이머 설정
-		const float NormalFallSpeed = GameMode->GetFallSpeed();
-		SetFallTimer(NormalFallTimerHandle, NormalFallSpeed, bIsNormalFallTimerLoop, NormalFallTimerFirstDelayTime);
-	}
+	SetNormalFallTimer();
+	MovementDirection = FVector2D::ZeroVector;
 }
 
 void ATetrominoPawn::ClearTimer(FTimerHandle& InOutTimerHandle)
@@ -105,16 +92,45 @@ void ATetrominoPawn::ClearTimer(FTimerHandle& InOutTimerHandle)
 	GetWorldTimerManager().ClearTimer(InOutTimerHandle);
 }
 
-void ATetrominoPawn::SetFallTimer(FTimerHandle& InOutFallTimerHandle, const float NewFallSpeed, const bool bIsTimerLoop, const float FirstDelayTime)
-{
-	GetWorldTimerManager().SetTimer(InOutFallTimerHandle, this, &ATetrominoPawn::OnFallTimer, NewFallSpeed, bIsTimerLoop, FirstDelayTime);
-}
-
-void ATetrominoPawn::OnFallTimer()
+void ATetrominoPawn::MoveTo(const FVector2D& Direction)
 {
 	if (TetrominoInPlay)
 	{
-		TetrominoInPlay->Move(ATetromino::DirectionDown);
+		TetrominoInPlay->Move(Direction);
 	}
 }
 
+void ATetrominoPawn::MoveToCurrentDirection()
+{
+	MoveTo(MovementDirection);
+}
+
+void ATetrominoPawn::MoveDown()
+{
+	MoveTo(ATetromino::DirectionDown);
+}
+
+void ATetrominoPawn::NormalFall()
+{
+	MoveDown();
+}
+
+void ATetrominoPawn::SetAutoRepeatMovement()
+{
+	static constexpr bool bIsAutoRepeatMovementLoop = true;
+	GetWorldTimerManager().SetTimer(AutoRepeatMovementTimerHandle, this, &ATetrominoPawn::MoveToCurrentDirection, AutoRepeatMovementInterval, bIsAutoRepeatMovementLoop, AutoRepeatMovementInitialDelay);
+}
+
+void ATetrominoPawn::SetNormalFallTimer()
+{
+	if (GameMode && !GameMode->bNormalFallOff)
+	{
+		const float NormalFallSpeed = GameMode->GetFallSpeed();
+		GetWorldTimerManager().SetTimer(NormalFallTimerHandle, this, &ATetrominoPawn::NormalFall, NormalFallSpeed, bIsNormalFallTimerLoop, NormalFallTimerInitialDelay);
+	}
+}
+
+void ATetrominoPawn::SetMovementDirection(const FVector2D& NewMovementDirection)
+{
+	MovementDirection = NewMovementDirection;
+}

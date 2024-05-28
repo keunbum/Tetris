@@ -1,4 +1,4 @@
-﻿// Copyright Ryu KeunBeom, Inc. All Rights Reserved.
+// Copyright Ryu KeunBeom, Inc. All Rights Reserved.
 
 
 #include "Mino.h"
@@ -15,15 +15,14 @@ AMino::AMino()
 	MinoMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MinoMesh"));
 	RootComponent = MinoMesh;
 
-	// 기본 큐브 메시를 사용합니다. 필요한 경우 이를 변경할 수 있습니다.
+	// 기본 큐브 메시 사용
 	static ConstructorHelpers::FObjectFinder<UStaticMesh> CubeMesh(TEXT("/Engine/BasicShapes/Cube.Cube"));
 	if (CubeMesh.Succeeded())
 	{
 		MinoMesh->SetStaticMesh(CubeMesh.Object);
 	}
 
-	// 크기를 테트리스 블록 크기에 맞게 조정합니다.
-	MinoMesh->SetWorldScale3D(FVector(0.5f, 0.5f, 0.5f));
+	MinoMesh->SetWorldScale3D(FVector(MinoScale));
 }
 
 // Called when the game starts or when spawned
@@ -38,12 +37,18 @@ void AMino::Tick(const float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
+FVector AMino::GetUnitLengthVectorByVector2D(const FVector2D& Vector2D)
+{
+	static constexpr float Z = 0.0f;
+	return FVector(UnitLength * Vector2D, Z);
+}
+
 FVector AMino::GetRelativeLocation() const
 {
 	return MinoMesh->GetRelativeLocation();
 }
 
-void AMino::SetRelativeLocation(const FVector NewLocation)
+void AMino::SetRelativeLocation(const FVector& NewLocation)
 {
 	MinoMesh->SetRelativeLocation(NewLocation);
 }

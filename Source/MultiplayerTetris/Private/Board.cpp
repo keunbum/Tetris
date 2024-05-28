@@ -20,10 +20,11 @@ ABoard::ABoard()
 	// Create and set the default root component
 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
 
-	// Initialize MinoClass and TetrominoClass with StaticClass method
+	// Initialize Class variables
 	MinoClass = AMino::StaticClass();
 	TetrominoClass = ATetromino::StaticClass();
 
+	// Etc
 	TetrominoInPlay = nullptr;
 }
 
@@ -33,7 +34,6 @@ void ABoard::BeginPlay()
 	Super::BeginPlay();
 	
 	Initialize();
-
 	TestTetrominoSpawning();
 }
 
@@ -50,7 +50,6 @@ void ABoard::AttachTetromino(ATetromino* const NewTetromino)
 		TetrominoInPlay = NewTetromino;
 		TetrominoInPlay->AttachToActor(this, FAttachmentTransformRules::KeepRelativeTransform);
 
-		// TetrominoPawn에 TetrominoInPlay 설정
 		if (APlayerController* const PlayerController = GetWorld()->GetFirstPlayerController())
 		{
 			if (ATetrominoPawn* const TetrominoPawn = Cast<ATetrominoPawn>(PlayerController->GetPawn()))
@@ -63,6 +62,7 @@ void ABoard::AttachTetromino(ATetromino* const NewTetromino)
 
 void ABoard::Initialize()
 {
+	// 필요하다면 초기화 코드 추가
 }
 
 void ABoard::SpawnTetromino(const FVector& SpawnLocation, const FRotator& SpawnRotation, const ETetrominoType TetrominoType)
@@ -76,7 +76,7 @@ void ABoard::SpawnTetromino(const FVector& SpawnLocation, const FRotator& SpawnR
 	}
 }
 
-void ABoard::SpawnTetrominos()
+void ABoard::TestTetrominosSpawning()
 {
 	FVector SpawnLocation = FVector::ZeroVector;
 	for (int32 Index = static_cast<int32>(ETetrominoType::O); Index <= static_cast<int32>(ETetrominoType::Z); ++Index)

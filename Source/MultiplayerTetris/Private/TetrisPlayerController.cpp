@@ -4,12 +4,14 @@
 #include "TetrisPlayerController.h"
 
 #include "Camera/CameraActor.h"
+#include "Camera/CameraComponent.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputAction.h"
 #include "InputMappingContext.h"
 #include "Kismet/GameplayStatics.h"
 
+#include "Tetromino.h"
 #include "TetrominoPawn.h"
 
 void ATetrisPlayerController::BeginPlay()
@@ -18,77 +20,138 @@ void ATetrisPlayerController::BeginPlay()
 	Initialize();
 }
 
-void ATetrisPlayerController::SetCamera()
+void ATetrisPlayerController::InitializeCamera()
 {
 	if (UWorld* const World = GetWorld())
 	{
-		if (AActor* const CameraActor = UGameplayStatics::GetActorOfClass(World, ACameraActor::StaticClass()))
+		if (ACameraActor* const CameraActor = Cast<ACameraActor>(UGameplayStatics::GetActorOfClass(World, ACameraActor::StaticClass())))
 		{
-			// ViewTarget을 GameStartCamera로 설정합니다.
+			// ViewTarget을 GameStartCamera로 설정.
 			SetViewTarget(CameraActor);
+
+			// 카메라를 정사영 모드로 설정.
+			if (CameraActor->GetCameraComponent())
+			{
+				CameraActor->GetCameraComponent()->SetProjectionMode(ECameraProjectionMode::Orthographic);
+				CameraActor->GetCameraComponent()->OrthoWidth = OrthoWidth; // 필요에 따라 조정
+			}
 		}
 	}
 }
 
-void ATetrisPlayerController::SetInput()
+void ATetrisPlayerController::InitializeInput()
 {
 	if (UEnhancedInputComponent* const EnhancedInputComponent = Cast<UEnhancedInputComponent>(InputComponent))
 	{
+		// MoveLeft
 		EnhancedInputComponent->BindAction(MoveLeftAction, ETriggerEvent::Started, this, &ATetrisPlayerController::MoveLeft);
+		EnhancedInputComponent->BindAction(MoveLeftAction, ETriggerEvent::Completed, this, &ATetrisPlayerController::EndMoveLeft);
+		// MoveRight
 		EnhancedInputComponent->BindAction(MoveRightAction, ETriggerEvent::Started, this, &ATetrisPlayerController::MoveRight);
+		EnhancedInputComponent->BindAction(MoveRightAction, ETriggerEvent::Completed, this, &ATetrisPlayerController::EndMoveRight);
+		// Soft Drop
 		EnhancedInputComponent->BindAction(SoftDropAction, ETriggerEvent::Started, this, &ATetrisPlayerController::SoftDrop);
-		EnhancedInputComponent->BindAction(SoftDropAction, ETriggerEvent::Completed, this, &ATetrisPlayerController::StopSoftDrop);
+		EnhancedInputComponent->BindAction(SoftDropAction, ETriggerEvent::Completed, this, &ATetrisPlayerController::EndSoftDrop);
+		// Hard Drop
 		EnhancedInputComponent->BindAction(HardDropAction, ETriggerEvent::Started, this, &ATetrisPlayerController::HardDrop);
 	}
 
-	if (UEnhancedInputLocalPlayerSubsystem* const Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer()))
+	if (TetrisInputMappingContext)
 	{
-		if (TetrisInputMappingContext)
+		if (UEnhancedInputLocalPlayerSubsystem* const Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer()))
 		{
-			const int32 Priority = 0;
+			static constexpr int32 Priority = 0;
 			Subsystem->AddMappingContext(TetrisInputMappingContext, Priority);
-		}
-		else
-		{
-			UE_LOG(LogTemp, Error, TEXT("TetrisInputMappingContext is null"));
 		}
 	}
 }
 
 void ATetrisPlayerController::Initialize()
 {
-	SetCamera();
-	SetInput();
+	InitializeCamera();
+	InitializeInput();
+	
 	TetrominoPawn = GetPawn<ATetrominoPawn>();
-	ensureMsgf(TetrominoPawn != nullptr, TEXT("FUCK. GetPawn<ATetrominoPawn>() failed."));
+	KeyPressingFlags = EKeyFlags::None;
 }
 
 void ATetrisPlayerController::MoveLeft(const FInputActionValue& ActionValue)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Hi! I'm ATetrisPlayerController::MoveLeft()!"));
-	TetrominoPawn->OnMoveLeft();
+	UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayerController::MoveLeft()"));
+	MoveTo(EKeyFlags::Left);
 }
 
 void ATetrisPlayerController::MoveRight(const FInputActionValue& ActionValue)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Hi! I'm ATetrisPlayerController::MoveRight()!"));
-	TetrominoPawn->OnMoveRight();
+	UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayerController::MoveRight()"));
+	MoveTo(EKeyFlags::Right);
+}
+
+void ATetrisPlayerController::EndMoveLeft(const FInputActionValue& ActionValue)
+{
+	UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayerController::EndMoveLeft()"));
+	EndMovement(EKeyFlags::Left);
+}
+
+void ATetrisPlayerController::EndMoveRight(const FInputActionValue& ActionValue)
+{
+	UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayerController::EndMoveRight()"));
+	EndMovement(EKeyFlags::Right);
 }
 
 void ATetrisPlayerController::SoftDrop(const FInputActionValue& ActionValue)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Hi! I'm ATetrisPlayerController::SoftDrop()!"));
+	UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayerController::SoftDrop()"));
 	TetrominoPawn->OnSoftDrop();
 }
 
-void ATetrisPlayerController::StopSoftDrop(const FInputActionValue& ActionValue)
+void ATetrisPlayerController::EndSoftDrop(const FInputActionValue& ActionValue)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Hi! I'm ATetrisPlayerController::StopSoftDrop()!"));
-	TetrominoPawn->OnStopSoftDrop();
+	UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayerController::EndSoftDrop()"));
+	TetrominoPawn->OnEndSoftDrop();
 }
 
 void ATetrisPlayerController::HardDrop(const FInputActionValue& ActionValue)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Hi! I'm ATetrisPlayerController::OnHardDrop()!"));
+	UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayerController::HardDrop()"));
 	TetrominoPawn->OnHardDrop();
+}
+
+const FVector2D& ATetrisPlayerController::GetDirectionByKeyFlag(const EKeyFlags KeyFlag)
+{
+	static const TMap<EKeyFlags, FVector2D> Map =
+	{
+		{EKeyFlags::Left, ATetromino::DirectionLeft},
+		{EKeyFlags::Right, ATetromino::DirectionRight},
+	};
+	return Map[KeyFlag];
+}
+
+void ATetrisPlayerController::MoveTo(const EKeyFlags KeyPressed)
+{
+	EnumAddFlags(KeyPressingFlags, KeyPressed);
+
+	const FVector2D& DirectionPressed = GetDirectionByKeyFlag(KeyPressed);
+	TetrominoPawn->OnMove(DirectionPressed);
+}
+
+void ATetrisPlayerController::EndMovement(const EKeyFlags KeyReleased)
+{
+	EnumRemoveFlags(KeyPressingFlags, KeyReleased);
+
+	const bool bIsPressingLeftRight = EnumHasAnyFlags(KeyPressingFlags, (EKeyFlags::Left | EKeyFlags::Right));
+	if (bIsPressingLeftRight)
+	{
+		// 테트로미노 현재 이동 방향과 뗀 키 방향이 같은 경우
+		const FVector2D& DirectionReleased = GetDirectionByKeyFlag(KeyReleased);
+		if (TetrominoPawn->GetMovementDirection().Equals(DirectionReleased))
+		{
+			const FVector2D& OppositeDirection = -DirectionReleased;
+			TetrominoPawn->OnMove(OppositeDirection);
+		}
+	}
+	else
+	{
+		TetrominoPawn->OnEndMove();
+	}
 }
