@@ -50,6 +50,8 @@ float ATetrisGameModeBase::GetFallSpeed() const
 
 float ATetrisGameModeBase::CalculateFallSpeed(const int32 Level)
 {
-	return FMath::Max(0.007f, (0.8f - ((Level - 1) * 0.007f)) * FMath::Pow(0.8f, (Level - 1)));
+	const float A = 0.8f - ((Level - 1) * 0.007f);
+	const float B = static_cast<float>(Level - 1);
+	return FMath::Pow(A, B);
 }
 

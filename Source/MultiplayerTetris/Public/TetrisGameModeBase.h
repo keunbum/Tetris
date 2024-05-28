@@ -35,7 +35,7 @@ private:
 
 private:
 	static constexpr int32 PlayerIndex = 0;
-	static constexpr int32 DefaultGameLevel = 1;
+	static constexpr int32 DefaultGameLevel = 0;
 
 	int32 GameLevel;
 };
