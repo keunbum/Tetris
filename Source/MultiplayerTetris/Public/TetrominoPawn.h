@@ -64,7 +64,7 @@ private:
 	static constexpr bool bIsNormalFallTimerLoop = true;
 	static constexpr float NormalFallTimerInitialDelay = 0.0f;
 
-	static const bool bSoftDropTimerLoop = true;
+	static constexpr bool bSoftDropTimerLoop = true;
 	static constexpr float SoftDropTimerInitialDelay = 0.0f;
 
 	static constexpr float AutoRepeatMovementInitialDelay = 0.3f;

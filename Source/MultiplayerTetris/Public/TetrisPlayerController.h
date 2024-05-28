@@ -56,12 +56,12 @@ private:
 	void EndMovement(const EKeyFlags KeyReleased);
 
 private:
+	UPROPERTY(EditDefaultsOnly)
+	float OrthoWidth = 8000 * AMino::MinoScale;
+
 	// 입력 상태 추적
 	UPROPERTY()
 	EKeyFlags KeyPressingFlags;
-
-	UPROPERTY(EditDefaultsOnly)
-	float OrthoWidth = 8000 * AMino::MinoScale;
 
 	// Input Mapping Context
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
