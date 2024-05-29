@@ -43,7 +43,6 @@ ENUM_CLASS_OPERATORS(ETetrominoFacingType)
 struct FTetrominoInfo
 {
 	TMap<ETetrominoFacingType, TArray<FVector2D>> MinoUnitPositionsByFacing;
-
 	FString MaterialPath;
 
 	const TArray<FVector2D>& GetMinoUnitPosition(const ETetrominoFacingType FacingType)
@@ -106,6 +105,9 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 	TArray<TObjectPtr<AMino>> Minos;
+
+	UPROPERTY(EditDefaultsOnly)
+	bool bIsGhostPieceOn;
 
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<ATetromino> GhostPiece;

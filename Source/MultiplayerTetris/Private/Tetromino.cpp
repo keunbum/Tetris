@@ -114,6 +114,7 @@ ATetromino::ATetromino()
 	, FacingType(ETetrominoFacingType::North)
 	, MinoClass(AMino::StaticClass())
 	, Minos()
+	, bIsGhostPieceOn(true)
 	, GhostPiece(nullptr)
 {
 	PrimaryActorTick.bCanEverTick = true;
