@@ -28,11 +28,12 @@ public:
 	virtual void Tick(const float DeltaTime) override;
 
 public:
-	static FVector GetUnitLengthVectorByVector2D(const FVector2D& Vector2D);
+	static FVector Get3DRelativePositionByUnitVector2D(const FVector2D& Vector2D, const float Z = 0.0f);
 
+	void SetRelativeLocationByUnitVector2D(const FVector2D& Vector2D);
 	FVector GetRelativeLocation() const;
 	void SetRelativeLocation(const FVector& NewLocation);
-	void SetMaterial(const int32 ElementIndex, UMaterialInterface* const Material);
+	void SetMaterial(UMaterialInterface* const Material, const int32 ElementIndex = 0);
 
 public:
 	static constexpr float DefaultUnitLength = 100.f;

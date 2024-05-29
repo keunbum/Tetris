@@ -20,6 +20,15 @@ void ATetrisPlayerController::BeginPlay()
 	Initialize();
 }
 
+void ATetrisPlayerController::Initialize()
+{
+	InitializeCamera();
+	InitializeInput();
+
+	TetrominoPawn = GetPawn<ATetrominoPawn>();
+	KeyPressingFlags = EKeyFlags::None;
+}
+
 void ATetrisPlayerController::InitializeCamera()
 {
 	if (UWorld* const World = GetWorld())
@@ -49,11 +58,18 @@ void ATetrisPlayerController::InitializeInput()
 		// MoveRight
 		EnhancedInputComponent->BindAction(MoveRightAction, ETriggerEvent::Started, this, &ATetrisPlayerController::MoveRight);
 		EnhancedInputComponent->BindAction(MoveRightAction, ETriggerEvent::Completed, this, &ATetrisPlayerController::EndMoveRight);
+
 		// Soft Drop
 		EnhancedInputComponent->BindAction(SoftDropAction, ETriggerEvent::Started, this, &ATetrisPlayerController::SoftDrop);
 		EnhancedInputComponent->BindAction(SoftDropAction, ETriggerEvent::Completed, this, &ATetrisPlayerController::EndSoftDrop);
+
 		// Hard Drop
 		EnhancedInputComponent->BindAction(HardDropAction, ETriggerEvent::Started, this, &ATetrisPlayerController::HardDrop);
+
+		// RotateClockwise
+		EnhancedInputComponent->BindAction(RotateClockwiseAction, ETriggerEvent::Started, this, &ATetrisPlayerController::RotateClockwise);
+		// RotateCounterClockwise
+		EnhancedInputComponent->BindAction(RotateCounterClockwiseAction, ETriggerEvent::Started, this, &ATetrisPlayerController::RotateCounterClockwise);
 	}
 
 	if (TetrisInputMappingContext)
@@ -64,15 +80,6 @@ void ATetrisPlayerController::InitializeInput()
 			Subsystem->AddMappingContext(TetrisInputMappingContext, Priority);
 		}
 	}
-}
-
-void ATetrisPlayerController::Initialize()
-{
-	InitializeCamera();
-	InitializeInput();
-	
-	TetrominoPawn = GetPawn<ATetrominoPawn>();
-	KeyPressingFlags = EKeyFlags::None;
 }
 
 void ATetrisPlayerController::MoveLeft(const FInputActionValue& ActionValue)
@@ -117,12 +124,24 @@ void ATetrisPlayerController::HardDrop(const FInputActionValue& ActionValue)
 	TetrominoPawn->OnHardDrop();
 }
 
+void ATetrisPlayerController::RotateClockwise(const FInputActionValue& ActionValue)
+{
+	UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayerController::RotateClockwise()"));
+	TetrominoPawn->OnRotateTo(+1);
+}
+
+void ATetrisPlayerController::RotateCounterClockwise(const FInputActionValue& ActionValue)
+{
+	UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayerController::RotateCounterClockwise()"));
+	TetrominoPawn->OnRotateTo(-1);
+}
+
 const FVector2D& ATetrisPlayerController::GetDirectionByKeyFlag(const EKeyFlags KeyFlag)
 {
 	static const TMap<EKeyFlags, FVector2D> Map =
 	{
-		{EKeyFlags::Left, ATetromino::DirectionLeft},
-		{EKeyFlags::Right, ATetromino::DirectionRight},
+		{EKeyFlags::Left, ATetromino::MoveDirectionLeft},
+		{EKeyFlags::Right, ATetromino::MoveDirectionRight},
 	};
 	return Map[KeyFlag];
 }

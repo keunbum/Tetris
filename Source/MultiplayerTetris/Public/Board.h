@@ -34,6 +34,7 @@ public:
 
 private:
 	void Initialize();
+	void InitializeBackground();
 
 	void SpawnTetromino(const FVector& SpawnLocation, const FRotator& SpawnRotation, const ETetrominoType TetrominoType);
 	void TestTetrominosSpawning();
@@ -42,7 +43,11 @@ private:
 private:
 	static constexpr int32 TotalHeight = 40;
 	static constexpr int32 VisibleHeight = 20;
-	static constexpr int32 Width = 10;
+	static constexpr int32 TotalWidth = 10;
+	static const FString BackgroundMinoMaterialPath;
+
+	UPROPERTY(EditDefaultsOnly)
+	ETetrominoType TestType = ETetrominoType::S;
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<AMino> MinoClass;
@@ -52,4 +57,7 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<ATetromino> TetrominoInPlay;
+
+	UPROPERTY(EditDefaultsOnly)
+	TArray<TObjectPtr<AMino>> Background;
 };

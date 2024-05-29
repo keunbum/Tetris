@@ -25,7 +25,7 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(const float DeltaTime) override;
 
@@ -33,7 +33,7 @@ public:
 	virtual void SetupPlayerInputComponent(UInputComponent* const PlayerInputComponent) override;
 
 public:
-	void SetTetrominoInPlay(ATetromino* const NewTetrominoInPlay);
+	void SetTetrominoInPlay(ATetromino* const NewTetrominoInPlay) { TetrominoInPlay = NewTetrominoInPlay; }
 	void UpdateNormalFallSpeed(const float NewFallSpeed);
 
 	FVector2D GetMovementDirection() const { return MovementDirection; }
@@ -44,6 +44,10 @@ public:
 	void OnSoftDrop();
 	void OnEndSoftDrop();
 	void OnHardDrop();
+	/**
+	* @param Direction - +1: 시계 방향 회전, -1: 반시계 방향 회전.
+	*/
+	void OnRotateTo(const int32 Direction);
 
 private:
 	void Initialize();

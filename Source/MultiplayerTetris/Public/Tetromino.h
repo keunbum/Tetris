@@ -7,6 +7,8 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 
+#include "EnumClassOperators.h"
+
 #include "Tetromino.generated.h"
 
 class AMino;
@@ -19,11 +21,36 @@ enum class ETetrominoType : int8
 	None = -1,
 	O,
 	I,
+	T,
 	L,
 	J,
-	T,
 	S,
 	Z,
+};
+
+UENUM()
+enum class ETetrominoFacingType : uint8
+{
+	North,
+	East,
+	South,
+	West,
+	Max
+};
+
+ENUM_CLASS_OPERATORS(ETetrominoFacingType)
+
+struct FTetrominoInfo
+{
+	TArray<TArray<FVector2D>> MinoUnitPositionsByFacing;
+
+	FString MaterialPath;
+
+	const TArray<FVector2D>& GetMinoUnitPosition(const ETetrominoFacingType FacingType)
+	{
+		const int32 FacingIndex = static_cast<int32>(FacingType);
+		return MinoUnitPositionsByFacing[FacingIndex];
+	}
 };
 
 UCLASS()
@@ -35,8 +62,9 @@ public:
 	// Sets default values for this actor's properties
 	ATetromino();
 
-	void SetTetrominoType(const ETetrominoType NewTetrominoType);
+	void SetTetrominoType(const ETetrominoType NewTetrominoType) { TetrominoType = NewTetrominoType; }
 	void Move(const FVector2D& Direction);
+	void RotateTo(const int32 Direction);
 
 protected:
 	// Called when the game starts or when spawned
@@ -48,27 +76,31 @@ public:
 
 	virtual void Initialize();
 
-private:
+protected:
+	void SetFacingType(const ETetrominoFacingType NewFacingType) { FacingType = NewFacingType; }
+
 	void InitializeMinos();
+	void UpdateMinoPositions();
+
+	static bool GetTetrominoInfo(FTetrominoInfo& OutInfo, const ETetrominoType TetrominoType);
+	static UMaterialInterface* GetMaterial(const FTetrominoInfo& Info);
+	static FString GetTetrominoTypeName(const ETetrominoType TetrominoType);
+	static FString GetFacingTypeName(const ETetrominoFacingType FacingType);
 	void DebugPrintState() const;
 
-	static FString GetTetrominoTypeName(const ETetrominoType TetrominoType);
-
 public:
-	static const FVector2D DirectionLeft;
-	static const FVector2D DirectionRight;
-	static const FVector2D DirectionDown;
+	static const FVector2D MoveDirectionLeft;
+	static const FVector2D MoveDirectionRight;
+	static const FVector2D MoveDirectionDown;
 
-	struct FTetrominoInfo
-	{
-		TArray<FVector2D> MinoPositions;
-		FString MaterialPath;
-	};
-	static const TArray<FTetrominoInfo> Infos;
+	static TArray<FTetrominoInfo> Infos;
 
 private:
 	UPROPERTY(VisibleAnywhere)
 	ETetrominoType TetrominoType;
+
+	UPROPERTY(VisibleAnywhere)
+	ETetrominoFacingType FacingType;
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<AMino> MinoClass;

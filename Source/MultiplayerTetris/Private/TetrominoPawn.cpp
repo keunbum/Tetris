@@ -34,11 +34,6 @@ void ATetrominoPawn::SetupPlayerInputComponent(UInputComponent* const PlayerInpu
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 }
 
-void ATetrominoPawn::SetTetrominoInPlay(ATetromino* const NewTetrominoInPlay)
-{
-	TetrominoInPlay = NewTetrominoInPlay;
-}
-
 void ATetrominoPawn::UpdateNormalFallSpeed(const float NewNormalFallSpeed)
 {
 	GetWorldTimerManager().SetTimer(NormalFallTimerHandle, this, &ATetrominoPawn::NormalFall, NewNormalFallSpeed, bIsNormalFallTimerLoop, NormalFallTimerInitialDelay);
@@ -80,6 +75,14 @@ void ATetrominoPawn::OnHardDrop()
 	// TODO: 하드 드롭 로직 추가
 }
 
+void ATetrominoPawn::OnRotateTo(const int32 Direction)
+{
+	if (TetrominoInPlay)
+	{
+		TetrominoInPlay->RotateTo(Direction);
+	}
+}
+
 void ATetrominoPawn::Initialize()
 {
 	GameMode = GetWorld()->GetAuthGameMode<ATetrisGameModeBase>();
@@ -107,7 +110,7 @@ void ATetrominoPawn::MoveToCurrentDirection()
 
 void ATetrominoPawn::MoveDown()
 {
-	MoveTo(ATetromino::DirectionDown);
+	MoveTo(ATetromino::MoveDirectionDown);
 }
 
 void ATetrominoPawn::NormalFall()

@@ -37,9 +37,9 @@ protected:
 	virtual void BeginPlay() override;
 
 private:
+	void Initialize();
 	void InitializeCamera();
 	void InitializeInput();
-	void Initialize();
 
 	// 입력 콜백 함수
 	void MoveLeft(const FInputActionValue& ActionValue);
@@ -49,6 +49,8 @@ private:
 	void SoftDrop(const FInputActionValue& ActionValue);
 	void EndSoftDrop(const FInputActionValue& ActionValue);
 	void HardDrop(const FInputActionValue& ActionValue);
+	void RotateClockwise(const FInputActionValue& ActionValue);
+	void RotateCounterClockwise(const FInputActionValue& ActionValue);
 
 	static const FVector2D& GetDirectionByKeyFlag(const EKeyFlags KeyFlag);
 
@@ -63,19 +65,31 @@ private:
 	UPROPERTY()
 	EKeyFlags KeyPressingFlags;
 
+
 	// Input Mapping Context
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	TObjectPtr<UInputMappingContext> TetrisInputMappingContext;
 
+
 	// Input Actions
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	TObjectPtr<UInputAction> MoveLeftAction;
+
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	TObjectPtr<UInputAction> MoveRightAction;
+
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	TObjectPtr<UInputAction> SoftDropAction;
+
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	TObjectPtr<UInputAction> HardDropAction;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	TObjectPtr<UInputAction> RotateClockwiseAction;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	TObjectPtr<UInputAction> RotateCounterClockwiseAction;
+
 
 	// Player Pawn
 	UPROPERTY(VisibleAnywhere)

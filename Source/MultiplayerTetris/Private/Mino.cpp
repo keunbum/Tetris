@@ -37,10 +37,15 @@ void AMino::Tick(const float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-FVector AMino::GetUnitLengthVectorByVector2D(const FVector2D& Vector2D)
+FVector AMino::Get3DRelativePositionByUnitVector2D(const FVector2D& Vector2D, const float Z)
 {
-	static constexpr float Z = 0.0f;
-	return FVector(UnitLength * Vector2D, Z);
+	return FVector(-UnitLength * Vector2D.Y, -UnitLength * Vector2D.X, Z);
+}
+
+void AMino::SetRelativeLocationByUnitVector2D(const FVector2D& Vector2D)
+{
+	const FVector RelativeLocation(AMino::Get3DRelativePositionByUnitVector2D(Vector2D));
+	SetRelativeLocation(RelativeLocation);
 }
 
 FVector AMino::GetRelativeLocation() const
@@ -53,7 +58,7 @@ void AMino::SetRelativeLocation(const FVector& NewLocation)
 	MinoMesh->SetRelativeLocation(NewLocation);
 }
 
-void AMino::SetMaterial(const int32 ElementIndex, UMaterialInterface* const Material)
+void AMino::SetMaterial(UMaterialInterface* const Material, const int32 ElementIndex)
 {
 	MinoMesh->SetMaterial(ElementIndex, Material);
 }

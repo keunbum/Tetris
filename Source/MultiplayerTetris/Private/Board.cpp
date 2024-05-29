@@ -87,9 +87,10 @@ void ABoard::InitializeBackground()
 				Mino->SetMaterial(BackgroundMinoMaterial);
 
 				Mino->AttachToActor(this, FAttachmentTransformRules::KeepRelativeTransform);
-				const FVector2D MinoUnitPosition(Col, -Row);
-				const FVector MinoRelativeLocation(AMino::Get3DRelativePositionByVector2D(MinoUnitPosition, -AMino::UnitLength));
-				Mino->SetRelativeLocation(MinoRelativeLocation);
+				const FVector2D MinoUnitPosition(Row, Col);
+				//const FVector MinoRelativeLocation(AMino::Get3DRelativePositionByUnitVector2D(MinoUnitPosition, -AMino::UnitLength));
+				//Mino->SetRelativeLocation(MinoRelativeLocation);
+				Mino->SetRelativeLocationByUnitVector2D(MinoUnitPosition);
 
 				Background.Add(Mino);
 			}
@@ -124,6 +125,6 @@ void ABoard::TestTetrominoSpawning()
 {
 	const FVector SpawnLocation(FVector::ZeroVector);
 	const FRotator SpawnRotation(FRotator::ZeroRotator);
-	const ETetrominoType TetrominoType(ETetrominoType::I);
+	const ETetrominoType TetrominoType(TestType);
 	SpawnTetromino(SpawnLocation, SpawnRotation, TetrominoType);
 }
