@@ -61,7 +61,7 @@ public:
 	ATetromino();
 
 	void SetTetrominoType(const ETetrominoType NewTetrominoType) { TetrominoType = NewTetrominoType; }
-	void Move(const FVector2D& Direction);
+	void Move(const FVector2D& Direction2D);
 	void RotateTo(const int32 Direction);
 
 protected:
@@ -80,18 +80,20 @@ protected:
 	void InitializeMinos();
 	void UpdateMinoPositions();
 
-	static bool GetTetrominoInfo(FTetrominoInfo& OutInfo, const ETetrominoType TetrominoType);
-	static UMaterialInterface* GetMaterial(const FTetrominoInfo& Info);
-	static FString GetTetrominoTypeName(const ETetrominoType TetrominoType);
-	static FString GetFacingTypeName(const ETetrominoFacingType FacingType);
 	void DebugPrintState() const;
 
+	static bool GetTetrominoInfo(FTetrominoInfo& OutTetrominoInfo, const ETetrominoType TetrominoType);
+	static UMaterialInterface* GetMaterialByTetrominoInfo(const FTetrominoInfo& TetrominoInfo);
+	static FString GetTetrominoTypeName(const ETetrominoType TetrominoType);
+	static FString GetFacingTypeName(const ETetrominoFacingType FacingType);
+
 public:
+	static constexpr int32 MinoNum = 4;
 	static const FVector2D MoveDirectionLeft;
 	static const FVector2D MoveDirectionRight;
 	static const FVector2D MoveDirectionDown;
 
-	static TMap<ETetrominoType, FTetrominoInfo> Infos;
+	static const TMap<ETetrominoType, FTetrominoInfo> TetrominoInfos;
 
 private:
 	UPROPERTY(VisibleAnywhere)
@@ -104,7 +106,7 @@ private:
 	TSubclassOf<AMino> MinoClass;
 
 	UPROPERTY(VisibleAnywhere)
-	TArray<TObjectPtr<AMino>> Minos;
+	TObjectPtr<AMino> Minos[MinoNum];
 
 	UPROPERTY(EditDefaultsOnly)
 	bool bIsGhostPieceOn;
