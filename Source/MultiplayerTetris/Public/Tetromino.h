@@ -42,14 +42,13 @@ ENUM_CLASS_OPERATORS(ETetrominoFacingType)
 
 struct FTetrominoInfo
 {
-	TArray<TArray<FVector2D>> MinoUnitPositionsByFacing;
+	TMap<ETetrominoFacingType, TArray<FVector2D>> MinoUnitPositionsByFacing;
 
 	FString MaterialPath;
 
 	const TArray<FVector2D>& GetMinoUnitPosition(const ETetrominoFacingType FacingType)
 	{
-		const int32 FacingIndex = static_cast<int32>(FacingType);
-		return MinoUnitPositionsByFacing[FacingIndex];
+		return MinoUnitPositionsByFacing[FacingType];
 	}
 };
 

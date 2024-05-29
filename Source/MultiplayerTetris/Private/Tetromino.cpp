@@ -17,74 +17,75 @@ TArray<FTetrominoInfo> ATetromino::Infos =
 	// O
 	{
 		{
-			{{1, 1}, {1, 2}, {2, 1}, {2, 2}},
-			{{1, 1}, {1, 2}, {2, 1}, {2, 2}},
-			{{1, 1}, {1, 2}, {2, 1}, {2, 2}},
-			{{1, 1}, {1, 2}, {2, 1}, {2, 2}}
+			{ ETetrominoFacingType::North, { {1, 1}, {1, 2}, {2, 1}, {2, 2} } },
+			{ ETetrominoFacingType::East, { {1, 1}, {1, 2}, {2, 1}, {2, 2} } },
+			{ ETetrominoFacingType::South, { {1, 1}, {1, 2}, {2, 1}, {2, 2} } },
+			{ ETetrominoFacingType::West, { {1, 1}, {1, 2}, {2, 1}, {2, 2} } }
 		},
 		TEXT("/Game/Material/M_MinoMaterial_Yellow")
 	},
 	// I
 	{
 		{
-			{{1, 0}, {1, 1}, {1, 2}, {1, 3}},
-			{{0, 2}, {1, 2}, {2, 2}, {3, 2}},
-			{{2, 0}, {2, 1}, {2, 2}, {2, 3}},
-			{{0, 1}, {1, 1}, {2, 1}, {3, 1}}
+			{ ETetrominoFacingType::North, { {1, 0}, {1, 1}, {1, 2}, {1, 3} } },
+			{ ETetrominoFacingType::East, { {0, 2}, {1, 2}, {2, 2}, {3, 2} } },
+			{ ETetrominoFacingType::South, { {2, 0}, {2, 1}, {2, 2}, {2, 3} } },
+			{ ETetrominoFacingType::West, { {0, 1}, {1, 1}, {2, 1}, {3, 1} } }
 		},
 		TEXT("/Game/Material/M_MinoMaterial_Cyan")
 	},
 	// T
 	{
 		{
-			{{1, 1}, {2, 0}, {2, 1}, {2, 2}},
-			{{1, 1}, {2, 1}, {2, 2}, {3, 1}},
-			{{2, 0}, {2, 1}, {2, 2}, {3, 1}},
-			{{1, 1}, {2, 0}, {2, 1}, {3, 1}}
+			{ ETetrominoFacingType::North, { {1, 1}, {2, 0}, {2, 1}, {2, 2} } },
+			{ ETetrominoFacingType::East, { {1, 1}, {2, 1}, {2, 2}, {3, 1} } },
+			{ ETetrominoFacingType::South, { {2, 0}, {2, 1}, {2, 2}, {3, 1} } },
+			{ ETetrominoFacingType::West, { {1, 1}, {2, 0}, {2, 1}, {3, 1} } }
 		},
 		TEXT("/Game/Material/M_MinoMaterial_Purple")
 	},
 	// L
 	{
 		{
-			{{1, 2}, {2, 0}, {2, 1}, {2, 2}},
-			{{1, 1}, {2, 1}, {3, 1}, {3, 2}},
-			{{2, 0}, {2, 1}, {2, 2}, {3, 0}},
-			{{1, 0}, {1, 1}, {2, 1}, {3, 1}}
+			{ ETetrominoFacingType::North, { {1, 2}, {2, 0}, {2, 1}, {2, 2} } },
+			{ ETetrominoFacingType::East, { {1, 1}, {2, 1}, {3, 1}, {3, 2} } },
+			{ ETetrominoFacingType::South, { {2, 0}, {2, 1}, {2, 2}, {3, 0} } },
+			{ ETetrominoFacingType::West, { {1, 0}, {1, 1}, {2, 1}, {3, 1} } }
 		},
 		TEXT("/Game/Material/M_MinoMaterial_Orange")
 	},
 	// J
 	{
 		{
-			{{1, 0}, {2, 0}, {2, 1}, {2, 2}},
-			{{1, 1}, {1, 2}, {2, 1}, {3, 1}},
-			{{2, 0}, {2, 1}, {2, 2}, {3, 2}},
-			{{1, 1}, {2, 1}, {3, 0}, {3, 1}}
+			{ ETetrominoFacingType::North, { {1, 0}, {2, 0}, {2, 1}, {2, 2} } },
+			{ ETetrominoFacingType::East, { {1, 1}, {1, 2}, {2, 1}, {3, 1} } },
+			{ ETetrominoFacingType::South, { {2, 0}, {2, 1}, {2, 2}, {3, 2} } },
+			{ ETetrominoFacingType::West, { {1, 1}, {2, 1}, {3, 0}, {3, 1} } }
 		},
 		TEXT("/Game/Material/M_MinoMaterial_Blue")
 	},
 	// S
 	{
 		{
-			{{1, 1}, {1, 2}, {2, 0}, {2, 1}},
-			{{1, 1}, {2, 1}, {2, 2}, {3, 2}},
-			{{2, 1}, {2, 2}, {3, 0}, {3, 1}},
-			{{1, 0}, {2, 0}, {2, 1}, {3, 1}}
+			{ ETetrominoFacingType::North, { {1, 1}, {1, 2}, {2, 0}, {2, 1} } },
+			{ ETetrominoFacingType::East, { {1, 1}, {2, 1}, {2, 2}, {3, 2} } },
+			{ ETetrominoFacingType::South, { {2, 1}, {2, 2}, {3, 0}, {3, 1} } },
+			{ ETetrominoFacingType::West, { {1, 0}, {2, 0}, {2, 1}, {3, 1} } }
 		},
 		TEXT("/Game/Material/M_MinoMaterial_Green")
 	},
 	// Z
 	{
 		{
-			{{1, 0}, {1, 1}, {2, 1}, {2, 2}},
-			{{1, 2}, {2, 1}, {2, 2}, {3, 1}},
-			{{2, 0}, {2, 1}, {3, 1}, {3, 2}},
-			{{1, 1}, {2, 0}, {2, 1}, {3, 0}}
+			{ ETetrominoFacingType::North, { {1, 0}, {1, 1}, {2, 1}, {2, 2} } },
+			{ ETetrominoFacingType::East, { {1, 2}, {2, 1}, {2, 2}, {3, 1} } },
+			{ ETetrominoFacingType::South, { {2, 0}, {2, 1}, {3, 1}, {3, 2} } },
+			{ ETetrominoFacingType::West, { {1, 1}, {2, 0}, {2, 1}, {3, 0} } }
 		},
 		TEXT("/Game/Material/M_MinoMaterial_Red")
 	},
 };
+
 
 ATetromino::ATetromino()
 	: TetrominoType(ETetrominoType::None)
@@ -171,6 +172,7 @@ void ATetromino::UpdateMinoPositions()
 
 	UE_LOG(LogTemp, Warning, TEXT("FacingType: %d, %s"), FacingType + 0, *GetFacingTypeName(FacingType));
 	check(0 <= static_cast<int32>(FacingType) && static_cast<int32>(FacingType) <= Info.MinoUnitPositionsByFacing.Num());
+
 	const TArray<FVector2D>& MinoUnitPositions = Info.GetMinoUnitPosition(FacingType);
 	for (int32 MinoID = 0; MinoID < Minos.Num(); ++MinoID)
 	{
