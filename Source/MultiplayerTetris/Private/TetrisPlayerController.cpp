@@ -139,12 +139,12 @@ void ATetrisPlayerController::EndMovement(const EKeyFlags KeyReleased)
 {
 	EnumRemoveFlags(KeyPressingFlags, KeyReleased);
 
-	const bool bIsPressingLeftRight = EnumHasAnyFlags(KeyPressingFlags, (EKeyFlags::Left | EKeyFlags::Right));
-	if (bIsPressingLeftRight)
+	const bool bIsPressingLeftRightBoth = EnumHasAnyFlags(KeyPressingFlags, (EKeyFlags::Left | EKeyFlags::Right));
+	if (bIsPressingLeftRightBoth)
 	{
-		// 테트로미노 현재 이동 방향과 뗀 키 방향이 같은 경우
 		const FVector2D& DirectionReleased = GetDirectionByKeyFlag(KeyReleased);
-		if (TetrominoPawn->GetMovementDirection().Equals(DirectionReleased))
+		// 테트로미노 현재 이동 방향과 뗀 키 방향이 같은 경우
+		if (TetrominoPawn->GetMovementDirection() == DirectionReleased)
 		{
 			const FVector2D OppositeDirection = -DirectionReleased;
 			TetrominoPawn->OnMove(OppositeDirection);
