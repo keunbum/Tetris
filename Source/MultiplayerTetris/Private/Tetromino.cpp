@@ -12,79 +12,101 @@ const FVector2D ATetromino::MoveDirectionLeft = FVector2D(0, -1);
 const FVector2D ATetromino::MoveDirectionRight = -MoveDirectionLeft;
 const FVector2D ATetromino::MoveDirectionDown = MoveDirectionLeft.GetRotated(90.f);
 
-TArray<FTetrominoInfo> ATetromino::Infos =
+TMap<ETetrominoType, FTetrominoInfo> ATetromino::Infos =
 {
 	// O
 	{
+		ETetrominoType::O,
 		{
-			{ ETetrominoFacingType::North, { {1, 1}, {1, 2}, {2, 1}, {2, 2} } },
-			{ ETetrominoFacingType::East, { {1, 1}, {1, 2}, {2, 1}, {2, 2} } },
-			{ ETetrominoFacingType::South, { {1, 1}, {1, 2}, {2, 1}, {2, 2} } },
-			{ ETetrominoFacingType::West, { {1, 1}, {1, 2}, {2, 1}, {2, 2} } }
-		},
-		TEXT("/Game/Material/M_MinoMaterial_Yellow")
+			{
+				{ ETetrominoFacingType::North, { {1, 1}, {1, 2}, {2, 1}, {2, 2} } },
+				{ ETetrominoFacingType::East, { {1, 1}, {1, 2}, {2, 1}, {2, 2} } },
+				{ ETetrominoFacingType::South, { {1, 1}, {1, 2}, {2, 1}, {2, 2} } },
+				{ ETetrominoFacingType::West, { {1, 1}, {1, 2}, {2, 1}, {2, 2} } }
+			},
+			TEXT("/Game/Material/M_MinoMaterial_Yellow")
+		}
 	},
 	// I
 	{
+		ETetrominoType::I,
 		{
-			{ ETetrominoFacingType::North, { {1, 0}, {1, 1}, {1, 2}, {1, 3} } },
-			{ ETetrominoFacingType::East, { {0, 2}, {1, 2}, {2, 2}, {3, 2} } },
-			{ ETetrominoFacingType::South, { {2, 0}, {2, 1}, {2, 2}, {2, 3} } },
-			{ ETetrominoFacingType::West, { {0, 1}, {1, 1}, {2, 1}, {3, 1} } }
-		},
-		TEXT("/Game/Material/M_MinoMaterial_Cyan")
+			{
+				{ ETetrominoFacingType::North, { {1, 0}, {1, 1}, {1, 2}, {1, 3} } },
+				{ ETetrominoFacingType::East, { {0, 2}, {1, 2}, {2, 2}, {3, 2} } },
+				{ ETetrominoFacingType::South, { {2, 0}, {2, 1}, {2, 2}, {2, 3} } },
+				{ ETetrominoFacingType::West, { {0, 1}, {1, 1}, {2, 1}, {3, 1} } }
+			},
+			TEXT("/Game/Material/M_MinoMaterial_Cyan")
+		}
 	},
 	// T
 	{
+		ETetrominoType::T,
 		{
-			{ ETetrominoFacingType::North, { {1, 1}, {2, 0}, {2, 1}, {2, 2} } },
-			{ ETetrominoFacingType::East, { {1, 1}, {2, 1}, {2, 2}, {3, 1} } },
-			{ ETetrominoFacingType::South, { {2, 0}, {2, 1}, {2, 2}, {3, 1} } },
-			{ ETetrominoFacingType::West, { {1, 1}, {2, 0}, {2, 1}, {3, 1} } }
-		},
-		TEXT("/Game/Material/M_MinoMaterial_Purple")
+			{
+				{ ETetrominoFacingType::North, { {1, 1}, {2, 0}, {2, 1}, {2, 2} } },
+				{ ETetrominoFacingType::East, { {1, 1}, {2, 1}, {2, 2}, {3, 1} } },
+				{ ETetrominoFacingType::South, { {2, 0}, {2, 1}, {2, 2}, {3, 1} } },
+				{ ETetrominoFacingType::West, { {1, 1}, {2, 0}, {2, 1}, {3, 1} } }
+			},
+			TEXT("/Game/Material/M_MinoMaterial_Purple")
+		}
 	},
 	// L
 	{
+		ETetrominoType::L,
 		{
-			{ ETetrominoFacingType::North, { {1, 2}, {2, 0}, {2, 1}, {2, 2} } },
-			{ ETetrominoFacingType::East, { {1, 1}, {2, 1}, {3, 1}, {3, 2} } },
-			{ ETetrominoFacingType::South, { {2, 0}, {2, 1}, {2, 2}, {3, 0} } },
-			{ ETetrominoFacingType::West, { {1, 0}, {1, 1}, {2, 1}, {3, 1} } }
-		},
-		TEXT("/Game/Material/M_MinoMaterial_Orange")
+			{
+				{ ETetrominoFacingType::North, { {1, 2}, {2, 0}, {2, 1}, {2, 2} } },
+				{ ETetrominoFacingType::East, { {1, 1}, {2, 1}, {3, 1}, {3, 2} } },
+				{ ETetrominoFacingType::South, { {2, 0}, {2, 1}, {2, 2}, {3, 0} } },
+				{ ETetrominoFacingType::West, { {1, 0}, {1, 1}, {2, 1}, {3, 1} } }
+			},
+			TEXT("/Game/Material/M_MinoMaterial_Orange")
+		}
 	},
 	// J
 	{
+		ETetrominoType::J,
 		{
-			{ ETetrominoFacingType::North, { {1, 0}, {2, 0}, {2, 1}, {2, 2} } },
-			{ ETetrominoFacingType::East, { {1, 1}, {1, 2}, {2, 1}, {3, 1} } },
-			{ ETetrominoFacingType::South, { {2, 0}, {2, 1}, {2, 2}, {3, 2} } },
-			{ ETetrominoFacingType::West, { {1, 1}, {2, 1}, {3, 0}, {3, 1} } }
-		},
-		TEXT("/Game/Material/M_MinoMaterial_Blue")
+			{
+				{ ETetrominoFacingType::North, { {1, 0}, {2, 0}, {2, 1}, {2, 2} } },
+				{ ETetrominoFacingType::East, { {1, 1}, {1, 2}, {2, 1}, {3, 1} } },
+				{ ETetrominoFacingType::South, { {2, 0}, {2, 1}, {2, 2}, {3, 2} } },
+				{ ETetrominoFacingType::West, { {1, 1}, {2, 1}, {3, 0}, {3, 1} } }
+			},
+			TEXT("/Game/Material/M_MinoMaterial_Blue")
+		}
 	},
 	// S
 	{
+		ETetrominoType::S,
 		{
-			{ ETetrominoFacingType::North, { {1, 1}, {1, 2}, {2, 0}, {2, 1} } },
-			{ ETetrominoFacingType::East, { {1, 1}, {2, 1}, {2, 2}, {3, 2} } },
-			{ ETetrominoFacingType::South, { {2, 1}, {2, 2}, {3, 0}, {3, 1} } },
-			{ ETetrominoFacingType::West, { {1, 0}, {2, 0}, {2, 1}, {3, 1} } }
-		},
-		TEXT("/Game/Material/M_MinoMaterial_Green")
+			{
+				{ ETetrominoFacingType::North, { {1, 1}, {1, 2}, {2, 0}, {2, 1} } },
+				{ ETetrominoFacingType::East, { {1, 1}, {2, 1}, {2, 2}, {3, 2} } },
+				{ ETetrominoFacingType::South, { {2, 1}, {2, 2}, {3, 0}, {3, 1} } },
+				{ ETetrominoFacingType::West, { {1, 0}, {2, 0}, {2, 1}, {3, 1} } }
+			},
+			TEXT("/Game/Material/M_MinoMaterial_Green")
+		}
 	},
 	// Z
 	{
+		ETetrominoType::Z,
 		{
-			{ ETetrominoFacingType::North, { {1, 0}, {1, 1}, {2, 1}, {2, 2} } },
-			{ ETetrominoFacingType::East, { {1, 2}, {2, 1}, {2, 2}, {3, 1} } },
-			{ ETetrominoFacingType::South, { {2, 0}, {2, 1}, {3, 1}, {3, 2} } },
-			{ ETetrominoFacingType::West, { {1, 1}, {2, 0}, {2, 1}, {3, 0} } }
-		},
-		TEXT("/Game/Material/M_MinoMaterial_Red")
-	},
+			{
+				{ ETetrominoFacingType::North, { {1, 0}, {1, 1}, {2, 1}, {2, 2} } },
+				{ ETetrominoFacingType::East, { {1, 2}, {2, 1}, {2, 2}, {3, 1} } },
+				{ ETetrominoFacingType::South, { {2, 0}, {2, 1}, {3, 1}, {3, 2} } },
+				{ ETetrominoFacingType::West, { {1, 1}, {2, 0}, {2, 1}, {3, 0} } }
+			},
+			TEXT("/Game/Material/M_MinoMaterial_Red")
+		}
+	}
 };
+
 
 
 ATetromino::ATetromino()
@@ -187,10 +209,9 @@ void ATetromino::UpdateMinoPositions()
 
 bool ATetromino::GetTetrominoInfo(FTetrominoInfo& OutInfo, const ETetrominoType TetrominoType)
 {
-	const int32 TetrominoIndex = static_cast<int32>(TetrominoType);
-	if (Infos.IsValidIndex(TetrominoIndex))
+	if (const FTetrominoInfo* Info =  Infos.Find(TetrominoType))
 	{
-		OutInfo = Infos[TetrominoIndex];
+		OutInfo = *Info;
 		return true;
 	}
 	UE_LOG(LogTemp, Error, TEXT("Invalid TetrominoType: %s\n"), *GetTetrominoTypeName(TetrominoType));

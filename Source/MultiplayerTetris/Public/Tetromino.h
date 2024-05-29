@@ -92,7 +92,7 @@ public:
 	static const FVector2D MoveDirectionRight;
 	static const FVector2D MoveDirectionDown;
 
-	static TArray<FTetrominoInfo> Infos;
+	static TMap<ETetrominoType, FTetrominoInfo> Infos;
 
 private:
 	UPROPERTY(VisibleAnywhere)
