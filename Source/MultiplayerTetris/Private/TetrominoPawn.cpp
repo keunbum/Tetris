@@ -9,6 +9,7 @@
 
 // Sets default values
 ATetrominoPawn::ATetrominoPawn()
+	: NormalFallSpeed(-1.0f)
 {
 	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -32,11 +33,6 @@ void ATetrominoPawn::Tick(const float DeltaTime)
 void ATetrominoPawn::SetupPlayerInputComponent(UInputComponent* const PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-}
-
-void ATetrominoPawn::UpdateNormalFallSpeed(const float NewNormalFallSpeed)
-{
-	GetWorldTimerManager().SetTimer(NormalFallTimerHandle, this, &ATetrominoPawn::NormalFall, NewNormalFallSpeed, bIsNormalFallTimerLoop, NormalFallTimerInitialDelay);
 }
 
 void ATetrominoPawn::OnMove(const FVector2D& InMovementDirection)
@@ -87,7 +83,7 @@ void ATetrominoPawn::Initialize()
 {
 	GameMode = GetWorld()->GetAuthGameMode<ATetrisGameModeBase>();
 	SetNormalFallTimer();
-	MovementDirection = FVector2D::ZeroVector;
+	SetMovementDirection(FVector2D::ZeroVector);
 }
 
 void ATetrominoPawn::ClearTimer(FTimerHandle& InOutTimerHandle)
@@ -99,7 +95,11 @@ void ATetrominoPawn::MoveTo(const FVector2D& Direction)
 {
 	if (TetrominoInPlay)
 	{
-		TetrominoInPlay->Move(Direction);
+		const bool bIsCollision = false;
+		if (!bIsCollision)
+		{
+			TetrominoInPlay->Move(Direction);
+		}
 	}
 }
 
@@ -113,11 +113,6 @@ void ATetrominoPawn::MoveDown()
 	MoveTo(ATetromino::MoveDirectionDown);
 }
 
-void ATetrominoPawn::NormalFall()
-{
-	MoveDown();
-}
-
 void ATetrominoPawn::SetAutoRepeatMovement()
 {
 	static constexpr bool bIsAutoRepeatMovementLoop = true;
@@ -128,12 +123,7 @@ void ATetrominoPawn::SetNormalFallTimer()
 {
 	if (GameMode && !GameMode->bNormalFallOff)
 	{
-		const float NormalFallSpeed = GameMode->GetFallSpeed();
-		GetWorldTimerManager().SetTimer(NormalFallTimerHandle, this, &ATetrominoPawn::NormalFall, NormalFallSpeed, bIsNormalFallTimerLoop, NormalFallTimerInitialDelay);
+		GetWorldTimerManager().SetTimer(NormalFallTimerHandle, this, &ATetrominoPawn::MoveDown, NormalFallSpeed, bIsNormalFallTimerLoop, NormalFallTimerInitialDelay);
 	}
 }
 
-void ATetrominoPawn::SetMovementDirection(const FVector2D& NewMovementDirection)
-{
-	MovementDirection = NewMovementDirection;
-}

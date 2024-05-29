@@ -34,7 +34,7 @@ public:
 
 public:
 	void SetTetrominoInPlay(ATetromino* const NewTetrominoInPlay) { TetrominoInPlay = NewTetrominoInPlay; }
-	void UpdateNormalFallSpeed(const float NewFallSpeed);
+	void SetNormalFallSpeed(const float NewNormalFallSpeed) { NormalFallSpeed = NewNormalFallSpeed; }
 
 	FVector2D GetMovementDirection() const { return MovementDirection; }
 
@@ -56,13 +56,11 @@ private:
 	void MoveTo(const FVector2D& Direction);
 	void MoveToCurrentDirection();
 	void MoveDown();
-	void NormalFall();
 
 	void SetAutoRepeatMovement();
-
 	void SetNormalFallTimer();
 
-	void SetMovementDirection(const FVector2D& NewMovementDirection);
+	void SetMovementDirection(const FVector2D& NewMovementDirection) { MovementDirection = NewMovementDirection; }
 
 private:
 	static constexpr bool bIsNormalFallTimerLoop = true;
@@ -75,6 +73,8 @@ private:
 	static constexpr float AutoRepeatMovementInterval = 0.05f; // Adjust this value as needed
 
 private:
+	float NormalFallSpeed;
+
 	UPROPERTY()
 	TObjectPtr<ATetrisGameModeBase> GameMode;
 
@@ -87,5 +87,6 @@ private:
 	FTimerHandle SoftDropTimerHandle;
 	FTimerHandle AutoRepeatMovementTimerHandle;
 
+	UPROPERTY(VisibleAnywhere)
 	FVector2D MovementDirection;
 };

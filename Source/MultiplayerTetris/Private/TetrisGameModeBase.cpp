@@ -39,7 +39,7 @@ void ATetrisGameModeBase::SetGameLevel(const int32 NewGameLevel)
 		ATetrominoPawn* const TetrominoPawn = Cast<ATetrominoPawn>(PlayerPawn))
 	{
 		const float NewFallSpeed = GetFallSpeed();
-		TetrominoPawn->UpdateNormalFallSpeed(NewFallSpeed);
+		TetrominoPawn->SetNormalFallSpeed(NewFallSpeed);
 	}
 }
 
