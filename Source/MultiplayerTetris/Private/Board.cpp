@@ -5,11 +5,14 @@
 
 #include "Components/StaticMeshComponent.h"
 #include "Engine/World.h"
+#include "Materials/MaterialInterface.h"
 #include "UObject/ConstructorHelpers.h"
 
 #include "Mino.h"
 #include "Tetromino.h"
 #include "TetrominoPawn.h"
+
+const FString ABoard::BackgroundMinoMaterialPath = TEXT("/Game/Material/M_MinoMaterial_Grey");
 
 // Sets default values
 ABoard::ABoard()
@@ -62,7 +65,36 @@ void ABoard::AttachTetromino(ATetromino* const NewTetromino)
 
 void ABoard::Initialize()
 {
-	// 필요하다면 초기화 코드 추가
+	InitializeBackground();
+}
+
+void ABoard::InitializeBackground()
+{
+	UMaterialInterface* const BackgroundMinoMaterial = Cast<UMaterialInterface>(StaticLoadObject(UMaterialInterface::StaticClass(), nullptr, *BackgroundMinoMaterialPath));
+	if (!BackgroundMinoMaterial)
+	{
+		UE_LOG(LogTemp, Error, TEXT("Failed to load material: %s"), *BackgroundMinoMaterialPath);
+		return;
+	}
+
+	Background.Reserve(TotalHeight * TotalWidth);
+	for (int32 Row = 0; Row < TotalHeight; ++Row)
+	{
+		for (int32 Col = 0; Col < TotalWidth; ++Col)
+		{
+			if (AMino* const Mino = GetWorld()->SpawnActor<AMino>(MinoClass, FVector::ZeroVector, FRotator::ZeroRotator))
+			{
+				Mino->SetMaterial(BackgroundMinoMaterial);
+
+				Mino->AttachToActor(this, FAttachmentTransformRules::KeepRelativeTransform);
+				const FVector2D MinoUnitPosition(Col, -Row);
+				const FVector MinoRelativeLocation(AMino::Get3DRelativePositionByVector2D(MinoUnitPosition, -AMino::UnitLength));
+				Mino->SetRelativeLocation(MinoRelativeLocation);
+
+				Background.Add(Mino);
+			}
+		}
+	}
 }
 
 void ABoard::SpawnTetromino(const FVector& SpawnLocation, const FRotator& SpawnRotation, const ETetrominoType TetrominoType)
