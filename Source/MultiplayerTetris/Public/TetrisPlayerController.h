@@ -32,6 +32,10 @@ UCLASS()
 class MULTIPLAYERTETRIS_API ATetrisPlayerController : public APlayerController
 {
 	GENERATED_BODY()
+
+public:
+	void SetInputModeUI();
+	void SetInputModeGame();
 	
 protected:
 	virtual void BeginPlay() override;

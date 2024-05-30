@@ -7,6 +7,9 @@
 
 #include "TetrisGameModeBase.generated.h"
 
+class ATetrisMatrix;
+class ATetrimino;
+
 /**
  * 
  */
