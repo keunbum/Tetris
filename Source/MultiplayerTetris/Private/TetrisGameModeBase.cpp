@@ -19,15 +19,7 @@ ATetrisGameModeBase::ATetrisGameModeBase()
 	TetriminoClass = ATetrimino::StaticClass();
 }
 
-void ATetrisGameModeBase::BeginPlay()
-{
-	Super::BeginPlay();
-
-	Initialize();
-	StartGenerationPhase();
-}
-
-void ATetrisGameModeBase::UpCurrentLevel()
+void ATetrisGameModeBase::LevelUp()
 {
 	CurrentLevel += 1;
 
@@ -37,6 +29,14 @@ void ATetrisGameModeBase::UpCurrentLevel()
 		const float NewFallSpeed = GetFallSpeed();
 		TetrominoPawn->SetNormalFallSpeed(NewFallSpeed);
 	}
+}
+
+void ATetrisGameModeBase::BeginPlay()
+{
+	Super::BeginPlay();
+
+	Initialize();
+	StartGenerationPhase();
 }
 
 void ATetrisGameModeBase::Initialize()

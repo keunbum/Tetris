@@ -30,12 +30,8 @@ class MULTIPLAYERTETRIS_API ATetrisGameModeBase : public AGameModeBase
 public:
 	ATetrisGameModeBase();
 
-protected:
-	virtual void BeginPlay() override;
-
-public:
 	int32 GetCurrentLevel() const { return CurrentLevel; }
-	void UpCurrentLevel();
+	void LevelUp();
 
 	/**
 	* Here, speed means the seconds it takes to move one line.
@@ -44,6 +40,9 @@ public:
 	float GetSoftDropSpeed() const { return GetFallSpeed() / SoftDropMultiplier; }
 
 	ATetrimino* GetTetriminoInPlay() const { return TetriminoInPlay; }
+
+protected:
+	virtual void BeginPlay() override;
 
 private:
 	void Initialize();
