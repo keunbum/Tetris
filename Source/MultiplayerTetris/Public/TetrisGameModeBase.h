@@ -10,6 +10,15 @@
 class ATetrisMatrix;
 class ATetrimino;
 
+UENUM()
+enum class ETetrisGameState : uint8
+{
+	TitleScreen,
+	MainMenu,
+	Gameplay,
+	GamePause,
+};
+
 /**
  * 
  */
