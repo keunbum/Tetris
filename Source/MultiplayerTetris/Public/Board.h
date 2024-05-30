@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 
-#include "Tetromino.h"
+#include "Tetrimino.h"
 
 #include "Board.generated.h"
 
@@ -30,13 +30,13 @@ public:
 	virtual void Tick(const float DeltaTime) override;
 
 public:
-	void AttachTetromino(ATetromino* const NewTetromino);
+	void AttachTetromino(ATetrimino* const NewTetromino);
 
 private:
 	void Initialize();
 	void InitializeBackground();
 
-	void SpawnTetromino(const FVector& SpawnLocation, const FRotator& SpawnRotation, const ETetrominoType TetrominoType);
+	void SpawnTetromino(const FVector& SpawnLocation, const FRotator& SpawnRotation, const ETetriminoType TetriminoType);
 	void TestTetrominosSpawning();
 	void TestTetrominoSpawning();
 
@@ -47,16 +47,16 @@ private:
 	static const FString BackgroundMinoMaterialPath;
 
 	UPROPERTY(EditDefaultsOnly)
-	ETetrominoType TestType = ETetrominoType::S;
+	ETetriminoType TestType = ETetriminoType::S;
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<AMino> MinoClass;
 
 	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<ATetromino> TetrominoClass;
+	TSubclassOf<ATetrimino> TetrominoClass;
 
 	UPROPERTY(VisibleAnywhere)
-	TObjectPtr<ATetromino> TetrominoInPlay;
+	TObjectPtr<ATetrimino> TetrominoInPlay;
 
 	UPROPERTY(EditDefaultsOnly)
 	TArray<TObjectPtr<AMino>> Background;

@@ -9,7 +9,7 @@
 #include "UObject/ConstructorHelpers.h"
 
 #include "Mino.h"
-#include "Tetromino.h"
+#include "Tetrimino.h"
 #include "TetrominoPawn.h"
 
 const FString ABoard::BackgroundMinoMaterialPath = TEXT("/Game/Material/M_MinoMaterial_Grey");
@@ -25,7 +25,7 @@ ABoard::ABoard()
 
 	// Initialize Class variables
 	MinoClass = AMino::StaticClass();
-	TetrominoClass = ATetromino::StaticClass();
+	TetrominoClass = ATetrimino::StaticClass();
 
 	// Etc
 	TetrominoInPlay = nullptr;
@@ -46,7 +46,7 @@ void ABoard::Tick(const float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-void ABoard::AttachTetromino(ATetromino* const NewTetromino)
+void ABoard::AttachTetromino(ATetrimino* const NewTetromino)
 {
 	if (NewTetromino)
 	{
@@ -96,13 +96,12 @@ void ABoard::InitializeBackground()
 	}
 }
 
-void ABoard::SpawnTetromino(const FVector& SpawnLocation, const FRotator& SpawnRotation, const ETetrominoType TetrominoType)
+void ABoard::SpawnTetromino(const FVector& SpawnLocation, const FRotator& SpawnRotation, const ETetriminoType TetriminoType)
 {
-	TetrominoInPlay = GetWorld()->SpawnActor<ATetromino>(TetrominoClass, SpawnLocation, SpawnRotation);
+	TetrominoInPlay = GetWorld()->SpawnActor<ATetrimino>(TetrominoClass, SpawnLocation, SpawnRotation);
 	if (TetrominoInPlay)
 	{
-		TetrominoInPlay->SetTetrominoType(TetrominoType);
-		TetrominoInPlay->Initialize();
+		TetrominoInPlay->Initialize(TetriminoType);
 		AttachTetromino(TetrominoInPlay);
 	}
 }
@@ -110,11 +109,11 @@ void ABoard::SpawnTetromino(const FVector& SpawnLocation, const FRotator& SpawnR
 void ABoard::TestTetrominosSpawning()
 {
 	FVector SpawnLocation = FVector::ZeroVector;
-	for (int32 Index = static_cast<int32>(ETetrominoType::O); Index <= static_cast<int32>(ETetrominoType::Z); ++Index)
+	for (int32 Index = static_cast<int32>(ETetriminoType::O); Index <= static_cast<int32>(ETetriminoType::Z); ++Index)
 	{
-		ETetrominoType TetrominoType = static_cast<ETetrominoType>(Index);
+		ETetriminoType TetriminoType = static_cast<ETetriminoType>(Index);
 		const FRotator SpawnRotation = FRotator::ZeroRotator;
-		SpawnTetromino(SpawnLocation, SpawnRotation, TetrominoType);
+		SpawnTetromino(SpawnLocation, SpawnRotation, TetriminoType);
 		SpawnLocation.Y -= 2 * AMino::UnitLength;
 	}
 }
@@ -123,6 +122,6 @@ void ABoard::TestTetrominoSpawning()
 {
 	const FVector SpawnLocation(FVector::ZeroVector);
 	const FRotator SpawnRotation(FRotator::ZeroRotator);
-	const ETetrominoType TetrominoType(TestType);
-	SpawnTetromino(SpawnLocation, SpawnRotation, TetrominoType);
+	const ETetriminoType TetriminoType(TestType);
+	SpawnTetromino(SpawnLocation, SpawnRotation, TetriminoType);
 }

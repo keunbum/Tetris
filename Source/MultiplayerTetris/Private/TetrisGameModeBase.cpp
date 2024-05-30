@@ -8,11 +8,15 @@
 #include "Kismet/GameplayStatics.h"
 #include "UObject/ConstructorHelpers.h"
 
+#include "Tetrimino.h"
 #include "TetrominoPawn.h"
+#include "TetrisMatrix.h"
 
 ATetrisGameModeBase::ATetrisGameModeBase()
 	: CurrentLevel(DefaultGameLevel)
 {
+
+	TetriminoClass = ATetrimino::StaticClass();
 }
 
 void ATetrisGameModeBase::BeginPlay()
@@ -20,15 +24,7 @@ void ATetrisGameModeBase::BeginPlay()
 	Super::BeginPlay();
 
 	Initialize();
-}
-
-void ATetrisGameModeBase::Initialize()
-{
-}
-
-int32 ATetrisGameModeBase::GetCurrentLevel() const
-{
-	return CurrentLevel;
+	StartGenerationPhase();
 }
 
 void ATetrisGameModeBase::UpCurrentLevel()
@@ -43,9 +39,28 @@ void ATetrisGameModeBase::UpCurrentLevel()
 	}
 }
 
-float ATetrisGameModeBase::GetFallSpeed() const
+void ATetrisGameModeBase::Initialize()
 {
-	return CalculateFallSpeed(CurrentLevel);
+	Matrix = GetWorld()->SpawnActor<ATetrisMatrix>();
+}
+
+void ATetrisGameModeBase::StartGenerationPhase()
+{
+	TetriminoInPlay = SpawnNextTetrimino();
+	check(TetriminoInPlay != nullptr);
+}
+
+ATetrimino* ATetrisGameModeBase::SpawnNextTetrimino() const
+{
+	if (ATetrimino* const NewTetrimino = GetWorld()->SpawnActor<ATetrimino>(TetriminoClass))
+	{
+		const ETetriminoType NewTetriminoType = ATetrimino::GetTetriminoTypeRandom();
+		NewTetrimino->Initialize(NewTetriminoType);
+
+		return NewTetrimino;
+	}
+
+	return nullptr;
 }
 
 float ATetrisGameModeBase::CalculateFallSpeed(const int32 Level)

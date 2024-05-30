@@ -11,7 +11,7 @@
 #include "InputMappingContext.h"
 #include "Kismet/GameplayStatics.h"
 
-#include "Tetromino.h"
+#include "Tetrimino.h"
 #include "TetrominoPawn.h"
 
 void ATetrisPlayerController::BeginPlay()
@@ -140,8 +140,8 @@ const FVector2D& ATetrisPlayerController::GetDirectionByKeyFlag(const EKeyFlags 
 {
 	static const TMap<EKeyFlags, FVector2D> Map =
 	{
-		{EKeyFlags::Left, ATetromino::MoveDirectionLeft},
-		{EKeyFlags::Right, ATetromino::MoveDirectionRight},
+		{EKeyFlags::Left, ATetrimino::MoveDirectionLeft},
+		{EKeyFlags::Right, ATetrimino::MoveDirectionRight},
 	};
 	return Map[KeyFlag];
 }

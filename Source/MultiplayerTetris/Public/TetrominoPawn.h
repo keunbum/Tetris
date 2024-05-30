@@ -8,7 +8,7 @@
 
 #include "TetrominoPawn.generated.h"
 
-class ATetromino;
+class ATetrimino;
 class ATetrisGameModeBase;
 class UInputComponent;
 
@@ -33,7 +33,7 @@ public:
 	virtual void SetupPlayerInputComponent(UInputComponent* const PlayerInputComponent) override;
 
 public:
-	void SetTetrominoInPlay(ATetromino* const NewTetrominoInPlay) { TetrominoInPlay = NewTetrominoInPlay; }
+	void SetTetrominoInPlay(ATetrimino* const NewTetrominoInPlay) { TetrominoInPlay = NewTetrominoInPlay; }
 	void SetNormalFallSpeed(const float NewNormalFallSpeed) { NormalFallSpeed = NewNormalFallSpeed; }
 
 	FVector2D GetMovementDirection() const { return MovementDirection; }
@@ -80,7 +80,7 @@ private:
 
 	// 조작 중인 테트로미노
 	UPROPERTY(VisibleAnywhere)
-	TObjectPtr<ATetromino> TetrominoInPlay;
+	TObjectPtr<ATetrimino> TetrominoInPlay;
 
 	// 타이머 핸들러
 	FTimerHandle NormalFallTimerHandle;

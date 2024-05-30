@@ -5,7 +5,7 @@
 
 #include "Board.h"
 #include "TetrisGameModeBase.h"
-#include "Tetromino.h"
+#include "Tetrimino.h"
 
 // Sets default values
 ATetrominoPawn::ATetrominoPawn()
@@ -110,7 +110,7 @@ void ATetrominoPawn::MoveToCurrentDirection()
 
 void ATetrominoPawn::MoveDown()
 {
-	MoveTo(ATetromino::MoveDirectionDown);
+	MoveTo(ATetrimino::MoveDirectionDown);
 }
 
 void ATetrominoPawn::SetAutoRepeatMovement()
