@@ -25,8 +25,8 @@ private:
 	void Initialize();
 
 public:
-	int32 GetGameLevel() const;
-	void SetGameLevel(const int32 NewGameLevel);
+	int32 GetCurrentLevel() const;
+	void UpCurrentLevel();
 
 	/**
 	* Here, speed means the seconds it takes to move one line.
@@ -47,5 +47,5 @@ private:
 	static constexpr float SoftDropMultiplier = 20.0f;
 
 private:
-	int32 GameLevel;
+	int32 CurrentLevel;
 };

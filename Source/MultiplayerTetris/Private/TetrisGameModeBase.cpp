@@ -11,7 +11,7 @@
 #include "TetrominoPawn.h"
 
 ATetrisGameModeBase::ATetrisGameModeBase()
-	: GameLevel(DefaultGameLevel)
+	: CurrentLevel(DefaultGameLevel)
 {
 }
 
@@ -26,14 +26,14 @@ void ATetrisGameModeBase::Initialize()
 {
 }
 
-int32 ATetrisGameModeBase::GetGameLevel() const
+int32 ATetrisGameModeBase::GetCurrentLevel() const
 {
-	return GameLevel;
+	return CurrentLevel;
 }
 
-void ATetrisGameModeBase::SetGameLevel(const int32 NewGameLevel)
+void ATetrisGameModeBase::UpCurrentLevel()
 {
-	GameLevel = NewGameLevel;
+	CurrentLevel += 1;
 
 	if (APawn* const PlayerPawn = UGameplayStatics::GetPlayerPawn(this, PlayerIndex);
 		ATetrominoPawn* const TetrominoPawn = Cast<ATetrominoPawn>(PlayerPawn))
@@ -45,7 +45,7 @@ void ATetrisGameModeBase::SetGameLevel(const int32 NewGameLevel)
 
 float ATetrisGameModeBase::GetFallSpeed() const
 {
-	return CalculateFallSpeed(GameLevel);
+	return CalculateFallSpeed(CurrentLevel);
 }
 
 float ATetrisGameModeBase::CalculateFallSpeed(const int32 Level)
