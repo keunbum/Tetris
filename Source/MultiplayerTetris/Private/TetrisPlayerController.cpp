@@ -53,11 +53,11 @@ void ATetrisPlayerController::InitializeInput()
 {
 	BindGamePlayInput();
 
-	if (GamePlayInputMappingContext)
+	if (InGameInputMappingContext)
 	{
 		if (UEnhancedInputLocalPlayerSubsystem* const Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer()))
 		{
-			Subsystem->AddMappingContext(GamePlayInputMappingContext, MappingContextDefaultPriority);
+			Subsystem->AddMappingContext(InGameInputMappingContext, MappingContextDefaultPriority);
 		}
 	}
 }

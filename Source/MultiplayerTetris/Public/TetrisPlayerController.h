@@ -72,7 +72,7 @@ private:
 
 	// Input Mapping Context
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
-	TObjectPtr<UInputMappingContext> GamePlayInputMappingContext;
+	TObjectPtr<UInputMappingContext> InGameInputMappingContext;
 
 
 	// Input Actions
