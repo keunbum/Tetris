@@ -2,6 +2,7 @@
 
 
 #include "TetrominoPawn.h"
+#include "EnhancedInputComponent.h"
 
 #include "Board.h"
 #include "TetrisGameModeBase.h"
@@ -33,6 +34,10 @@ void ATetrominoPawn::Tick(const float DeltaTime)
 void ATetrominoPawn::SetupPlayerInputComponent(UInputComponent* const PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+	if (UEnhancedInputComponent* const EnhancedPlayerInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent))
+	{
+		// Pawn에 직접 바인딩할 것 있으면 추가.
+	}
 }
 
 void ATetrominoPawn::OnMove(const FVector2D& InMovementDirection)
