@@ -72,12 +72,12 @@ void ATetrisPlayerController::InitializeInput()
 		EnhancedInputComponent->BindAction(RotateCounterClockwiseAction, ETriggerEvent::Started, this, &ATetrisPlayerController::RotateCounterClockwise);
 	}
 
-	if (TetrisInputMappingContext)
+	if (GamePlayInputMappingContext)
 	{
 		if (UEnhancedInputLocalPlayerSubsystem* const Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer()))
 		{
 			static constexpr int32 Priority = 0;
-			Subsystem->AddMappingContext(TetrisInputMappingContext, Priority);
+			Subsystem->AddMappingContext(GamePlayInputMappingContext, Priority);
 		}
 	}
 }

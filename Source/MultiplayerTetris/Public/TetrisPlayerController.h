@@ -72,7 +72,7 @@ private:
 
 	// Input Mapping Context
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
-	TObjectPtr<UInputMappingContext> TetrisInputMappingContext;
+	TObjectPtr<UInputMappingContext> GamePlayInputMappingContext;
 
 
 	// Input Actions
