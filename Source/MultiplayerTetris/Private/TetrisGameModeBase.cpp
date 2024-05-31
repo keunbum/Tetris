@@ -36,8 +36,8 @@ void ATetrisGameModeBase::BeginPlay()
 {
 	Super::BeginPlay();
 
-	Initialize();
-	StartGenerationPhase();
+	//Initialize();
+	//StartGenerationPhase();
 }
 
 void ATetrisGameModeBase::Initialize()
@@ -47,8 +47,8 @@ void ATetrisGameModeBase::Initialize()
 
 void ATetrisGameModeBase::StartGenerationPhase()
 {
-	TetriminoInPlay = SpawnNextTetrimino();
-	check(TetriminoInPlay != nullptr);
+	//TetriminoInPlay = SpawnNextTetrimino();
+	//check(TetriminoInPlay != nullptr);
 }
 
 void ATetrisGameModeBase::StartCompletionPhase()
