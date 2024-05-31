@@ -26,6 +26,7 @@ void ATetrisPlayerController::Initialize()
 	InitializeInput();
 
 	TetrominoPawn = GetPawn<ATetrominoPawn>();
+	check(TetrominoPawn != nullptr);
 	KeyPressingFlags = EKeyFlags::None;
 }
 
@@ -50,27 +51,7 @@ void ATetrisPlayerController::InitializeCamera()
 
 void ATetrisPlayerController::InitializeInput()
 {
-	if (UEnhancedInputComponent* const EnhancedInputComponent = Cast<UEnhancedInputComponent>(InputComponent))
-	{
-		// MoveLeft
-		EnhancedInputComponent->BindAction(MoveLeftAction, ETriggerEvent::Started, this, &ATetrisPlayerController::MoveLeft);
-		EnhancedInputComponent->BindAction(MoveLeftAction, ETriggerEvent::Completed, this, &ATetrisPlayerController::EndMoveLeft);
-		// MoveRight
-		EnhancedInputComponent->BindAction(MoveRightAction, ETriggerEvent::Started, this, &ATetrisPlayerController::MoveRight);
-		EnhancedInputComponent->BindAction(MoveRightAction, ETriggerEvent::Completed, this, &ATetrisPlayerController::EndMoveRight);
-
-		// Soft Drop
-		EnhancedInputComponent->BindAction(SoftDropAction, ETriggerEvent::Started, this, &ATetrisPlayerController::SoftDrop);
-		EnhancedInputComponent->BindAction(SoftDropAction, ETriggerEvent::Completed, this, &ATetrisPlayerController::EndSoftDrop);
-
-		// Hard Drop
-		EnhancedInputComponent->BindAction(HardDropAction, ETriggerEvent::Started, this, &ATetrisPlayerController::HardDrop);
-
-		// RotateClockwise
-		EnhancedInputComponent->BindAction(RotateClockwiseAction, ETriggerEvent::Started, this, &ATetrisPlayerController::RotateClockwise);
-		// RotateCounterClockwise
-		EnhancedInputComponent->BindAction(RotateCounterClockwiseAction, ETriggerEvent::Started, this, &ATetrisPlayerController::RotateCounterClockwise);
-	}
+	BindGamePlayInput();
 
 	if (GamePlayInputMappingContext)
 	{
@@ -81,58 +62,83 @@ void ATetrisPlayerController::InitializeInput()
 	}
 }
 
-void ATetrisPlayerController::MoveLeft(const FInputActionValue& ActionValue)
+void ATetrisPlayerController::BindGamePlayInput()
 {
-	UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayerController::MoveLeft()"));
-	MoveTo(EKeyFlags::Left);
+	if (UEnhancedInputComponent* const EnhancedInputComponent = Cast<UEnhancedInputComponent>(InputComponent))
+	{
+		// MoveLeft
+		EnhancedInputComponent->BindAction(MoveLeftAction, ETriggerEvent::Started, this, &ATetrisPlayerController::OnMoveLeftStarted);
+		EnhancedInputComponent->BindAction(MoveLeftAction, ETriggerEvent::Completed, this, &ATetrisPlayerController::OnMoveLeftCompleted);
+		// MoveRight
+		EnhancedInputComponent->BindAction(MoveRightAction, ETriggerEvent::Started, this, &ATetrisPlayerController::OnMoveRightStarted);
+		EnhancedInputComponent->BindAction(MoveRightAction, ETriggerEvent::Completed, this, &ATetrisPlayerController::OnMoveRightCompleted);
+
+		// Soft Drop
+		EnhancedInputComponent->BindAction(SoftDropAction, ETriggerEvent::Started, this, &ATetrisPlayerController::OnMoveSoftDropStarted);
+		EnhancedInputComponent->BindAction(SoftDropAction, ETriggerEvent::Completed, this, &ATetrisPlayerController::OnMoveSoftDropCompleted);
+
+		// Hard Drop
+		EnhancedInputComponent->BindAction(HardDropAction, ETriggerEvent::Started, this, &ATetrisPlayerController::OnMoveHardDropStarted);
+
+		// RotateClockwise
+		EnhancedInputComponent->BindAction(RotateClockwiseAction, ETriggerEvent::Started, this, &ATetrisPlayerController::OnMoveHardRotateClockwiseStarted);
+		// RotateCounterClockwise
+		EnhancedInputComponent->BindAction(RotateCounterClockwiseAction, ETriggerEvent::Started, this, &ATetrisPlayerController::OnMoveHardCounterClockwiseStarted);
+	}
 }
 
-void ATetrisPlayerController::MoveRight(const FInputActionValue& ActionValue)
+void ATetrisPlayerController::OnMoveLeftStarted(const FInputActionValue& ActionValue)
 {
-	UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayerController::MoveRight()"));
-	MoveTo(EKeyFlags::Right);
+	UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayerController::OnMoveLeftStarted()"));
+	StartPawnMovement(EKeyFlags::Left);
 }
 
-void ATetrisPlayerController::EndMoveLeft(const FInputActionValue& ActionValue)
+void ATetrisPlayerController::OnMoveLeftCompleted(const FInputActionValue& ActionValue)
 {
-	UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayerController::EndMoveLeft()"));
-	EndMovement(EKeyFlags::Left);
+	UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayerController::OnMoveLeftCompleted()"));
+	EndPawnMovement(EKeyFlags::Left);
 }
 
-void ATetrisPlayerController::EndMoveRight(const FInputActionValue& ActionValue)
+void ATetrisPlayerController::OnMoveRightStarted(const FInputActionValue& ActionValue)
 {
-	UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayerController::EndMoveRight()"));
-	EndMovement(EKeyFlags::Right);
+	UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayerController::OnMoveRightStarted()"));
+	StartPawnMovement(EKeyFlags::Right);
 }
 
-void ATetrisPlayerController::SoftDrop(const FInputActionValue& ActionValue)
+void ATetrisPlayerController::OnMoveRightCompleted(const FInputActionValue& ActionValue)
 {
-	UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayerController::SoftDrop()"));
-	TetrominoPawn->OnSoftDrop();
+	UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayerController::OnMoveRightCompleted()"));
+	EndPawnMovement(EKeyFlags::Right);
 }
 
-void ATetrisPlayerController::EndSoftDrop(const FInputActionValue& ActionValue)
+void ATetrisPlayerController::OnMoveSoftDropStarted(const FInputActionValue& ActionValue)
 {
-	UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayerController::EndSoftDrop()"));
-	TetrominoPawn->OnEndSoftDrop();
+	UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayerController::OnMoveSoftDropStarted()"));
+	TetrominoPawn->StartSoftDrop();
 }
 
-void ATetrisPlayerController::HardDrop(const FInputActionValue& ActionValue)
+void ATetrisPlayerController::OnMoveSoftDropCompleted(const FInputActionValue& ActionValue)
 {
 	UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayerController::HardDrop()"));
-	TetrominoPawn->OnHardDrop();
+	TetrominoPawn->EndSoftDrop();
 }
 
-void ATetrisPlayerController::RotateClockwise(const FInputActionValue& ActionValue)
+void ATetrisPlayerController::OnMoveHardDropStarted(const FInputActionValue& ActionValue)
+{
+	UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayerController::OnMoveSoftDropCompleted()"));
+	TetrominoPawn->StartHardDrop();
+}
+
+void ATetrisPlayerController::OnMoveHardRotateClockwiseStarted(const FInputActionValue& ActionValue)
 {
 	UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayerController::RotateClockwise()"));
-	TetrominoPawn->OnRotateTo(+1);
+	TetrominoPawn->StartRotate(+1);
 }
 
-void ATetrisPlayerController::RotateCounterClockwise(const FInputActionValue& ActionValue)
+void ATetrisPlayerController::OnMoveHardCounterClockwiseStarted(const FInputActionValue& ActionValue)
 {
 	UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayerController::RotateCounterClockwise()"));
-	TetrominoPawn->OnRotateTo(-1);
+	TetrominoPawn->StartRotate(-1);
 }
 
 const FVector2D& ATetrisPlayerController::GetDirectionByKeyFlag(const EKeyFlags KeyFlag)
@@ -145,15 +151,15 @@ const FVector2D& ATetrisPlayerController::GetDirectionByKeyFlag(const EKeyFlags 
 	return Map[KeyFlag];
 }
 
-void ATetrisPlayerController::MoveTo(const EKeyFlags KeyPressed)
+void ATetrisPlayerController::StartPawnMovement(const EKeyFlags KeyPressed)
 {
 	EnumAddFlags(KeyPressingFlags, KeyPressed);
 
 	const FVector2D& DirectionPressed = GetDirectionByKeyFlag(KeyPressed);
-	TetrominoPawn->OnMove(DirectionPressed);
+	TetrominoPawn->StartMovement(DirectionPressed);
 }
 
-void ATetrisPlayerController::EndMovement(const EKeyFlags KeyReleased)
+void ATetrisPlayerController::EndPawnMovement(const EKeyFlags KeyReleased)
 {
 	EnumRemoveFlags(KeyPressingFlags, KeyReleased);
 
@@ -165,11 +171,11 @@ void ATetrisPlayerController::EndMovement(const EKeyFlags KeyReleased)
 		if (TetrominoPawn->GetMovementDirection() == DirectionReleased)
 		{
 			const FVector2D OppositeDirection = -DirectionReleased;
-			TetrominoPawn->OnMove(OppositeDirection);
+			TetrominoPawn->StartMovement(OppositeDirection);
 		}
 	}
 	else
 	{
-		TetrominoPawn->OnEndMove();
+		TetrominoPawn->EndMovement();
 	}
 }

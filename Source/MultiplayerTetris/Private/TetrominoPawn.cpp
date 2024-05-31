@@ -40,19 +40,20 @@ void ATetrominoPawn::SetupPlayerInputComponent(UInputComponent* const PlayerInpu
 	}
 }
 
-void ATetrominoPawn::OnMove(const FVector2D& InMovementDirection)
+void ATetrominoPawn::StartMovement(const FVector2D& InMovementDirection)
 {
 	SetMovementDirection(InMovementDirection);
 	MoveToCurrentDirection();
 	SetAutoRepeatMovement();
 }
 
-void ATetrominoPawn::OnEndMove()
+void ATetrominoPawn::EndMovement()
 {
 	ClearTimer(AutoRepeatMovementTimerHandle);
+	SetMovementDirection(FVector2D::ZeroVector);
 }
 
-void ATetrominoPawn::OnSoftDrop()
+void ATetrominoPawn::StartSoftDrop()
 {
 	if (TetrominoInPlay)
 	{
@@ -63,7 +64,7 @@ void ATetrominoPawn::OnSoftDrop()
 	}
 }
 
-void ATetrominoPawn::OnEndSoftDrop()
+void ATetrominoPawn::EndSoftDrop()
 {
 	ClearTimer(SoftDropTimerHandle);
 
@@ -71,16 +72,16 @@ void ATetrominoPawn::OnEndSoftDrop()
 	SetNormalFallTimer();
 }
 
-void ATetrominoPawn::OnHardDrop()
+void ATetrominoPawn::StartHardDrop()
 {
 	// TODO: 하드 드롭 로직 추가
 }
 
-void ATetrominoPawn::OnRotateTo(const int32 Direction)
+void ATetrominoPawn::StartRotate(const int32 RotationDirection)
 {
 	if (TetrominoInPlay)
 	{
-		TetrominoInPlay->RotateTo(Direction);
+		TetrominoInPlay->RotateTo(RotationDirection);
 	}
 }
 
@@ -100,8 +101,8 @@ void ATetrominoPawn::MoveTo(const FVector2D& Direction)
 {
 	if (TetrominoInPlay)
 	{
-		const bool bIsCollision = false;
-		if (!bIsCollision)
+		const bool bIsNextPositionPossible = true;
+		if (bIsNextPositionPossible)
 		{
 			TetrominoInPlay->Move(Direction);
 		}
@@ -120,7 +121,6 @@ void ATetrominoPawn::MoveDown()
 
 void ATetrominoPawn::SetAutoRepeatMovement()
 {
-	static constexpr bool bIsAutoRepeatMovementLoop = true;
 	GetWorldTimerManager().SetTimer(AutoRepeatMovementTimerHandle, this, &ATetrominoPawn::MoveToCurrentDirection, AutoRepeatMovementInterval, bIsAutoRepeatMovementLoop, AutoRepeatMovementInitialDelay);
 }
 

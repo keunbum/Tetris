@@ -39,15 +39,15 @@ public:
 	FVector2D GetMovementDirection() const { return MovementDirection; }
 
 	// Event Handlers
-	void OnMove(const FVector2D& InMovementDirection);
-	void OnEndMove();
-	void OnSoftDrop();
-	void OnEndSoftDrop();
-	void OnHardDrop();
+	void StartMovement(const FVector2D& InMovementDirection);
+	void EndMovement();
+	void StartSoftDrop();
+	void EndSoftDrop();
+	void StartHardDrop();
 	/**
-	* @param Direction - +1: 시계 방향 회전, -1: 반시계 방향 회전.
+	* @param RotationDirection - +1: 시계 방향, -1: 반시계 방향.
 	*/
-	void OnRotateTo(const int32 Direction);
+	void StartRotate(const int32 RotationDirection);
 
 private:
 	void Initialize();
@@ -69,6 +69,7 @@ private:
 	static constexpr bool bSoftDropTimerLoop = true;
 	static constexpr float SoftDropTimerInitialDelay = 0.0f;
 
+	static constexpr bool bIsAutoRepeatMovementLoop = true;
 	static constexpr float AutoRepeatMovementInitialDelay = 0.3f;
 	static constexpr float AutoRepeatMovementInterval = 0.05f; // Adjust this value as needed
 

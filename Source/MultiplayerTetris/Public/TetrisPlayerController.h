@@ -33,10 +33,6 @@ class MULTIPLAYERTETRIS_API ATetrisPlayerController : public APlayerController
 {
 	GENERATED_BODY()
 
-public:
-	void SetInputModeUI();
-	void SetInputModeGame();
-	
 protected:
 	virtual void BeginPlay() override;
 
@@ -45,21 +41,23 @@ private:
 	void InitializeCamera();
 	void InitializeInput();
 
+	void BindGamePlayInput();
+
 	// 입력 콜백 함수
-	void MoveLeft(const FInputActionValue& ActionValue);
-	void MoveRight(const FInputActionValue& ActionValue);
-	void EndMoveLeft(const FInputActionValue& ActionValue);
-	void EndMoveRight(const FInputActionValue& ActionValue);
-	void SoftDrop(const FInputActionValue& ActionValue);
-	void EndSoftDrop(const FInputActionValue& ActionValue);
-	void HardDrop(const FInputActionValue& ActionValue);
-	void RotateClockwise(const FInputActionValue& ActionValue);
-	void RotateCounterClockwise(const FInputActionValue& ActionValue);
+	void OnMoveLeftStarted(const FInputActionValue& ActionValue);
+	void OnMoveLeftCompleted(const FInputActionValue& ActionValue);
+	void OnMoveRightStarted(const FInputActionValue& ActionValue);
+	void OnMoveRightCompleted(const FInputActionValue& ActionValue);
+	void OnMoveSoftDropStarted(const FInputActionValue& ActionValue);
+	void OnMoveSoftDropCompleted(const FInputActionValue& ActionValue);
+	void OnMoveHardDropStarted(const FInputActionValue& ActionValue);
+	void OnMoveHardRotateClockwiseStarted(const FInputActionValue& ActionValue);
+	void OnMoveHardCounterClockwiseStarted(const FInputActionValue& ActionValue);
 
 	static const FVector2D& GetDirectionByKeyFlag(const EKeyFlags KeyFlag);
 
-	void MoveTo(const EKeyFlags KeyPressed);
-	void EndMovement(const EKeyFlags KeyReleased);
+	void StartPawnMovement(const EKeyFlags KeyPressed);
+	void EndPawnMovement(const EKeyFlags KeyReleased);
 
 private:
 	static constexpr int32 MappingContextDefaultPriority = 0;
