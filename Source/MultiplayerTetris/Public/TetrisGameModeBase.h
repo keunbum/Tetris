@@ -10,15 +10,6 @@
 class ATetrisMatrix;
 class ATetrimino;
 
-UENUM()
-enum class ETetrisGameState : uint8
-{
-	TitleScreen,
-	MainMenu,
-	Gameplay,
-	GamePause,
-};
-
 /**
  * 
  */
@@ -47,6 +38,8 @@ protected:
 private:
 	void Initialize();
 	void StartGenerationPhase();
+	void StartCompletionPhase();
+
 	ATetrimino* SpawnNextTetrimino() const;
 
 	static float CalculateFallSpeed(const int32 Level);

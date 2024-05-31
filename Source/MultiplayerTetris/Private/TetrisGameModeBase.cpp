@@ -14,6 +14,7 @@
 
 ATetrisGameModeBase::ATetrisGameModeBase()
 	: CurrentLevel(DefaultGameLevel)
+	, TetriminoInPlay(nullptr)
 {
 
 	TetriminoClass = ATetrimino::StaticClass();
@@ -48,6 +49,10 @@ void ATetrisGameModeBase::StartGenerationPhase()
 {
 	TetriminoInPlay = SpawnNextTetrimino();
 	check(TetriminoInPlay != nullptr);
+}
+
+void ATetrisGameModeBase::StartCompletionPhase()
+{
 }
 
 ATetrimino* ATetrisGameModeBase::SpawnNextTetrimino() const
