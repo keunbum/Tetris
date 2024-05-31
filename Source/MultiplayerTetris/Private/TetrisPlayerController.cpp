@@ -161,13 +161,11 @@ void ATetrisPlayerController::StartPawnMovement(const EKeyFlags KeyPressed)
 
 void ATetrisPlayerController::EndPawnMovement(const EKeyFlags KeyReleased)
 {
-	EnumRemoveFlags(KeyPressingFlags, KeyReleased);
-
-	const bool bIsPressingLeftRightBoth = EnumHasAnyFlags(KeyPressingFlags, (EKeyFlags::Left | EKeyFlags::Right));
+	const bool bIsPressingLeftRightBoth = EnumHasAllFlags(KeyPressingFlags, (EKeyFlags::Left | EKeyFlags::Right));
 	if (bIsPressingLeftRightBoth)
 	{
 		const FVector2D& DirectionReleased = GetDirectionByKeyFlag(KeyReleased);
-		// 테트로미노 현재 이동 방향과 뗀 키 방향이 같은 경우
+		// 테트로미노 현재 이동 중인 방향 키를 뗐을 경우
 		if (TetrominoPawn->GetMovementDirection() == DirectionReleased)
 		{
 			const FVector2D OppositeDirection = -DirectionReleased;
@@ -178,4 +176,5 @@ void ATetrisPlayerController::EndPawnMovement(const EKeyFlags KeyReleased)
 	{
 		TetrominoPawn->EndMovement();
 	}
+	EnumRemoveFlags(KeyPressingFlags, KeyReleased);
 }
