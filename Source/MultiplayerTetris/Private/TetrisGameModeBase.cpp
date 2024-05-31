@@ -42,7 +42,7 @@ void ATetrisGameModeBase::BeginPlay()
 
 void ATetrisGameModeBase::Initialize()
 {
-	Matrix = GetWorld()->SpawnActor<ATetrisMatrix>();
+	//Matrix = GetWorld()->SpawnActor<ATetrisMatrix>();
 }
 
 void ATetrisGameModeBase::StartGenerationPhase()

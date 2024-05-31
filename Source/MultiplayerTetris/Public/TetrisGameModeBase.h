@@ -9,6 +9,7 @@
 
 class ATetrisMatrix;
 class ATetrimino;
+class UUserWidget;
 
 /**
  * 
@@ -44,6 +45,8 @@ private:
 
 	static float CalculateFallSpeed(const int32 Level);
 
+	//void ShowWidget(TSubclassOf<UUserWidget> WidgetClass);
+
 public:
 	UPROPERTY(EditDefaultsOnly, Category = "Tetromino")
 	bool bNormalFallOff = false;
@@ -53,15 +56,22 @@ private:
 	static constexpr int32 DefaultGameLevel = 1;
 	static constexpr float SoftDropMultiplier = 20.0f;
 
-private:
+protected:
+	// Level
 	int32 CurrentLevel;
 
+	// Matrix
 	UPROPERTY(EditDefaultsOnly)
 	TObjectPtr<ATetrisMatrix> Matrix;
 
+	// Tetrimino
 	UPROPERTY()
 	TSubclassOf<ATetrimino> TetriminoClass;
 
 	UPROPERTY()
 	TObjectPtr<ATetrimino> TetriminoInPlay;
+
+private:
+	// Widgets
+	TObjectPtr<UUserWidget> CurrentWidget;
 };
