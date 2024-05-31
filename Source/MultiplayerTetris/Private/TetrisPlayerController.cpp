@@ -158,7 +158,7 @@ void ATetrisPlayerController::EndMovement(const EKeyFlags KeyReleased)
 {
 	EnumRemoveFlags(KeyPressingFlags, KeyReleased);
 
-	const bool bIsPressingLeftRightBoth = EnumHasAllFlags(KeyPressingFlags, (EKeyFlags::Left | EKeyFlags::Right));
+	const bool bIsPressingLeftRightBoth = EnumHasAnyFlags(KeyPressingFlags, (EKeyFlags::Left | EKeyFlags::Right));
 	if (bIsPressingLeftRightBoth)
 	{
 		const FVector2D& DirectionReleased = GetDirectionByKeyFlag(KeyReleased);
