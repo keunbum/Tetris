@@ -76,8 +76,7 @@ void ATetrisPlayerController::InitializeInput()
 	{
 		if (UEnhancedInputLocalPlayerSubsystem* const Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer()))
 		{
-			static constexpr int32 Priority = 0;
-			Subsystem->AddMappingContext(GamePlayInputMappingContext, Priority);
+			Subsystem->AddMappingContext(GamePlayInputMappingContext, MappingContextDefaultPriority);
 		}
 	}
 }

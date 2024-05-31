@@ -62,6 +62,8 @@ private:
 	void EndMovement(const EKeyFlags KeyReleased);
 
 private:
+	static constexpr int32 MappingContextDefaultPriority = 0;
+
 	UPROPERTY(EditDefaultsOnly)
 	float OrthoWidth = 8000 * AMino::MinoScale;
 
