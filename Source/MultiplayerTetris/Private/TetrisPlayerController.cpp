@@ -119,13 +119,13 @@ void ATetrisPlayerController::OnMoveSoftDropStarted(const FInputActionValue& Act
 
 void ATetrisPlayerController::OnMoveSoftDropCompleted(const FInputActionValue& ActionValue)
 {
-	UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayerController::HardDrop()"));
+	UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayerController::OnMoveSoftDropCompleted()"));
 	TetrominoPawn->EndSoftDrop();
 }
 
 void ATetrisPlayerController::OnMoveHardDropStarted(const FInputActionValue& ActionValue)
 {
-	UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayerController::OnMoveSoftDropCompleted()"));
+	UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayerController::OnMoveHardDropStarted()"));
 	TetrominoPawn->StartHardDrop();
 }
 

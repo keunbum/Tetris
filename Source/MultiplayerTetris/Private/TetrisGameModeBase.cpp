@@ -23,7 +23,7 @@ ATetrisGameModeBase::ATetrisGameModeBase()
 void ATetrisGameModeBase::LevelUp()
 {
 	CurrentLevel += 1;
-
+	
 	if (APawn* const PlayerPawn = UGameplayStatics::GetPlayerPawn(this, PlayerIndex);
 		ATetrominoPawn* const TetrominoPawn = Cast<ATetrominoPawn>(PlayerPawn))
 	{
