@@ -281,7 +281,7 @@ FString ATetrimino::GetFacingTypeName(const ETetriminoFacingType FacingType)
 
 ETetriminoType ATetrimino::GetTetriminoTypeRandom()
 {
-	const int32 RandomIndex = FMath::RandRange(0, static_cast<int32>(ETetriminoType::Max));
+	const int32 RandomIndex = FMath::RandRange(0, static_cast<int32>(ETetriminoType::Max) - 1);
 	const ETetriminoType TetriminoType = static_cast<ETetriminoType>(RandomIndex);
 	return TetriminoType;
 }
