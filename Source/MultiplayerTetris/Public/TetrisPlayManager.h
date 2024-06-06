@@ -8,6 +8,7 @@
 
 class ATetrimino;
 class ATetrisGameModeBase;
+class ABoard;
 class UInputComponent;
 
 UCLASS()
@@ -28,6 +29,7 @@ public:
 	virtual void Tick(const float DeltaTime) override;
 
 public:
+	void AttachTetrimino(ATetrimino* const NewTetrimino);
 	void SetTetrominoInPlay(ATetrimino* const NewTetrominoInPlay) { TetrominoInPlay = NewTetrominoInPlay; }
 	void SetNormalFallSpeed(const float NewNormalFallSpeed) { NormalFallSpeed = NewNormalFallSpeed; }
 
@@ -73,6 +75,9 @@ private:
 
 	UPROPERTY()
 	TObjectPtr<ATetrisGameModeBase> GameMode;
+
+	UPROPERTY()
+	TObjectPtr<ABoard> Board;
 
 	// 조작 중인 테트로미노
 	UPROPERTY(VisibleAnywhere)

@@ -12,7 +12,8 @@
 #include "Kismet/GameplayStatics.h"
 
 #include "Tetrimino.h"
-#include "TetrominoPawn.h"
+#include "TetrisGameModeBase.h"
+#include "TetrisPlayManager.h"
 
 void ATetrisPlayerController::BeginPlay()
 {
@@ -25,8 +26,9 @@ void ATetrisPlayerController::Initialize()
 	InitializeCamera();
 	InitializeInput();
 
-	TetrominoPawn = GetPawn<ATetrominoPawn>();
-	check(TetrominoPawn != nullptr);
+	GameMode = GetWorld()->GetAuthGameMode<ATetrisGameModeBase>();
+	check(GameMode != nullptr);
+
 	KeyPressingFlags = EKeyFlags::None;
 }
 
@@ -90,55 +92,55 @@ void ATetrisPlayerController::BindGamePlayInput()
 void ATetrisPlayerController::OnMoveLeftStarted(const FInputActionValue& ActionValue)
 {
 	UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayerController::OnMoveLeftStarted()"));
-	StartPawnMovement(EKeyFlags::Left);
+	StartTetriminoMovement(EKeyFlags::Left);
 }
 
 void ATetrisPlayerController::OnMoveLeftCompleted(const FInputActionValue& ActionValue)
 {
 	UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayerController::OnMoveLeftCompleted()"));
-	EndPawnMovement(EKeyFlags::Left);
+	EndTetriminoMovement(EKeyFlags::Left);
 }
 
 void ATetrisPlayerController::OnMoveRightStarted(const FInputActionValue& ActionValue)
 {
 	UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayerController::OnMoveRightStarted()"));
-	StartPawnMovement(EKeyFlags::Right);
+	StartTetriminoMovement(EKeyFlags::Right);
 }
 
 void ATetrisPlayerController::OnMoveRightCompleted(const FInputActionValue& ActionValue)
 {
 	UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayerController::OnMoveRightCompleted()"));
-	EndPawnMovement(EKeyFlags::Right);
+	EndTetriminoMovement(EKeyFlags::Right);
 }
 
 void ATetrisPlayerController::OnMoveSoftDropStarted(const FInputActionValue& ActionValue)
 {
 	UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayerController::OnMoveSoftDropStarted()"));
-	TetrominoPawn->StartSoftDrop();
+	GameMode->GetTetrisPlayManager()->StartSoftDrop();
 }
 
 void ATetrisPlayerController::OnMoveSoftDropCompleted(const FInputActionValue& ActionValue)
 {
 	UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayerController::OnMoveSoftDropCompleted()"));
-	TetrominoPawn->EndSoftDrop();
+	GameMode->GetTetrisPlayManager()->EndSoftDrop();
 }
 
 void ATetrisPlayerController::OnMoveHardDropStarted(const FInputActionValue& ActionValue)
 {
 	UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayerController::OnMoveHardDropStarted()"));
-	TetrominoPawn->StartHardDrop();
+	GameMode->GetTetrisPlayManager()->StartHardDrop();
 }
 
 void ATetrisPlayerController::OnMoveHardRotateClockwiseStarted(const FInputActionValue& ActionValue)
 {
 	UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayerController::RotateClockwise()"));
-	TetrominoPawn->StartRotate(+1);
+	GameMode->GetTetrisPlayManager()->StartRotate(+1);
 }
 
 void ATetrisPlayerController::OnMoveHardCounterClockwiseStarted(const FInputActionValue& ActionValue)
 {
 	UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayerController::RotateCounterClockwise()"));
-	TetrominoPawn->StartRotate(-1);
+	GameMode->GetTetrisPlayManager()->StartRotate(-1);
 }
 
 const FVector2D& ATetrisPlayerController::GetDirectionByKeyFlag(const EKeyFlags KeyFlag)
@@ -151,30 +153,30 @@ const FVector2D& ATetrisPlayerController::GetDirectionByKeyFlag(const EKeyFlags 
 	return Map[KeyFlag];
 }
 
-void ATetrisPlayerController::StartPawnMovement(const EKeyFlags KeyPressed)
+void ATetrisPlayerController::StartTetriminoMovement(const EKeyFlags KeyPressed)
 {
 	EnumAddFlags(KeyPressingFlags, KeyPressed);
 
 	const FVector2D& DirectionPressed = GetDirectionByKeyFlag(KeyPressed);
-	TetrominoPawn->StartMovement(DirectionPressed);
+	GameMode->GetTetrisPlayManager()->StartMovement(DirectionPressed);
 }
 
-void ATetrisPlayerController::EndPawnMovement(const EKeyFlags KeyReleased)
+void ATetrisPlayerController::EndTetriminoMovement(const EKeyFlags KeyReleased)
 {
 	const bool bIsPressingLeftRightBoth = EnumHasAllFlags(KeyPressingFlags, (EKeyFlags::Left | EKeyFlags::Right));
 	if (bIsPressingLeftRightBoth)
 	{
 		const FVector2D& DirectionReleased = GetDirectionByKeyFlag(KeyReleased);
 		// 테트로미노 현재 이동 중인 방향 키를 뗐을 경우
-		if (TetrominoPawn->GetMovementDirection() == DirectionReleased)
+		if (GameMode->GetTetrisPlayManager()->GetMovementDirection() == DirectionReleased)
 		{
 			const FVector2D OppositeDirection = -DirectionReleased;
-			TetrominoPawn->StartMovement(OppositeDirection);
+			GameMode->GetTetrisPlayManager()->StartMovement(OppositeDirection);
 		}
 	}
 	else
 	{
-		TetrominoPawn->EndMovement();
+		GameMode->GetTetrisPlayManager()->EndMovement();
 	}
 	EnumRemoveFlags(KeyPressingFlags, KeyReleased);
 }

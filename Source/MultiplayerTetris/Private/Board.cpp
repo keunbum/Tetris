@@ -10,7 +10,8 @@
 
 #include "Mino.h"
 #include "Tetrimino.h"
-#include "TetrominoPawn.h"
+#include "TetrisPlayManager.h"
+#include "TetrisGameModeBase.h"
 
 const FString ABoard::BackgroundMinoMaterialPath = TEXT("/Game/Material/M_MinoMaterial_Grey");
 
@@ -37,7 +38,7 @@ void ABoard::BeginPlay()
 	Super::BeginPlay();
 	
 	Initialize();
-	TestTetrominoSpawning();
+	//TestTetrominoSpawning();
 }
 
 // Called every frame
@@ -48,19 +49,9 @@ void ABoard::Tick(const float DeltaTime)
 
 void ABoard::AttachTetromino(ATetrimino* const NewTetromino)
 {
-	if (NewTetromino)
-	{
-		TetrominoInPlay = NewTetromino;
-		TetrominoInPlay->AttachToActor(this, FAttachmentTransformRules::KeepRelativeTransform);
-
-		if (APlayerController* const PlayerController = GetWorld()->GetFirstPlayerController())
-		{
-			if (ATetrominoPawn* const TetrominoPawn = Cast<ATetrominoPawn>(PlayerController->GetPawn()))
-			{
-				TetrominoPawn->SetTetrominoInPlay(TetrominoInPlay);
-			}
-		}
-	}
+	check(NewTetromino != nullptr);
+	TetrominoInPlay = NewTetromino;
+	TetrominoInPlay->AttachToActor(this, FAttachmentTransformRules::KeepRelativeTransform);
 }
 
 void ABoard::Initialize()

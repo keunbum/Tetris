@@ -14,6 +14,8 @@
 class UInputMappingContext;
 class UInputAction;
 class ATetrominoPawn;
+class ATetrisGameModeBase;
+class ATetrisPlayManager;
 
 UENUM()
 enum class EKeyFlags : uint8
@@ -56,8 +58,8 @@ private:
 
 	static const FVector2D& GetDirectionByKeyFlag(const EKeyFlags KeyFlag);
 
-	void StartPawnMovement(const EKeyFlags KeyPressed);
-	void EndPawnMovement(const EKeyFlags KeyReleased);
+	void StartTetriminoMovement(const EKeyFlags KeyPressed);
+	void EndTetriminoMovement(const EKeyFlags KeyReleased);
 
 private:
 	static constexpr int32 MappingContextDefaultPriority = 0;
@@ -94,8 +96,6 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	TObjectPtr<UInputAction> RotateCounterClockwiseAction;
 
-
-	// Player Pawn
-	UPROPERTY(VisibleAnywhere)
-	TObjectPtr<ATetrominoPawn> TetrominoPawn;
+	UPROPERTY()
+	TObjectPtr<ATetrisGameModeBase> GameMode;
 };

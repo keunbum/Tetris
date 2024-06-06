@@ -29,6 +29,13 @@ void ATetrisPlayManager::Tick(const float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
+void ATetrisPlayManager::AttachTetrimino(ATetrimino* const NewTetrimino)
+{
+	check(NewTetrimino != nullptr);
+	Board->AttachTetromino(NewTetrimino);
+	SetTetrominoInPlay(NewTetrimino);
+}
+
 void ATetrisPlayManager::StartMovement(const FVector2D& InMovementDirection)
 {
 	SetMovementDirection(InMovementDirection);
@@ -76,9 +83,14 @@ void ATetrisPlayManager::StartRotate(const int32 RotationDirection)
 
 void ATetrisPlayManager::Initialize()
 {
-	GameMode = GetWorld()->GetAuthGameMode<ATetrisGameModeBase>();
+	UWorld* const World = GetWorld();
+	GameMode = World->GetAuthGameMode<ATetrisGameModeBase>();
+
 	SetNormalFallTimer();
 	SetMovementDirection(FVector2D::ZeroVector);
+
+	Board = World->SpawnActor<ABoard>();
+	check(Board != nullptr);
 }
 
 void ATetrisPlayManager::ClearTimer(FTimerHandle& InOutTimerHandle)

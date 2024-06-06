@@ -9,46 +9,46 @@
 #include "UObject/ConstructorHelpers.h"
 
 #include "Tetrimino.h"
-#include "TetrominoPawn.h"
+#include "TetrisPlayManager.h"
 #include "TetrisMatrix.h"
+#include "Board.h"
 
 ATetrisGameModeBase::ATetrisGameModeBase()
 	: CurrentLevel(DefaultGameLevel)
-	, TetriminoInPlay(nullptr)
 {
-
 	TetriminoClass = ATetrimino::StaticClass();
 }
 
 void ATetrisGameModeBase::LevelUp()
 {
 	CurrentLevel += 1;
-	
-	if (APawn* const PlayerPawn = UGameplayStatics::GetPlayerPawn(this, PlayerIndex);
-		ATetrominoPawn* const TetrominoPawn = Cast<ATetrominoPawn>(PlayerPawn))
-	{
-		const float NewFallSpeed = GetFallSpeed();
-		TetrominoPawn->SetNormalFallSpeed(NewFallSpeed);
-	}
+
+	const float NewFallSpeed = GetFallSpeed();
+	TetrisPlayManager->SetNormalFallSpeed(NewFallSpeed);
 }
 
 void ATetrisGameModeBase::BeginPlay()
 {
 	Super::BeginPlay();
 
-	//Initialize();
-	//StartGenerationPhase();
+	Initialize();
+	StartGenerationPhase();
 }
 
 void ATetrisGameModeBase::Initialize()
 {
-	//Matrix = GetWorld()->SpawnActor<ATetrisMatrix>();
+	if (UWorld* const World = GetWorld())
+	{
+		TetrisPlayManager = World->SpawnActor<ATetrisPlayManager>();
+		check(TetrisPlayManager != nullptr);
+	}
 }
 
 void ATetrisGameModeBase::StartGenerationPhase()
 {
-	//TetriminoInPlay = SpawnNextTetrimino();
-	//check(TetriminoInPlay != nullptr);
+	ATetrimino* const NewTetrimino = SpawnNextTetrimino();
+	check(NewTetrimino != nullptr);
+	TetrisPlayManager->AttachTetrimino(NewTetrimino);
 }
 
 void ATetrisGameModeBase::StartCompletionPhase()

@@ -9,6 +9,7 @@
 
 class ATetrisMatrix;
 class ATetrimino;
+class ATetrisPlayManager;
 class UUserWidget;
 
 /**
@@ -31,7 +32,7 @@ public:
 	float GetFallSpeed() const { return CalculateFallSpeed(CurrentLevel); }
 	float GetSoftDropSpeed() const { return GetFallSpeed() / SoftDropMultiplier; }
 
-	ATetrimino* GetTetriminoInPlay() const { return TetriminoInPlay; }
+	ATetrisPlayManager* GetTetrisPlayManager() const { return TetrisPlayManager; }
 
 protected:
 	virtual void BeginPlay() override;
@@ -60,16 +61,12 @@ protected:
 	// Level
 	int32 CurrentLevel;
 
-	// Matrix
-	UPROPERTY(EditDefaultsOnly)
-	TObjectPtr<ATetrisMatrix> Matrix;
-
 	// Tetrimino
 	UPROPERTY()
 	TSubclassOf<ATetrimino> TetriminoClass;
 
 	UPROPERTY()
-	TObjectPtr<ATetrimino> TetriminoInPlay;
+	TObjectPtr<ATetrisPlayManager> TetrisPlayManager;
 
 private:
 	// Widgets
