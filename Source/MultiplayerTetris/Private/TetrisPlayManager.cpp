@@ -44,7 +44,7 @@ void ATetrisPlayManager::StartGenerationPhase()
 void ATetrisPlayManager::StartMovement(const FVector2D& InMovementDirection)
 {
 	SetMovementDirection(InMovementDirection);
-	MoveToCurrentDirection();
+	MoveTetriminoToCurrentDirection();
 	SetAutoRepeatMovement();
 }
 
@@ -104,31 +104,33 @@ void ATetrisPlayManager::ClearTimer(FTimerHandle& InOutTimerHandle)
 	GetWorldTimerManager().ClearTimer(InOutTimerHandle);
 }
 
-void ATetrisPlayManager::MoveTo(const FVector2D& Direction)
+void ATetrisPlayManager::MoveTetriminoTo(const FVector2D& Direction)
 {
 	if (TetriminoInPlay)
 	{
 		const bool bIsNextPositionPossible = true;
 		if (bIsNextPositionPossible)
 		{
-			TetriminoInPlay->MoveBy(Direction);
+			const float OneSpace = 1.f;
+			const FVector2D MovementVector2D(OneSpace * Direction);
+			TetriminoInPlay->MoveBy(MovementVector2D);
 		}
 	}
 }
 
-void ATetrisPlayManager::MoveToCurrentDirection()
+void ATetrisPlayManager::MoveTetriminoToCurrentDirection()
 {
-	MoveTo(MovementDirection);
+	MoveTetriminoTo(CurrentMovementDirection);
 }
 
 void ATetrisPlayManager::MoveDown()
 {
-	MoveTo(ATetrimino::MoveDirectionDown);
+	MoveTetriminoTo(ATetrimino::MoveDirectionDown);
 }
 
 void ATetrisPlayManager::SetAutoRepeatMovement()
 {
-	GetWorldTimerManager().SetTimer(AutoRepeatMovementTimerHandle, this, &ATetrisPlayManager::MoveToCurrentDirection, AutoRepeatMovementInterval, bIsAutoRepeatMovementLoop, AutoRepeatMovementInitialDelay);
+	GetWorldTimerManager().SetTimer(AutoRepeatMovementTimerHandle, this, &ATetrisPlayManager::MoveTetriminoToCurrentDirection, AutoRepeatMovementInterval, bIsAutoRepeatMovementLoop, AutoRepeatMovementInitialDelay);
 }
 
 void ATetrisPlayManager::SetNormalFallTimer()

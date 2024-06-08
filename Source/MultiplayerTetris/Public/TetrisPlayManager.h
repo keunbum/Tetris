@@ -36,7 +36,7 @@ public:
 	void SetTetrominoInPlay(ATetrimino* const NewTetrominoInPlay) { TetriminoInPlay = NewTetrominoInPlay; }
 	void SetNormalFallSpeed(const float NewNormalFallSpeed) { NormalFallSpeed = NewNormalFallSpeed; }
 
-	FVector2D GetMovementDirection() const { return MovementDirection; }
+	FVector2D GetMovementDirection() const { return CurrentMovementDirection; }
 
 	// Event Handlers
 	void StartMovement(const FVector2D& InMovementDirection);
@@ -53,17 +53,19 @@ private:
 	void Initialize();
 	void ClearTimer(FTimerHandle& InOutTimerHandle);
 
-	void MoveTo(const FVector2D& Direction);
-	void MoveToCurrentDirection();
+	void MoveTetriminoTo(const FVector2D& Direction);
+	void MoveTetriminoToCurrentDirection();
 	void MoveDown();
 
 	void SetAutoRepeatMovement();
 	void SetNormalFallTimer();
 
-	void SetMovementDirection(const FVector2D& NewMovementDirection) { MovementDirection = NewMovementDirection; }
+	void SetMovementDirection(const FVector2D& NewMovementDirection) { CurrentMovementDirection = NewMovementDirection; }
 
 	ATetrimino* SpawnNextTetrimino() const;
 	void AttachTetrimino(ATetrimino* const NewTetrimino);
+
+	static bool IsNextPositionPossible(const ATetrimino* Tetrimino, const FVector2D& Distance2D);
 
 private:
 	static constexpr bool bIsNormalFallTimerLoop = true;
@@ -97,5 +99,5 @@ private:
 	FTimerHandle AutoRepeatMovementTimerHandle;
 
 	UPROPERTY(VisibleAnywhere)
-	FVector2D MovementDirection;
+	FVector2D CurrentMovementDirection;
 };
