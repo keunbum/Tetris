@@ -22,7 +22,7 @@ void ATetrisGameModeBase::LevelUp()
 {
 	CurrentLevel += 1;
 
-	const float NewFallSpeed = GetFallSpeed();
+	const float NewFallSpeed = GetNormalFallSpeed();
 	TetrisPlayManager->SetNormalFallSpeed(NewFallSpeed);
 }
 
@@ -36,11 +36,11 @@ void ATetrisGameModeBase::BeginPlay()
 
 void ATetrisGameModeBase::Initialize()
 {
-	if (UWorld* const World = GetWorld())
-	{
-		TetrisPlayManager = World->SpawnActor<ATetrisPlayManager>();
-		check(TetrisPlayManager != nullptr);
-	}
+	UWorld* const World = GetWorld();
+	check(World != nullptr);
+
+	TetrisPlayManager = World->SpawnActor<ATetrisPlayManager>();
+	check(TetrisPlayManager != nullptr);
 }
 
 void ATetrisGameModeBase::StartGenerationPhase()
@@ -52,7 +52,7 @@ void ATetrisGameModeBase::StartCompletionPhase()
 {
 }
 
-float ATetrisGameModeBase::CalculateFallSpeed(const int32 Level)
+float ATetrisGameModeBase::CalculateNormalFallSpeed(const int32 Level)
 {
 	const float A = 0.8f - ((Level - 1) * 0.007f);
 	const float B = static_cast<float>(Level - 1);

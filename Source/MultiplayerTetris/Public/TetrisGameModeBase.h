@@ -7,8 +7,6 @@
 
 #include "TetrisGameModeBase.generated.h"
 
-class ATetrisMatrix;
-class ATetrimino;
 class ATetrisPlayManager;
 class UUserWidget;
 
@@ -29,8 +27,8 @@ public:
 	/**
 	* Here, speed means the seconds it takes to move one line.
 	*/
-	float GetFallSpeed() const { return CalculateFallSpeed(CurrentLevel); }
-	float GetSoftDropSpeed() const { return GetFallSpeed() / SoftDropMultiplier; }
+	float GetNormalFallSpeed() const { return CalculateNormalFallSpeed(CurrentLevel); }
+	float GetSoftDropSpeed() const { return GetNormalFallSpeed() / SoftDropMultiplier; }
 
 	ATetrisPlayManager* GetTetrisPlayManager() const { return TetrisPlayManager; }
 
@@ -42,7 +40,7 @@ private:
 	void StartGenerationPhase();
 	void StartCompletionPhase();
 
-	static float CalculateFallSpeed(const int32 Level);
+	static float CalculateNormalFallSpeed(const int32 Level);
 
 	//void ShowWidget(TSubclassOf<UUserWidget> WidgetClass);
 
@@ -56,13 +54,13 @@ private:
 	static constexpr float SoftDropMultiplier = 20.0f;
 
 protected:
-	// Level
+	UPROPERTY(VisibleAnywhere)
 	int32 CurrentLevel;
 
 	UPROPERTY()
 	TObjectPtr<ATetrisPlayManager> TetrisPlayManager;
 
-private:
-	// Widgets
-	TObjectPtr<UUserWidget> CurrentWidget;
+	//UPROPERTY()
+	//// Widgets
+	//TObjectPtr<UUserWidget> CurrentWidget;
 };
