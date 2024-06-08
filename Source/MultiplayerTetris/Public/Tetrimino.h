@@ -62,7 +62,7 @@ public:
 
 	void Initialize(const ETetriminoShape NewTetrominoType);
 	void SetTetriminoShape(const ETetriminoShape NewTetriminoShape) { TetriminoShape = NewTetriminoShape; }
-	void MoveBy(const FVector2D& Direction2D);
+	void MoveBy(const FVector2D& Vector2D);
 	void RotateBy(const int32 Value);
 
 	static ETetriminoShape GetTetriminoShapeRandom();

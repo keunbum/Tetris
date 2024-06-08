@@ -133,8 +133,8 @@ void ATetrimino::Initialize(const ETetriminoShape NewTetriminoShape)
 
 void ATetrimino::MoveBy(const FVector2D& Vector2D)
 {
-	const FVector DeltaLocation(AMino::Get3DRelativePositionByUnitVector2D(Vector2D));
-	AddActorLocalOffset(DeltaLocation);
+	const FVector LocalOffset(AMino::Get3DRelativePositionByUnitVector2D(Vector2D));
+	AddActorLocalOffset(LocalOffset);
 	//DebugPrintState();
 }
 
