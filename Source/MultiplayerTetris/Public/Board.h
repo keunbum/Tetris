@@ -36,11 +36,14 @@ private:
 	void InitializeBackground();
 	void InitializeMinoMatrix();
 
+	static UMaterialInterface* GetMinoMaterialByPath(const FString& Path);
+
 private:
 	static constexpr int32 TotalHeight = 40;
 	static constexpr int32 VisibleHeight = 20;
 	static constexpr int32 TotalWidth = 10;
 	static const FString BackgroundMinoMaterialPath;
+	static const FString SpecialMinoMaterialPath;
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<AMino> MinoClass;

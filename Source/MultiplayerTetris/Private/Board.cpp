@@ -11,7 +11,9 @@
 #include "Mino.h"
 #include "Tetrimino.h"
 
+
 const FString ABoard::BackgroundMinoMaterialPath = TEXT("/Game/Material/M_MinoMaterial_Grey");
+const FString ABoard::SpecialMinoMaterialPath = TEXT("/Game/Material/M_MinoMaterial_Black");
 
 // Sets default values
 ABoard::ABoard()
@@ -54,10 +56,9 @@ void ABoard::Initialize()
 
 void ABoard::InitializeBackground()
 {
-	UMaterialInterface* const BackgroundMinoMaterial = Cast<UMaterialInterface>(StaticLoadObject(UMaterialInterface::StaticClass(), nullptr, *BackgroundMinoMaterialPath));
-	if (!BackgroundMinoMaterial)
+	UMaterialInterface* const BackgroundMinoMaterial = ABoard::GetMinoMaterialByPath(BackgroundMinoMaterialPath);
+	if (!ensureMsgf(BackgroundMinoMaterial, TEXT("Failed to load material: %s"), *BackgroundMinoMaterialPath))
 	{
-		UE_LOG(LogTemp, Error, TEXT("Failed to load material: %s"), *BackgroundMinoMaterialPath);
 		return;
 	}
 
@@ -69,7 +70,11 @@ void ABoard::InitializeBackground()
 			AMino* const Mino = GetWorld()->SpawnActor<AMino>(MinoClass, FVector::ZeroVector, FRotator::ZeroRotator);
 			check(Mino != nullptr);
 
-			Mino->SetMaterial(BackgroundMinoMaterial);
+			const FString& MinoMaterialPath = (Row == (TotalHeight - VisibleHeight) ? SpecialMinoMaterialPath : BackgroundMinoMaterialPath);
+			UMaterialInterface* const MinoMaterial = ABoard::GetMinoMaterialByPath(MinoMaterialPath);
+			check(MinoMaterial != nullptr);
+
+			Mino->SetMaterial(MinoMaterial);
 
 			Mino->AttachToActor(this, FAttachmentTransformRules::KeepRelativeTransform);
 			const FVector2D MinoUnitPosition(Row, Col);
@@ -91,5 +96,11 @@ void ABoard::InitializeMinoMatrix()
 			MinoMatrix.Add(Mino);
 		}
 	}
+}
+
+UMaterialInterface* ABoard::GetMinoMaterialByPath(const FString& Path)
+{
+	UMaterialInterface* const MinoMaterial = Cast<UMaterialInterface>(StaticLoadObject(UMaterialInterface::StaticClass(), nullptr, *Path));
+	return MinoMaterial;
 }
 
