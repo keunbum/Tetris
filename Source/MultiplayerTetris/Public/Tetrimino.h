@@ -87,6 +87,7 @@ protected:
 	static UMaterialInterface* GetMaterialByTetriminoInfo(const FTetriminoInfo& TetriminoInfo);
 	static FString GetTetriminoShapeName(const ETetriminoShape TetriminoShape);
 	static FString GetFacingName(const ETetriminoFacing Facing);
+
 public:
 	static constexpr int32 MinoNum = 4;
 	static const FVector2D MoveDirectionLeft;
@@ -101,6 +102,9 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 	ETetriminoFacing Facing;
+
+	UPROPERTY(VisibleAnywhere)
+	FIntVector2 MatrixPosition;
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<AMino> MinoClass;

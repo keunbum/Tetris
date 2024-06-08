@@ -107,6 +107,7 @@ ATetrimino::ATetrimino()
 	, Minos()
 	, bIsGhostPieceOn(true)
 	, GhostPiece(nullptr)
+	, MatrixPosition()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
