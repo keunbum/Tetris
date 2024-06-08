@@ -158,7 +158,7 @@ void ATetrisPlayManager::AttachTetrimino(ATetrimino* const NewTetrimino)
 {
 	check(NewTetrimino != nullptr);
 	Board->AttachTetrimino(NewTetrimino);
-	SetTetrominoInPlay(NewTetrimino);
+	SetTetriminoInPlay(NewTetrimino);
 }
 
 bool ATetrisPlayManager::IsNextPositionPossible(const ATetrimino* Tetrimino, const FVector2D& MovementVector2D)

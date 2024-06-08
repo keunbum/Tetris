@@ -13,7 +13,6 @@
 
 class UInputMappingContext;
 class UInputAction;
-class ATetrominoPawn;
 class ATetrisGameModeBase;
 class ATetrisPlayManager;
 

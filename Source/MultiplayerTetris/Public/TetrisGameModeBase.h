@@ -45,7 +45,7 @@ private:
 	//void ShowWidget(TSubclassOf<UUserWidget> WidgetClass);
 
 public:
-	UPROPERTY(EditDefaultsOnly, Category = "Tetromino")
+	UPROPERTY(EditDefaultsOnly, Category = "Tetrimino")
 	bool bNormalFallOff = false;
 
 private:

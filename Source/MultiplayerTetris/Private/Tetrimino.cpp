@@ -203,7 +203,7 @@ void ATetrimino::UpdateMinoPositions()
 void ATetrimino::DebugPrintState() const
 {
 	UE_LOG(LogTemp, Log, TEXT("TetriminoInPlay Type: %s"), *GetTetriminoShapeName(TetriminoShape));
-	UE_LOG(LogTemp, Log, TEXT("Tetromino: Location: %s"), *GetActorLocation().ToString());
+	UE_LOG(LogTemp, Log, TEXT("Tetrimino: Location: %s"), *GetActorLocation().ToString());
 
 	for (int32 Index = 0; Index < MinoNum; ++Index)
 	{
@@ -238,7 +238,7 @@ UMaterialInterface* ATetrimino::GetMaterialByTetriminoInfo(const FTetriminoInfo&
 
 FString ATetrimino::GetTetriminoShapeName(const ETetriminoShape TetriminoShape)
 {
-	static const TMap<ETetriminoShape, FString> TetrominoTypeNames =
+	static const TMap<ETetriminoShape, FString> TetriminoShapeNames =
 	{
 		{ETetriminoShape::O, TEXT("O")},
 		{ETetriminoShape::I, TEXT("I")},
@@ -249,7 +249,7 @@ FString ATetrimino::GetTetriminoShapeName(const ETetriminoShape TetriminoShape)
 		{ETetriminoShape::Z, TEXT("Z")}
 	};
 
-	if (const FString* Name = TetrominoTypeNames.Find(TetriminoShape))
+	if (const FString* Name = TetriminoShapeNames.Find(TetriminoShape))
 	{
 		return *Name;
 	}

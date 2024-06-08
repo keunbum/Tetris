@@ -60,7 +60,7 @@ public:
 	// Sets default values for this actor's properties
 	ATetrimino();
 
-	void Initialize(const ETetriminoShape NewTetrominoType);
+	void Initialize(const ETetriminoShape NewTetriminoShape);
 	void SetTetriminoShape(const ETetriminoShape NewTetriminoShape) { TetriminoShape = NewTetriminoShape; }
 	void MoveBy(const FVector2D& Vector2D);
 	void RotateBy(const int32 Value);

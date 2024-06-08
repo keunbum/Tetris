@@ -33,7 +33,7 @@ public:
 
 public:
 	void StartGenerationPhase();
-	void SetTetrominoInPlay(ATetrimino* const NewTetrominoInPlay) { TetriminoInPlay = NewTetrominoInPlay; }
+	void SetTetriminoInPlay(ATetrimino* const NewTetriminoInPlay) { TetriminoInPlay = NewTetriminoInPlay; }
 	void SetNormalFallSpeed(const float NewNormalFallSpeed) { NormalFallSpeed = NewNormalFallSpeed; }
 
 	FVector2D GetMovementDirection() const { return CurrentMovementDirection; }
