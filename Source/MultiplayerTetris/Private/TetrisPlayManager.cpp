@@ -3,6 +3,8 @@
 
 #include "TetrisPlayManager.h"
 
+#include "Algo/AllOf.h"
+
 #include "Board.h"
 #include "TetrisGameModeBase.h"
 #include "Tetrimino.h"
@@ -108,11 +110,11 @@ void ATetrisPlayManager::MoveTetriminoTo(const FVector2D& Direction)
 {
 	if (TetriminoInPlay)
 	{
+		const float OneSpace = 1.f;
+		const FVector2D MovementVector2D(OneSpace * Direction);
 		const bool bIsNextPositionPossible = true;
 		if (bIsNextPositionPossible)
 		{
-			const float OneSpace = 1.f;
-			const FVector2D MovementVector2D(OneSpace * Direction);
 			TetriminoInPlay->MoveBy(MovementVector2D);
 		}
 	}
@@ -157,4 +159,15 @@ void ATetrisPlayManager::AttachTetrimino(ATetrimino* const NewTetrimino)
 	check(NewTetrimino != nullptr);
 	Board->AttachTetrimino(NewTetrimino);
 	SetTetrominoInPlay(NewTetrimino);
+}
+
+bool ATetrisPlayManager::IsNextPositionPossible(const ATetrimino* Tetrimino, const FVector2D& MovementVector2D)
+{
+	// 범위 밖이거나, 다른 미노로 인해 막혔다면 불가능
+	return false;
+}
+
+bool ATetrisPlayManager::IsWithinRange(const ATetrimino* Tetrimino)
+{
+	return false;
 }
