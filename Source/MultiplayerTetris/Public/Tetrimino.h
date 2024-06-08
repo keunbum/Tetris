@@ -87,7 +87,6 @@ protected:
 
 	void DebugPrintState() const;
 
-	//static bool GetTetriminoInfoByShape(FTetriminoInfo& OutTetriminoInfo, const ETetriminoShape TetriminoShape);
 	static const FTetriminoInfo& GetTetriminoInfoByShape(const ETetriminoShape TetriminoShape);
 	static UMaterialInterface* GetMaterialByTetriminoInfo(const FTetriminoInfo& TetriminoInfo);
 	static FString GetTetriminoShapeName(const ETetriminoShape TetriminoShape);

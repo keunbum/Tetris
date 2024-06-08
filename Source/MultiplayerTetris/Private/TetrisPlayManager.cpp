@@ -40,7 +40,7 @@ void ATetrisPlayManager::StartGenerationPhase()
 {
 	ATetrimino* const NewTetrimino = SpawnNextTetrimino();
 	check(NewTetrimino != nullptr);
-	AttachTetrimino(NewTetrimino);
+	ChangeTetrimino(NewTetrimino);
 }
 
 void ATetrisPlayManager::StartMovement(const FVector2D& InMovementDirection)
@@ -148,23 +148,23 @@ ATetrimino* ATetrisPlayManager::SpawnNextTetrimino() const
 {
 	if (ATetrimino* const NewTetrimino = GetWorld()->SpawnActor<ATetrimino>(TetriminoClass))
 	{
-#define TETRIMINO_SPAWN_RANDOM
+//#define TETRIMINO_SPAWN_RANDOM
 
 #ifdef TETRIMINO_SPAWN_RANDOM
 		const ETetriminoShape NewTetriminoType = ATetrimino::GetTetriminoShapeRandom();
 		NewTetrimino->Initialize(NewTetriminoType);
 #else
-		NewTetrimino->Initialize(ETetriminoShape::I);
+		NewTetrimino->Initialize(TestSpawnType);
 #endif
 		return NewTetrimino;
 	}
 	return nullptr;
 }
 
-void ATetrisPlayManager::AttachTetrimino(ATetrimino* const NewTetrimino)
+void ATetrisPlayManager::ChangeTetrimino(ATetrimino* const NewTetrimino)
 {
 	check(NewTetrimino != nullptr);
-	Board->AttachTetrimino(NewTetrimino);
+	NewTetrimino->AttachToBoard(Board);
 	SetTetriminoInPlay(NewTetrimino);
 }
 

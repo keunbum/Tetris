@@ -63,7 +63,7 @@ private:
 	void SetMovementDirection(const FVector2D& NewMovementDirection) { CurrentMovementDirection = NewMovementDirection; }
 
 	ATetrimino* SpawnNextTetrimino() const;
-	void AttachTetrimino(ATetrimino* const NewTetrimino);
+	void ChangeTetrimino(ATetrimino* const NewTetrimino);
 
 	static bool IsNextPositionPossible(const ATetrimino* Tetrimino, const FVector2D& MovementVector2D);
 	static bool IsWithinRange(const ATetrimino* Tetrimino);
@@ -101,4 +101,7 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 	FVector2D CurrentMovementDirection;
+
+	UPROPERTY(EditDefaultsOnly)
+	ETetriminoShape TestSpawnType = ETetriminoShape::L;
 };

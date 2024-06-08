@@ -41,12 +41,6 @@ void ABoard::Tick(const float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-void ABoard::AttachTetrimino(ATetrimino* const NewTetrimino)
-{
-	check(NewTetrimino != nullptr);
-	NewTetrimino->AttachToActor(this, FAttachmentTransformRules::KeepRelativeTransform);
-}
-
 void ABoard::Initialize()
 {
 	InitializeBackground();

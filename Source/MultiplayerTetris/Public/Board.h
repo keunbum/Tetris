@@ -28,9 +28,6 @@ public:
 	// Called every frame
 	virtual void Tick(const float DeltaTime) override;
 
-public:
-	void AttachTetrimino(ATetrimino* const NewTetrimino);
-
 private:
 	void Initialize();
 	void InitializeBackground();
