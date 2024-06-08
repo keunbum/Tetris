@@ -38,10 +38,18 @@ private:
 
 	static UMaterialInterface* GetMinoMaterialByPath(const FString& Path);
 
-private:
+public:
 	static constexpr int32 TotalHeight = 40;
-	static constexpr int32 VisibleHeight = 20;
 	static constexpr int32 TotalWidth = 10;
+
+	static constexpr int32 VisibleHeight = 20;
+	static constexpr int32 VisibleStartRow = TotalHeight - VisibleHeight;
+	static constexpr int32 VisibleStartCol = 0;
+
+	static constexpr int32 TetriminoDefaultSpawnLocationX = ABoard::VisibleStartRow - 1;
+	static constexpr int32 TetriminoDefaultSpawnLocationY = ABoard::VisibleStartCol + 3;
+
+private:
 	static const FString BackgroundMinoMaterialPath;
 	static const FString SpecialMinoMaterialPath;
 

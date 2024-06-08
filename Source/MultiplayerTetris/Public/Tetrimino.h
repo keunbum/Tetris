@@ -2,10 +2,11 @@
 
 #pragma once
 
+#include "CoreMinimal.h"
 #include "Containers/Map.h"
 #include "Containers/UnrealString.h"
-#include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Math/MathFwd.h"
 
 #include "EnumClassOperators.h"
 
@@ -44,8 +45,9 @@ struct FTetriminoInfo
 {
 	TMap<ETetriminoFacing, TArray<FVector2D>> MinoUnitPositionsByFacing;
 	FString MaterialPath;
+	FIntPoint InitialMatrixLocation;
 
-	const TArray<FVector2D>& GetMinoUnitPosition(const ETetriminoFacing Facing)
+	const TArray<FVector2D>& GetMinoUnitPosition(const ETetriminoFacing Facing) const
 	{
 		return MinoUnitPositionsByFacing[Facing];
 	}
@@ -78,7 +80,7 @@ public:
 protected:
 	void SetFacing(const ETetriminoFacing NewFacing) { Facing = NewFacing; }
 
-	void InitializeMinos();
+	void InitializeMinos(const FTetriminoInfo& TetriminoInfo);
 	void UpdateMinoPositions();
 
 	void DebugPrintState() const;
@@ -103,8 +105,8 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	ETetriminoFacing Facing;
 
-	UPROPERTY(VisibleAnywhere)
-	FIntVector2 MatrixPosition;
+	UPROPERTY()
+	FIntPoint MatrixLocation;
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<AMino> MinoClass;

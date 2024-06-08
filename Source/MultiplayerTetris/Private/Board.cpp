@@ -11,7 +11,6 @@
 #include "Mino.h"
 #include "Tetrimino.h"
 
-
 const FString ABoard::BackgroundMinoMaterialPath = TEXT("/Game/Material/M_MinoMaterial_Grey");
 const FString ABoard::SpecialMinoMaterialPath = TEXT("/Game/Material/M_MinoMaterial_Black");
 

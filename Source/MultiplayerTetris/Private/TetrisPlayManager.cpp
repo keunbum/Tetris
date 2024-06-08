@@ -147,8 +147,14 @@ ATetrimino* ATetrisPlayManager::SpawnNextTetrimino() const
 {
 	if (ATetrimino* const NewTetrimino = GetWorld()->SpawnActor<ATetrimino>(TetriminoClass))
 	{
+#define TETRIMINO_SPAWN_RANDOM
+
+#ifdef TETRIMINO_SPAWN_RANDOM
 		const ETetriminoShape NewTetriminoType = ATetrimino::GetTetriminoShapeRandom();
 		NewTetrimino->Initialize(NewTetriminoType);
+#else
+		NewTetrimino->Initialize(ETetriminoShape::I);
+#endif
 		return NewTetrimino;
 	}
 	return nullptr;
