@@ -10,7 +10,6 @@
 #include "Board.generated.h"
 
 class AMino;
-class Atetromino;
 
 UCLASS()
 class MULTIPLAYERTETRIS_API ABoard : public AActor
@@ -36,10 +35,6 @@ private:
 	void Initialize();
 	void InitializeBackground();
 
-	void SpawnTetromino(const FVector& SpawnLocation, const FRotator& SpawnRotation, const ETetriminoType TetriminoType);
-	void TestTetrominosSpawning();
-	void TestTetrominoSpawning();
-
 private:
 	static constexpr int32 TotalHeight = 40;
 	static constexpr int32 VisibleHeight = 20;
@@ -51,12 +46,6 @@ private:
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<AMino> MinoClass;
-
-	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<ATetrimino> TetrominoClass;
-
-	UPROPERTY(VisibleAnywhere)
-	TObjectPtr<ATetrimino> TetrominoInPlay;
 
 	UPROPERTY(EditDefaultsOnly)
 	TArray<TObjectPtr<AMino>> Background;

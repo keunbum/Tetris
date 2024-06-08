@@ -9,10 +9,15 @@
 
 // Sets default values
 ATetrisPlayManager::ATetrisPlayManager()
-	: NormalFallSpeed(-1.0f)
 {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+
+	NormalFallSpeed = -1.0f;
+
+	TetriminoClass = ATetrimino::StaticClass();
+
+	TetriminoInPlay = nullptr;
 }
 
 // Called when the game starts or when spawned
@@ -29,11 +34,11 @@ void ATetrisPlayManager::Tick(const float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-void ATetrisPlayManager::AttachTetrimino(ATetrimino* const NewTetrimino)
+void ATetrisPlayManager::StartGenerationPhase()
 {
+	ATetrimino* const NewTetrimino = SpawnNextTetrimino();
 	check(NewTetrimino != nullptr);
-	Board->AttachTetromino(NewTetrimino);
-	SetTetrominoInPlay(NewTetrimino);
+	AttachTetrimino(NewTetrimino);
 }
 
 void ATetrisPlayManager::StartMovement(const FVector2D& InMovementDirection)
@@ -51,7 +56,7 @@ void ATetrisPlayManager::EndMovement()
 
 void ATetrisPlayManager::StartSoftDrop()
 {
-	if (TetrominoInPlay)
+	if (TetriminoInPlay)
 	{
 		// NormalFall 일시 중지
 		ClearTimer(NormalFallTimerHandle);
@@ -75,15 +80,16 @@ void ATetrisPlayManager::StartHardDrop()
 
 void ATetrisPlayManager::StartRotate(const int32 RotationDirection)
 {
-	if (TetrominoInPlay)
+	if (TetriminoInPlay)
 	{
-		TetrominoInPlay->RotateTo(RotationDirection);
+		TetriminoInPlay->RotateTo(RotationDirection);
 	}
 }
 
 void ATetrisPlayManager::Initialize()
 {
 	UWorld* const World = GetWorld();
+	check(World != nullptr);
 	GameMode = World->GetAuthGameMode<ATetrisGameModeBase>();
 
 	SetNormalFallTimer();
@@ -100,12 +106,12 @@ void ATetrisPlayManager::ClearTimer(FTimerHandle& InOutTimerHandle)
 
 void ATetrisPlayManager::MoveTo(const FVector2D& Direction)
 {
-	if (TetrominoInPlay)
+	if (TetriminoInPlay)
 	{
 		const bool bIsNextPositionPossible = true;
 		if (bIsNextPositionPossible)
 		{
-			TetrominoInPlay->Move(Direction);
+			TetriminoInPlay->Move(Direction);
 		}
 	}
 }
@@ -131,4 +137,22 @@ void ATetrisPlayManager::SetNormalFallTimer()
 	{
 		GetWorldTimerManager().SetTimer(NormalFallTimerHandle, this, &ATetrisPlayManager::MoveDown, NormalFallSpeed, bIsNormalFallTimerLoop, NormalFallTimerInitialDelay);
 	}
+}
+
+ATetrimino* ATetrisPlayManager::SpawnNextTetrimino() const
+{
+	if (ATetrimino* const NewTetrimino = GetWorld()->SpawnActor<ATetrimino>(TetriminoClass))
+	{
+		const ETetriminoType NewTetriminoType = ATetrimino::GetTetriminoTypeRandom();
+		NewTetrimino->Initialize(NewTetriminoType);
+		return NewTetrimino;
+	}
+	return nullptr;
+}
+
+void ATetrisPlayManager::AttachTetrimino(ATetrimino* const NewTetrimino)
+{
+	check(NewTetrimino != nullptr);
+	Board->AttachTetromino(NewTetrimino);
+	SetTetrominoInPlay(NewTetrimino);
 }

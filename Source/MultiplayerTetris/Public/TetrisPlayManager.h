@@ -4,6 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+
+#include "Tetrimino.h"
+
 #include "TetrisPlayManager.generated.h"
 
 class ATetrimino;
@@ -29,8 +32,8 @@ public:
 	virtual void Tick(const float DeltaTime) override;
 
 public:
-	void AttachTetrimino(ATetrimino* const NewTetrimino);
-	void SetTetrominoInPlay(ATetrimino* const NewTetrominoInPlay) { TetrominoInPlay = NewTetrominoInPlay; }
+	void StartGenerationPhase();
+	void SetTetrominoInPlay(ATetrimino* const NewTetrominoInPlay) { TetriminoInPlay = NewTetrominoInPlay; }
 	void SetNormalFallSpeed(const float NewNormalFallSpeed) { NormalFallSpeed = NewNormalFallSpeed; }
 
 	FVector2D GetMovementDirection() const { return MovementDirection; }
@@ -59,6 +62,9 @@ private:
 
 	void SetMovementDirection(const FVector2D& NewMovementDirection) { MovementDirection = NewMovementDirection; }
 
+	ATetrimino* SpawnNextTetrimino() const;
+	void AttachTetrimino(ATetrimino* const NewTetrimino);
+
 private:
 	static constexpr bool bIsNormalFallTimerLoop = true;
 	static constexpr float NormalFallTimerInitialDelay = 0.0f;
@@ -79,11 +85,13 @@ private:
 	UPROPERTY()
 	TObjectPtr<ABoard> Board;
 
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<ATetrimino> TetriminoClass;
+
 	// 조작 중인 테트로미노
 	UPROPERTY(VisibleAnywhere)
-	TObjectPtr<ATetrimino> TetrominoInPlay;
+	TObjectPtr<ATetrimino> TetriminoInPlay;
 
-	// 타이머 핸들러
 	FTimerHandle NormalFallTimerHandle;
 	FTimerHandle SoftDropTimerHandle;
 	FTimerHandle AutoRepeatMovementTimerHandle;

@@ -42,8 +42,6 @@ private:
 	void StartGenerationPhase();
 	void StartCompletionPhase();
 
-	ATetrimino* SpawnNextTetrimino() const;
-
 	static float CalculateFallSpeed(const int32 Level);
 
 	//void ShowWidget(TSubclassOf<UUserWidget> WidgetClass);
@@ -60,10 +58,6 @@ private:
 protected:
 	// Level
 	int32 CurrentLevel;
-
-	// Tetrimino
-	UPROPERTY()
-	TSubclassOf<ATetrimino> TetriminoClass;
 
 	UPROPERTY()
 	TObjectPtr<ATetrisPlayManager> TetrisPlayManager;

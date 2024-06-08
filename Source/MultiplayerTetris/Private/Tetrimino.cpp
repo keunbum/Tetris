@@ -201,7 +201,7 @@ void ATetrimino::UpdateMinoPositions()
 
 void ATetrimino::DebugPrintState() const
 {
-	UE_LOG(LogTemp, Log, TEXT("TetrominoInPlay Type: %s"), *GetTetrominoTypeName(TetriminoType));
+	UE_LOG(LogTemp, Log, TEXT("TetriminoInPlay Type: %s"), *GetTetrominoTypeName(TetriminoType));
 	UE_LOG(LogTemp, Log, TEXT("Tetromino: Location: %s"), *GetActorLocation().ToString());
 
 	for (int32 Index = 0; Index < MinoNum; ++Index)

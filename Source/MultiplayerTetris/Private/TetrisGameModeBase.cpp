@@ -16,7 +16,6 @@
 ATetrisGameModeBase::ATetrisGameModeBase()
 	: CurrentLevel(DefaultGameLevel)
 {
-	TetriminoClass = ATetrimino::StaticClass();
 }
 
 void ATetrisGameModeBase::LevelUp()
@@ -46,26 +45,11 @@ void ATetrisGameModeBase::Initialize()
 
 void ATetrisGameModeBase::StartGenerationPhase()
 {
-	ATetrimino* const NewTetrimino = SpawnNextTetrimino();
-	check(NewTetrimino != nullptr);
-	TetrisPlayManager->AttachTetrimino(NewTetrimino);
+	TetrisPlayManager->StartGenerationPhase();
 }
 
 void ATetrisGameModeBase::StartCompletionPhase()
 {
-}
-
-ATetrimino* ATetrisGameModeBase::SpawnNextTetrimino() const
-{
-	if (ATetrimino* const NewTetrimino = GetWorld()->SpawnActor<ATetrimino>(TetriminoClass))
-	{
-		const ETetriminoType NewTetriminoType = ATetrimino::GetTetriminoTypeRandom();
-		NewTetrimino->Initialize(NewTetriminoType);
-
-		return NewTetrimino;
-	}
-
-	return nullptr;
 }
 
 float ATetrisGameModeBase::CalculateFallSpeed(const int32 Level)

@@ -26,10 +26,6 @@ ABoard::ABoard()
 
 	// Initialize Class variables
 	MinoClass = AMino::StaticClass();
-	TetrominoClass = ATetrimino::StaticClass();
-
-	// Etc
-	TetrominoInPlay = nullptr;
 }
 
 // Called when the game starts or when spawned
@@ -50,8 +46,7 @@ void ABoard::Tick(const float DeltaTime)
 void ABoard::AttachTetromino(ATetrimino* const NewTetromino)
 {
 	check(NewTetromino != nullptr);
-	TetrominoInPlay = NewTetromino;
-	TetrominoInPlay->AttachToActor(this, FAttachmentTransformRules::KeepRelativeTransform);
+	NewTetromino->AttachToActor(this, FAttachmentTransformRules::KeepRelativeTransform);
 }
 
 void ABoard::Initialize()
@@ -87,32 +82,3 @@ void ABoard::InitializeBackground()
 	}
 }
 
-void ABoard::SpawnTetromino(const FVector& SpawnLocation, const FRotator& SpawnRotation, const ETetriminoType TetriminoType)
-{
-	TetrominoInPlay = GetWorld()->SpawnActor<ATetrimino>(TetrominoClass, SpawnLocation, SpawnRotation);
-	if (TetrominoInPlay)
-	{
-		TetrominoInPlay->Initialize(TetriminoType);
-		AttachTetromino(TetrominoInPlay);
-	}
-}
-
-void ABoard::TestTetrominosSpawning()
-{
-	FVector SpawnLocation = FVector::ZeroVector;
-	for (int32 Index = static_cast<int32>(ETetriminoType::O); Index <= static_cast<int32>(ETetriminoType::Z); ++Index)
-	{
-		ETetriminoType TetriminoType = static_cast<ETetriminoType>(Index);
-		const FRotator SpawnRotation = FRotator::ZeroRotator;
-		SpawnTetromino(SpawnLocation, SpawnRotation, TetriminoType);
-		SpawnLocation.Y -= 2 * AMino::UnitLength;
-	}
-}
-
-void ABoard::TestTetrominoSpawning()
-{
-	const FVector SpawnLocation(FVector::ZeroVector);
-	const FRotator SpawnRotation(FRotator::ZeroRotator);
-	const ETetriminoType TetriminoType(TestType);
-	SpawnTetromino(SpawnLocation, SpawnRotation, TetriminoType);
-}
