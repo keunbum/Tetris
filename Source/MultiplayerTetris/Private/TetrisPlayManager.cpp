@@ -110,12 +110,13 @@ void ATetrisPlayManager::MoveTetriminoTo(const FVector2D& Direction)
 {
 	if (TetriminoInPlay)
 	{
-		const float OneSpace = 1.f;
-		const FVector2D MovementVector2D(OneSpace * Direction);
+		const float OneSpace = 1;
+		const FVector2D MovementVector2D = OneSpace * Direction;
+		const FIntVector2 MovementIntVector2D(static_cast<int32>(MovementVector2D.X), static_cast<int32>(MovementVector2D.Y));
 		const bool bIsNextPositionPossible = true;
 		if (bIsNextPositionPossible)
 		{
-			TetriminoInPlay->MoveBy(MovementVector2D);
+			TetriminoInPlay->MoveBy(static_cast<const FIntVector2>(MovementIntVector2D));
 		}
 	}
 }

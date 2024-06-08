@@ -37,16 +37,16 @@ void AMino::Tick(const float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-FVector AMino::Get3DRelativePositionByUnitVector2D(const FVector2D& Vector2D, const float Z)
+FVector AMino::Get3DRelativePositionByIntVector2D(const FIntVector2& IntVector2D, const float Z)
 {
-	const float X = -UnitLength * Vector2D.Y;
-	const float Y = -UnitLength * Vector2D.X;
+	const float X = -UnitLength * IntVector2D.Y;
+	const float Y = -UnitLength * IntVector2D.X;
 	return FVector(X, Y, Z);
 }
 
-void AMino::SetRelativeLocationByUnitVector2D(const FVector2D& Vector2D)
+void AMino::SetRelativeLocationByIntVector2D(const FIntVector2& IntVector2D)
 {
-	const FVector RelativeLocation(AMino::Get3DRelativePositionByUnitVector2D(Vector2D));
+	const FVector RelativeLocation(AMino::Get3DRelativePositionByIntVector2D(IntVector2D));
 	SetRelativeLocation(RelativeLocation);
 }
 

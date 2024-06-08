@@ -44,11 +44,11 @@ ENUM_CLASS_OPERATORS(ETetriminoFacing)
 
 struct FTetriminoInfo
 {
-	TMap<ETetriminoFacing, TArray<FVector2D>> MinoUnitPositionsByFacing;
+	TMap<ETetriminoFacing, TArray<FIntVector2>> MinoUnitPositionsByFacing;
 	FString MaterialPath;
-	FIntPoint InitialMatrixLocation;
+	FIntVector2 InitialMatrixLocation;
 
-	const TArray<FVector2D>& GetMinoUnitPosition(const ETetriminoFacing Facing) const
+	const TArray<FIntVector2>& GetMinoUnitPosition(const ETetriminoFacing Facing) const
 	{
 		return MinoUnitPositionsByFacing[Facing];
 	}
@@ -65,7 +65,7 @@ public:
 
 	void Initialize(const ETetriminoShape NewTetriminoShape);
 	void SetTetriminoShape(const ETetriminoShape NewTetriminoShape) { TetriminoShape = NewTetriminoShape; }
-	void MoveBy(const FVector2D& Vector2D);
+	void MoveBy(const FIntVector2& IntVector2D);
 	void RotateBy(const int32 Value);
 	void AttachToBoard(ABoard* const Board);
 
@@ -109,7 +109,7 @@ private:
 	ETetriminoFacing Facing;
 
 	UPROPERTY()
-	FIntPoint MatrixLocation;
+	FIntVector2 MatrixLocation;
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<AMino> MinoClass;

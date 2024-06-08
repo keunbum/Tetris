@@ -28,9 +28,9 @@ public:
 	virtual void Tick(const float DeltaTime) override;
 
 public:
-	static FVector Get3DRelativePositionByUnitVector2D(const FVector2D& Vector2D, const float Z = 0.0f);
+	static FVector Get3DRelativePositionByIntVector2D(const FIntVector2& IntVector2D, const float Z = 0.0f);
 
-	void SetRelativeLocationByUnitVector2D(const FVector2D& Vector2D);
+	void SetRelativeLocationByIntVector2D(const FIntVector2& IntVector2D);
 	FVector GetRelativeLocation() const;
 	void SetRelativeLocation(const FVector& NewLocation);
 	void SetMaterial(UMaterialInterface* const Material, const int32 ElementIndex = 0);

@@ -76,8 +76,8 @@ void ABoard::InitializeBackground()
 			Mino->SetMaterial(MinoMaterial);
 
 			Mino->AttachToActor(this, FAttachmentTransformRules::KeepRelativeTransform);
-			const FVector2D MinoUnitPosition(Row, Col);
-			Mino->SetRelativeLocationByUnitVector2D(MinoUnitPosition);
+			const FIntVector2 MinoUnitPosition(Row, Col);
+			Mino->SetRelativeLocationByIntVector2D(MinoUnitPosition);
 
 			Background.Add(Mino);
 		}
