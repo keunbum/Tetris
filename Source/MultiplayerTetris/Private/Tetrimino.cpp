@@ -138,11 +138,7 @@ void ATetrimino::Initialize(const ETetriminoShape NewTetriminoShape)
 {
 	SetTetriminoShape(NewTetriminoShape);
 
-	FTetriminoInfo TetriminoInfo;
-	if (!ensureMsgf(GetTetriminoInfoByShape(TetriminoInfo, TetriminoShape), TEXT("FUCK. GetTetriminoInfoByShape failed.")))
-	{
-		return;
-	}
+	const FTetriminoInfo& TetriminoInfo = ATetrimino::GetTetriminoInfoByShape(TetriminoShape);
 
 	InitializeMinos(TetriminoInfo);
 	MatrixLocation = TetriminoInfo.InitialMatrixLocation;
@@ -189,11 +185,7 @@ void ATetrimino::InitializeMinos(const FTetriminoInfo& TetriminoInfo)
 
 void ATetrimino::UpdateMinoPositions()
 {
-	FTetriminoInfo TetriminoInfo;
-	if (!GetTetriminoInfoByShape(TetriminoInfo, TetriminoShape))
-	{
-		return;
-	}
+	const FTetriminoInfo& TetriminoInfo = ATetrimino::GetTetriminoInfoByShape(TetriminoShape);
 
 	UE_LOG(LogTemp, Warning, TEXT("Facing: %d, %s"), static_cast<int32>(Facing), *GetFacingName(Facing));
 	check(0 <= static_cast<int32>(Facing) && static_cast<int32>(Facing) <= TetriminoInfo.MinoUnitPositionsByFacing.Num());
@@ -225,15 +217,11 @@ void ATetrimino::DebugPrintState() const
 	}
 }
 
-bool ATetrimino::GetTetriminoInfoByShape(FTetriminoInfo& OutTetriminoInfo, const ETetriminoShape TetriminoShape)
+const FTetriminoInfo& ATetrimino::GetTetriminoInfoByShape(const ETetriminoShape TetriminoShape)
 {
-	if (const FTetriminoInfo* TetriminoInfo = TetriminoInfos.Find(TetriminoShape))
-	{
-		OutTetriminoInfo = *TetriminoInfo;
-		return true;
-	}
-	UE_LOG(LogTemp, Error, TEXT("Invalid TetriminoShape: %s\n"), *GetTetriminoShapeName(TetriminoShape));
-	return false;
+	const FTetriminoInfo* TetriminoInfo = TetriminoInfos.Find(TetriminoShape);
+	check(TetriminoInfo != nullptr);
+	return *TetriminoInfo;
 }
 
 UMaterialInterface* ATetrimino::GetMaterialByTetriminoInfo(const FTetriminoInfo& TetriminoInfo)
