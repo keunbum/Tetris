@@ -39,7 +39,9 @@ void AMino::Tick(const float DeltaTime)
 
 FVector AMino::Get3DRelativePositionByUnitVector2D(const FVector2D& Vector2D, const float Z)
 {
-	return FVector(-UnitLength * Vector2D.Y, -UnitLength * Vector2D.X, Z);
+	const float X = -UnitLength * Vector2D.Y;
+	const float Y = -UnitLength * Vector2D.X;
+	return FVector(X, Y, Z);
 }
 
 void AMino::SetRelativeLocationByUnitVector2D(const FVector2D& Vector2D)
