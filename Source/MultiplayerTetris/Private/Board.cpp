@@ -49,6 +49,7 @@ void ABoard::AttachTetrimino(ATetrimino* const NewTetrimino)
 void ABoard::Initialize()
 {
 	InitializeBackground();
+	InitializeMinoMatrix();
 }
 
 void ABoard::InitializeBackground()
@@ -75,6 +76,19 @@ void ABoard::InitializeBackground()
 			Mino->SetRelativeLocationByUnitVector2D(MinoUnitPosition);
 
 			Background.Add(Mino);
+		}
+	}
+}
+
+void ABoard::InitializeMinoMatrix()
+{
+	MinoMatrix.Reserve(TotalHeight * TotalWidth);
+	for (int32 Row = 0; Row < TotalHeight; ++Row)
+	{
+		for (int32 Col = 0; Col < TotalWidth; ++Col)
+		{
+			AMino* const Mino = nullptr;
+			MinoMatrix.Add(Mino);
 		}
 	}
 }

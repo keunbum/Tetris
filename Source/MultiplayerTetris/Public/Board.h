@@ -34,6 +34,7 @@ public:
 private:
 	void Initialize();
 	void InitializeBackground();
+	void InitializeMinoMatrix();
 
 private:
 	static constexpr int32 TotalHeight = 40;
@@ -46,4 +47,7 @@ private:
 
 	UPROPERTY(EditDefaultsOnly)
 	TArray<TObjectPtr<AMino>> Background;
+
+	UPROPERTY(VisibleAnywhere)
+	TArray<TObjectPtr<AMino>> MinoMatrix;
 };
