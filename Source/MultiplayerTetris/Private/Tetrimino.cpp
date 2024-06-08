@@ -14,7 +14,6 @@ const FVector2D ATetrimino::MoveDirectionDown = MoveDirectionLeft.GetRotated(90.
 
 const TMap<ETetriminoType, FTetrominoInfo> ATetrimino::TetrominoInfos =
 {
-	// O
 	{
 		ETetriminoType::O,
 		{
@@ -27,7 +26,6 @@ const TMap<ETetriminoType, FTetrominoInfo> ATetrimino::TetrominoInfos =
 			TEXT("/Game/Material/M_MinoMaterial_Yellow")
 		}
 	},
-	// I
 	{
 		ETetriminoType::I,
 		{
@@ -40,7 +38,6 @@ const TMap<ETetriminoType, FTetrominoInfo> ATetrimino::TetrominoInfos =
 			TEXT("/Game/Material/M_MinoMaterial_Cyan")
 		}
 	},
-	// T
 	{
 		ETetriminoType::T,
 		{
@@ -53,7 +50,6 @@ const TMap<ETetriminoType, FTetrominoInfo> ATetrimino::TetrominoInfos =
 			TEXT("/Game/Material/M_MinoMaterial_Purple")
 		}
 	},
-	// L
 	{
 		ETetriminoType::L,
 		{
@@ -66,7 +62,6 @@ const TMap<ETetriminoType, FTetrominoInfo> ATetrimino::TetrominoInfos =
 			TEXT("/Game/Material/M_MinoMaterial_Orange")
 		}
 	},
-	// J
 	{
 		ETetriminoType::J,
 		{
@@ -79,7 +74,6 @@ const TMap<ETetriminoType, FTetrominoInfo> ATetrimino::TetrominoInfos =
 			TEXT("/Game/Material/M_MinoMaterial_Blue")
 		}
 	},
-	// S
 	{
 		ETetriminoType::S,
 		{
@@ -92,7 +86,6 @@ const TMap<ETetriminoType, FTetrominoInfo> ATetrimino::TetrominoInfos =
 			TEXT("/Game/Material/M_MinoMaterial_Green")
 		}
 	},
-	// Z
 	{
 		ETetriminoType::Z,
 		{
