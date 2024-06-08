@@ -82,7 +82,7 @@ void ATetrisPlayManager::StartRotate(const int32 RotationDirection)
 {
 	if (TetriminoInPlay)
 	{
-		TetriminoInPlay->RotateTo(RotationDirection);
+		TetriminoInPlay->RotateBy(RotationDirection);
 	}
 }
 
@@ -111,7 +111,7 @@ void ATetrisPlayManager::MoveTo(const FVector2D& Direction)
 		const bool bIsNextPositionPossible = true;
 		if (bIsNextPositionPossible)
 		{
-			TetriminoInPlay->Move(Direction);
+			TetriminoInPlay->MoveBy(Direction);
 		}
 	}
 }
@@ -143,7 +143,7 @@ ATetrimino* ATetrisPlayManager::SpawnNextTetrimino() const
 {
 	if (ATetrimino* const NewTetrimino = GetWorld()->SpawnActor<ATetrimino>(TetriminoClass))
 	{
-		const ETetriminoType NewTetriminoType = ATetrimino::GetTetriminoTypeRandom();
+		const ETetriminoShape NewTetriminoType = ATetrimino::GetTetriminoShapeRandom();
 		NewTetrimino->Initialize(NewTetriminoType);
 		return NewTetrimino;
 	}

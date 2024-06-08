@@ -12,11 +12,10 @@
 #include "Tetrimino.generated.h"
 
 class AMino;
-class ATetrisGameModeBase;
 class UMaterialInterface;
 
 UENUM()
-enum class ETetriminoType : int8
+enum class ETetriminoShape : int8
 {
 	None = -1,
 	O,
@@ -30,7 +29,7 @@ enum class ETetriminoType : int8
 };
 
 UENUM()
-enum class ETetriminoFacingType : uint8
+enum class ETetriminoFacing : uint8
 {
 	North,
 	East,
@@ -39,14 +38,14 @@ enum class ETetriminoFacingType : uint8
 	Max
 };
 
-ENUM_CLASS_OPERATORS(ETetriminoFacingType)
+ENUM_CLASS_OPERATORS(ETetriminoFacing)
 
-struct FTetrominoInfo
+struct FTetriminoInfo
 {
-	TMap<ETetriminoFacingType, TArray<FVector2D>> MinoUnitPositionsByFacing;
+	TMap<ETetriminoFacing, TArray<FVector2D>> MinoUnitPositionsByFacing;
 	FString MaterialPath;
 
-	const TArray<FVector2D>& GetMinoUnitPosition(const ETetriminoFacingType Facing)
+	const TArray<FVector2D>& GetMinoUnitPosition(const ETetriminoFacing Facing)
 	{
 		return MinoUnitPositionsByFacing[Facing];
 	}
@@ -61,12 +60,12 @@ public:
 	// Sets default values for this actor's properties
 	ATetrimino();
 
-	void Initialize(const ETetriminoType NewTetrominoType);
-	void SetTetriminoType(const ETetriminoType NewTetriminoType) { TetriminoType = NewTetriminoType; }
-	void Move(const FVector2D& Direction2D);
-	void RotateTo(const int32 Direction);
+	void Initialize(const ETetriminoShape NewTetrominoType);
+	void SetTetriminoShape(const ETetriminoShape NewTetriminoShape) { TetriminoShape = NewTetriminoShape; }
+	void MoveBy(const FVector2D& Direction2D);
+	void RotateBy(const int32 Value);
 
-	static ETetriminoType GetTetriminoTypeRandom();
+	static ETetriminoShape GetTetriminoShapeRandom();
 
 protected:
 	// Called when the game starts or when spawned
@@ -77,31 +76,31 @@ public:
 	virtual void Tick(const float DeltaTime) override;
 
 protected:
-	void SetFacingType(const ETetriminoFacingType NewFacingType) { FacingType = NewFacingType; }
+	void SetFacing(const ETetriminoFacing NewFacing) { Facing = NewFacing; }
 
 	void InitializeMinos();
 	void UpdateMinoPositions();
 
 	void DebugPrintState() const;
 
-	static bool GetTetrominoInfo(FTetrominoInfo& OutTetrominoInfo, const ETetriminoType TetriminoType);
-	static UMaterialInterface* GetMaterialByTetrominoInfo(const FTetrominoInfo& TetrominoInfo);
-	static FString GetTetrominoTypeName(const ETetriminoType TetriminoType);
-	static FString GetFacingTypeName(const ETetriminoFacingType FacingType);
+	static bool GetTetriminoInfoByShape(FTetriminoInfo& OutTetriminoInfo, const ETetriminoShape TetriminoShape);
+	static UMaterialInterface* GetMaterialByTetriminoInfo(const FTetriminoInfo& TetriminoInfo);
+	static FString GetTetriminoShapeName(const ETetriminoShape TetriminoShape);
+	static FString GetFacingName(const ETetriminoFacing Facing);
 public:
 	static constexpr int32 MinoNum = 4;
 	static const FVector2D MoveDirectionLeft;
 	static const FVector2D MoveDirectionRight;
 	static const FVector2D MoveDirectionDown;
 
-	static const TMap<ETetriminoType, FTetrominoInfo> TetrominoInfos;
+	static const TMap<ETetriminoShape, FTetriminoInfo> TetriminoInfos;
 
 private:
 	UPROPERTY(VisibleAnywhere)
-	ETetriminoType TetriminoType;
+	ETetriminoShape TetriminoShape;
 
 	UPROPERTY(VisibleAnywhere)
-	ETetriminoFacingType FacingType;
+	ETetriminoFacing Facing;
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<AMino> MinoClass;

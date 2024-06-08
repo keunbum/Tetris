@@ -12,88 +12,88 @@ const FVector2D ATetrimino::MoveDirectionLeft = FVector2D(0, -1);
 const FVector2D ATetrimino::MoveDirectionRight = -MoveDirectionLeft;
 const FVector2D ATetrimino::MoveDirectionDown = MoveDirectionLeft.GetRotated(90.f);
 
-const TMap<ETetriminoType, FTetrominoInfo> ATetrimino::TetrominoInfos =
+const TMap<ETetriminoShape, FTetriminoInfo> ATetrimino::TetriminoInfos =
 {
 	{
-		ETetriminoType::O,
+		ETetriminoShape::O,
 		{
 			{
-				{ ETetriminoFacingType::North, { {1, 1}, {1, 2}, {2, 1}, {2, 2} } },
-				{ ETetriminoFacingType::East, { {1, 1}, {1, 2}, {2, 1}, {2, 2} } },
-				{ ETetriminoFacingType::South, { {1, 1}, {1, 2}, {2, 1}, {2, 2} } },
-				{ ETetriminoFacingType::West, { {1, 1}, {1, 2}, {2, 1}, {2, 2} } }
+				{ ETetriminoFacing::North, { {1, 1}, {1, 2}, {2, 1}, {2, 2} } },
+				{ ETetriminoFacing::East, { {1, 1}, {1, 2}, {2, 1}, {2, 2} } },
+				{ ETetriminoFacing::South, { {1, 1}, {1, 2}, {2, 1}, {2, 2} } },
+				{ ETetriminoFacing::West, { {1, 1}, {1, 2}, {2, 1}, {2, 2} } }
 			},
 			TEXT("/Game/Material/M_MinoMaterial_Yellow")
 		}
 	},
 	{
-		ETetriminoType::I,
+		ETetriminoShape::I,
 		{
 			{
-				{ ETetriminoFacingType::North, { {1, 0}, {1, 1}, {1, 2}, {1, 3} } },
-				{ ETetriminoFacingType::East, { {0, 2}, {1, 2}, {2, 2}, {3, 2} } },
-				{ ETetriminoFacingType::South, { {2, 0}, {2, 1}, {2, 2}, {2, 3} } },
-				{ ETetriminoFacingType::West, { {0, 1}, {1, 1}, {2, 1}, {3, 1} } }
+				{ ETetriminoFacing::North, { {1, 0}, {1, 1}, {1, 2}, {1, 3} } },
+				{ ETetriminoFacing::East, { {0, 2}, {1, 2}, {2, 2}, {3, 2} } },
+				{ ETetriminoFacing::South, { {2, 0}, {2, 1}, {2, 2}, {2, 3} } },
+				{ ETetriminoFacing::West, { {0, 1}, {1, 1}, {2, 1}, {3, 1} } }
 			},
 			TEXT("/Game/Material/M_MinoMaterial_Cyan")
 		}
 	},
 	{
-		ETetriminoType::T,
+		ETetriminoShape::T,
 		{
 			{
-				{ ETetriminoFacingType::North, { {1, 1}, {2, 0}, {2, 1}, {2, 2} } },
-				{ ETetriminoFacingType::East, { {1, 1}, {2, 1}, {2, 2}, {3, 1} } },
-				{ ETetriminoFacingType::South, { {2, 0}, {2, 1}, {2, 2}, {3, 1} } },
-				{ ETetriminoFacingType::West, { {1, 1}, {2, 0}, {2, 1}, {3, 1} } }
+				{ ETetriminoFacing::North, { {1, 1}, {2, 0}, {2, 1}, {2, 2} } },
+				{ ETetriminoFacing::East, { {1, 1}, {2, 1}, {2, 2}, {3, 1} } },
+				{ ETetriminoFacing::South, { {2, 0}, {2, 1}, {2, 2}, {3, 1} } },
+				{ ETetriminoFacing::West, { {1, 1}, {2, 0}, {2, 1}, {3, 1} } }
 			},
 			TEXT("/Game/Material/M_MinoMaterial_Purple")
 		}
 	},
 	{
-		ETetriminoType::L,
+		ETetriminoShape::L,
 		{
 			{
-				{ ETetriminoFacingType::North, { {1, 2}, {2, 0}, {2, 1}, {2, 2} } },
-				{ ETetriminoFacingType::East, { {1, 1}, {2, 1}, {3, 1}, {3, 2} } },
-				{ ETetriminoFacingType::South, { {2, 0}, {2, 1}, {2, 2}, {3, 0} } },
-				{ ETetriminoFacingType::West, { {1, 0}, {1, 1}, {2, 1}, {3, 1} } }
+				{ ETetriminoFacing::North, { {1, 2}, {2, 0}, {2, 1}, {2, 2} } },
+				{ ETetriminoFacing::East, { {1, 1}, {2, 1}, {3, 1}, {3, 2} } },
+				{ ETetriminoFacing::South, { {2, 0}, {2, 1}, {2, 2}, {3, 0} } },
+				{ ETetriminoFacing::West, { {1, 0}, {1, 1}, {2, 1}, {3, 1} } }
 			},
 			TEXT("/Game/Material/M_MinoMaterial_Orange")
 		}
 	},
 	{
-		ETetriminoType::J,
+		ETetriminoShape::J,
 		{
 			{
-				{ ETetriminoFacingType::North, { {1, 0}, {2, 0}, {2, 1}, {2, 2} } },
-				{ ETetriminoFacingType::East, { {1, 1}, {1, 2}, {2, 1}, {3, 1} } },
-				{ ETetriminoFacingType::South, { {2, 0}, {2, 1}, {2, 2}, {3, 2} } },
-				{ ETetriminoFacingType::West, { {1, 1}, {2, 1}, {3, 0}, {3, 1} } }
+				{ ETetriminoFacing::North, { {1, 0}, {2, 0}, {2, 1}, {2, 2} } },
+				{ ETetriminoFacing::East, { {1, 1}, {1, 2}, {2, 1}, {3, 1} } },
+				{ ETetriminoFacing::South, { {2, 0}, {2, 1}, {2, 2}, {3, 2} } },
+				{ ETetriminoFacing::West, { {1, 1}, {2, 1}, {3, 0}, {3, 1} } }
 			},
 			TEXT("/Game/Material/M_MinoMaterial_Blue")
 		}
 	},
 	{
-		ETetriminoType::S,
+		ETetriminoShape::S,
 		{
 			{
-				{ ETetriminoFacingType::North, { {1, 1}, {1, 2}, {2, 0}, {2, 1} } },
-				{ ETetriminoFacingType::East, { {1, 1}, {2, 1}, {2, 2}, {3, 2} } },
-				{ ETetriminoFacingType::South, { {2, 1}, {2, 2}, {3, 0}, {3, 1} } },
-				{ ETetriminoFacingType::West, { {1, 0}, {2, 0}, {2, 1}, {3, 1} } }
+				{ ETetriminoFacing::North, { {1, 1}, {1, 2}, {2, 0}, {2, 1} } },
+				{ ETetriminoFacing::East, { {1, 1}, {2, 1}, {2, 2}, {3, 2} } },
+				{ ETetriminoFacing::South, { {2, 1}, {2, 2}, {3, 0}, {3, 1} } },
+				{ ETetriminoFacing::West, { {1, 0}, {2, 0}, {2, 1}, {3, 1} } }
 			},
 			TEXT("/Game/Material/M_MinoMaterial_Green")
 		}
 	},
 	{
-		ETetriminoType::Z,
+		ETetriminoShape::Z,
 		{
 			{
-				{ ETetriminoFacingType::North, { {1, 0}, {1, 1}, {2, 1}, {2, 2} } },
-				{ ETetriminoFacingType::East, { {1, 2}, {2, 1}, {2, 2}, {3, 1} } },
-				{ ETetriminoFacingType::South, { {2, 0}, {2, 1}, {3, 1}, {3, 2} } },
-				{ ETetriminoFacingType::West, { {1, 1}, {2, 0}, {2, 1}, {3, 0} } }
+				{ ETetriminoFacing::North, { {1, 0}, {1, 1}, {2, 1}, {2, 2} } },
+				{ ETetriminoFacing::East, { {1, 2}, {2, 1}, {2, 2}, {3, 1} } },
+				{ ETetriminoFacing::South, { {2, 0}, {2, 1}, {3, 1}, {3, 2} } },
+				{ ETetriminoFacing::West, { {1, 1}, {2, 0}, {2, 1}, {3, 0} } }
 			},
 			TEXT("/Game/Material/M_MinoMaterial_Red")
 		}
@@ -101,8 +101,8 @@ const TMap<ETetriminoType, FTetrominoInfo> ATetrimino::TetrominoInfos =
 };
 
 ATetrimino::ATetrimino()
-	: TetriminoType(ETetriminoType::None)
-	, FacingType(ETetriminoFacingType::North)
+	: TetriminoShape(ETetriminoShape::None)
+	, Facing(ETetriminoFacing::North)
 	, MinoClass(AMino::StaticClass())
 	, Minos()
 	, bIsGhostPieceOn(true)
@@ -125,40 +125,40 @@ void ATetrimino::Tick(const float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-void ATetrimino::Initialize(const ETetriminoType NewTetrominoType)
+void ATetrimino::Initialize(const ETetriminoShape NewTetriminoShape)
 {
-	SetTetriminoType(NewTetrominoType);
+	SetTetriminoShape(NewTetriminoShape);
 	InitializeMinos();
 }
 
-void ATetrimino::Move(const FVector2D& Direction2D)
+void ATetrimino::MoveBy(const FVector2D& Vector2D)
 {
-	const FVector DeltaLocation(AMino::Get3DRelativePositionByUnitVector2D(Direction2D));
+	const FVector DeltaLocation(AMino::Get3DRelativePositionByUnitVector2D(Vector2D));
 	AddActorLocalOffset(DeltaLocation);
 	//DebugPrintState();
 }
 
-void ATetrimino::RotateTo(const int32 Direction)
+void ATetrimino::RotateBy(const int32 Value)
 {
-	SetFacingType(FacingType + Direction);
+	SetFacing(Facing + Value);
 	UpdateMinoPositions();
 }
 
 void ATetrimino::InitializeMinos()
 {
-	FTetrominoInfo Info;
-	if (!GetTetrominoInfo(Info, TetriminoType))
+	FTetriminoInfo TetriminoInfo;
+	if (!GetTetriminoInfoByShape(TetriminoInfo, TetriminoShape))
 	{
 		return;
 	}
 
-	UMaterialInterface* const MinoMaterial = GetMaterialByTetrominoInfo(Info);
+	UMaterialInterface* const MinoMaterial = GetMaterialByTetriminoInfo(TetriminoInfo);
 	if (!MinoMaterial)
 	{
 		return;
 	}
 
-	const TArray<FVector2D>& MinoUnitPositions = Info.GetMinoUnitPosition(FacingType);
+	const TArray<FVector2D>& MinoUnitPositions = TetriminoInfo.GetMinoUnitPosition(Facing);
 	check(MinoUnitPositions.Num() == MinoNum);
 
 	for (int32 MinoID = 0; MinoID < MinoNum; ++MinoID)
@@ -178,16 +178,16 @@ void ATetrimino::InitializeMinos()
 
 void ATetrimino::UpdateMinoPositions()
 {
-	FTetrominoInfo Info;
-	if (!GetTetrominoInfo(Info, TetriminoType))
+	FTetriminoInfo TetriminoInfo;
+	if (!GetTetriminoInfoByShape(TetriminoInfo, TetriminoShape))
 	{
 		return;
 	}
 
-	UE_LOG(LogTemp, Warning, TEXT("FacingType: %d, %s"), static_cast<int32>(FacingType), *GetFacingTypeName(FacingType));
-	check(0 <= static_cast<int32>(FacingType) && static_cast<int32>(FacingType) <= Info.MinoUnitPositionsByFacing.Num());
+	UE_LOG(LogTemp, Warning, TEXT("Facing: %d, %s"), static_cast<int32>(Facing), *GetFacingName(Facing));
+	check(0 <= static_cast<int32>(Facing) && static_cast<int32>(Facing) <= TetriminoInfo.MinoUnitPositionsByFacing.Num());
 
-	const TArray<FVector2D>& MinoUnitPositions = Info.GetMinoUnitPosition(FacingType);
+	const TArray<FVector2D>& MinoUnitPositions = TetriminoInfo.GetMinoUnitPosition(Facing);
 	for (int32 MinoID = 0; MinoID < MinoNum; ++MinoID)
 	{
 		if (AMino* const Mino = Minos[MinoID])
@@ -201,7 +201,7 @@ void ATetrimino::UpdateMinoPositions()
 
 void ATetrimino::DebugPrintState() const
 {
-	UE_LOG(LogTemp, Log, TEXT("TetriminoInPlay Type: %s"), *GetTetrominoTypeName(TetriminoType));
+	UE_LOG(LogTemp, Log, TEXT("TetriminoInPlay Type: %s"), *GetTetriminoShapeName(TetriminoShape));
 	UE_LOG(LogTemp, Log, TEXT("Tetromino: Location: %s"), *GetActorLocation().ToString());
 
 	for (int32 Index = 0; Index < MinoNum; ++Index)
@@ -214,68 +214,68 @@ void ATetrimino::DebugPrintState() const
 	}
 }
 
-bool ATetrimino::GetTetrominoInfo(FTetrominoInfo& OutTetrominoInfo, const ETetriminoType TetriminoType)
+bool ATetrimino::GetTetriminoInfoByShape(FTetriminoInfo& OutTetriminoInfo, const ETetriminoShape TetriminoShape)
 {
-	if (const FTetrominoInfo* TetrominoInfo = TetrominoInfos.Find(TetriminoType))
+	if (const FTetriminoInfo* TetriminoInfo = TetriminoInfos.Find(TetriminoShape))
 	{
-		OutTetrominoInfo = *TetrominoInfo;
+		OutTetriminoInfo = *TetriminoInfo;
 		return true;
 	}
-	UE_LOG(LogTemp, Error, TEXT("Invalid TetriminoType: %s\n"), *GetTetrominoTypeName(TetriminoType));
+	UE_LOG(LogTemp, Error, TEXT("Invalid TetriminoShape: %s\n"), *GetTetriminoShapeName(TetriminoShape));
 	return false;
 }
 
-UMaterialInterface* ATetrimino::GetMaterialByTetrominoInfo(const FTetrominoInfo& TetrominoInfo)
+UMaterialInterface* ATetrimino::GetMaterialByTetriminoInfo(const FTetriminoInfo& TetriminoInfo)
 {
-	UMaterialInterface* const MinoMaterial = Cast<UMaterialInterface>(StaticLoadObject(UMaterialInterface::StaticClass(), nullptr, *TetrominoInfo.MaterialPath));
+	UMaterialInterface* const MinoMaterial = Cast<UMaterialInterface>(StaticLoadObject(UMaterialInterface::StaticClass(), nullptr, *TetriminoInfo.MaterialPath));
 	if (!MinoMaterial)
 	{
-		UE_LOG(LogTemp, Error, TEXT("Failed to load material: %s"), *TetrominoInfo.MaterialPath);
+		UE_LOG(LogTemp, Error, TEXT("Failed to load material: %s"), *TetriminoInfo.MaterialPath);
 	}
 	return MinoMaterial;
 }
 
-FString ATetrimino::GetTetrominoTypeName(const ETetriminoType TetriminoType)
+FString ATetrimino::GetTetriminoShapeName(const ETetriminoShape TetriminoShape)
 {
-	static const TMap<ETetriminoType, FString> TetrominoTypeNames =
+	static const TMap<ETetriminoShape, FString> TetrominoTypeNames =
 	{
-		{ETetriminoType::O, TEXT("O")},
-		{ETetriminoType::I, TEXT("I")},
-		{ETetriminoType::T, TEXT("T")},
-		{ETetriminoType::L, TEXT("L")},
-		{ETetriminoType::J, TEXT("J")},
-		{ETetriminoType::S, TEXT("S")},
-		{ETetriminoType::Z, TEXT("Z")}
+		{ETetriminoShape::O, TEXT("O")},
+		{ETetriminoShape::I, TEXT("I")},
+		{ETetriminoShape::T, TEXT("T")},
+		{ETetriminoShape::L, TEXT("L")},
+		{ETetriminoShape::J, TEXT("J")},
+		{ETetriminoShape::S, TEXT("S")},
+		{ETetriminoShape::Z, TEXT("Z")}
 	};
 
-	if (const FString* Name = TetrominoTypeNames.Find(TetriminoType))
+	if (const FString* Name = TetrominoTypeNames.Find(TetriminoShape))
 	{
 		return *Name;
 	}
 	return TEXT("None");
 }
 
-FString ATetrimino::GetFacingTypeName(const ETetriminoFacingType FacingType)
+FString ATetrimino::GetFacingName(const ETetriminoFacing Facing)
 {
-	static const TMap<ETetriminoFacingType, FString> TetrominoFacingTypeNames =
+	static const TMap<ETetriminoFacing, FString> TetriminoFacingNames =
 	{
-		{ETetriminoFacingType::North, TEXT("North")},
-		{ETetriminoFacingType::East, TEXT("East")},
-		{ETetriminoFacingType::South, TEXT("South")},
-		{ETetriminoFacingType::West, TEXT("West")},
+		{ETetriminoFacing::North, TEXT("North")},
+		{ETetriminoFacing::East, TEXT("East")},
+		{ETetriminoFacing::South, TEXT("South")},
+		{ETetriminoFacing::West, TEXT("West")},
 	};
 
-	if (const FString* Name = TetrominoFacingTypeNames.Find(FacingType))
+	if (const FString* Name = TetriminoFacingNames.Find(Facing))
 	{
 		return *Name;
 	}
 	return TEXT("None");
 }
 
-ETetriminoType ATetrimino::GetTetriminoTypeRandom()
+ETetriminoShape ATetrimino::GetTetriminoShapeRandom()
 {
-	const int32 RandomIndex = FMath::RandRange(0, static_cast<int32>(ETetriminoType::Max) - 1);
-	const ETetriminoType TetriminoType = static_cast<ETetriminoType>(RandomIndex);
-	return TetriminoType;
+	const int32 RandomIndex = FMath::RandRange(0, static_cast<int32>(ETetriminoShape::Max) - 1);
+	const ETetriminoShape TetriminoShape = static_cast<ETetriminoShape>(RandomIndex);
+	return TetriminoShape;
 }
 

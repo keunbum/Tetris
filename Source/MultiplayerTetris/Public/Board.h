@@ -42,7 +42,7 @@ private:
 	static const FString BackgroundMinoMaterialPath;
 
 	UPROPERTY(EditDefaultsOnly)
-	ETetriminoType TestType = ETetriminoType::S;
+	ETetriminoShape TestType = ETetriminoShape::S;
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<AMino> MinoClass;
