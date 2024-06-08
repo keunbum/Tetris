@@ -153,6 +153,6 @@ ATetrimino* ATetrisPlayManager::SpawnNextTetrimino() const
 void ATetrisPlayManager::AttachTetrimino(ATetrimino* const NewTetrimino)
 {
 	check(NewTetrimino != nullptr);
-	Board->AttachTetromino(NewTetrimino);
+	Board->AttachTetrimino(NewTetrimino);
 	SetTetrominoInPlay(NewTetrimino);
 }

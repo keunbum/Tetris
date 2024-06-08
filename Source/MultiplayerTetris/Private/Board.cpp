@@ -10,8 +10,6 @@
 
 #include "Mino.h"
 #include "Tetrimino.h"
-#include "TetrisPlayManager.h"
-#include "TetrisGameModeBase.h"
 
 const FString ABoard::BackgroundMinoMaterialPath = TEXT("/Game/Material/M_MinoMaterial_Grey");
 
@@ -34,7 +32,6 @@ void ABoard::BeginPlay()
 	Super::BeginPlay();
 	
 	Initialize();
-	//TestTetrominoSpawning();
 }
 
 // Called every frame
@@ -43,10 +40,10 @@ void ABoard::Tick(const float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-void ABoard::AttachTetromino(ATetrimino* const NewTetromino)
+void ABoard::AttachTetrimino(ATetrimino* const NewTetrimino)
 {
-	check(NewTetromino != nullptr);
-	NewTetromino->AttachToActor(this, FAttachmentTransformRules::KeepRelativeTransform);
+	check(NewTetrimino != nullptr);
+	NewTetrimino->AttachToActor(this, FAttachmentTransformRules::KeepRelativeTransform);
 }
 
 void ABoard::Initialize()
@@ -68,16 +65,16 @@ void ABoard::InitializeBackground()
 	{
 		for (int32 Col = 0; Col < TotalWidth; ++Col)
 		{
-			if (AMino* const Mino = GetWorld()->SpawnActor<AMino>(MinoClass, FVector::ZeroVector, FRotator::ZeroRotator))
-			{
-				Mino->SetMaterial(BackgroundMinoMaterial);
+			AMino* const Mino = GetWorld()->SpawnActor<AMino>(MinoClass, FVector::ZeroVector, FRotator::ZeroRotator);
+			check(Mino != nullptr);
 
-				Mino->AttachToActor(this, FAttachmentTransformRules::KeepRelativeTransform);
-				const FVector2D MinoUnitPosition(Row, Col);
-				Mino->SetRelativeLocationByUnitVector2D(MinoUnitPosition);
+			Mino->SetMaterial(BackgroundMinoMaterial);
 
-				Background.Add(Mino);
-			}
+			Mino->AttachToActor(this, FAttachmentTransformRules::KeepRelativeTransform);
+			const FVector2D MinoUnitPosition(Row, Col);
+			Mino->SetRelativeLocationByUnitVector2D(MinoUnitPosition);
+
+			Background.Add(Mino);
 		}
 	}
 }

@@ -29,7 +29,7 @@ public:
 	virtual void Tick(const float DeltaTime) override;
 
 public:
-	void AttachTetromino(ATetrimino* const NewTetromino);
+	void AttachTetrimino(ATetrimino* const NewTetrimino);
 
 private:
 	void Initialize();
@@ -40,9 +40,6 @@ private:
 	static constexpr int32 VisibleHeight = 20;
 	static constexpr int32 TotalWidth = 10;
 	static const FString BackgroundMinoMaterialPath;
-
-	UPROPERTY(EditDefaultsOnly)
-	ETetriminoShape TestType = ETetriminoShape::S;
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<AMino> MinoClass;
