@@ -13,6 +13,7 @@
 #include "Tetrimino.generated.h"
 
 class AMino;
+class ABoard;
 class UMaterialInterface;
 
 UENUM()
@@ -66,6 +67,7 @@ public:
 	void SetTetriminoShape(const ETetriminoShape NewTetriminoShape) { TetriminoShape = NewTetriminoShape; }
 	void MoveBy(const FVector2D& Vector2D);
 	void RotateBy(const int32 Value);
+	void AttachToBoard(ABoard* const Board);
 
 	static ETetriminoShape GetTetriminoShapeRandom();
 

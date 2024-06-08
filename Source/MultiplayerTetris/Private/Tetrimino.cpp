@@ -157,6 +157,11 @@ void ATetrimino::RotateBy(const int32 Value)
 	UpdateMinoPositions();
 }
 
+void ATetrimino::AttachToBoard(ABoard* const Board)
+{
+	AttachToActor(Board, FAttachmentTransformRules::KeepRelativeTransform);
+}
+
 void ATetrimino::InitializeMinos(const FTetriminoInfo& TetriminoInfo)
 {
 	UMaterialInterface* const MinoMaterial = GetMaterialByTetriminoInfo(TetriminoInfo);
