@@ -140,9 +140,8 @@ void ATetrisPlayManager::RotateTetriminoTo(const int32 RotationDirection)
 
 void ATetrisPlayManager::RunSuperRotationSystem(const int32 RotationDirection)
 {
-	{
-		RotateTetriminoTo(RotationDirection);
-	}
+	// TODO: SRS must be applied.
+	RotateTetriminoTo(RotationDirection);
 }
 
 void ATetrisPlayManager::SetAutoRepeatMovement()
