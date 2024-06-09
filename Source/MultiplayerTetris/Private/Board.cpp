@@ -30,7 +30,8 @@ ABoard::ABoard()
 
 bool ABoard::IsMovementPossible(const ATetrimino* Tetrimino, const FIntPoint& MovementIntPoint2D) const
 {
-	return IsMovementWithinRange(Tetrimino, MovementIntPoint2D);
+	const FIntPoint NewTetriminoMatrixLocation = Tetrimino->GetMatrixLocation() + MovementIntPoint2D;
+	return IsMinoLocationsPossible(NewTetriminoMatrixLocation, Tetrimino->GetMinoLocalMatrixLocations());
 }
 
 // Called when the game starts or when spawned
@@ -97,13 +98,14 @@ void ABoard::InitializeMinoMatrix()
 	}
 }
 
-bool ABoard::IsMovementWithinRange(const ATetrimino* Tetrimino, const FIntPoint& MovementIntPoint2D) const
+bool ABoard::IsMinoLocationsPossible(const FIntPoint& TetriminoMatrixLocation, const TArray<FIntPoint>& MinoLocalMatrixLocations) const
 {
-	const TArray<FIntPoint>& MinoLocalMatrixLocations = Tetrimino->GetMinoLocalMatrixLocations();
-	return Algo::AllOf(MinoLocalMatrixLocations, [&MovementIntPoint2D, &Tetrimino](const FIntPoint& MatrixLocation) {
-		const FIntPoint NextMatrixLocation = Tetrimino->GetMatrixLocation() + MatrixLocation + MovementIntPoint2D;
-		return NextMatrixLocation.X < VisibleEndRow && FMath::IsWithin(NextMatrixLocation.Y, VisibleBeginCol, VisibleEndCol);
-		});
+	UE_LOG(LogTemp, Display, TEXT("IsMinoLocationsPossible()"));
+	return Algo::AllOf(MinoLocalMatrixLocations, [&TetriminoMatrixLocation](const FIntPoint& MinoLocalMatrixLocation) {
+		const FIntPoint NewMinoLocalMatrixLocation = TetriminoMatrixLocation + MinoLocalMatrixLocation;
+		return FMath::IsWithin(NewMinoLocalMatrixLocation.X, TotalBeginRow, VisibleEndRow) && FMath::IsWithin(NewMinoLocalMatrixLocation.Y, VisibleBeginCol, VisibleEndCol);
+		}
+	);
 }
 
 UMaterialInterface* ABoard::GetMinoMaterialByPath(const FString& Path)

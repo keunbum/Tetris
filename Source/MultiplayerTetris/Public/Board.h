@@ -35,13 +35,16 @@ private:
 	void InitializeBackground();
 	void InitializeMinoMatrix();
 
-	bool IsMovementWithinRange(const ATetrimino* Tetrimino, const FIntPoint& MovementIntPoint2D) const;
+	bool IsMinoLocationsPossible(const FIntPoint& TetriminoMatrixLocation, const TArray<FIntPoint>& MinoLocalMatrixLocations) const;
 
 	static UMaterialInterface* GetMinoMaterialByPath(const FString& Path);
 
 public:
 	static constexpr int32 TotalHeight = 40;
 	static constexpr int32 TotalWidth = 10;
+	/** [TotalBeginRow, TotalHeight) */
+	static constexpr int32 TotalBeginRow = 0;
+	static constexpr int32 TotalEndRow = TotalBeginRow + TotalHeight;
 
 	static constexpr int32 VisibleHeight = 20;
 	static constexpr int32 VisibleWidth = 10;
