@@ -99,11 +99,9 @@ void ABoard::InitializeMinoMatrix()
 
 bool ABoard::IsMovementWithinRange(const ATetrimino* Tetrimino, const FIntPoint& MovementIntPoint2D) const
 {
-	UE_LOG(LogTemp, Display, TEXT("ABoard::IsMovementWithinRange()"));
 	const TArray<FIntPoint>& MinoLocalMatrixLocations = Tetrimino->GetMinoLocalMatrixLocations();
 	return Algo::AllOf(MinoLocalMatrixLocations, [&MovementIntPoint2D, &Tetrimino](const FIntPoint& MatrixLocation) {
 		const FIntPoint NextMatrixLocation = Tetrimino->GetMatrixLocation() + MatrixLocation + MovementIntPoint2D;
-		UE_LOG(LogTemp, Display, TEXT("NextMatrixLocation: %s"), *NextMatrixLocation.ToString());
 		return NextMatrixLocation.X < VisibleEndRow && FMath::IsWithin(NextMatrixLocation.Y, VisibleBeginCol, VisibleEndCol);
 		});
 }

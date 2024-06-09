@@ -153,8 +153,6 @@ void ATetrimino::Initialize(const ETetriminoShape NewTetriminoShape)
 	const FTetriminoInfo& TetriminoInfo = ATetrimino::GetTetriminoInfoByShape(TetriminoShape);
 
 	InitializeMinoArray(TetriminoInfo);
-	//MatrixLocation = TetriminoInfo.InitialMatrixLocation;
-	UE_LOG(LogTemp, Display, TEXT("ATetrimino::Initialize() MatrixLocation: %s"), *MatrixLocation.ToString());
 }
 
 void ATetrimino::MoveBy(const FIntPoint& IntPoint2D)
@@ -175,7 +173,6 @@ void ATetrimino::AttachToBoard(ABoard* const Board)
 {
 	AttachToActor(Board, FAttachmentTransformRules::KeepRelativeTransform);
 	MoveBy(GetInitialMatrixLocation());
-	UE_LOG(LogTemp, Display, TEXT("ATetrimino::AttachToBoard() MatrixLocation: %s"), *MatrixLocation.ToString());
 }
 
 void ATetrimino::InitializeMinoArray(const FTetriminoInfo& TetriminoInfo)
