@@ -63,6 +63,8 @@ public:
 	// Sets default values for this actor's properties
 	ATetrimino();
 
+	const TArray<TObjectPtr<AMino>>& GetMinoArray() const { return MinoArray; }
+
 	void Initialize(const ETetriminoShape NewTetriminoShape);
 	void SetTetriminoShape(const ETetriminoShape NewTetriminoShape) { TetriminoShape = NewTetriminoShape; }
 	void MoveBy(const FIntVector2& IntVector2D);
