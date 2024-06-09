@@ -37,7 +37,7 @@ protected:
 
 private:
 	void Initialize();
-	void StartGenerationPhase();
+	void StartGamePlay();
 	void StartCompletionPhase();
 
 	static float CalculateNormalFallSpeed(const int32 Level);

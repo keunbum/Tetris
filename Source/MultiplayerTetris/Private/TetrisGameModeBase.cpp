@@ -32,7 +32,7 @@ void ATetrisGameModeBase::BeginPlay()
 	Super::BeginPlay();
 
 	Initialize();
-	StartGenerationPhase();
+	StartGamePlay();
 }
 
 void ATetrisGameModeBase::Initialize()
@@ -45,7 +45,7 @@ void ATetrisGameModeBase::Initialize()
 	check(TetrisPlayManager != nullptr);
 }
 
-void ATetrisGameModeBase::StartGenerationPhase()
+void ATetrisGameModeBase::StartGamePlay()
 {
 	TetrisPlayManager->StartGenerationPhase();
 }
