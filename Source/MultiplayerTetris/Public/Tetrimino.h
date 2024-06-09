@@ -47,6 +47,7 @@ struct FTetriminoInfo
 	TMap<ETetriminoFacing, TArray<FIntPoint>> MinoLocalMatrixLocationsByFacing;
 	FString MaterialPath;
 	FIntPoint InitialMatrixLocation;
+	TMap<ETetriminoFacing, TArray<FIntPoint>> SRSRotationPointTable; // Super Rotation System Rotation Point Table
 
 	const TArray<FIntPoint>& GetMinoLocalMatrixLocationsByFacing(const ETetriminoFacing Facing) const
 	{

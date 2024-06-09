@@ -23,9 +23,15 @@ const TMap<ETetriminoShape, FTetriminoInfo> ATetrimino::TetriminoInfos =
 				{ ETetriminoFacing::East, { {1, 1}, {1, 2}, {2, 1}, {2, 2} } },
 				{ ETetriminoFacing::South, { {1, 1}, {1, 2}, {2, 1}, {2, 2} } },
 				{ ETetriminoFacing::West, { {1, 1}, {1, 2}, {2, 1}, {2, 2} } }
-			}, // TMap<ETetriminoFacing, TArray<FVector2D>>
+			},
 			TEXT("/Game/Material/M_MinoMaterial_Yellow"),
-			FIntPoint(ABoard::TetriminoDefaultSpawnLocationX - 2, ABoard::TetriminoDefaultSpawnLocationY),                              // FIntPoint
+			FIntPoint(ABoard::TetriminoDefaultSpawnLocationX - 2, ABoard::TetriminoDefaultSpawnLocationY),
+			{
+				{ETetriminoFacing::North, {{0, 0}}},
+				{ETetriminoFacing::East, {{0, 0}}},
+				{ETetriminoFacing::South, {{0, 0}}},
+				{ETetriminoFacing::West, {{0, 0}}}
+			}
 		}
 	},
 	{
@@ -38,7 +44,13 @@ const TMap<ETetriminoShape, FTetriminoInfo> ATetrimino::TetriminoInfos =
 				{ ETetriminoFacing::West, { {0, 1}, {1, 1}, {2, 1}, {3, 1} } }
 			},
 			TEXT("/Game/Material/M_MinoMaterial_Cyan"),
-			FIntPoint(ABoard::TetriminoDefaultSpawnLocationX - 1, ABoard::TetriminoDefaultSpawnLocationY),                              // FIntPoint
+			FIntPoint(ABoard::TetriminoDefaultSpawnLocationX - 1, ABoard::TetriminoDefaultSpawnLocationY),
+			{
+				{ETetriminoFacing::North, {{0, 0}, {0, -2}, {0, 1}, {-1, -2}, {2, 1}}},
+				{ETetriminoFacing::East, {{0, 0}, {0, 2}, {0, -1}, {1, 2}, {-2, -1}}},
+				{ETetriminoFacing::South, {{0, 0}, {0, -2}, {0, 1}, {-1, -2}, {2, 1}}},
+				{ETetriminoFacing::West, {{0, 0}, {0, 2}, {0, -1}, {1, 2}, {-2, -1}}}
+			}
 		}
 	},
 	{
@@ -51,7 +63,13 @@ const TMap<ETetriminoShape, FTetriminoInfo> ATetrimino::TetriminoInfos =
 				{ ETetriminoFacing::West, { {1, 1}, {2, 0}, {2, 1}, {3, 1} } }
 			},
 			TEXT("/Game/Material/M_MinoMaterial_Purple"),
-			FIntPoint(ABoard::TetriminoDefaultSpawnLocationX - 2, ABoard::TetriminoDefaultSpawnLocationY)                               // FIntPoint
+			FIntPoint(ABoard::TetriminoDefaultSpawnLocationX - 2, ABoard::TetriminoDefaultSpawnLocationY),
+			{
+				{ETetriminoFacing::North, {{0, 0}, {0, -1}, {1, -1}, {1, 1}, {-2, 0}}},
+				{ETetriminoFacing::East, {{0, 0}, {1, 0}, {-1, 0}, {-1, -1}, {2, 0}}},
+				{ETetriminoFacing::South, {{0, 0}, {0, 1}, {-1, 1}, {-1, -1}, {2, 0}}},
+				{ETetriminoFacing::West, {{0, 0}, {-1, 0}, {1, 0}, {1, 1}, {-2, 0}}}
+			}
 		}
 	},
 	{
@@ -64,7 +82,13 @@ const TMap<ETetriminoShape, FTetriminoInfo> ATetrimino::TetriminoInfos =
 				{ ETetriminoFacing::West, { {1, 0}, {1, 1}, {2, 1}, {3, 1} } }
 			},
 			TEXT("/Game/Material/M_MinoMaterial_Orange"),
-			FIntPoint(ABoard::TetriminoDefaultSpawnLocationX - 2, ABoard::TetriminoDefaultSpawnLocationY)                               // FIntPoint
+			FIntPoint(ABoard::TetriminoDefaultSpawnLocationX - 2, ABoard::TetriminoDefaultSpawnLocationY),
+			{
+				{ETetriminoFacing::North, {{0, 0}, {0, -1}, {1, -1}, {1, 1}, {-2, 0}}},
+				{ETetriminoFacing::East, {{0, 0}, {1, 0}, {-1, 0}, {-1, -1}, {2, 0}}},
+				{ETetriminoFacing::South, {{0, 0}, {0, 1}, {-1, 1}, {-1, -1}, {2, 0}}},
+				{ETetriminoFacing::West, {{0, 0}, {-1, 0}, {1, 0}, {1, 1}, {-2, 0}}}
+			}
 		}
 	},
 	{
@@ -77,7 +101,13 @@ const TMap<ETetriminoShape, FTetriminoInfo> ATetrimino::TetriminoInfos =
 				{ ETetriminoFacing::West, { {1, 1}, {2, 1}, {3, 0}, {3, 1} } }
 			},
 			TEXT("/Game/Material/M_MinoMaterial_Blue"),
-			FIntPoint(ABoard::TetriminoDefaultSpawnLocationX - 2, ABoard::TetriminoDefaultSpawnLocationY)                               // FIntPoint
+			FIntPoint(ABoard::TetriminoDefaultSpawnLocationX - 2, ABoard::TetriminoDefaultSpawnLocationY),
+			{
+				{ETetriminoFacing::North, {{0, 0}, {0, -1}, {1, -1}, {1, 1}, {-2, 0}}},
+				{ETetriminoFacing::East, {{0, 0}, {1, 0}, {-1, 0}, {-1, -1}, {2, 0}}},
+				{ETetriminoFacing::South, {{0, 0}, {0, 1}, {-1, 1}, {-1, -1}, {2, 0}}},
+				{ETetriminoFacing::West, {{0, 0}, {-1, 0}, {1, 0}, {1, 1}, {-2, 0}}}
+			}
 		}
 	},
 	{
@@ -90,7 +120,13 @@ const TMap<ETetriminoShape, FTetriminoInfo> ATetrimino::TetriminoInfos =
 				{ ETetriminoFacing::West, { {1, 0}, {2, 0}, {2, 1}, {3, 1} } }
 			},
 			TEXT("/Game/Material/M_MinoMaterial_Green"),
-			FIntPoint(ABoard::TetriminoDefaultSpawnLocationX - 2, ABoard::TetriminoDefaultSpawnLocationY)                               // FIntPoint
+			FIntPoint(ABoard::TetriminoDefaultSpawnLocationX - 2, ABoard::TetriminoDefaultSpawnLocationY),
+			{
+				{ETetriminoFacing::North, {{0, 0}, {0, -1}, {1, -1}, {1, 1}, {-2, 0}}},
+				{ETetriminoFacing::East, {{0, 0}, {1, 0}, {-1, 0}, {-1, -1}, {2, 0}}},
+				{ETetriminoFacing::South, {{0, 0}, {0, 1}, {-1, 1}, {-1, -1}, {2, 0}}},
+				{ETetriminoFacing::West, {{0, 0}, {-1, 0}, {1, 0}, {1, 1}, {-2, 0}}}
+			}
 		}
 	},
 	{
@@ -103,7 +139,13 @@ const TMap<ETetriminoShape, FTetriminoInfo> ATetrimino::TetriminoInfos =
 				{ ETetriminoFacing::West, { {1, 1}, {2, 0}, {2, 1}, {3, 0} } }
 			},
 			TEXT("/Game/Material/M_MinoMaterial_Red"),
-			FIntPoint(ABoard::TetriminoDefaultSpawnLocationX - 2, ABoard::TetriminoDefaultSpawnLocationY)                               // FIntPoint
+			FIntPoint(ABoard::TetriminoDefaultSpawnLocationX - 2, ABoard::TetriminoDefaultSpawnLocationY),
+			{
+				{ETetriminoFacing::North, {{0, 0}, {0, -1}, {1, -1}, {1, 1}, {-2, 0}}},
+				{ETetriminoFacing::East, {{0, 0}, {1, 0}, {-1, 0}, {-1, -1}, {2, 0}}},
+				{ETetriminoFacing::South, {{0, 0}, {0, 1}, {-1, 1}, {-1, -1}, {2, 0}}},
+				{ETetriminoFacing::West, {{0, 0}, {-1, 0}, {1, 0}, {1, 1}, {-2, 0}}}
+			}
 		}
 	}
 };
@@ -194,6 +236,7 @@ void ATetrimino::InitializeMinoArray(const FTetriminoInfo& TetriminoInfo)
 		return;
 	}
 
+	const TArray<FIntPoint>& MinoUnitPositions = GetMinoLocalMatrixLocations();
 	const TArray<FIntPoint>& MinoUnitPositions = TetriminoInfo.GetMinoLocalMatrixLocationsByFacing(Facing);
 	check(MinoUnitPositions.Num() == MinoNum);
 
