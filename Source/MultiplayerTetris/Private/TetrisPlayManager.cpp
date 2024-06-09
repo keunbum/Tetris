@@ -82,14 +82,7 @@ void ATetrisPlayManager::StartHardDrop()
 
 void ATetrisPlayManager::StartRotate(const int32 RotationDirection)
 {
-	if (TetriminoInPlay)
-	{
-		const bool bIsRotationPossible = true;
-		if (bIsRotationPossible)
-		{
-			TetriminoInPlay->RotateTo(RotationDirection);
-		}
-	}
+	RotateTetriminoTo(RotationDirection);
 }
 
 void ATetrisPlayManager::Initialize()
@@ -132,6 +125,18 @@ void ATetrisPlayManager::MoveTetriminoToCurrentDirection()
 void ATetrisPlayManager::MoveTetriminoDown()
 {
 	MoveTetriminoTo(ATetrimino::MoveDirectionDown);
+}
+
+void ATetrisPlayManager::RotateTetriminoTo(const int32 RotationDirection)
+{
+	if (TetriminoInPlay)
+	{
+		const bool bIsRotationPossible = true;
+		if (bIsRotationPossible)
+		{
+			TetriminoInPlay->RotateTo(RotationDirection);
+		}
+	}
 }
 
 void ATetrisPlayManager::SetAutoRepeatMovement()
