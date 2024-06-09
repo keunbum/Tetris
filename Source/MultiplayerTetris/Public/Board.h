@@ -30,7 +30,7 @@ public:
 
 public:
 	bool IsMovementPossible(const ATetrimino* Tetrimino, const FIntPoint& MovementIntPoint2D) const;
-	bool IsRotationPossible(const ATetrimino* Tetrimino, const int32 RotationDirection) const;
+	bool IsRotationPossible(const ATetrimino* Tetrimino, const int32 RotationDirection, const FIntPoint& RotationPointOffset) const;
 
 private:
 	void Initialize();

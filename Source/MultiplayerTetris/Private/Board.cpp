@@ -50,14 +50,14 @@ bool ABoard::IsMovementPossible(const ATetrimino* Tetrimino, const FIntPoint& Mo
 	return IsMinoLocationsPossible(NewTetriminoMatrixLocation, MinoLocalMatrixLocations);
 }
 
-bool ABoard::IsRotationPossible(const ATetrimino* Tetrimino, const int32 RotationDirection) const
+bool ABoard::IsRotationPossible(const ATetrimino* Tetrimino, const int32 RotationDirection, const FIntPoint& RotationPointOffset) const
 {
 	check(Tetrimino != nullptr);
-	const FIntPoint& TetriminoMatrixLocation = Tetrimino->GetMatrixLocation();
+	const FIntPoint& NewTetriminoMatrixLocation = Tetrimino->GetMatrixLocation() + RotationPointOffset;
 	const ETetriminoShape TetriminoShape = Tetrimino->GetShape();
 	const ETetriminoFacing NewTetriminoFacing = Tetrimino->GetFacing() + RotationDirection;
 	const TArray<FIntPoint>& NewMinoLocalMatrixLocations = ATetrimino::GetMinoLocalMatrixLocationsByTetriminoShapeAndFacing(TetriminoShape, NewTetriminoFacing);
-	return IsMinoLocationsPossible(TetriminoMatrixLocation, NewMinoLocalMatrixLocations);
+	return IsMinoLocationsPossible(NewTetriminoMatrixLocation, NewMinoLocalMatrixLocations);
 }
 
 void ABoard::Initialize()
@@ -83,7 +83,8 @@ void ABoard::InitializeBackground()
 			UMaterialInterface* const MinoMaterial = ABoard::GetMinoMaterialByPath(MinoMaterialPath);
 			check(MinoMaterial != nullptr);
 
-			Mino->SetMaterial(MinoMaterial);
+			static constexpr int32 ElementIndex = 0;
+			Mino->SetMaterial(ElementIndex, MinoMaterial);
 
 			Mino->AttachToActor(this, FAttachmentTransformRules::KeepRelativeTransform);
 			const FIntPoint MinoLocalMatrixLocation(Row, Col);

@@ -55,7 +55,6 @@ private:
 	void MoveTetriminoToCurrentDirection();
 	void MoveTetriminoDown();
 
-	void RotateTetriminoTo(const int32 RotationDirection);
 	void RunSuperRotationSystem(const int32 RotationDirection);
 
 	void SetAutoRepeatMovement();

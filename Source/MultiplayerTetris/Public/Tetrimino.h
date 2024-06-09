@@ -47,12 +47,7 @@ struct FTetriminoInfo
 	TMap<ETetriminoFacing, TArray<FIntPoint>> MinoLocalMatrixLocationsByFacing;
 	FString MaterialPath;
 	FIntPoint InitialMatrixLocation;
-	TMap<ETetriminoFacing, TArray<FIntPoint>> SRSRotationPointTable; // Super Rotation System Rotation Point Table
-
-	const TArray<FIntPoint>& GetMinoLocalMatrixLocationsByFacing(const ETetriminoFacing Facing) const
-	{
-		return MinoLocalMatrixLocationsByFacing[Facing];
-	}
+	TMap<ETetriminoFacing, TArray<FIntPoint>> SRSRotationPointOffsetsTable; // Super Rotation System Rotation Point Table
 };
 
 UCLASS()
@@ -73,9 +68,10 @@ public:
 	virtual void Tick(const float DeltaTime) override;
 
 public:
+	const FTetriminoInfo& GetTetriminoInfo() const;
 	const FIntPoint& GetInitialMatrixLocation() const;
-
 	const TArray<FIntPoint>& GetMinoLocalMatrixLocations() const;
+	const TArray<FIntPoint>& GetSRSRotationPointOffsets() const;
 
 	const ETetriminoShape& GetShape() const { return Shape; }
 	const ETetriminoFacing& GetFacing() const { return Facing; }
@@ -94,13 +90,15 @@ public:
 protected:
 	void SetFacing(const ETetriminoFacing NewFacing) { Facing = NewFacing; }
 
-	void InitializeMinoArray(const FTetriminoInfo& TetriminoInfo);
+	UMaterialInterface* GetMaterial() const;
+	void InitializeMinoArray();
 	void UpdateMinoLocalMatrixLocations();
 
 	void DebugPrintState() const;
 
 	static const FTetriminoInfo& GetTetriminoInfoByShape(const ETetriminoShape Shape);
 	static const FIntPoint& GetInitialMatrixLocationByShape(const ETetriminoShape Shape);
+	static const TArray<FIntPoint>& GetSRSRotationPointOffsetsByShapeAndFacing(const ETetriminoShape Shape, const ETetriminoFacing Facing);
 	static UMaterialInterface* GetMaterialByTetriminoInfo(const FTetriminoInfo& TetriminoInfo);
 	static FString GetTetriminoShapeName(const ETetriminoShape Shape);
 	static FString GetFacingName(const ETetriminoFacing Facing);

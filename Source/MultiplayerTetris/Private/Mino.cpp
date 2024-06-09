@@ -60,7 +60,7 @@ void AMino::SetRelativeLocation(const FVector& NewLocation)
 	MinoMesh->SetRelativeLocation(NewLocation);
 }
 
-void AMino::SetMaterial(UMaterialInterface* const Material, const int32 ElementIndex)
+void AMino::SetMaterial(const int32 ElementIndex, UMaterialInterface* const Material)
 {
 	MinoMesh->SetMaterial(ElementIndex, Material);
 }

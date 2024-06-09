@@ -33,7 +33,7 @@ public:
 	void SetRelativeLocationByMatrixLocation(const FIntPoint& MatrixLocation);
 	FVector GetRelativeLocation() const;
 	void SetRelativeLocation(const FVector& NewLocation);
-	void SetMaterial(UMaterialInterface* const Material, const int32 ElementIndex = 0);
+	void SetMaterial(const int32 ElementIndex, UMaterialInterface* const Material);
 
 public:
 	static constexpr float DefaultUnitLength = 100.f;

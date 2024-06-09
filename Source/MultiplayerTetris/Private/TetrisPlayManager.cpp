@@ -127,21 +127,27 @@ void ATetrisPlayManager::MoveTetriminoDown()
 	MoveTetriminoTo(ATetrimino::MoveDirectionDown);
 }
 
-void ATetrisPlayManager::RotateTetriminoTo(const int32 RotationDirection)
-{
-	if (TetriminoInPlay)
-	{
-		if (Board->IsRotationPossible(TetriminoInPlay, RotationDirection))
-		{
-			TetriminoInPlay->RotateTo(RotationDirection);
-		}
-	}
-}
-
 void ATetrisPlayManager::RunSuperRotationSystem(const int32 RotationDirection)
 {
 	// TODO: SRS must be applied.
-	RotateTetriminoTo(RotationDirection);
+	if (!TetriminoInPlay)
+	{
+		return;
+	}
+
+	const TArray<FIntPoint>& RotationPointOffsets = TetriminoInPlay->GetSRSRotationPointOffsets();
+	for (int32 PointIndex = 0; PointIndex < RotationPointOffsets.Num(); ++PointIndex)
+	{
+		const FIntPoint& RotationPointOffset = RotationPointOffsets[PointIndex];
+		if (Board->IsRotationPossible(TetriminoInPlay, RotationDirection, RotationPointOffset))
+		{
+			TetriminoInPlay->RotateTo(RotationDirection);
+			TetriminoInPlay->MoveBy(RotationPointOffset);
+			UE_LOG(LogTemp, Display, TEXT("%dth Rotation Point was successful."), PointIndex + 1);
+			return;
+		}
+	}
+	UE_LOG(LogTemp, Display, TEXT("All of Rotation Points failed."));
 }
 
 void ATetrisPlayManager::SetAutoRepeatMovement()
