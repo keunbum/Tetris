@@ -23,8 +23,8 @@ const TMap<ETetriminoShape, FTetriminoInfo> ATetrimino::TetriminoInfos =
 				{ ETetriminoFacing::East, { {1, 1}, {1, 2}, {2, 1}, {2, 2} } },
 				{ ETetriminoFacing::South, { {1, 1}, {1, 2}, {2, 1}, {2, 2} } },
 				{ ETetriminoFacing::West, { {1, 1}, {1, 2}, {2, 1}, {2, 2} } }
-			},                                            // TMap<ETetriminoFacing, TArray<FVector2D>>
-			TEXT("/Game/Material/M_MinoMaterial_Yellow"), // FString
+			}, // TMap<ETetriminoFacing, TArray<FVector2D>>
+			TEXT("/Game/Material/M_MinoMaterial_Yellow"),
 			FIntPoint(ABoard::TetriminoDefaultSpawnLocationX - 2, ABoard::TetriminoDefaultSpawnLocationY),                              // FIntPoint
 		}
 	},
