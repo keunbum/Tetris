@@ -140,7 +140,6 @@ void ATetrisPlayManager::RotateTetriminoTo(const int32 RotationDirection)
 
 void ATetrisPlayManager::RunSuperRotationSystem(const int32 RotationDirection)
 {
-	for (int TryCount = 1; TryCount <= 1; ++TryCount)
 	{
 		RotateTetriminoTo(RotationDirection);
 	}
