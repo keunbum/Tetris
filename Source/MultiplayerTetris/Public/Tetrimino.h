@@ -110,7 +110,7 @@ private:
 	UPROPERTY()
 	FIntVector2 MatrixLocation;
 
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(VisibleAnywhere)
 	TSubclassOf<AMino> MinoClass;
 
 	UPROPERTY(VisibleAnywhere)
