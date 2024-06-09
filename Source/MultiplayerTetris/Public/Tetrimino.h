@@ -89,7 +89,7 @@ protected:
 	void SetFacing(const ETetriminoFacing NewFacing) { Facing = NewFacing; }
 
 	void InitializeMinoArray(const FTetriminoInfo& TetriminoInfo);
-	void UpdateMinoPositions();
+	void UpdateMinoLocalMatrixLocations();
 
 	void DebugPrintState() const;
 

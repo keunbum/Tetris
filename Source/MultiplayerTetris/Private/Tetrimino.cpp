@@ -166,7 +166,7 @@ void ATetrimino::MoveBy(const FIntPoint& IntPoint2D)
 void ATetrimino::RotateBy(const int32 Value)
 {
 	SetFacing(Facing + Value);
-	UpdateMinoPositions();
+	UpdateMinoLocalMatrixLocations();
 }
 
 void ATetrimino::AttachToBoard(ABoard* const Board)
@@ -202,7 +202,7 @@ void ATetrimino::InitializeMinoArray(const FTetriminoInfo& TetriminoInfo)
 	}
 }
 
-void ATetrimino::UpdateMinoPositions()
+void ATetrimino::UpdateMinoLocalMatrixLocations()
 {
 	const FTetriminoInfo& TetriminoInfo = ATetrimino::GetTetriminoInfoByShape(TetriminoShape);
 
