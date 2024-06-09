@@ -109,7 +109,7 @@ const TMap<ETetriminoShape, FTetriminoInfo> ATetrimino::TetriminoInfos =
 };
 
 ATetrimino::ATetrimino()
-	: TetriminoShape(ETetriminoShape::None)
+	: Shape(ETetriminoShape::None)
 	, Facing(ETetriminoFacing::North)
 	, MatrixLocation(FIntPoint(0, 0))
 	, MinoClass(AMino::StaticClass())
@@ -120,16 +120,6 @@ ATetrimino::ATetrimino()
 	PrimaryActorTick.bCanEverTick = true;
 
 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
-}
-
-const TArray<FIntPoint>& ATetrimino::GetMinoLocalMatrixLocations() const
-{
-	return ATetrimino::GetMinoLocalMatrixLocationsByShapeAndFacing(TetriminoShape, Facing);
-}
-
-const FIntPoint& ATetrimino::GetInitialMatrixLocation() const
-{
-	return ATetrimino::GetInitialMatrixLocationByShape(TetriminoShape);
 }
 
 // Called when the game starts or when spawned
@@ -144,11 +134,21 @@ void ATetrimino::Tick(const float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
+const TArray<FIntPoint>& ATetrimino::GetMinoLocalMatrixLocations() const
+{
+	return ATetrimino::GetMinoLocalMatrixLocationsByTetriminoShapeAndFacing(Shape, Facing);
+}
+
+const FIntPoint& ATetrimino::GetInitialMatrixLocation() const
+{
+	return ATetrimino::GetInitialMatrixLocationByShape(Shape);
+}
+
 void ATetrimino::Initialize(const ETetriminoShape NewTetriminoShape)
 {
-	SetTetriminoShape(NewTetriminoShape);
+	SetShape(NewTetriminoShape);
 
-	const FTetriminoInfo& TetriminoInfo = ATetrimino::GetTetriminoInfoByShape(TetriminoShape);
+	const FTetriminoInfo& TetriminoInfo = ATetrimino::GetTetriminoInfoByShape(Shape);
 
 	InitializeMinoArray(TetriminoInfo);
 }
@@ -171,6 +171,19 @@ void ATetrimino::AttachToBoard(ABoard* const Board)
 {
 	AttachToActor(Board, FAttachmentTransformRules::KeepRelativeTransform);
 	MoveBy(GetInitialMatrixLocation());
+}
+
+ETetriminoShape ATetrimino::GetTetriminoShapeRandom()
+{
+	const int32 RandomIndex = FMath::RandRange(0, static_cast<int32>(ETetriminoShape::Max) - 1);
+	const ETetriminoShape TetriminoShape = static_cast<ETetriminoShape>(RandomIndex);
+	return TetriminoShape;
+}
+
+const TArray<FIntPoint>& ATetrimino::GetMinoLocalMatrixLocationsByTetriminoShapeAndFacing(const ETetriminoShape Shape, const ETetriminoFacing Facing)
+{
+	const FTetriminoInfo& TetriminoInfo = ATetrimino::GetTetriminoInfoByShape(Shape);
+	return TetriminoInfo.GetMinoLocalMatrixLocationsByFacing(Facing);
 }
 
 void ATetrimino::InitializeMinoArray(const FTetriminoInfo& TetriminoInfo)
@@ -202,7 +215,7 @@ void ATetrimino::InitializeMinoArray(const FTetriminoInfo& TetriminoInfo)
 
 void ATetrimino::UpdateMinoLocalMatrixLocations()
 {
-	const FTetriminoInfo& TetriminoInfo = ATetrimino::GetTetriminoInfoByShape(TetriminoShape);
+	const FTetriminoInfo& TetriminoInfo = ATetrimino::GetTetriminoInfoByShape(Shape);
 
 	UE_LOG(LogTemp, Warning, TEXT("Facing: %d, %s"), static_cast<int32>(Facing), *GetFacingName(Facing));
 	check(0 <= static_cast<int32>(Facing) && static_cast<int32>(Facing) <= TetriminoInfo.MinoLocalMatrixLocationsByFacing.Num());
@@ -221,7 +234,7 @@ void ATetrimino::UpdateMinoLocalMatrixLocations()
 
 void ATetrimino::DebugPrintState() const
 {
-	UE_LOG(LogTemp, Log, TEXT("TetriminoInPlay Type: %s"), *GetTetriminoShapeName(TetriminoShape));
+	UE_LOG(LogTemp, Log, TEXT("TetriminoInPlay Type: %s"), *GetTetriminoShapeName(Shape));
 	UE_LOG(LogTemp, Log, TEXT("Tetrimino: Location: %s"), *GetActorLocation().ToString());
 
 	for (int32 Index = 0; Index < MinoNum; ++Index)
@@ -234,22 +247,16 @@ void ATetrimino::DebugPrintState() const
 	}
 }
 
-const FTetriminoInfo& ATetrimino::GetTetriminoInfoByShape(const ETetriminoShape TetriminoShape)
+const FTetriminoInfo& ATetrimino::GetTetriminoInfoByShape(const ETetriminoShape Shape)
 {
-	const FTetriminoInfo* TetriminoInfo = TetriminoInfos.Find(TetriminoShape);
+	const FTetriminoInfo* TetriminoInfo = TetriminoInfos.Find(Shape);
 	check(TetriminoInfo != nullptr);
 	return *TetriminoInfo;
 }
 
-const TArray<FIntPoint>& ATetrimino::GetMinoLocalMatrixLocationsByShapeAndFacing(const ETetriminoShape TetriminoShape, const ETetriminoFacing Facing)
+const FIntPoint& ATetrimino::GetInitialMatrixLocationByShape(const ETetriminoShape Shape)
 {
-	const FTetriminoInfo& TetriminoInfo = ATetrimino::GetTetriminoInfoByShape(TetriminoShape);
-	return TetriminoInfo.GetMinoLocalMatrixLocationsByFacing(Facing);
-}
-
-const FIntPoint& ATetrimino::GetInitialMatrixLocationByShape(const ETetriminoShape TetriminoShape)
-{
-	const FTetriminoInfo& TetriminoInfo = ATetrimino::GetTetriminoInfoByShape(TetriminoShape);
+	const FTetriminoInfo& TetriminoInfo = ATetrimino::GetTetriminoInfoByShape(Shape);
 	return TetriminoInfo.InitialMatrixLocation;
 }
 
@@ -263,7 +270,7 @@ UMaterialInterface* ATetrimino::GetMaterialByTetriminoInfo(const FTetriminoInfo&
 	return MinoMaterial;
 }
 
-FString ATetrimino::GetTetriminoShapeName(const ETetriminoShape TetriminoShape)
+FString ATetrimino::GetTetriminoShapeName(const ETetriminoShape Shape)
 {
 	static const TMap<ETetriminoShape, FString> TetriminoShapeNames =
 	{
@@ -276,7 +283,7 @@ FString ATetrimino::GetTetriminoShapeName(const ETetriminoShape TetriminoShape)
 		{ETetriminoShape::Z, TEXT("Z")}
 	};
 
-	if (const FString* Name = TetriminoShapeNames.Find(TetriminoShape))
+	if (const FString* Name = TetriminoShapeNames.Find(Shape))
 	{
 		return *Name;
 	}
@@ -300,9 +307,3 @@ FString ATetrimino::GetFacingName(const ETetriminoFacing Facing)
 	return TEXT("None");
 }
 
-ETetriminoShape ATetrimino::GetTetriminoShapeRandom()
-{
-	const int32 RandomIndex = FMath::RandRange(0, static_cast<int32>(ETetriminoShape::Max) - 1);
-	const ETetriminoShape TetriminoShape = static_cast<ETetriminoShape>(RandomIndex);
-	return TetriminoShape;
-}

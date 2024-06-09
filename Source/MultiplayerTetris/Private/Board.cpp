@@ -30,8 +30,19 @@ ABoard::ABoard()
 
 bool ABoard::IsMovementPossible(const ATetrimino* Tetrimino, const FIntPoint& MovementIntPoint2D) const
 {
+	check(Tetrimino != nullptr);
 	const FIntPoint NewTetriminoMatrixLocation = Tetrimino->GetMatrixLocation() + MovementIntPoint2D;
 	return IsMinoLocationsPossible(NewTetriminoMatrixLocation, Tetrimino->GetMinoLocalMatrixLocations());
+}
+
+bool ABoard::IsRotationPossible(const ATetrimino* Tetrimino, const int32 RotationDirection) const
+{
+	check(Tetrimino != nullptr);
+	const FIntPoint& TetriminoMatrixLocation = Tetrimino->GetMatrixLocation();
+	const ETetriminoShape TetriminoShape = Tetrimino->GetShape();
+	const ETetriminoFacing NewTetriminoFacing = Tetrimino->GetFacing() + RotationDirection;
+	const TArray<FIntPoint>& NewMinoLocalMatrixLocations = ATetrimino::GetMinoLocalMatrixLocationsByTetriminoShapeAndFacing(TetriminoShape, NewTetriminoFacing);
+	return IsMinoLocationsPossible(TetriminoMatrixLocation, NewMinoLocalMatrixLocations);
 }
 
 // Called when the game starts or when spawned
@@ -57,10 +68,7 @@ void ABoard::Initialize()
 void ABoard::InitializeBackground()
 {
 	UMaterialInterface* const BackgroundMinoMaterial = ABoard::GetMinoMaterialByPath(BackgroundMinoMaterialPath);
-	if (!ensureMsgf(BackgroundMinoMaterial, TEXT("Failed to load material: %s"), *BackgroundMinoMaterialPath))
-	{
-		return;
-	}
+	check(BackgroundMinoMaterial != nullptr);
 
 	Background.Reserve(TotalHeight * TotalWidth);
 	for (int32 Row = 0; Row < TotalHeight; ++Row)
@@ -100,7 +108,6 @@ void ABoard::InitializeMinoMatrix()
 
 bool ABoard::IsMinoLocationsPossible(const FIntPoint& TetriminoMatrixLocation, const TArray<FIntPoint>& MinoLocalMatrixLocations) const
 {
-	UE_LOG(LogTemp, Display, TEXT("IsMinoLocationsPossible()"));
 	return Algo::AllOf(MinoLocalMatrixLocations, [&TetriminoMatrixLocation](const FIntPoint& MinoLocalMatrixLocation) {
 		const FIntPoint NewMinoLocalMatrixLocation = TetriminoMatrixLocation + MinoLocalMatrixLocation;
 		return FMath::IsWithin(NewMinoLocalMatrixLocation.X, TotalBeginRow, VisibleEndRow) && FMath::IsWithin(NewMinoLocalMatrixLocation.Y, VisibleBeginCol, VisibleEndCol);
@@ -111,6 +118,7 @@ bool ABoard::IsMinoLocationsPossible(const FIntPoint& TetriminoMatrixLocation, c
 UMaterialInterface* ABoard::GetMinoMaterialByPath(const FString& Path)
 {
 	UMaterialInterface* const MinoMaterial = Cast<UMaterialInterface>(StaticLoadObject(UMaterialInterface::StaticClass(), nullptr, *Path));
+	ensureMsgf(MinoMaterial != nullptr, TEXT("Failed to load material: %s"), *Path);
 	return MinoMaterial;
 }
 

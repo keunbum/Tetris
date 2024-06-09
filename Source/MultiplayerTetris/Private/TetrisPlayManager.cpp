@@ -131,8 +131,7 @@ void ATetrisPlayManager::RotateTetriminoTo(const int32 RotationDirection)
 {
 	if (TetriminoInPlay)
 	{
-		const bool bIsRotationPossible = true;
-		if (bIsRotationPossible)
+		if (Board->IsRotationPossible(TetriminoInPlay, RotationDirection))
 		{
 			TetriminoInPlay->RotateTo(RotationDirection);
 		}
