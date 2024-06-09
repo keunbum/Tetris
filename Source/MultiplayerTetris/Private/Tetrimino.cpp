@@ -113,7 +113,7 @@ ATetrimino::ATetrimino()
 	, Facing(ETetriminoFacing::North)
 	, MatrixLocation(FIntVector2(0, 0))
 	, MinoClass(AMino::StaticClass())
-	, Minos()
+	, MinoArray()
 	, bIsGhostPieceOn(true)
 	, GhostPiece(nullptr)
 {
@@ -185,7 +185,7 @@ void ATetrimino::InitializeMinos(const FTetriminoInfo& TetriminoInfo)
 			Mino->AttachToActor(this, FAttachmentTransformRules::KeepRelativeTransform);
 			Mino->SetRelativeLocationByIntVector2D(MinoUnitPosition);
 
-			Minos[MinoID] = Mino;
+			MinoArray[MinoID] = Mino;
 		}
 	}
 }
@@ -200,7 +200,7 @@ void ATetrimino::UpdateMinoPositions()
 	const TArray<FIntVector2>& MinoUnitPositions = TetriminoInfo.GetMinoUnitPosition(Facing);
 	for (int32 MinoID = 0; MinoID < MinoNum; ++MinoID)
 	{
-		if (AMino* const Mino = Minos[MinoID])
+		if (AMino* const Mino = MinoArray[MinoID])
 		{
 			check(MinoUnitPositions.IsValidIndex(MinoID));
 			const FIntVector2& IntPoint = MinoUnitPositions[MinoID];
@@ -216,9 +216,9 @@ void ATetrimino::DebugPrintState() const
 
 	for (int32 Index = 0; Index < MinoNum; ++Index)
 	{
-		if (Minos[Index])
+		if (MinoArray[Index])
 		{
-			const FVector MinoRelativeLocation = Minos[Index]->GetRelativeLocation();
+			const FVector MinoRelativeLocation = MinoArray[Index]->GetRelativeLocation();
 			UE_LOG(LogTemp, Log, TEXT("Mino %d: Relative Location: %s"), Index, *MinoRelativeLocation.ToString());
 		}
 	}
