@@ -124,14 +124,12 @@ ATetrimino::ATetrimino()
 
 const TArray<FIntPoint>& ATetrimino::GetMinoLocalMatrixLocations() const
 {
-	const FTetriminoInfo& TetriminoInfo = ATetrimino::GetTetriminoInfoByShape(TetriminoShape);
-	return TetriminoInfo.GetMinoLocalMatrixLocationsByFacing(Facing);
+	return ATetrimino::GetMinoLocalMatrixLocationsByShapeAndFacing(TetriminoShape, Facing);
 }
 
 const FIntPoint& ATetrimino::GetInitialMatrixLocation() const
 {
-	const FTetriminoInfo& TetriminoInfo = ATetrimino::GetTetriminoInfoByShape(TetriminoShape);
-	return TetriminoInfo.InitialMatrixLocation;
+	return ATetrimino::GetInitialMatrixLocationByShape(TetriminoShape);
 }
 
 // Called when the game starts or when spawned
@@ -241,6 +239,18 @@ const FTetriminoInfo& ATetrimino::GetTetriminoInfoByShape(const ETetriminoShape 
 	const FTetriminoInfo* TetriminoInfo = TetriminoInfos.Find(TetriminoShape);
 	check(TetriminoInfo != nullptr);
 	return *TetriminoInfo;
+}
+
+const TArray<FIntPoint>& ATetrimino::GetMinoLocalMatrixLocationsByShapeAndFacing(const ETetriminoShape TetriminoShape, const ETetriminoFacing Facing)
+{
+	const FTetriminoInfo& TetriminoInfo = ATetrimino::GetTetriminoInfoByShape(TetriminoShape);
+	return TetriminoInfo.GetMinoLocalMatrixLocationsByFacing(Facing);
+}
+
+const FIntPoint& ATetrimino::GetInitialMatrixLocationByShape(const ETetriminoShape TetriminoShape)
+{
+	const FTetriminoInfo& TetriminoInfo = ATetrimino::GetTetriminoInfoByShape(TetriminoShape);
+	return TetriminoInfo.InitialMatrixLocation;
 }
 
 UMaterialInterface* ATetrimino::GetMaterialByTetriminoInfo(const FTetriminoInfo& TetriminoInfo)

@@ -94,6 +94,8 @@ protected:
 	void DebugPrintState() const;
 
 	static const FTetriminoInfo& GetTetriminoInfoByShape(const ETetriminoShape TetriminoShape);
+	static const TArray<FIntPoint>& GetMinoLocalMatrixLocationsByShapeAndFacing(const ETetriminoShape TetriminoShape, const ETetriminoFacing Facing);
+	static const FIntPoint& GetInitialMatrixLocationByShape(const ETetriminoShape TetriminoShape);
 	static UMaterialInterface* GetMaterialByTetriminoInfo(const FTetriminoInfo& TetriminoInfo);
 	static FString GetTetriminoShapeName(const ETetriminoShape TetriminoShape);
 	static FString GetFacingName(const ETetriminoFacing Facing);
