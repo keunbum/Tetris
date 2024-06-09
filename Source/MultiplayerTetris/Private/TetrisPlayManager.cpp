@@ -82,7 +82,7 @@ void ATetrisPlayManager::DoHardDrop()
 
 void ATetrisPlayManager::DoRotation(const int32 RotationDirection)
 {
-	RotateTetriminoTo(RotationDirection);
+	RunSuperRotationSystem(RotationDirection);
 }
 
 void ATetrisPlayManager::Initialize()
@@ -135,6 +135,14 @@ void ATetrisPlayManager::RotateTetriminoTo(const int32 RotationDirection)
 		{
 			TetriminoInPlay->RotateTo(RotationDirection);
 		}
+	}
+}
+
+void ATetrisPlayManager::RunSuperRotationSystem(const int32 RotationDirection)
+{
+	for (int TryCount = 1; TryCount <= 1; ++TryCount)
+	{
+		RotateTetriminoTo(RotationDirection);
 	}
 }
 
