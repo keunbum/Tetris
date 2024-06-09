@@ -44,13 +44,13 @@ ENUM_CLASS_OPERATORS(ETetriminoFacing)
 
 struct FTetriminoInfo
 {
-	TMap<ETetriminoFacing, TArray<FIntVector2>> MinoUnitPositionsByFacing;
+	TMap<ETetriminoFacing, TArray<FIntVector2>> MinoLocalMatrixLocationsByFacing;
 	FString MaterialPath;
 	FIntVector2 InitialMatrixLocation;
 
-	const TArray<FIntVector2>& GetMinoUnitPosition(const ETetriminoFacing Facing) const
+	const TArray<FIntVector2>& GetMinoLocalMatrixLocationsByFacing(const ETetriminoFacing Facing) const
 	{
-		return MinoUnitPositionsByFacing[Facing];
+		return MinoLocalMatrixLocationsByFacing[Facing];
 	}
 };
 
@@ -63,6 +63,7 @@ public:
 	// Sets default values for this actor's properties
 	ATetrimino();
 
+	const ETetriminoShape GetTetriminoShape() const { return TetriminoShape; }
 	const TArray<TObjectPtr<AMino>>& GetMinoArray() const { return MinoArray; }
 
 	void Initialize(const ETetriminoShape NewTetriminoShape);
@@ -72,6 +73,7 @@ public:
 	void AttachToBoard(ABoard* const Board);
 
 	static ETetriminoShape GetTetriminoShapeRandom();
+	static const TArray<FIntVector2>& GetMinoLocalMatrixLocationByShape(const ETetriminoShape TetriminoShape);
 
 protected:
 	// Called when the game starts or when spawned
@@ -84,7 +86,7 @@ public:
 protected:
 	void SetFacing(const ETetriminoFacing NewFacing) { Facing = NewFacing; }
 
-	void InitializeMinos(const FTetriminoInfo& TetriminoInfo);
+	void InitializeMinoArray(const FTetriminoInfo& TetriminoInfo);
 	void UpdateMinoPositions();
 
 	void DebugPrintState() const;

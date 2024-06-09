@@ -140,7 +140,7 @@ void ATetrimino::Initialize(const ETetriminoShape NewTetriminoShape)
 
 	const FTetriminoInfo& TetriminoInfo = ATetrimino::GetTetriminoInfoByShape(TetriminoShape);
 
-	InitializeMinos(TetriminoInfo);
+	InitializeMinoArray(TetriminoInfo);
 	MatrixLocation = TetriminoInfo.InitialMatrixLocation;
 }
 
@@ -164,7 +164,7 @@ void ATetrimino::AttachToBoard(ABoard* const Board)
 	UE_LOG(LogTemp, Display, TEXT("MatrixLocation: (%d, %d)"), MatrixLocation.X, MatrixLocation.Y);
 }
 
-void ATetrimino::InitializeMinos(const FTetriminoInfo& TetriminoInfo)
+void ATetrimino::InitializeMinoArray(const FTetriminoInfo& TetriminoInfo)
 {
 	UMaterialInterface* const MinoMaterial = GetMaterialByTetriminoInfo(TetriminoInfo);
 	if (!MinoMaterial)
@@ -172,7 +172,7 @@ void ATetrimino::InitializeMinos(const FTetriminoInfo& TetriminoInfo)
 		return;
 	}
 
-	const TArray<FIntVector2>& MinoUnitPositions = TetriminoInfo.GetMinoUnitPosition(Facing);
+	const TArray<FIntVector2>& MinoUnitPositions = TetriminoInfo.GetMinoLocalMatrixLocationsByFacing(Facing);
 	check(MinoUnitPositions.Num() == MinoNum);
 
 	MinoArray.Reserve(MinoNum);
@@ -196,9 +196,9 @@ void ATetrimino::UpdateMinoPositions()
 	const FTetriminoInfo& TetriminoInfo = ATetrimino::GetTetriminoInfoByShape(TetriminoShape);
 
 	UE_LOG(LogTemp, Warning, TEXT("Facing: %d, %s"), static_cast<int32>(Facing), *GetFacingName(Facing));
-	check(0 <= static_cast<int32>(Facing) && static_cast<int32>(Facing) <= TetriminoInfo.MinoUnitPositionsByFacing.Num());
+	check(0 <= static_cast<int32>(Facing) && static_cast<int32>(Facing) <= TetriminoInfo.MinoLocalMatrixLocationsByFacing.Num());
 
-	const TArray<FIntVector2>& MinoUnitPositions = TetriminoInfo.GetMinoUnitPosition(Facing);
+	const TArray<FIntVector2>& MinoUnitPositions = TetriminoInfo.GetMinoLocalMatrixLocationsByFacing(Facing);
 	for (int32 MinoID = 0; MinoID < MinoNum; ++MinoID)
 	{
 		if (AMino* const Mino = MinoArray[MinoID])
