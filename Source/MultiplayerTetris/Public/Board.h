@@ -35,6 +35,8 @@ private:
 	void InitializeBackground();
 	void InitializeMinoMatrix();
 
+	AMino* GetMinoByMatrixLocation(const FIntPoint& MatrixLocation) const;
+	bool IsMatrixLocationEmpty(const FIntPoint& MatrixLocation) const;
 	bool IsMinoLocationsPossible(const FIntPoint& TetriminoMatrixLocation, const TArray<FIntPoint>& MinoLocalMatrixLocations) const;
 
 	static UMaterialInterface* GetMinoMaterialByPath(const FString& Path);

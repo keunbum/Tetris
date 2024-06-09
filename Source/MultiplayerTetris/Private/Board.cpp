@@ -32,7 +32,8 @@ bool ABoard::IsMovementPossible(const ATetrimino* Tetrimino, const FIntPoint& Mo
 {
 	check(Tetrimino != nullptr);
 	const FIntPoint NewTetriminoMatrixLocation = Tetrimino->GetMatrixLocation() + MovementIntPoint2D;
-	return IsMinoLocationsPossible(NewTetriminoMatrixLocation, Tetrimino->GetMinoLocalMatrixLocations());
+	const TArray<FIntPoint>& MinoLocalMatrixLocations = Tetrimino->GetMinoLocalMatrixLocations();
+	return IsMinoLocationsPossible(NewTetriminoMatrixLocation, MinoLocalMatrixLocations);
 }
 
 bool ABoard::IsRotationPossible(const ATetrimino* Tetrimino, const int32 RotationDirection) const
@@ -106,11 +107,24 @@ void ABoard::InitializeMinoMatrix()
 	}
 }
 
+AMino* ABoard::GetMinoByMatrixLocation(const FIntPoint& MatrixLocation) const
+{
+	const int32 Index1D = TotalWidth * MatrixLocation.X + MatrixLocation.Y;
+	return MinoMatrix[Index1D];
+}
+
+bool ABoard::IsMatrixLocationEmpty(const FIntPoint& MatrixLocation) const
+{
+	return GetMinoByMatrixLocation(MatrixLocation) == nullptr;
+}
+
 bool ABoard::IsMinoLocationsPossible(const FIntPoint& TetriminoMatrixLocation, const TArray<FIntPoint>& MinoLocalMatrixLocations) const
 {
-	return Algo::AllOf(MinoLocalMatrixLocations, [&TetriminoMatrixLocation](const FIntPoint& MinoLocalMatrixLocation) {
+	return Algo::AllOf(MinoLocalMatrixLocations, [this, &TetriminoMatrixLocation](const FIntPoint& MinoLocalMatrixLocation) {
 		const FIntPoint NewMinoLocalMatrixLocation = TetriminoMatrixLocation + MinoLocalMatrixLocation;
-		return FMath::IsWithin(NewMinoLocalMatrixLocation.X, TotalBeginRow, VisibleEndRow) && FMath::IsWithin(NewMinoLocalMatrixLocation.Y, VisibleBeginCol, VisibleEndCol);
+		return FMath::IsWithin(NewMinoLocalMatrixLocation.X, TotalBeginRow, VisibleEndRow)
+			&& FMath::IsWithin(NewMinoLocalMatrixLocation.Y, VisibleBeginCol, VisibleEndCol)
+			&& (IsMatrixLocationEmpty(NewMinoLocalMatrixLocation));
 		}
 	);
 }
