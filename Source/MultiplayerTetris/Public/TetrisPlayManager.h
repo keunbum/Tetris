@@ -36,7 +36,7 @@ public:
 	void SetTetriminoInPlay(ATetrimino* const NewTetriminoInPlay) { TetriminoInPlay = NewTetriminoInPlay; }
 	void SetNormalFallSpeed(const float NewNormalFallSpeed) { NormalFallSpeed = NewNormalFallSpeed; }
 
-	FVector2D GetMovementDirection() const { return CurrentMovementDirection; }
+	const FVector2D& GetMovementDirection() const { return CurrentMovementDirection; }
 
 	// Event Handlers
 	void StartMovement(const FVector2D& InMovementDirection);
