@@ -116,7 +116,7 @@ void ATetrisPlayManager::MoveTetriminoTo(const FVector2D& Direction)
 		const bool bIsNextPositionPossible = true;
 		if (bIsNextPositionPossible)
 		{
-			TetriminoInPlay->MoveBy(static_cast<const FIntVector2>(MovementIntVector2D));
+			TetriminoInPlay->MoveBy(MovementIntVector2D);
 		}
 	}
 }
