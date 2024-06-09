@@ -114,7 +114,7 @@ private:
 	TSubclassOf<AMino> MinoClass;
 
 	UPROPERTY(VisibleAnywhere)
-	TObjectPtr<AMino> MinoArray[MinoNum];
+	TArray<TObjectPtr<AMino>> MinoArray;
 
 	UPROPERTY(EditDefaultsOnly)
 	bool bIsGhostPieceOn;

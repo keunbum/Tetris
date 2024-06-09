@@ -175,6 +175,7 @@ void ATetrimino::InitializeMinos(const FTetriminoInfo& TetriminoInfo)
 	const TArray<FIntVector2>& MinoUnitPositions = TetriminoInfo.GetMinoUnitPosition(Facing);
 	check(MinoUnitPositions.Num() == MinoNum);
 
+	MinoArray.Reserve(MinoNum);
 	for (int32 MinoID = 0; MinoID < MinoNum; ++MinoID)
 	{
 		const FIntVector2& MinoUnitPosition = MinoUnitPositions[MinoID];
@@ -185,7 +186,7 @@ void ATetrimino::InitializeMinos(const FTetriminoInfo& TetriminoInfo)
 			Mino->AttachToActor(this, FAttachmentTransformRules::KeepRelativeTransform);
 			Mino->SetRelativeLocationByIntVector2D(MinoUnitPosition);
 
-			MinoArray[MinoID] = Mino;
+			MinoArray.Add(Mino);
 		}
 	}
 }
