@@ -65,9 +65,6 @@ private:
 	ATetrimino* SpawnNextTetrimino() const;
 	void ChangeTetrimino(ATetrimino* const NewTetrimino);
 
-	static bool IsNextPositionPossible(const ATetrimino* Tetrimino, const FVector2D& MovementVector2D);
-	static bool IsWithinRange(const ATetrimino* Tetrimino);
-
 private:
 	static constexpr bool bIsNormalFallTimerLoop = true;
 	static constexpr float NormalFallTimerInitialDelay = 0.0f;

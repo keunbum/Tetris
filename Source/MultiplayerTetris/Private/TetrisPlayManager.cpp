@@ -167,14 +167,3 @@ void ATetrisPlayManager::ChangeTetrimino(ATetrimino* const NewTetrimino)
 	NewTetrimino->AttachToBoard(Board);
 	SetTetriminoInPlay(NewTetrimino);
 }
-
-bool ATetrisPlayManager::IsNextPositionPossible(const ATetrimino* Tetrimino, const FVector2D& MovementVector2D)
-{
-	// 범위 밖이거나, 다른 미노로 인해 막혔다면 불가능
-	return false;
-}
-
-bool ATetrisPlayManager::IsWithinRange(const ATetrimino* Tetrimino)
-{
-	return false;
-}

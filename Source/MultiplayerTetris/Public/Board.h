@@ -20,6 +20,8 @@ public:
 	// Sets default values for this actor's properties
 	ABoard();
 
+	bool IsNextPositionPossible(const ATetrimino* Tetrimino, const FVector2D& MovementVector2D);
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -32,6 +34,8 @@ private:
 	void Initialize();
 	void InitializeBackground();
 	void InitializeMinoMatrix();
+
+	bool IsWithinRange(const ATetrimino* Tetrimino);
 
 	static UMaterialInterface* GetMinoMaterialByPath(const FString& Path);
 
