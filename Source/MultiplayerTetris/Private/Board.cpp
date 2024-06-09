@@ -7,6 +7,7 @@
 #include "Engine/World.h"
 #include "Materials/MaterialInterface.h"
 #include "UObject/ConstructorHelpers.h"
+#include "Algo/AllOf.h"
 
 #include "Mino.h"
 #include "Tetrimino.h"
@@ -17,7 +18,7 @@ const FString ABoard::SpecialMinoMaterialPath = TEXT("/Game/Material/M_MinoMater
 // Sets default values
 ABoard::ABoard()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	// Create and set the default root component
@@ -27,11 +28,16 @@ ABoard::ABoard()
 	MinoClass = AMino::StaticClass();
 }
 
+bool ABoard::IsMovementPossible(const ATetrimino* Tetrimino, const FIntPoint& MovementIntPoint2D) const
+{
+	return IsMovementWithinRange(Tetrimino, MovementIntPoint2D);
+}
+
 // Called when the game starts or when spawned
 void ABoard::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
 	Initialize();
 }
 
@@ -70,8 +76,8 @@ void ABoard::InitializeBackground()
 			Mino->SetMaterial(MinoMaterial);
 
 			Mino->AttachToActor(this, FAttachmentTransformRules::KeepRelativeTransform);
-			const FIntVector2 MinoUnitPosition(Row, Col);
-			Mino->SetRelativeLocationByIntVector2D(MinoUnitPosition);
+			const FIntPoint MinoLocalMatrixLocation(Row, Col);
+			Mino->SetRelativeLocationByMatrixLocation(MinoLocalMatrixLocation);
 
 			Background.Add(Mino);
 		}
@@ -89,6 +95,17 @@ void ABoard::InitializeMinoMatrix()
 			MinoMatrix.Add(Mino);
 		}
 	}
+}
+
+bool ABoard::IsMovementWithinRange(const ATetrimino* Tetrimino, const FIntPoint& MovementIntPoint2D) const
+{
+	UE_LOG(LogTemp, Display, TEXT("ABoard::IsMovementWithinRange()"));
+	const TArray<FIntPoint>& MinoLocalMatrixLocations = Tetrimino->GetMinoLocalMatrixLocations();
+	return Algo::AllOf(MinoLocalMatrixLocations, [&MovementIntPoint2D, &Tetrimino](const FIntPoint& MatrixLocation) {
+		const FIntPoint NextMatrixLocation = Tetrimino->GetMatrixLocation() + MatrixLocation + MovementIntPoint2D;
+		UE_LOG(LogTemp, Display, TEXT("NextMatrixLocation: %s"), *NextMatrixLocation.ToString());
+		return NextMatrixLocation.X < VisibleEndRow && FMath::IsWithin(NextMatrixLocation.Y, VisibleBeginCol, VisibleEndCol);
+		});
 }
 
 UMaterialInterface* ABoard::GetMinoMaterialByPath(const FString& Path)

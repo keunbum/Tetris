@@ -20,7 +20,7 @@ public:
 	// Sets default values for this actor's properties
 	ABoard();
 
-	bool IsNextPositionPossible(const ATetrimino* Tetrimino, const FVector2D& MovementVector2D);
+	bool IsMovementPossible(const ATetrimino* Tetrimino, const FIntPoint& MovementIntPoint2D) const;
 
 protected:
 	// Called when the game starts or when spawned
@@ -35,7 +35,7 @@ private:
 	void InitializeBackground();
 	void InitializeMinoMatrix();
 
-	bool IsWithinRange(const ATetrimino* Tetrimino);
+	bool IsMovementWithinRange(const ATetrimino* Tetrimino, const FIntPoint& MovementIntPoint2D) const;
 
 	static UMaterialInterface* GetMinoMaterialByPath(const FString& Path);
 
@@ -44,11 +44,18 @@ public:
 	static constexpr int32 TotalWidth = 10;
 
 	static constexpr int32 VisibleHeight = 20;
-	static constexpr int32 VisibleStartRow = TotalHeight - VisibleHeight;
-	static constexpr int32 VisibleStartCol = 0;
+	static constexpr int32 VisibleWidth = 10;
+	/** [VisibleBeginRow, VisibleEndRow) */
+	static constexpr int32 VisibleBeginRow = TotalHeight - VisibleHeight;
+	/** [VisibleBeginRow, VisibleEndRow) */
+	static constexpr int32 VisibleEndRow = VisibleBeginRow + VisibleHeight;
+	/** [VisibleBeginCol, VisibleEndCol) */
+	static constexpr int32 VisibleBeginCol = 0;
+	/** [VisibleBeginCol, VisibleEndCol) */
+	static constexpr int32 VisibleEndCol = VisibleBeginCol + VisibleWidth;
 
-	static constexpr int32 TetriminoDefaultSpawnLocationX = ABoard::VisibleStartRow - 1;
-	static constexpr int32 TetriminoDefaultSpawnLocationY = ABoard::VisibleStartCol + 3;
+	static constexpr int32 TetriminoDefaultSpawnLocationX = ABoard::VisibleBeginRow - 1;
+	static constexpr int32 TetriminoDefaultSpawnLocationY = ABoard::VisibleBeginCol + 3;
 
 private:
 	static const FString BackgroundMinoMaterialPath;
