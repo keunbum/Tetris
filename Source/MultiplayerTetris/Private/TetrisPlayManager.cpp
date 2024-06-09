@@ -63,7 +63,7 @@ void ATetrisPlayManager::StartSoftDrop()
 		// NormalFall 일시 중지
 		ClearTimer(NormalFallTimerHandle);
 
-		GetWorldTimerManager().SetTimer(SoftDropTimerHandle, this, &ATetrisPlayManager::MoveDown, GameMode->GetSoftDropSpeed(), bSoftDropTimerLoop, SoftDropTimerInitialDelay);
+		GetWorldTimerManager().SetTimer(SoftDropTimerHandle, this, &ATetrisPlayManager::MoveTetriminoDown, GameMode->GetSoftDropSpeed(), bSoftDropTimerLoop, SoftDropTimerInitialDelay);
 	}
 }
 
@@ -129,7 +129,7 @@ void ATetrisPlayManager::MoveTetriminoToCurrentDirection()
 	MoveTetriminoTo(CurrentMovementDirection);
 }
 
-void ATetrisPlayManager::MoveDown()
+void ATetrisPlayManager::MoveTetriminoDown()
 {
 	MoveTetriminoTo(ATetrimino::MoveDirectionDown);
 }
@@ -143,7 +143,7 @@ void ATetrisPlayManager::SetNormalFallTimer()
 {
 	if (GameMode && !GameMode->bNormalFallOff)
 	{
-		GetWorldTimerManager().SetTimer(NormalFallTimerHandle, this, &ATetrisPlayManager::MoveDown, NormalFallSpeed, bIsNormalFallTimerLoop, NormalFallTimerInitialDelay);
+		GetWorldTimerManager().SetTimer(NormalFallTimerHandle, this, &ATetrisPlayManager::MoveTetriminoDown, NormalFallSpeed, bIsNormalFallTimerLoop, NormalFallTimerInitialDelay);
 	}
 }
 

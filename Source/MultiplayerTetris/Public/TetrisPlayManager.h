@@ -55,7 +55,7 @@ private:
 
 	void MoveTetriminoTo(const FVector2D& Direction);
 	void MoveTetriminoToCurrentDirection();
-	void MoveDown();
+	void MoveTetriminoDown();
 
 	void SetAutoRepeatMovement();
 	void SetNormalFallTimer();
