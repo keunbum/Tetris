@@ -57,6 +57,9 @@ protected:
 	UPROPERTY(VisibleAnywhere)
 	int32 CurrentLevel;
 
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<ATetrisPlayManager> TetrisPlayManagerClass;
+
 	UPROPERTY()
 	TObjectPtr<ATetrisPlayManager> TetrisPlayManager;
 

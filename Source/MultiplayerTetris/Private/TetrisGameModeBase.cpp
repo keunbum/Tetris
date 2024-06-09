@@ -15,6 +15,7 @@
 
 ATetrisGameModeBase::ATetrisGameModeBase()
 	: CurrentLevel(DefaultGameLevel)
+	, TetrisPlayManagerClass(nullptr)
 {
 }
 
@@ -39,7 +40,8 @@ void ATetrisGameModeBase::Initialize()
 	UWorld* const World = GetWorld();
 	check(World != nullptr);
 
-	TetrisPlayManager = World->SpawnActor<ATetrisPlayManager>();
+	check(TetrisPlayManagerClass != nullptr);
+	TetrisPlayManager = World->SpawnActor<ATetrisPlayManager>(TetrisPlayManagerClass);
 	check(TetrisPlayManager != nullptr);
 }
 

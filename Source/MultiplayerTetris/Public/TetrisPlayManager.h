@@ -103,5 +103,5 @@ private:
 	FVector2D CurrentMovementDirection;
 
 	UPROPERTY(EditDefaultsOnly)
-	ETetriminoShape TestSpawnType = ETetriminoShape::L;
+	ETetriminoShape TestSpawnType = ETetriminoShape::None;
 };
