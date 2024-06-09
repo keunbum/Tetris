@@ -75,12 +75,12 @@ void ATetrisPlayManager::EndSoftDrop()
 	SetNormalFallTimer();
 }
 
-void ATetrisPlayManager::StartHardDrop()
+void ATetrisPlayManager::DoHardDrop()
 {
 	// TODO: 하드 드롭 로직 추가
 }
 
-void ATetrisPlayManager::StartRotate(const int32 RotationDirection)
+void ATetrisPlayManager::DoRotation(const int32 RotationDirection)
 {
 	RotateTetriminoTo(RotationDirection);
 }

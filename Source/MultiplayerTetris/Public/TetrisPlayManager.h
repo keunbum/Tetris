@@ -43,11 +43,9 @@ public:
 	void EndMovement();
 	void StartSoftDrop();
 	void EndSoftDrop();
-	void StartHardDrop();
-	/**
-	* @param RotationDirection - +1: 시계 방향, -1: 반시계 방향.
-	*/
-	void StartRotate(const int32 RotationDirection);
+	void DoHardDrop();
+	/** @param RotationDirection - +1: 시계 방향, -1: 반시계 방향 */
+	void DoRotation(const int32 RotationDirection);
 
 private:
 	void Initialize();

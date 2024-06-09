@@ -128,19 +128,19 @@ void ATetrisPlayerController::OnMoveSoftDropCompleted(const FInputActionValue& A
 void ATetrisPlayerController::OnMoveHardDropStarted(const FInputActionValue& ActionValue)
 {
 	UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayerController::OnMoveHardDropStarted()"));
-	GameMode->GetTetrisPlayManager()->StartHardDrop();
+	GameMode->GetTetrisPlayManager()->DoHardDrop();
 }
 
 void ATetrisPlayerController::OnMoveHardRotateClockwiseStarted(const FInputActionValue& ActionValue)
 {
 	UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayerController::RotateClockwise()"));
-	GameMode->GetTetrisPlayManager()->StartRotate(+1);
+	GameMode->GetTetrisPlayManager()->DoRotation(+1);
 }
 
 void ATetrisPlayerController::OnMoveHardCounterClockwiseStarted(const FInputActionValue& ActionValue)
 {
 	UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayerController::RotateCounterClockwise()"));
-	GameMode->GetTetrisPlayManager()->StartRotate(-1);
+	GameMode->GetTetrisPlayManager()->DoRotation(-1);
 }
 
 const FVector2D& ATetrisPlayerController::GetDirectionByKeyFlag(const EKeyFlags KeyFlag)
