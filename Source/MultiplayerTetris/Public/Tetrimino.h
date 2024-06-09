@@ -72,7 +72,7 @@ public:
 	void Initialize(const ETetriminoShape NewTetriminoShape);
 	void SetTetriminoShape(const ETetriminoShape NewTetriminoShape) { TetriminoShape = NewTetriminoShape; }
 	void MoveBy(const FIntPoint& IntVector2D);
-	void RotateBy(const int32 Value);
+	void RotateTo(const int32 RotationDirection);
 	void AttachToBoard(ABoard* const Board);
 
 	static ETetriminoShape GetTetriminoShapeRandom();

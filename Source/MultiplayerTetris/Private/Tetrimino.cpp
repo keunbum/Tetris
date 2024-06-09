@@ -163,9 +163,9 @@ void ATetrimino::MoveBy(const FIntPoint& IntPoint2D)
 	//DebugPrintState();
 }
 
-void ATetrimino::RotateBy(const int32 Value)
+void ATetrimino::RotateTo(const int32 RotationDirection)
 {
-	SetFacing(Facing + Value);
+	SetFacing(Facing + RotationDirection);
 	UpdateMinoLocalMatrixLocations();
 }
 
