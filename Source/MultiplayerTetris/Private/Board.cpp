@@ -28,6 +28,20 @@ ABoard::ABoard()
 	MinoClass = AMino::StaticClass();
 }
 
+// Called when the game starts or when spawned
+void ABoard::BeginPlay()
+{
+	Super::BeginPlay();
+
+	Initialize();
+}
+
+// Called every frame
+void ABoard::Tick(const float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+}
+
 bool ABoard::IsMovementPossible(const ATetrimino* Tetrimino, const FIntPoint& MovementIntPoint2D) const
 {
 	check(Tetrimino != nullptr);
@@ -44,20 +58,6 @@ bool ABoard::IsRotationPossible(const ATetrimino* Tetrimino, const int32 Rotatio
 	const ETetriminoFacing NewTetriminoFacing = Tetrimino->GetFacing() + RotationDirection;
 	const TArray<FIntPoint>& NewMinoLocalMatrixLocations = ATetrimino::GetMinoLocalMatrixLocationsByTetriminoShapeAndFacing(TetriminoShape, NewTetriminoFacing);
 	return IsMinoLocationsPossible(TetriminoMatrixLocation, NewMinoLocalMatrixLocations);
-}
-
-// Called when the game starts or when spawned
-void ABoard::BeginPlay()
-{
-	Super::BeginPlay();
-
-	Initialize();
-}
-
-// Called every frame
-void ABoard::Tick(const float DeltaTime)
-{
-	Super::Tick(DeltaTime);
 }
 
 void ABoard::Initialize()

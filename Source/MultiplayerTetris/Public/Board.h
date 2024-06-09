@@ -20,15 +20,17 @@ public:
 	// Sets default values for this actor's properties
 	ABoard();
 
-	bool IsMovementPossible(const ATetrimino* Tetrimino, const FIntPoint& MovementIntPoint2D) const;
-	bool IsRotationPossible(const ATetrimino* Tetrimino, const int32 RotationDirection) const;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(const float DeltaTime) override;
+
+public:
+	bool IsMovementPossible(const ATetrimino* Tetrimino, const FIntPoint& MovementIntPoint2D) const;
+	bool IsRotationPossible(const ATetrimino* Tetrimino, const int32 RotationDirection) const;
 
 private:
 	void Initialize();
