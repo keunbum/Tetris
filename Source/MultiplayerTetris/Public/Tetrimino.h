@@ -42,7 +42,7 @@ enum class ETetriminoFacing : uint8
 
 ENUM_CLASS_OPERATORS(ETetriminoFacing)
 
-struct FTetriminoInfo
+struct FTetriminoShapeInfo
 {
 	TMap<ETetriminoFacing, TArray<FIntPoint>> MinoLocalMatrixLocationsByFacing;
 	FString MaterialPath;
@@ -68,7 +68,7 @@ public:
 	virtual void Tick(const float DeltaTime) override;
 
 public:
-	const FTetriminoInfo& GetTetriminoInfo() const;
+	const FTetriminoShapeInfo& GetTetriminoShapeInfo() const;
 	const FIntPoint& GetInitialMatrixLocation() const;
 	const TArray<FIntPoint>& GetMinoLocalMatrixLocations() const;
 	/** @param RotationDirection - +1: 시계 방향, -1: 반시계 방향 */
@@ -97,7 +97,7 @@ protected:
 
 	void DebugPrintState() const;
 
-	static const FTetriminoInfo& GetTetriminoInfoByShape(const ETetriminoShape Shape);
+	static const FTetriminoShapeInfo& GetTetriminoShapeInfoByShape(const ETetriminoShape Shape);
 	static const FIntPoint& GetInitialMatrixLocationByShape(const ETetriminoShape Shape);
 
 	struct FRotationInfo
@@ -107,7 +107,7 @@ protected:
 		int32 Direction;
 	};
 	static const TArray<FIntPoint>& GetSRSRotationPointOffsetsByRotationInfo(const FRotationInfo& RotationInfo);
-	static UMaterialInterface* GetMaterialByTetriminoInfo(const FTetriminoInfo& TetriminoInfo);
+	static UMaterialInterface* GetMaterialByTetriminoShapeInfo(const FTetriminoShapeInfo& TetriminoShapeInfo);
 	static FString GetTetriminoShapeName(const ETetriminoShape Shape);
 	static FString GetFacingName(const ETetriminoFacing Facing);
 
@@ -117,7 +117,7 @@ public:
 	static const FVector2D MoveDirectionRight;
 	static const FVector2D MoveDirectionDown;
 
-	static const TMap<ETetriminoShape, FTetriminoInfo> TetriminoInfos;
+	static const TMap<ETetriminoShape, FTetriminoShapeInfo> TetriminoShapeInfos;
 
 private:
 	UPROPERTY(VisibleAnywhere)

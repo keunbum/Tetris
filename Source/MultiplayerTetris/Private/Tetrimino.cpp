@@ -13,7 +13,7 @@ const FVector2D ATetrimino::MoveDirectionLeft = FVector2D(0, -1);
 const FVector2D ATetrimino::MoveDirectionRight = -MoveDirectionLeft;
 const FVector2D ATetrimino::MoveDirectionDown = MoveDirectionLeft.GetRotated(90.f);
 
-const TMap<ETetriminoShape, FTetriminoInfo> ATetrimino::TetriminoInfos =
+const TMap<ETetriminoShape, FTetriminoShapeInfo> ATetrimino::TetriminoShapeInfos =
 {
 	{
 		ETetriminoShape::O,
@@ -187,9 +187,9 @@ const TArray<FIntPoint>& ATetrimino::GetSRSRotationPointOffsets(const int32 Rota
 	return ATetrimino::GetSRSRotationPointOffsetsByRotationInfo(RotationInfo);
 }
 
-const FTetriminoInfo& ATetrimino::GetTetriminoInfo() const
+const FTetriminoShapeInfo& ATetrimino::GetTetriminoShapeInfo() const
 {
-	return ATetrimino::GetTetriminoInfoByShape(Shape);
+	return ATetrimino::GetTetriminoShapeInfoByShape(Shape);
 }
 
 const FIntPoint& ATetrimino::GetInitialMatrixLocation() const
@@ -233,13 +233,13 @@ ETetriminoShape ATetrimino::GetTetriminoShapeRandom()
 
 const TArray<FIntPoint>& ATetrimino::GetMinoLocalMatrixLocationsByTetriminoShapeAndFacing(const ETetriminoShape Shape, const ETetriminoFacing Facing)
 {
-	const FTetriminoInfo& TetriminoInfo = ATetrimino::GetTetriminoInfoByShape(Shape);
-	return TetriminoInfo.MinoLocalMatrixLocationsByFacing[Facing];
+	const FTetriminoShapeInfo& TetriminoShapeInfo = ATetrimino::GetTetriminoShapeInfoByShape(Shape);
+	return TetriminoShapeInfo.MinoLocalMatrixLocationsByFacing[Facing];
 }
 
 UMaterialInterface* ATetrimino::GetMaterial() const
 {
-	return ATetrimino::GetMaterialByTetriminoInfo(GetTetriminoInfo());
+	return ATetrimino::GetMaterialByTetriminoShapeInfo(GetTetriminoShapeInfo());
 }
 
 void ATetrimino::InitializeMinoArray()
@@ -294,31 +294,31 @@ void ATetrimino::DebugPrintState() const
 	}
 }
 
-const FTetriminoInfo& ATetrimino::GetTetriminoInfoByShape(const ETetriminoShape Shape)
+const FTetriminoShapeInfo& ATetrimino::GetTetriminoShapeInfoByShape(const ETetriminoShape Shape)
 {
-	const FTetriminoInfo* TetriminoInfo = TetriminoInfos.Find(Shape);
-	check(TetriminoInfo != nullptr);
-	return *TetriminoInfo;
+	const FTetriminoShapeInfo* TetriminoShapeInfo = TetriminoShapeInfos.Find(Shape);
+	check(TetriminoShapeInfo != nullptr);
+	return *TetriminoShapeInfo;
 }
 
 const FIntPoint& ATetrimino::GetInitialMatrixLocationByShape(const ETetriminoShape Shape)
 {
-	const FTetriminoInfo& TetriminoInfo = ATetrimino::GetTetriminoInfoByShape(Shape);
-	return TetriminoInfo.InitialMatrixLocation;
+	const FTetriminoShapeInfo& TetriminoShapeInfo = ATetrimino::GetTetriminoShapeInfoByShape(Shape);
+	return TetriminoShapeInfo.InitialMatrixLocation;
 }
 
 const TArray<FIntPoint>& ATetrimino::GetSRSRotationPointOffsetsByRotationInfo(const FRotationInfo& RotationInfo)
 {
-	const FTetriminoInfo& TetriminoInfo = ATetrimino::GetTetriminoInfoByShape(RotationInfo.Shape);
-	return TetriminoInfo.SRSRotationPointOffsetsTable[RotationInfo.Facing];
+	const FTetriminoShapeInfo& TetriminoShapeInfo = ATetrimino::GetTetriminoShapeInfoByShape(RotationInfo.Shape);
+	return TetriminoShapeInfo.SRSRotationPointOffsetsTable[RotationInfo.Facing];
 }
 
-UMaterialInterface* ATetrimino::GetMaterialByTetriminoInfo(const FTetriminoInfo& TetriminoInfo)
+UMaterialInterface* ATetrimino::GetMaterialByTetriminoShapeInfo(const FTetriminoShapeInfo& TetriminoShapeInfo)
 {
-	UMaterialInterface* const MinoMaterial = Cast<UMaterialInterface>(StaticLoadObject(UMaterialInterface::StaticClass(), nullptr, *TetriminoInfo.MaterialPath));
+	UMaterialInterface* const MinoMaterial = Cast<UMaterialInterface>(StaticLoadObject(UMaterialInterface::StaticClass(), nullptr, *TetriminoShapeInfo.MaterialPath));
 	if (!MinoMaterial)
 	{
-		UE_LOG(LogTemp, Error, TEXT("Failed to load material: %s"), *TetriminoInfo.MaterialPath);
+		UE_LOG(LogTemp, Error, TEXT("Failed to load material: %s"), *TetriminoShapeInfo.MaterialPath);
 	}
 	return MinoMaterial;
 }
