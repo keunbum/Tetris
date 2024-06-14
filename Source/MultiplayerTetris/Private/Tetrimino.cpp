@@ -181,7 +181,7 @@ const TArray<FIntPoint>& ATetrimino::GetMinoLocalMatrixLocations() const
 	return ATetrimino::GetMinoLocalMatrixLocationsByTetriminoShapeAndFacing(Shape, Facing);
 }
 
-const TArray<FIntPoint>& ATetrimino::GetSRSRotationPointOffsets(const int32 RotationDirection) const
+const TArray<FIntPoint>& ATetrimino::GetSRSRotationPointOffsets(const ETetriminoRotationDirection RotationDirection) const
 {
 	const FRotationInfo RotationInfo(Shape, Facing, RotationDirection);
 	return ATetrimino::GetSRSRotationPointOffsetsByRotationInfo(RotationInfo);
@@ -212,9 +212,9 @@ void ATetrimino::MoveBy(const FIntPoint& IntPoint2D)
 	//DebugPrintState();
 }
 
-void ATetrimino::RotateTo(const int32 RotationDirection)
+void ATetrimino::RotateTo(const ETetriminoRotationDirection RotationDirection)
 {
-	SetFacing(Facing + RotationDirection);
+	SetFacing(Facing + static_cast<int32>(RotationDirection));
 	UpdateMinoLocalMatrixLocations();
 }
 

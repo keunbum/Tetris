@@ -80,7 +80,7 @@ void ATetrisPlayManager::DoHardDrop()
 	// TODO: 하드 드롭 로직 추가
 }
 
-void ATetrisPlayManager::DoRotation(const int32 RotationDirection)
+void ATetrisPlayManager::DoRotation(const ETetriminoRotationDirection RotationDirection)
 {
 	RunSuperRotationSystem(RotationDirection);
 }
@@ -127,7 +127,7 @@ void ATetrisPlayManager::MoveTetriminoDown()
 	MoveTetriminoTo(ATetrimino::MoveDirectionDown);
 }
 
-void ATetrisPlayManager::RunSuperRotationSystem(const int32 RotationDirection)
+void ATetrisPlayManager::RunSuperRotationSystem(const ETetriminoRotationDirection RotationDirection)
 {
 	// TODO: SRS must be applied.
 	if (!TetriminoInPlay)

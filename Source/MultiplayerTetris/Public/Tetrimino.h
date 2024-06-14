@@ -42,6 +42,13 @@ enum class ETetriminoFacing : uint8
 
 ENUM_CLASS_OPERATORS(ETetriminoFacing)
 
+UENUM()
+enum class ETetriminoRotationDirection : int8
+{
+	CounterClockwise = -1,
+	Clockwise = 1
+};
+
 struct FTetriminoShapeInfo
 {
 	TMap<ETetriminoFacing, TArray<FIntPoint>> MinoLocalMatrixLocationsByFacing;
@@ -71,8 +78,7 @@ public:
 	const FTetriminoShapeInfo& GetTetriminoShapeInfo() const;
 	const FIntPoint& GetInitialMatrixLocation() const;
 	const TArray<FIntPoint>& GetMinoLocalMatrixLocations() const;
-	/** @param RotationDirection - +1: 시계 방향, -1: 반시계 방향 */
-	const TArray<FIntPoint>& GetSRSRotationPointOffsets(const int32 RotationDirection) const;
+	const TArray<FIntPoint>& GetSRSRotationPointOffsets(const ETetriminoRotationDirection RotationDirection) const;
 
 	const ETetriminoShape& GetShape() const { return Shape; }
 	const ETetriminoFacing& GetFacing() const { return Facing; }
@@ -82,7 +88,7 @@ public:
 	void Initialize(const ETetriminoShape NewTetriminoShape);
 	void SetShape(const ETetriminoShape NewShape) { Shape = NewShape; }
 	void MoveBy(const FIntPoint& IntVector2D);
-	void RotateTo(const int32 RotationDirection);
+	void RotateTo(const ETetriminoRotationDirection RotationDirection);
 	void AttachToBoard(ABoard* const Board);
 
 	static ETetriminoShape GetTetriminoShapeRandom();
@@ -104,7 +110,7 @@ protected:
 	{
 		ETetriminoShape Shape;
 		ETetriminoFacing Facing;
-		int32 Direction;
+		ETetriminoRotationDirection Direction;
 	};
 	static const TArray<FIntPoint>& GetSRSRotationPointOffsetsByRotationInfo(const FRotationInfo& RotationInfo);
 	static UMaterialInterface* GetMaterialByTetriminoShapeInfo(const FTetriminoShapeInfo& TetriminoShapeInfo);

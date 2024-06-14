@@ -134,13 +134,13 @@ void ATetrisPlayerController::OnMoveHardDropStarted(const FInputActionValue& Act
 void ATetrisPlayerController::OnMoveHardRotateClockwiseStarted(const FInputActionValue& ActionValue)
 {
 	UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayerController::RotateClockwise()"));
-	GameMode->GetTetrisPlayManager()->DoRotation(+1);
+	GameMode->GetTetrisPlayManager()->DoRotation(ETetriminoRotationDirection::Clockwise);
 }
 
 void ATetrisPlayerController::OnMoveHardCounterClockwiseStarted(const FInputActionValue& ActionValue)
 {
 	UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayerController::RotateCounterClockwise()"));
-	GameMode->GetTetrisPlayManager()->DoRotation(-1);
+	GameMode->GetTetrisPlayManager()->DoRotation(ETetriminoRotationDirection::CounterClockwise);
 }
 
 const FVector2D& ATetrisPlayerController::GetDirectionByKeyFlag(const EKeyFlags KeyFlag)

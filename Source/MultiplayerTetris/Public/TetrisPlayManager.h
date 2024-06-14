@@ -44,8 +44,7 @@ public:
 	void StartSoftDrop();
 	void EndSoftDrop();
 	void DoHardDrop();
-	/** @param RotationDirection - +1: 시계 방향, -1: 반시계 방향 */
-	void DoRotation(const int32 RotationDirection);
+	void DoRotation(const ETetriminoRotationDirection RotationDirection);
 
 private:
 	void Initialize();
@@ -55,8 +54,7 @@ private:
 	void MoveTetriminoToCurrentDirection();
 	void MoveTetriminoDown();
 
-	/** @param RotationDirection - +1: 시계 방향, -1: 반시계 방향 */
-	void RunSuperRotationSystem(const int32 RotationDirection);
+	void RunSuperRotationSystem(const ETetriminoRotationDirection RotationDirection);
 
 	void SetAutoRepeatMovement();
 	void SetNormalFallTimer();

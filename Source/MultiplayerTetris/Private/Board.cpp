@@ -50,12 +50,12 @@ bool ABoard::IsMovementPossible(const ATetrimino* Tetrimino, const FIntPoint& Mo
 	return IsMinoLocationsPossible(NewTetriminoMatrixLocation, MinoLocalMatrixLocations);
 }
 
-bool ABoard::IsRotationPossible(const ATetrimino* Tetrimino, const int32 RotationDirection, const FIntPoint& RotationPointOffset) const
+bool ABoard::IsRotationPossible(const ATetrimino* Tetrimino, const ETetriminoRotationDirection RotationDirection, const FIntPoint& RotationPointOffset) const
 {
 	check(Tetrimino != nullptr);
 	const FIntPoint& NewTetriminoMatrixLocation = Tetrimino->GetMatrixLocation() + RotationPointOffset;
 	const ETetriminoShape TetriminoShape = Tetrimino->GetShape();
-	const ETetriminoFacing NewTetriminoFacing = Tetrimino->GetFacing() + RotationDirection;
+	const ETetriminoFacing NewTetriminoFacing = Tetrimino->GetFacing() + static_cast<int32>(RotationDirection);
 	const TArray<FIntPoint>& NewMinoLocalMatrixLocations = ATetrimino::GetMinoLocalMatrixLocationsByTetriminoShapeAndFacing(TetriminoShape, NewTetriminoFacing);
 	return IsMinoLocationsPossible(NewTetriminoMatrixLocation, NewMinoLocalMatrixLocations);
 }
