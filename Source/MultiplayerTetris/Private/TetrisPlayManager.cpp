@@ -135,7 +135,7 @@ void ATetrisPlayManager::RunSuperRotationSystem(const int32 RotationDirection)
 		return;
 	}
 
-	const TArray<FIntPoint>& RotationPointOffsets = TetriminoInPlay->GetSRSRotationPointOffsets();
+	const TArray<FIntPoint>& RotationPointOffsets = TetriminoInPlay->GetSRSRotationPointOffsets(RotationDirection);
 	for (int32 PointIndex = 0; PointIndex < RotationPointOffsets.Num(); ++PointIndex)
 	{
 		const FIntPoint& RotationPointOffset = RotationPointOffsets[PointIndex];

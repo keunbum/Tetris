@@ -55,6 +55,7 @@ private:
 	void MoveTetriminoToCurrentDirection();
 	void MoveTetriminoDown();
 
+	/** @param RotationDirection - +1: 시계 방향, -1: 반시계 방향 */
 	void RunSuperRotationSystem(const int32 RotationDirection);
 
 	void SetAutoRepeatMovement();

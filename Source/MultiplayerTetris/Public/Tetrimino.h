@@ -71,7 +71,8 @@ public:
 	const FTetriminoInfo& GetTetriminoInfo() const;
 	const FIntPoint& GetInitialMatrixLocation() const;
 	const TArray<FIntPoint>& GetMinoLocalMatrixLocations() const;
-	const TArray<FIntPoint>& GetSRSRotationPointOffsets() const;
+	/** @param RotationDirection - +1: 시계 방향, -1: 반시계 방향 */
+	const TArray<FIntPoint>& GetSRSRotationPointOffsets(const int32 RotationDirection) const;
 
 	const ETetriminoShape& GetShape() const { return Shape; }
 	const ETetriminoFacing& GetFacing() const { return Facing; }
@@ -98,7 +99,14 @@ protected:
 
 	static const FTetriminoInfo& GetTetriminoInfoByShape(const ETetriminoShape Shape);
 	static const FIntPoint& GetInitialMatrixLocationByShape(const ETetriminoShape Shape);
-	static const TArray<FIntPoint>& GetSRSRotationPointOffsetsByShapeAndFacing(const ETetriminoShape Shape, const ETetriminoFacing Facing);
+
+	struct FRotationInfo
+	{
+		ETetriminoShape Shape;
+		ETetriminoFacing Facing;
+		int32 Direction;
+	};
+	static const TArray<FIntPoint>& GetSRSRotationPointOffsetsByRotationInfo(const FRotationInfo& RotationInfo);
 	static UMaterialInterface* GetMaterialByTetriminoInfo(const FTetriminoInfo& TetriminoInfo);
 	static FString GetTetriminoShapeName(const ETetriminoShape Shape);
 	static FString GetFacingName(const ETetriminoFacing Facing);
