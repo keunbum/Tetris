@@ -76,7 +76,7 @@ void ABoard::InitializeBackground()
 	{
 		for (int32 Col = 0; Col < TotalWidth; ++Col)
 		{
-			AMino* const Mino = GetWorld()->SpawnActor<AMino>(MinoClass, FVector::ZeroVector, FRotator::ZeroRotator);
+			AMino* const Mino = GetWorld()->SpawnActor<AMino>(MinoClass);
 			check(Mino != nullptr);
 
 			const FString& MinoMaterialPath = (Row == (TotalHeight - VisibleHeight) ? SpecialMinoMaterialPath : BackgroundMinoMaterialPath);
@@ -87,6 +87,7 @@ void ABoard::InitializeBackground()
 			Mino->SetMaterial(ElementIndex, MinoMaterial);
 
 			Mino->AttachToActor(this, FAttachmentTransformRules::KeepRelativeTransform);
+
 			const FIntPoint MinoLocalMatrixLocation(Row, Col);
 			Mino->SetRelativeLocationByMatrixLocation(MinoLocalMatrixLocation);
 
@@ -98,20 +99,18 @@ void ABoard::InitializeBackground()
 void ABoard::InitializeMinoMatrix()
 {
 	MinoMatrix.Reserve(TotalHeight * TotalWidth);
-	for (int32 Row = 0; Row < TotalHeight; ++Row)
+	for (int32 _ = 0; _ < TotalHeight * TotalWidth; ++_)
 	{
-		for (int32 Col = 0; Col < TotalWidth; ++Col)
-		{
-			AMino* const Mino = nullptr;
-			MinoMatrix.Add(Mino);
-		}
+		AMino* const Mino = nullptr;
+		MinoMatrix.Add(Mino);
+
 	}
 }
 
 AMino* ABoard::GetMinoByMatrixLocation(const FIntPoint& MatrixLocation) const
 {
-	const int32 Index1D = TotalWidth * MatrixLocation.X + MatrixLocation.Y;
-	return MinoMatrix[Index1D];
+	const int32 Index = TotalWidth * MatrixLocation.X + MatrixLocation.Y;
+	return MinoMatrix[Index];
 }
 
 bool ABoard::IsMatrixLocationEmpty(const FIntPoint& MatrixLocation) const
@@ -136,4 +135,3 @@ UMaterialInterface* ABoard::GetMinoMaterialByPath(const FString& Path)
 	ensureMsgf(MinoMaterial != nullptr, TEXT("Failed to load material: %s"), *Path);
 	return MinoMaterial;
 }
-
