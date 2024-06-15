@@ -91,6 +91,8 @@ public:
 	void RotateTo(const ETetriminoRotationDirection RotationDirection);
 	void AttachToBoard(ABoard* const Board);
 
+	void DebugPrintState() const;
+
 	static ETetriminoShape GetTetriminoShapeRandom();
 	static const TArray<FIntPoint>& GetMinoLocalMatrixLocationsByTetriminoShapeAndFacing(const ETetriminoShape Shape, const ETetriminoFacing Facing);
 
@@ -100,8 +102,6 @@ protected:
 	UMaterialInterface* GetMaterial() const;
 	void InitializeMinoArray();
 	void UpdateMinoLocalMatrixLocations();
-
-	void DebugPrintState() const;
 
 	static const FTetriminoShapeInfo& GetTetriminoShapeInfoByShape(const ETetriminoShape Shape);
 	static const FIntPoint& GetInitialMatrixLocationByShape(const ETetriminoShape Shape);

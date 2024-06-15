@@ -377,7 +377,6 @@ void ATetrimino::MoveBy(const FIntPoint& IntPoint2D)
 	const FVector LocalOffset(AMino::Get3DRelativePositionByMatrixLocation(IntPoint2D));
 	AddActorLocalOffset(LocalOffset);
 	MatrixLocation += IntPoint2D;
-	//DebugPrintState();
 }
 
 void ATetrimino::RotateTo(const ETetriminoRotationDirection RotationDirection)
@@ -390,6 +389,22 @@ void ATetrimino::AttachToBoard(ABoard* const Board)
 {
 	AttachToActor(Board, FAttachmentTransformRules::KeepRelativeTransform);
 	MoveBy(GetInitialMatrixLocation());
+}
+
+void ATetrimino::DebugPrintState() const
+{
+	UE_LOG(LogTemp, Log, TEXT("TetriminoInPlay Type: %s"), *GetTetriminoShapeName(Shape));
+	//UE_LOG(LogTemp, Log, TEXT("Tetrimino: Location: %s"), *GetActorLocation().ToString());
+	UE_LOG(LogTemp, Log, TEXT("Tetrimino: Facing: %s"), *GetFacingName(Facing));
+
+	//for (int32 Index = 0; Index < MinoNum; ++Index)
+	//{
+	//	if (MinoArray[Index])
+	//	{
+	//		const FVector MinoRelativeLocation = MinoArray[Index]->GetRelativeLocation();
+	//		UE_LOG(LogTemp, Log, TEXT("Mino %d: Relative Location: %s"), Index, *MinoRelativeLocation.ToString());
+	//	}
+	//}
 }
 
 ETetriminoShape ATetrimino::GetTetriminoShapeRandom()
@@ -443,21 +458,6 @@ void ATetrimino::UpdateMinoLocalMatrixLocations()
 		{
 			const FIntPoint& NewMinoLocalMatrixLocation = MinoLocalMatrixLocations[MinoID];
 			Mino->SetRelativeLocationByMatrixLocation(NewMinoLocalMatrixLocation);
-		}
-	}
-}
-
-void ATetrimino::DebugPrintState() const
-{
-	UE_LOG(LogTemp, Log, TEXT("TetriminoInPlay Type: %s"), *GetTetriminoShapeName(Shape));
-	UE_LOG(LogTemp, Log, TEXT("Tetrimino: Location: %s"), *GetActorLocation().ToString());
-
-	for (int32 Index = 0; Index < MinoNum; ++Index)
-	{
-		if (MinoArray[Index])
-		{
-			const FVector MinoRelativeLocation = MinoArray[Index]->GetRelativeLocation();
-			UE_LOG(LogTemp, Log, TEXT("Mino %d: Relative Location: %s"), Index, *MinoRelativeLocation.ToString());
 		}
 	}
 }

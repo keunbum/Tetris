@@ -129,7 +129,6 @@ void ATetrisPlayManager::MoveTetriminoDown()
 
 void ATetrisPlayManager::RunSuperRotationSystem(const ETetriminoRotationDirection RotationDirection)
 {
-	// TODO: SRS must be applied.
 	if (!TetriminoInPlay)
 	{
 		return;
@@ -143,11 +142,11 @@ void ATetrisPlayManager::RunSuperRotationSystem(const ETetriminoRotationDirectio
 		{
 			TetriminoInPlay->RotateTo(RotationDirection);
 			TetriminoInPlay->MoveBy(RotationPointOffset);
-			UE_LOG(LogTemp, Display, TEXT("%dth Rotation Point was successful."), PointIndex + 1);
+			//UE_LOG(LogTemp, Display, TEXT("%Rotation with Point%d."), PointIndex + 1);
 			return;
 		}
 	}
-	UE_LOG(LogTemp, Display, TEXT("All of Rotation Points failed."));
+	//UE_LOG(LogTemp, Display, TEXT("All of Rotation Points failed."));
 }
 
 void ATetrisPlayManager::SetAutoRepeatMovement()
