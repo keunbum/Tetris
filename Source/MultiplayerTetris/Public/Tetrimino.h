@@ -54,7 +54,7 @@ struct FTetriminoShapeInfo
 	TMap<ETetriminoFacing, TArray<FIntPoint>> MinoLocalMatrixLocationsByFacing;
 	FString MaterialPath;
 	FIntPoint InitialMatrixLocation;
-	TMap<ETetriminoFacing, TArray<FIntPoint>> SRSRotationPointOffsetsTable; // Super Rotation System Rotation Point Table
+	TMap<ETetriminoFacing, TMap<ETetriminoRotationDirection, TArray<FIntPoint>>> SRSRotationPointOffsetsTable; // Super Rotation System Rotation Point Table
 };
 
 UCLASS()

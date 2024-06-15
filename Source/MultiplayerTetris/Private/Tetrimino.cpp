@@ -27,10 +27,34 @@ const TMap<ETetriminoShape, FTetriminoShapeInfo> ATetrimino::TetriminoShapeInfos
 			TEXT("/Game/Material/M_MinoMaterial_Yellow"),
 			FIntPoint(ABoard::TetriminoDefaultSpawnLocationX - 2, ABoard::TetriminoDefaultSpawnLocationY),
 			{
-				{ETetriminoFacing::North, {{0, 0}}},
-				{ETetriminoFacing::East, {{0, 0}}},
-				{ETetriminoFacing::South, {{0, 0}}},
-				{ETetriminoFacing::West, {{0, 0}}}
+				{
+					ETetriminoFacing::North,
+					{
+						{ ETetriminoRotationDirection::CounterClockwise, { {0, 0} } },
+						{ ETetriminoRotationDirection::Clockwise, { {0, 0} } },
+					}
+				},
+				{
+					ETetriminoFacing::East,
+					{
+						{ ETetriminoRotationDirection::CounterClockwise, { {0, 0} } },
+						{ ETetriminoRotationDirection::Clockwise, { {0, 0} } },
+					}
+				},
+				{
+					ETetriminoFacing::South,
+					{
+						{ ETetriminoRotationDirection::CounterClockwise, { {0, 0} } },
+						{ ETetriminoRotationDirection::Clockwise, { {0, 0} } },
+					}
+				},
+				{
+					ETetriminoFacing::West,
+					{
+						{ ETetriminoRotationDirection::CounterClockwise, { {0, 0} } },
+						{ ETetriminoRotationDirection::Clockwise, { {0, 0} } },
+					}
+				}
 			}
 		}
 	},
@@ -46,10 +70,34 @@ const TMap<ETetriminoShape, FTetriminoShapeInfo> ATetrimino::TetriminoShapeInfos
 			TEXT("/Game/Material/M_MinoMaterial_Cyan"),
 			FIntPoint(ABoard::TetriminoDefaultSpawnLocationX - 1, ABoard::TetriminoDefaultSpawnLocationY),
 			{
-				{ETetriminoFacing::North, {{0, 0}, {0, -2}, {0, 1}, {-1, -2}, {2, 1}}},
-				{ETetriminoFacing::East, {{0, 0}, {0, 2}, {0, -1}, {1, 2}, {-2, -1}}},
-				{ETetriminoFacing::South, {{0, 0}, {0, -2}, {0, 1}, {-1, -2}, {2, 1}}},
-				{ETetriminoFacing::West, {{0, 0}, {0, 2}, {0, -1}, {1, 2}, {-2, -1}}}
+				{
+					ETetriminoFacing::North,
+					{
+						{ ETetriminoRotationDirection::CounterClockwise, { {0, 0}, {0, -1}, {0, 2}, {-2, -1}, {1, 2} } },
+						{ ETetriminoRotationDirection::Clockwise, { {0, 0}, {0, -2}, {0, 1}, {1, -2}, {-2, 1} } },
+					}
+				},
+				{
+					ETetriminoFacing::East,
+					{
+						{ ETetriminoRotationDirection::CounterClockwise, { {0, 0}, {0, 2}, {0, -1}, {-1, 2}, {-2, -1} } },
+						{ ETetriminoRotationDirection::Clockwise, { {0, 0}, {0, -1}, {0, 2}, {-2, -1}, {1, 2} } },
+					}
+				},
+				{
+					ETetriminoFacing::South,
+					{
+						{ ETetriminoRotationDirection::CounterClockwise, { {0, 0}, {0, 1}, {0, -2}, {2, 1}, {-1, -2} } },
+						{ ETetriminoRotationDirection::Clockwise, { {0, 0}, {0, 2}, {0, -1}, {-1, 2}, {2, -1} } },
+					}
+				},
+				{
+					ETetriminoFacing::West,
+					{
+						{ ETetriminoRotationDirection::CounterClockwise, { {0, 0}, {0, -2}, {0, 1}, {1, -2}, {-2, 1} } },
+						{ ETetriminoRotationDirection::Clockwise, { {0, 0}, {0, 1}, {0, -2}, {2, 1}, {-1, -2} } },
+					}
+				}
 			}
 		}
 	},
@@ -65,10 +113,34 @@ const TMap<ETetriminoShape, FTetriminoShapeInfo> ATetrimino::TetriminoShapeInfos
 			TEXT("/Game/Material/M_MinoMaterial_Purple"),
 			FIntPoint(ABoard::TetriminoDefaultSpawnLocationX - 2, ABoard::TetriminoDefaultSpawnLocationY),
 			{
-				{ETetriminoFacing::North, {{0, 0}, {0, -1}, {1, -1}, {1, 1}, {-2, 0}}},
-				{ETetriminoFacing::East, {{0, 0}, {1, 0}, {-1, 0}, {-1, -1}, {2, 0}}},
-				{ETetriminoFacing::South, {{0, 0}, {0, 1}, {-1, 1}, {-1, -1}, {2, 0}}},
-				{ETetriminoFacing::West, {{0, 0}, {-1, 0}, {1, 0}, {1, 1}, {-2, 0}}}
+				{
+					ETetriminoFacing::North,
+					{
+						{ ETetriminoRotationDirection::CounterClockwise, { {0, 0}, {0, 1}, {-1, 1}, {2, 1} } },
+						{ ETetriminoRotationDirection::Clockwise, { {0, 0}, {0, -1}, {-1, -1}, {2, -1} } }
+					}
+				},
+				{
+					ETetriminoFacing::East,
+					{
+						{ ETetriminoRotationDirection::CounterClockwise, { {0, 0}, {0, 1}, {1, 1}, {-2, 0}, {-2, 1} } },
+						{ ETetriminoRotationDirection::Clockwise, { {0, 0}, {0, 1}, {1, 1}, {-2, 0}, {-2, 1} } },
+					}
+				},
+				{
+					ETetriminoFacing::South,
+					{
+						{ ETetriminoRotationDirection::CounterClockwise, { {0, 0}, {0, -1}, {2, 0}, {2, -1} } },
+						{ ETetriminoRotationDirection::Clockwise, { {0, 0}, {0, 1}, {2, 0}, {2, 1} } },
+					}
+				},
+				{
+					ETetriminoFacing::West,
+					{
+						{ ETetriminoRotationDirection::CounterClockwise, { {0, 0}, {0, -1}, {1, -1}, {-2, 0}, {-2, -1} } },
+						{ ETetriminoRotationDirection::Clockwise, { {0, 0}, {0, -1}, {1, -1}, {-2, 0}, {-2, -1} } },
+					}
+				}
 			}
 		}
 	},
@@ -84,10 +156,34 @@ const TMap<ETetriminoShape, FTetriminoShapeInfo> ATetrimino::TetriminoShapeInfos
 			TEXT("/Game/Material/M_MinoMaterial_Orange"),
 			FIntPoint(ABoard::TetriminoDefaultSpawnLocationX - 2, ABoard::TetriminoDefaultSpawnLocationY),
 			{
-				{ETetriminoFacing::North, {{0, 0}, {0, -1}, {1, -1}, {1, 1}, {-2, 0}}},
-				{ETetriminoFacing::East, {{0, 0}, {1, 0}, {-1, 0}, {-1, -1}, {2, 0}}},
-				{ETetriminoFacing::South, {{0, 0}, {0, 1}, {-1, 1}, {-1, -1}, {2, 0}}},
-				{ETetriminoFacing::West, {{0, 0}, {-1, 0}, {1, 0}, {1, 1}, {-2, 0}}}
+				{
+					ETetriminoFacing::North,
+					{
+						{ ETetriminoRotationDirection::CounterClockwise, { {0, 0}, {0, 1}, {-1, 1}, {2, 0}, {2, 1} } },
+						{ ETetriminoRotationDirection::Clockwise, { {0, 0}, {0, -1}, {-1, -1}, {2, 0}, {2, -1} } },
+					}
+				},
+				{
+					ETetriminoFacing::East,
+					{
+						{ ETetriminoRotationDirection::CounterClockwise, { {0, 0}, {0, 1}, {1, 1}, {-2, 0}, {-2, 1} } },
+						{ ETetriminoRotationDirection::Clockwise, { {0, 0}, {0, 1}, {1, 1}, {-2, 0}, {-2, 1} } },
+					}
+				},
+				{
+					ETetriminoFacing::South,
+					{
+						{ ETetriminoRotationDirection::CounterClockwise, { {0, 0}, {0, -1}, {-1, -1}, {2, 0}, {2, -1} } },
+						{ ETetriminoRotationDirection::Clockwise, { {0, 0}, {0, 1}, {-1, 1}, {2, 0}, {2, 1} } },
+					}
+				},
+				{
+					ETetriminoFacing::West,
+					{
+						{ ETetriminoRotationDirection::CounterClockwise, { {0, 0}, {0, -1}, {1, -1}, {-2, 0}, {-2, -1} } },
+						{ ETetriminoRotationDirection::Clockwise, { {0, 0}, {0, -1}, {1, -1}, {-2, 0}, {-2, -1} } },
+					}
+				}
 			}
 		}
 	},
@@ -103,10 +199,34 @@ const TMap<ETetriminoShape, FTetriminoShapeInfo> ATetrimino::TetriminoShapeInfos
 			TEXT("/Game/Material/M_MinoMaterial_Blue"),
 			FIntPoint(ABoard::TetriminoDefaultSpawnLocationX - 2, ABoard::TetriminoDefaultSpawnLocationY),
 			{
-				{ETetriminoFacing::North, {{0, 0}, {0, -1}, {1, -1}, {1, 1}, {-2, 0}}},
-				{ETetriminoFacing::East, {{0, 0}, {1, 0}, {-1, 0}, {-1, -1}, {2, 0}}},
-				{ETetriminoFacing::South, {{0, 0}, {0, 1}, {-1, 1}, {-1, -1}, {2, 0}}},
-				{ETetriminoFacing::West, {{0, 0}, {-1, 0}, {1, 0}, {1, 1}, {-2, 0}}}
+				{
+					ETetriminoFacing::North,
+					{
+						{ ETetriminoRotationDirection::CounterClockwise, { {0, 0}, {0, 1}, {-1, 1}, {2, 0}, {2, 1} } },
+						{ ETetriminoRotationDirection::Clockwise, { {0, 0}, {0, -1}, {-1, -1}, {2, 0}, {2, -1} } },
+					}
+				},
+				{
+					ETetriminoFacing::East,
+					{
+						{ ETetriminoRotationDirection::CounterClockwise, { {0, 0}, {0, 1}, {1, 1}, {-2, 0}, {-2, 1} } },
+						{ ETetriminoRotationDirection::Clockwise, { {0, 0}, {0, 1}, {1, 1}, {-2, 0}, {-2, 1} } },
+					}
+				},
+				{
+					ETetriminoFacing::South,
+					{
+						{ ETetriminoRotationDirection::CounterClockwise, { {0, 0}, {0, -1}, {-1, -1}, {2, 0}, {2, -1} } },
+						{ ETetriminoRotationDirection::Clockwise, { {0, 0}, {0, 1}, {-1, 1}, {2, 0}, {2, 1} } },
+					}
+				},
+				{
+					ETetriminoFacing::West,
+					{
+						{ ETetriminoRotationDirection::CounterClockwise, { {0, 0}, {0, -1}, {1, -1}, {-2, 0}, {-2, -1} } },
+						{ ETetriminoRotationDirection::Clockwise, { {0, 0}, {0, -1}, {1, -1}, {-2, 0}, {-2, -1} } },
+					}
+				}
 			}
 		}
 	},
@@ -122,10 +242,34 @@ const TMap<ETetriminoShape, FTetriminoShapeInfo> ATetrimino::TetriminoShapeInfos
 			TEXT("/Game/Material/M_MinoMaterial_Green"),
 			FIntPoint(ABoard::TetriminoDefaultSpawnLocationX - 2, ABoard::TetriminoDefaultSpawnLocationY),
 			{
-				{ETetriminoFacing::North, {{0, 0}, {0, -1}, {1, -1}, {1, 1}, {-2, 0}}},
-				{ETetriminoFacing::East, {{0, 0}, {1, 0}, {-1, 0}, {-1, -1}, {2, 0}}},
-				{ETetriminoFacing::South, {{0, 0}, {0, 1}, {-1, 1}, {-1, -1}, {2, 0}}},
-				{ETetriminoFacing::West, {{0, 0}, {-1, 0}, {1, 0}, {1, 1}, {-2, 0}}}
+				{
+					ETetriminoFacing::North,
+					{
+						{ ETetriminoRotationDirection::CounterClockwise, { {0, 0}, {0, 1}, {-1, 1}, {2, 0}, {2, 1} } },
+						{ ETetriminoRotationDirection::Clockwise, { {0, 0}, {0, -1}, {-1, -1}, {2, 0}, {2, -1} } },
+					}
+				},
+				{
+					ETetriminoFacing::East,
+					{
+						{ ETetriminoRotationDirection::CounterClockwise, { {0, 0}, {0, 1}, {1, 1}, {-2, 0}, {-2, 1} } },
+						{ ETetriminoRotationDirection::Clockwise, { {0, 0}, {0, 1}, {1, 1}, {-2, 0}, {-2, 1} } },
+					}
+				},
+				{
+					ETetriminoFacing::South,
+					{
+						{ ETetriminoRotationDirection::CounterClockwise, { {0, 0}, {0, -1}, {-1, -1}, {2, 0}, {2, -1} } },
+						{ ETetriminoRotationDirection::Clockwise, { {0, 0}, {0, 1}, {-1, 1}, {2, 0}, {2, 1} } },
+					}
+				},
+				{
+					ETetriminoFacing::West,
+					{
+						{ ETetriminoRotationDirection::CounterClockwise, { {0, 0}, {0, -1}, {1, -1}, {-2, 0}, {-2, -1} } },
+						{ ETetriminoRotationDirection::Clockwise, { {0, 0}, {0, -1}, {1, -1}, {-2, 0}, {-2, -1} } },
+					}
+				}
 			}
 		}
 	},
@@ -141,10 +285,34 @@ const TMap<ETetriminoShape, FTetriminoShapeInfo> ATetrimino::TetriminoShapeInfos
 			TEXT("/Game/Material/M_MinoMaterial_Red"),
 			FIntPoint(ABoard::TetriminoDefaultSpawnLocationX - 2, ABoard::TetriminoDefaultSpawnLocationY),
 			{
-				{ETetriminoFacing::North, {{0, 0}, {0, -1}, {1, -1}, {1, 1}, {-2, 0}}},
-				{ETetriminoFacing::East, {{0, 0}, {1, 0}, {-1, 0}, {-1, -1}, {2, 0}}},
-				{ETetriminoFacing::South, {{0, 0}, {0, 1}, {-1, 1}, {-1, -1}, {2, 0}}},
-				{ETetriminoFacing::West, {{0, 0}, {-1, 0}, {1, 0}, {1, 1}, {-2, 0}}}
+				{
+					ETetriminoFacing::North,
+					{
+						{ ETetriminoRotationDirection::CounterClockwise, { {0, 0}, {0, 1}, {-1, 1}, {2, 0}, {2, 1} } },
+						{ ETetriminoRotationDirection::Clockwise, { {0, 0}, {0, -1}, {-1, -1}, {2, 0}, {2, -1} } },
+					}
+				},
+				{
+					ETetriminoFacing::East,
+					{
+						{ ETetriminoRotationDirection::CounterClockwise, { {0, 0}, {0, 1}, {1, 1}, {-2, 0}, {-2, 1} } },
+						{ ETetriminoRotationDirection::Clockwise, { {0, 0}, {0, 1}, {1, 1}, {-2, 0}, {-2, 1} } },
+					}
+				},
+				{
+					ETetriminoFacing::South,
+					{
+						{ ETetriminoRotationDirection::CounterClockwise, { {0, 0}, {0, -1}, {-1, -1}, {2, 0}, {2, -1} } },
+						{ ETetriminoRotationDirection::Clockwise, { {0, 0}, {0, 1}, {-1, 1}, {2, 0}, {2, 1} } },
+					}
+				},
+				{
+					ETetriminoFacing::West,
+					{
+						{ ETetriminoRotationDirection::CounterClockwise, { {0, 0}, {0, -1}, {1, -1}, {-2, 0}, {-2, -1} } },
+						{ ETetriminoRotationDirection::Clockwise, { {0, 0}, {0, -1}, {1, -1}, {-2, 0}, {-2, -1} } },
+					}
+				}
 			}
 		}
 	}
@@ -310,7 +478,7 @@ const FIntPoint& ATetrimino::GetInitialMatrixLocationByShape(const ETetriminoSha
 const TArray<FIntPoint>& ATetrimino::GetSRSRotationPointOffsetsByRotationInfo(const FRotationInfo& RotationInfo)
 {
 	const FTetriminoShapeInfo& TetriminoShapeInfo = ATetrimino::GetTetriminoShapeInfoByShape(RotationInfo.Shape);
-	return TetriminoShapeInfo.SRSRotationPointOffsetsTable[RotationInfo.Facing];
+	return TetriminoShapeInfo.SRSRotationPointOffsetsTable[RotationInfo.Facing][RotationInfo.Direction];
 }
 
 UMaterialInterface* ATetrimino::GetMaterialByTetriminoShapeInfo(const FTetriminoShapeInfo& TetriminoShapeInfo)
