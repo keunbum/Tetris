@@ -5,8 +5,8 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 
-#include "Tetrimino.h"
 #include "Mino.h"
+#include "Tetrimino.h"
 
 struct FMinoInfo;
 class AMino;
@@ -43,7 +43,7 @@ private:
 	bool IsMatrixLocationEmpty(const FIntPoint& MatrixLocation) const;
 	bool IsMinoLocationsPossible(const FIntPoint& TetriminoMatrixLocation, const TArray<FIntPoint>& MinoLocalMatrixLocations) const;
 
-	static UMaterialInterface* GetMaterialByPath(const FString& Path);
+	//static UMaterialInterface* GetMaterialByPath(const FString& Path);
 	static UMaterialInterface* GetMaterialByMinoInfo(const FMinoInfo& MinoInfo);
 	static UMaterialInstanceDynamic* GetMaterialInstanceByMinoInfo(UObject* const InOuter, const FMinoInfo& MinoInfo);
 
@@ -69,8 +69,10 @@ public:
 	static constexpr int32 TetriminoDefaultSpawnLocationY = ABoard::VisibleBeginCol + 3;
 
 private:
-	static const FString BackgroundMinoMaterialPath;
-	static const FString SpecialMinoMaterialPath;
+	static const FMinoInfo BackgroundMinoInfo;
+	static const FMinoInfo SpecialMinoInfo;
+	//static const FString BackgroundMinoMaterialPath;
+	//static const FString SpecialMinoMaterialPath;
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<AMino> MinoClass;
