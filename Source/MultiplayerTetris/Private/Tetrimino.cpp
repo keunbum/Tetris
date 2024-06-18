@@ -55,7 +55,7 @@ const TMap<ETetriminoShape, FTetriminoShapeInfo> ATetrimino::TetriminoShapeInfos
 						{ ETetriminoRotationDirection::Clockwise, { {0, 0} } },
 					}
 				}
-			}
+			},
 		}
 	},
 	{
@@ -98,7 +98,7 @@ const TMap<ETetriminoShape, FTetriminoShapeInfo> ATetrimino::TetriminoShapeInfos
 						{ ETetriminoRotationDirection::Clockwise, { {0, 0}, {0, 1}, {0, -2}, {2, 1}, {-1, -2} } },
 					}
 				}
-			}
+			},
 		}
 	},
 	{
@@ -141,7 +141,7 @@ const TMap<ETetriminoShape, FTetriminoShapeInfo> ATetrimino::TetriminoShapeInfos
 						{ ETetriminoRotationDirection::Clockwise, { {0, 0}, {0, -1}, {1, -1}, {-2, 0}, {-2, -1} } },
 					}
 				}
-			}
+			},
 		}
 	},
 	{
@@ -184,7 +184,7 @@ const TMap<ETetriminoShape, FTetriminoShapeInfo> ATetrimino::TetriminoShapeInfos
 						{ ETetriminoRotationDirection::Clockwise, { {0, 0}, {0, -1}, {1, -1}, {-2, 0}, {-2, -1} } },
 					}
 				}
-			}
+			},
 		}
 	},
 	{
@@ -227,7 +227,7 @@ const TMap<ETetriminoShape, FTetriminoShapeInfo> ATetrimino::TetriminoShapeInfos
 						{ ETetriminoRotationDirection::Clockwise, { {0, 0}, {0, -1}, {1, -1}, {-2, 0}, {-2, -1} } },
 					}
 				}
-			}
+			},
 		}
 	},
 	{
@@ -270,7 +270,7 @@ const TMap<ETetriminoShape, FTetriminoShapeInfo> ATetrimino::TetriminoShapeInfos
 						{ ETetriminoRotationDirection::Clockwise, { {0, 0}, {0, -1}, {1, -1}, {-2, 0}, {-2, -1} } },
 					}
 				}
-			}
+			},
 		}
 	},
 	{
@@ -313,7 +313,7 @@ const TMap<ETetriminoShape, FTetriminoShapeInfo> ATetrimino::TetriminoShapeInfos
 						{ ETetriminoRotationDirection::Clockwise, { {0, 0}, {0, -1}, {1, -1}, {-2, 0}, {-2, -1} } },
 					}
 				}
-			}
+			},
 		}
 	}
 };
