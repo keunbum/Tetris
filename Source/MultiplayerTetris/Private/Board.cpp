@@ -70,7 +70,6 @@ void ABoard::Initialize()
 
 void ABoard::InitializeBackground()
 {
-	Background.Reserve(TotalHeight * TotalWidth);
 	for (int32 Row = 0; Row < TotalHeight; ++Row)
 	{
 		const FMinoInfo& MinoInfo = (Row == (TotalHeight - VisibleHeight) ? SpecialMinoInfo : BackgroundMinoInfo);
@@ -88,8 +87,6 @@ void ABoard::InitializeBackground()
 			Mino->AttachToComponent(BackgroundRoot, FAttachmentTransformRules::KeepRelativeTransform);
 			const FIntPoint MinoLocalMatrixLocation(Row, Col);
 			Mino->SetRelativeLocationByMatrixLocation(MinoLocalMatrixLocation);
-
-			Background.Add(Mino);
 		}
 	}
 }

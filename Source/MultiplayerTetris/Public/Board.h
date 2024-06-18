@@ -71,9 +71,6 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UMino> MinoClass;
 
-	UPROPERTY(EditDefaultsOnly)
-	TArray<TObjectPtr<UMino>> Background;
-
 	UPROPERTY()
 	TObjectPtr<USceneComponent> BackgroundRoot;
 
