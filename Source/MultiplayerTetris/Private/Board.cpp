@@ -25,6 +25,9 @@ ABoard::ABoard()
 
 	// Initialize Class variables
 	MinoClass = UMino::StaticClass();
+
+	BackgroundRoot = CreateDefaultSubobject<USceneComponent>(TEXT("BackgroundRoot"));
+	BackgroundRoot->SetupAttachment(RootComponent);
 }
 
 // Called when the game starts or when spawned
@@ -67,11 +70,6 @@ void ABoard::Initialize()
 
 void ABoard::InitializeBackground()
 {
-	// SceneComponent to serve as the root for all background minos
-	USceneComponent* BackgroundRoot = NewObject<USceneComponent>(this);
-	BackgroundRoot->RegisterComponent();
-	BackgroundRoot->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
-
 	Background.Reserve(TotalHeight * TotalWidth);
 	for (int32 Row = 0; Row < TotalHeight; ++Row)
 	{
