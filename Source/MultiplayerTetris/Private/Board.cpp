@@ -15,6 +15,9 @@
 const FMinoInfo ABoard::BackgroundMinoInfo = FMinoInfo(TEXT("/Game/Material/M_MinoMaterial"), FLinearColor::Gray);
 const FMinoInfo ABoard::SpecialMinoInfo = FMinoInfo(TEXT("/Game/Material/M_MinoMaterial"), FLinearColor::Black);
 
+// Initialize static cache
+TMap<FString, UMaterialInstanceDynamic*> ABoard::MaterialCache;
+
 // Sets default values
 ABoard::ABoard()
 {
@@ -99,7 +102,6 @@ void ABoard::InitializeMinoMatrix()
 	{
 		AMino* const Mino = nullptr;
 		MinoMatrix.Add(Mino);
-
 	}
 }
 

@@ -79,4 +79,6 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 	TArray<TObjectPtr<AMino>> MinoMatrix;
+
+	static TMap<FString, UMaterialInstanceDynamic*> MaterialCache; // static cache for material instances
 };
