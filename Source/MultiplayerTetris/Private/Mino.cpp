@@ -37,13 +37,6 @@ void AMino::Tick(const float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-FVector AMino::Get3DRelativePositionByMatrixLocation(const FIntPoint& MatrixLocation, const float Z)
-{
-	const float X = -UnitLength * MatrixLocation.Y;
-	const float Y = -UnitLength * MatrixLocation.X;
-	return FVector(X, Y, Z);
-}
-
 void AMino::SetRelativeLocationByMatrixLocation(const FIntPoint& MatrixLocation)
 {
 	const FVector RelativeLocation(AMino::Get3DRelativePositionByMatrixLocation(MatrixLocation));
@@ -63,4 +56,44 @@ void AMino::SetRelativeLocation(const FVector& NewLocation)
 void AMino::SetMaterial(const int32 ElementIndex, UMaterialInterface* const Material)
 {
 	MinoMesh->SetMaterial(ElementIndex, Material);
+}
+
+FVector AMino::Get3DRelativePositionByMatrixLocation(const FIntPoint& MatrixLocation, const float Z)
+{
+	const float X = -UnitLength * MatrixLocation.Y;
+	const float Y = -UnitLength * MatrixLocation.X;
+	return FVector(X, Y, Z);
+}
+
+UMaterialInterface* AMino::GetMaterialByMinoInfo(const FMinoInfo& MinoInfo)
+{
+	UMaterialInterface* const MinoMaterial = Cast<UMaterialInterface>(StaticLoadObject(UMaterialInterface::StaticClass(), nullptr, *MinoInfo.MaterialPath));
+	ensureMsgf(MinoMaterial != nullptr, TEXT("Failed to load material: %s"), *MinoInfo.MaterialPath);
+	return MinoMaterial;
+}
+
+UMaterialInstanceDynamic* AMino::GetMaterialInstanceByMinoInfo(UObject* const InOuter, const FMinoInfo& MinoInfo)
+{
+	static TMap<FString, UMaterialInstanceDynamic*> MaterialCache; // static cache for material instances
+
+	// Create a unique key combining material path and color
+	const FString MaterialKey = MinoInfo.MaterialPath + MinoInfo.Color.ToString();
+
+	// Check if the material instance already exists in the cache
+	if (UMaterialInstanceDynamic** const FoundMaterial = MaterialCache.Find(MaterialKey))
+	{
+		return *FoundMaterial;
+	}
+
+	// If not found, create a new material instance
+	if (UMaterialInterface* const BaseMaterial = GetMaterialByMinoInfo(MinoInfo))
+	{
+		if (UMaterialInstanceDynamic* const DynamicMaterialInstance = UMaterialInstanceDynamic::Create(BaseMaterial, InOuter))
+		{
+			DynamicMaterialInstance->SetVectorParameterValue("BaseColor", MinoInfo.Color);
+			MaterialCache.Add(MaterialKey, DynamicMaterialInstance);
+			return DynamicMaterialInstance;
+		}
+	}
+	return nullptr;
 }

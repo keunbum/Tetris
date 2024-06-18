@@ -43,9 +43,6 @@ private:
 	bool IsMatrixLocationEmpty(const FIntPoint& MatrixLocation) const;
 	bool IsMinoLocationsPossible(const FIntPoint& TetriminoMatrixLocation, const TArray<FIntPoint>& MinoLocalMatrixLocations) const;
 
-	static UMaterialInterface* GetMaterialByMinoInfo(const FMinoInfo& MinoInfo);
-	static UMaterialInstanceDynamic* GetMaterialInstanceByMinoInfo(UObject* const InOuter, const FMinoInfo& MinoInfo);
-
 public:
 	static constexpr int32 TotalHeight = 40;
 	static constexpr int32 TotalWidth = 10;

@@ -72,7 +72,7 @@ void ABoard::InitializeBackground()
 	for (int32 Row = 0; Row < TotalHeight; ++Row)
 	{
 		const FMinoInfo& MinoInfo = (Row == (TotalHeight - VisibleHeight) ? SpecialMinoInfo : BackgroundMinoInfo);
-		UMaterialInterface* const MinoMaterial = GetMaterialInstanceByMinoInfo(this, MinoInfo);
+		UMaterialInterface* const MinoMaterial = AMino::GetMaterialInstanceByMinoInfo(this, MinoInfo);
 		check(MinoMaterial != nullptr);
 		for (int32 Col = 0; Col < TotalWidth; ++Col)
 		{
@@ -122,37 +122,4 @@ bool ABoard::IsMinoLocationsPossible(const FIntPoint& TetriminoMatrixLocation, c
 			&& (IsMatrixLocationEmpty(NewMinoLocalMatrixLocation));
 		}
 	);
-}
-
-UMaterialInterface* ABoard::GetMaterialByMinoInfo(const FMinoInfo& MinoInfo)
-{
-	UMaterialInterface* const MinoMaterial = Cast<UMaterialInterface>(StaticLoadObject(UMaterialInterface::StaticClass(), nullptr, *MinoInfo.MaterialPath));
-	ensureMsgf(MinoMaterial != nullptr, TEXT("Failed to load material: %s"), *MinoInfo.MaterialPath);
-	return MinoMaterial;
-}
-
-UMaterialInstanceDynamic* ABoard::GetMaterialInstanceByMinoInfo(UObject* const InOuter, const FMinoInfo& MinoInfo)
-{
-	static TMap<FString, UMaterialInstanceDynamic*> MaterialCache; // static cache for material instances
-
-	// Create a unique key combining material path and color
-	const FString MaterialKey = MinoInfo.MaterialPath + MinoInfo.Color.ToString();
-
-	// Check if the material instance already exists in the cache
-	if (UMaterialInstanceDynamic** const FoundMaterial = MaterialCache.Find(MaterialKey))
-	{
-		return *FoundMaterial;
-	}
-
-	// If not found, create a new material instance
-	if (UMaterialInterface* const BaseMaterial = GetMaterialByMinoInfo(MinoInfo))
-	{
-		if (UMaterialInstanceDynamic* const DynamicMaterialInstance = UMaterialInstanceDynamic::Create(BaseMaterial, InOuter))
-		{
-			DynamicMaterialInstance->SetVectorParameterValue("BaseColor", MinoInfo.Color);
-			MaterialCache.Add(MaterialKey, DynamicMaterialInstance);
-			return DynamicMaterialInstance;
-		}
-	}
-	return nullptr;
 }
