@@ -8,10 +8,10 @@
 #include "Mino.h"
 #include "Tetrimino.h"
 
+#include "Board.generated.h"
+
 struct FMinoInfo;
 class AMino;
-
-#include "Board.generated.h"
 
 UCLASS()
 class MULTIPLAYERTETRIS_API ABoard : public AActor
@@ -43,7 +43,6 @@ private:
 	bool IsMatrixLocationEmpty(const FIntPoint& MatrixLocation) const;
 	bool IsMinoLocationsPossible(const FIntPoint& TetriminoMatrixLocation, const TArray<FIntPoint>& MinoLocalMatrixLocations) const;
 
-	//static UMaterialInterface* GetMaterialByPath(const FString& Path);
 	static UMaterialInterface* GetMaterialByMinoInfo(const FMinoInfo& MinoInfo);
 	static UMaterialInstanceDynamic* GetMaterialInstanceByMinoInfo(UObject* const InOuter, const FMinoInfo& MinoInfo);
 
@@ -71,8 +70,6 @@ public:
 private:
 	static const FMinoInfo BackgroundMinoInfo;
 	static const FMinoInfo SpecialMinoInfo;
-	//static const FString BackgroundMinoMaterialPath;
-	//static const FString SpecialMinoMaterialPath;
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<AMino> MinoClass;

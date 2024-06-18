@@ -14,8 +14,6 @@
 
 const FMinoInfo ABoard::BackgroundMinoInfo = FMinoInfo(TEXT("/Game/Material/M_MinoMaterial"), FLinearColor::Gray);
 const FMinoInfo ABoard::SpecialMinoInfo = FMinoInfo(TEXT("/Game/Material/M_MinoMaterial"), FLinearColor::Black);
-//const FString ABoard::BackgroundMinoMaterialPath = TEXT("/Game/Material/M_MinoMaterial_Grey");
-//const FString ABoard::SpecialMinoMaterialPath = TEXT("/Game/Material/M_MinoMaterial_Black");
 
 // Sets default values
 ABoard::ABoard()
@@ -70,25 +68,16 @@ void ABoard::Initialize()
 
 void ABoard::InitializeBackground()
 {
-	//UMaterialInterface* const BackgroundMinoMaterial = ABoard::GetMaterialByPath(BackgroundMinoMaterialPath);
-	//UMaterialInterface* const BackgroundMinoMaterial = GetMaterialInstanceByMinoInfo(this, BackgroundMinoInfo);
-	//check(BackgroundMinoMaterial != nullptr);
-
 	Background.Reserve(TotalHeight * TotalWidth);
-	UE_LOG(LogTemp, Display, TEXT("TotalHeight - VisibleHeight: %d"), TotalHeight - VisibleHeight);
 	for (int32 Row = 0; Row < TotalHeight; ++Row)
 	{
 		const FMinoInfo& MinoInfo = (Row == (TotalHeight - VisibleHeight) ? SpecialMinoInfo : BackgroundMinoInfo);
-		UE_LOG(LogTemp, Display, TEXT("Row: %d, MinoInfo.Color: %s"), Row, *MinoInfo.Color.ToString());
 		UMaterialInterface* const MinoMaterial = GetMaterialInstanceByMinoInfo(this, MinoInfo);
 		check(MinoMaterial != nullptr);
 		for (int32 Col = 0; Col < TotalWidth; ++Col)
 		{
 			AMino* const Mino = GetWorld()->SpawnActor<AMino>(MinoClass);
 			check(Mino != nullptr);
-
-			//const FString& MinoMaterialPath = (Row == (TotalHeight - VisibleHeight) ? SpecialMinoMaterialPath : BackgroundMinoMaterialPath);
-			//UMaterialInterface* const MinoMaterial = ABoard::GetMaterialByPath(MinoMaterialPath);
 
 			static constexpr int32 ElementIndex = 0;
 			Mino->SetMaterial(ElementIndex, MinoMaterial);
@@ -135,13 +124,6 @@ bool ABoard::IsMinoLocationsPossible(const FIntPoint& TetriminoMatrixLocation, c
 		}
 	);
 }
-
-//UMaterialInterface* ABoard::GetMaterialByPath(const FString& Path)
-//{
-//	UMaterialInterface* const MinoMaterial = Cast<UMaterialInterface>(StaticLoadObject(UMaterialInterface::StaticClass(), nullptr, *Path));
-//	ensureMsgf(MinoMaterial != nullptr, TEXT("Failed to load material: %s"), *Path);
-//	return MinoMaterial;
-//}
 
 UMaterialInterface* ABoard::GetMaterialByMinoInfo(const FMinoInfo& MinoInfo)
 {
