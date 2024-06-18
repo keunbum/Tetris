@@ -83,12 +83,11 @@ void ABoard::InitializeBackground()
 			UMino* Mino = NewObject<UMino>(this);
 			check(Mino != nullptr);
 
-			Mino->RegisterComponent();
-			Mino->AttachToComponent(BackgroundRoot, FAttachmentTransformRules::KeepRelativeTransform);
-
 			static constexpr int32 ElementIndex = 0;
 			Mino->SetMaterial(ElementIndex, MinoMaterial);
 
+			Mino->RegisterComponent();
+			Mino->AttachToComponent(BackgroundRoot, FAttachmentTransformRules::KeepRelativeTransform);
 			const FIntPoint MinoLocalMatrixLocation(Row, Col);
 			Mino->SetRelativeLocationByMatrixLocation(MinoLocalMatrixLocation);
 

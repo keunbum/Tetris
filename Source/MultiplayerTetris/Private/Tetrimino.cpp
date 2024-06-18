@@ -447,13 +447,12 @@ void ATetrimino::InitializeMinoArray()
 	{
 		UMino* Mino = NewObject<UMino>(this);
 		check(Mino != nullptr);
-		// Register the component
+		static constexpr int32 ElementIndex = 0;
+		Mino->SetMaterial(ElementIndex, MinoMaterial);
+
 		Mino->RegisterComponent();
 		Mino->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 		Mino->SetRelativeLocationByMatrixLocation(MinoLocalMatrixLocation);
-
-		static constexpr int32 ElementIndex = 0;
-		Mino->SetMaterial(ElementIndex, MinoMaterial);
 
 		MinoArray.Add(Mino);
 	}
