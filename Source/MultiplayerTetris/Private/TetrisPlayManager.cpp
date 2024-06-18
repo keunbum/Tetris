@@ -96,6 +96,8 @@ void ATetrisPlayManager::Initialize()
 
 	Board = World->SpawnActor<ABoard>();
 	check(Board != nullptr);
+
+	AMino::ClearMaterialCache();
 }
 
 void ATetrisPlayManager::ClearTimer(FTimerHandle& InOutTimerHandle)

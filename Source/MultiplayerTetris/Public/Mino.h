@@ -39,9 +39,11 @@ public:
 	void SetRelativeLocation(const FVector& NewLocation);
 	void SetMaterial(const int32 ElementIndex, UMaterialInterface* const Material);
 
+	static void ClearMaterialCache();
 	static FVector Get3DRelativePositionByMatrixLocation(const FIntPoint& MatrixLocation, const float Z = 0.0f);
 	static UMaterialInterface* GetMaterialByMinoInfo(const FMinoInfo& MinoInfo);
 	static UMaterialInstanceDynamic* GetMaterialInstanceByMinoInfo(UObject* const InOuter, const FMinoInfo& MinoInfo);
+
 public:
 	static constexpr float DefaultUnitLength = 100.f;
 	static constexpr float MinoScale = 0.125f;
@@ -50,4 +52,6 @@ public:
 private:
 	UPROPERTY(EditDefaultsOnly)
 	TObjectPtr<UStaticMeshComponent> MinoMesh;
+
+	static TMap<FString, UMaterialInstanceDynamic*> MaterialCache; // static cache for material instances
 };

@@ -6,6 +6,8 @@
 #include "Components/StaticMeshComponent.h"
 #include "UObject/ConstructorHelpers.h"
 
+TMap<FString, UMaterialInstanceDynamic*> AMino::MaterialCache;
+
 // Sets default values
 AMino::AMino()
 {
@@ -13,6 +15,7 @@ AMino::AMino()
 	PrimaryActorTick.bCanEverTick = true;
 
 	MinoMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MinoMesh"));
+	check(MinoMesh != nullptr);
 	RootComponent = MinoMesh;
 
 	// 기본 큐브 메시 사용
@@ -28,7 +31,7 @@ AMino::AMino()
 // Called when the game starts or when spawned
 void AMino::BeginPlay()
 {
-	Super::BeginPlay();	
+	Super::BeginPlay();
 }
 
 // Called every frame
@@ -58,6 +61,11 @@ void AMino::SetMaterial(const int32 ElementIndex, UMaterialInterface* const Mate
 	MinoMesh->SetMaterial(ElementIndex, Material);
 }
 
+void AMino::ClearMaterialCache()
+{
+	MaterialCache.Empty();
+}
+
 FVector AMino::Get3DRelativePositionByMatrixLocation(const FIntPoint& MatrixLocation, const float Z)
 {
 	const float X = -UnitLength * MatrixLocation.Y;
@@ -74,8 +82,6 @@ UMaterialInterface* AMino::GetMaterialByMinoInfo(const FMinoInfo& MinoInfo)
 
 UMaterialInstanceDynamic* AMino::GetMaterialInstanceByMinoInfo(UObject* const InOuter, const FMinoInfo& MinoInfo)
 {
-	static TMap<FString, UMaterialInstanceDynamic*> MaterialCache; // static cache for material instances
-
 	// Create a unique key combining material path and color
 	const FString MaterialKey = MinoInfo.MaterialPath + MinoInfo.Color.ToString();
 
