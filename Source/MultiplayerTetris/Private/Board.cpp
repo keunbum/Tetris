@@ -15,9 +15,6 @@
 const FMinoInfo ABoard::BackgroundMinoInfo = FMinoInfo(TEXT("/Game/Material/M_MinoMaterial"), FLinearColor::Gray);
 const FMinoInfo ABoard::SpecialMinoInfo = FMinoInfo(TEXT("/Game/Material/M_MinoMaterial"), FLinearColor::Black);
 
-// Initialize static cache
-TMap<FString, UMaterialInstanceDynamic*> ABoard::MaterialCache;
-
 // Sets default values
 ABoard::ABoard()
 {
@@ -136,11 +133,24 @@ UMaterialInterface* ABoard::GetMaterialByMinoInfo(const FMinoInfo& MinoInfo)
 
 UMaterialInstanceDynamic* ABoard::GetMaterialInstanceByMinoInfo(UObject* const InOuter, const FMinoInfo& MinoInfo)
 {
+	static TMap<FString, UMaterialInstanceDynamic*> MaterialCache; // static cache for material instances
+
+	// Create a unique key combining material path and color
+	const FString MaterialKey = MinoInfo.MaterialPath + MinoInfo.Color.ToString();
+
+	// Check if the material instance already exists in the cache
+	if (UMaterialInstanceDynamic** const FoundMaterial = MaterialCache.Find(MaterialKey))
+	{
+		return *FoundMaterial;
+	}
+
+	// If not found, create a new material instance
 	if (UMaterialInterface* const BaseMaterial = GetMaterialByMinoInfo(MinoInfo))
 	{
-		if (UMaterialInstanceDynamic* DynamicMaterialInstance = UMaterialInstanceDynamic::Create(BaseMaterial, InOuter))
+		if (UMaterialInstanceDynamic* const DynamicMaterialInstance = UMaterialInstanceDynamic::Create(BaseMaterial, InOuter))
 		{
 			DynamicMaterialInstance->SetVectorParameterValue("BaseColor", MinoInfo.Color);
+			MaterialCache.Add(MaterialKey, DynamicMaterialInstance);
 			return DynamicMaterialInstance;
 		}
 	}
