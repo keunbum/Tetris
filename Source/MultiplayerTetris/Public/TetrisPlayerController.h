@@ -64,7 +64,7 @@ private:
 	static constexpr int32 MappingContextDefaultPriority = 0;
 
 	UPROPERTY(EditDefaultsOnly)
-	float OrthoWidth = 8000 * AMino::MinoScale;
+	float OrthoWidth = 8000 * UMino::MinoScale;
 
 	// 입력 상태 추적
 	UPROPERTY()

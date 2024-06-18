@@ -11,7 +11,7 @@
 #include "Board.generated.h"
 
 struct FMinoInfo;
-class AMino;
+class UMino;
 
 UCLASS()
 class MULTIPLAYERTETRIS_API ABoard : public AActor
@@ -39,7 +39,7 @@ private:
 	void InitializeBackground();
 	void InitializeMinoMatrix();
 
-	AMino* GetMinoByMatrixLocation(const FIntPoint& MatrixLocation) const;
+	UMino* GetMinoByMatrixLocation(const FIntPoint& MatrixLocation) const;
 	bool IsMatrixLocationEmpty(const FIntPoint& MatrixLocation) const;
 	bool IsMinoLocationsPossible(const FIntPoint& TetriminoMatrixLocation, const TArray<FIntPoint>& MinoLocalMatrixLocations) const;
 
@@ -69,11 +69,11 @@ private:
 	static const FMinoInfo SpecialMinoInfo;
 
 	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<AMino> MinoClass;
+	TSubclassOf<UMino> MinoClass;
 
 	UPROPERTY(EditDefaultsOnly)
-	TArray<TObjectPtr<AMino>> Background;
+	TArray<TObjectPtr<UMino>> Background;
 
 	UPROPERTY(VisibleAnywhere)
-	TArray<TObjectPtr<AMino>> MinoMatrix;
+	TArray<TObjectPtr<UMino>> MinoMatrix;
 };

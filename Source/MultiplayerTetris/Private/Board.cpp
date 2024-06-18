@@ -9,7 +9,6 @@
 #include "UObject/ConstructorHelpers.h"
 #include "Algo/AllOf.h"
 
-#include "Mino.h"
 #include "Tetrimino.h"
 
 const FMinoInfo ABoard::BackgroundMinoInfo = FMinoInfo(TEXT("/Game/Material/M_MinoMaterial"), FLinearColor::Gray);
@@ -25,7 +24,7 @@ ABoard::ABoard()
 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
 
 	// Initialize Class variables
-	MinoClass = AMino::StaticClass();
+	MinoClass = UMino::StaticClass();
 }
 
 // Called when the game starts or when spawned
@@ -68,21 +67,27 @@ void ABoard::Initialize()
 
 void ABoard::InitializeBackground()
 {
+	// SceneComponent to serve as the root for all background minos
+	USceneComponent* BackgroundRoot = NewObject<USceneComponent>(this);
+	BackgroundRoot->RegisterComponent();
+	BackgroundRoot->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+
 	Background.Reserve(TotalHeight * TotalWidth);
 	for (int32 Row = 0; Row < TotalHeight; ++Row)
 	{
 		const FMinoInfo& MinoInfo = (Row == (TotalHeight - VisibleHeight) ? SpecialMinoInfo : BackgroundMinoInfo);
-		UMaterialInterface* const MinoMaterial = AMino::GetMaterialInstanceByMinoInfo(this, MinoInfo);
+		UMaterialInterface* const MinoMaterial = UMino::GetMaterialInstanceByMinoInfo(this, MinoInfo);
 		check(MinoMaterial != nullptr);
 		for (int32 Col = 0; Col < TotalWidth; ++Col)
 		{
-			AMino* const Mino = GetWorld()->SpawnActor<AMino>(MinoClass);
+			UMino* Mino = NewObject<UMino>(this);
 			check(Mino != nullptr);
+
+			Mino->RegisterComponent();
+			Mino->AttachToComponent(BackgroundRoot, FAttachmentTransformRules::KeepRelativeTransform);
 
 			static constexpr int32 ElementIndex = 0;
 			Mino->SetMaterial(ElementIndex, MinoMaterial);
-
-			Mino->AttachToActor(this, FAttachmentTransformRules::KeepRelativeTransform);
 
 			const FIntPoint MinoLocalMatrixLocation(Row, Col);
 			Mino->SetRelativeLocationByMatrixLocation(MinoLocalMatrixLocation);
@@ -97,12 +102,12 @@ void ABoard::InitializeMinoMatrix()
 	MinoMatrix.Reserve(TotalHeight * TotalWidth);
 	for (int32 _ = 0; _ < TotalHeight * TotalWidth; ++_)
 	{
-		AMino* const Mino = nullptr;
+		UMino* const Mino = nullptr;
 		MinoMatrix.Add(Mino);
 	}
 }
 
-AMino* ABoard::GetMinoByMatrixLocation(const FIntPoint& MatrixLocation) const
+UMino* ABoard::GetMinoByMatrixLocation(const FIntPoint& MatrixLocation) const
 {
 	const int32 Index = TotalWidth * MatrixLocation.X + MatrixLocation.Y;
 	return MinoMatrix[Index];

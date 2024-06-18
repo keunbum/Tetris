@@ -1,100 +1,59 @@
-// Copyright Ryu KeunBeom, Inc. All Rights Reserved.
+// Fill out your copyright notice in the Description page of Project Settings.
 
 
 #include "Mino.h"
 
-#include "Components/StaticMeshComponent.h"
 #include "UObject/ConstructorHelpers.h"
 
-TMap<FString, UMaterialInstanceDynamic*> AMino::MaterialCache;
+TMap<FString, UMaterialInstanceDynamic*> UMino::MaterialCache;
 
-// Sets default values
-AMino::AMino()
+UMino::UMino()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
-
-	MinoMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MinoMesh"));
-	check(MinoMesh != nullptr);
-	RootComponent = MinoMesh;
-
-	// 기본 큐브 메시 사용
 	static ConstructorHelpers::FObjectFinder<UStaticMesh> CubeMesh(TEXT("/Engine/BasicShapes/Cube.Cube"));
 	if (CubeMesh.Succeeded())
 	{
-		MinoMesh->SetStaticMesh(CubeMesh.Object);
+		SetStaticMesh(CubeMesh.Object);
 	}
 
-	MinoMesh->SetWorldScale3D(FVector(MinoScale));
+	SetWorldScale3D(FVector(MinoScale));
 }
 
-// Called when the game starts or when spawned
-void AMino::BeginPlay()
+void UMino::SetRelativeLocationByMatrixLocation(const FIntPoint& MatrixLocation)
 {
-	Super::BeginPlay();
+	SetRelativeLocation(UMino::Get3DRelativePositionByMatrixLocation(MatrixLocation));
 }
 
-// Called every frame
-void AMino::Tick(const float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-}
-
-void AMino::SetRelativeLocationByMatrixLocation(const FIntPoint& MatrixLocation)
-{
-	const FVector RelativeLocation(AMino::Get3DRelativePositionByMatrixLocation(MatrixLocation));
-	SetRelativeLocation(RelativeLocation);
-}
-
-FVector AMino::GetRelativeLocation() const
-{
-	return MinoMesh->GetRelativeLocation();
-}
-
-void AMino::SetRelativeLocation(const FVector& NewLocation)
-{
-	MinoMesh->SetRelativeLocation(NewLocation);
-}
-
-void AMino::SetMaterial(const int32 ElementIndex, UMaterialInterface* const Material)
-{
-	MinoMesh->SetMaterial(ElementIndex, Material);
-}
-
-void AMino::ClearMaterialCache()
+void UMino::ClearMaterialCache()
 {
 	MaterialCache.Empty();
 }
 
-FVector AMino::Get3DRelativePositionByMatrixLocation(const FIntPoint& MatrixLocation, const float Z)
+FVector UMino::Get3DRelativePositionByMatrixLocation(const FIntPoint& MatrixLocation, float Z)
 {
 	const float X = -UnitLength * MatrixLocation.Y;
 	const float Y = -UnitLength * MatrixLocation.X;
 	return FVector(X, Y, Z);
 }
 
-UMaterialInterface* AMino::GetMaterialByMinoInfo(const FMinoInfo& MinoInfo)
+UMaterialInterface* UMino::GetMaterialByMinoInfo(const FMinoInfo& MinoInfo)
 {
-	UMaterialInterface* const MinoMaterial = Cast<UMaterialInterface>(StaticLoadObject(UMaterialInterface::StaticClass(), nullptr, *MinoInfo.MaterialPath));
+	UMaterialInterface* MinoMaterial = Cast<UMaterialInterface>(StaticLoadObject(UMaterialInterface::StaticClass(), nullptr, *MinoInfo.MaterialPath));
 	ensureMsgf(MinoMaterial != nullptr, TEXT("Failed to load material: %s"), *MinoInfo.MaterialPath);
 	return MinoMaterial;
 }
 
-UMaterialInstanceDynamic* AMino::GetMaterialInstanceByMinoInfo(UObject* const InOuter, const FMinoInfo& MinoInfo)
+UMaterialInstanceDynamic* UMino::GetMaterialInstanceByMinoInfo(UObject* InOuter, const FMinoInfo& MinoInfo)
 {
-	// Create a unique key combining material path and color
 	const FString MaterialKey = MinoInfo.MaterialPath + MinoInfo.Color.ToString();
 
-	// Check if the material instance already exists in the cache
-	if (UMaterialInstanceDynamic** const FoundMaterial = MaterialCache.Find(MaterialKey))
+	if (UMaterialInstanceDynamic** FoundMaterial = MaterialCache.Find(MaterialKey))
 	{
 		return *FoundMaterial;
 	}
 
-	// If not found, create a new material instance
-	if (UMaterialInterface* const BaseMaterial = GetMaterialByMinoInfo(MinoInfo))
+	if (UMaterialInterface* BaseMaterial = UMino::GetMaterialByMinoInfo(MinoInfo))
 	{
-		if (UMaterialInstanceDynamic* const DynamicMaterialInstance = UMaterialInstanceDynamic::Create(BaseMaterial, InOuter))
+		if (UMaterialInstanceDynamic* DynamicMaterialInstance = UMaterialInstanceDynamic::Create(BaseMaterial, InOuter))
 		{
 			DynamicMaterialInstance->SetVectorParameterValue("BaseColor", MinoInfo.Color);
 			MaterialCache.Add(MaterialKey, DynamicMaterialInstance);

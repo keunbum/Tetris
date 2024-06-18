@@ -12,8 +12,9 @@
 
 #include "Tetrimino.generated.h"
 
-class AMino;
+class UMino;
 class ABoard;
+class UMino;
 class UMaterialInterface;
 
 UENUM()
@@ -84,7 +85,7 @@ public:
 	const ETetriminoShape& GetShape() const { return Shape; }
 	const ETetriminoFacing& GetFacing() const { return Facing; }
 	const FIntPoint& GetMatrixLocation() const { return MatrixLocation; }
-	const TArray<TObjectPtr<AMino>>& GetMinoArray() const { return MinoArray; }
+	const TArray<TObjectPtr<UMino>>& GetMinoArray() const { return MinoArray; }
 
 	void Initialize(const ETetriminoShape NewTetriminoShape);
 	void SetShape(const ETetriminoShape NewShape) { Shape = NewShape; }
@@ -136,10 +137,10 @@ private:
 	FIntPoint MatrixLocation;
 
 	UPROPERTY(VisibleAnywhere)
-	TSubclassOf<AMino> MinoClass;
+	TSubclassOf<UMino> MinoClass;
 
 	UPROPERTY(VisibleAnywhere)
-	TArray<TObjectPtr<AMino>> MinoArray;
+	TArray<TObjectPtr<UMino>> MinoArray;
 
 	UPROPERTY(EditDefaultsOnly)
 	bool bIsGhostPieceOn;

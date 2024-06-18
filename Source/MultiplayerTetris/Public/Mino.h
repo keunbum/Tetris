@@ -1,14 +1,13 @@
-// Copyright Ryu KeunBeom, Inc. All Rights Reserved.
+// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Actor.h"
+#include "Components/StaticMeshComponent.h"
 
 #include "Mino.generated.h"
 
 class UMaterialInterface;
-class UStaticMeshComponent;
 
 struct FMinoInfo
 {
@@ -16,33 +15,23 @@ struct FMinoInfo
 	FLinearColor Color;
 };
 
+/**
+ *
+ */
 UCLASS()
-class MULTIPLAYERTETRIS_API AMino : public AActor
+class MULTIPLAYERTETRIS_API UMino : public UStaticMeshComponent
 {
 	GENERATED_BODY()
-	
-public:	
-	// Sets default values for this actor's properties
-	AMino();
-
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-public:	
-	// Called every frame
-	virtual void Tick(const float DeltaTime) override;
 
 public:
+	UMino();
+
 	void SetRelativeLocationByMatrixLocation(const FIntPoint& MatrixLocation);
-	FVector GetRelativeLocation() const;
-	void SetRelativeLocation(const FVector& NewLocation);
-	void SetMaterial(const int32 ElementIndex, UMaterialInterface* const Material);
 
 	static void ClearMaterialCache();
-	static FVector Get3DRelativePositionByMatrixLocation(const FIntPoint& MatrixLocation, const float Z = 0.0f);
+	static FVector Get3DRelativePositionByMatrixLocation(const FIntPoint& MatrixLocation, float Z = 0.0f);
 	static UMaterialInterface* GetMaterialByMinoInfo(const FMinoInfo& MinoInfo);
-	static UMaterialInstanceDynamic* GetMaterialInstanceByMinoInfo(UObject* const InOuter, const FMinoInfo& MinoInfo);
+	static UMaterialInstanceDynamic* GetMaterialInstanceByMinoInfo(UObject* InOuter, const FMinoInfo& MinoInfo);
 
 public:
 	static constexpr float DefaultUnitLength = 100.f;
@@ -50,8 +39,5 @@ public:
 	static constexpr float UnitLength = DefaultUnitLength * MinoScale;
 
 private:
-	UPROPERTY(EditDefaultsOnly)
-	TObjectPtr<UStaticMeshComponent> MinoMesh;
-
 	static TMap<FString, UMaterialInstanceDynamic*> MaterialCache; // static cache for material instances
 };
