@@ -427,23 +427,16 @@ const TArray<FIntPoint>& ATetrimino::GetMinoLocalMatrixLocationsByTetriminoShape
 	return TetriminoShapeInfo.MinoLocalMatrixLocationsByFacing[Facing];
 }
 
-UMaterialInterface* ATetrimino::GetMaterial() const
-{
-	return ATetrimino::GetMaterialByTetriminoShapeInfo(GetTetriminoShapeInfo());
-}
-
 UMaterialInstanceDynamic* ATetrimino::GetMaterialInstance()
 {
-	return ATetrimino::GetMaterialInstanceByTetriminoShapeInfo(GetMaterial(), this, GetTetriminoShapeInfo());
+	const FTetriminoShapeInfo& TetriminoShapeInfo = GetTetriminoShapeInfo();
+	return AMino::GetMaterialInstanceByMinoInfo(this, FMinoInfo(TetriminoShapeInfo.MaterialPath, TetriminoShapeInfo.Color));
 }
 
 void ATetrimino::InitializeMinoArray()
 {
-	//UMaterialInterface* const MinoMaterial = GetMaterial();
-	//check(MinoMaterial != nullptr);
-
-	UMaterialInstanceDynamic* const DynamicMaterialInstance = GetMaterialInstance();
-	check(DynamicMaterialInstance != nullptr);
+	UMaterialInterface* const MinoMaterial = GetMaterialInstance();
+	check(MinoMaterial != nullptr);
 
 	const TArray<FIntPoint>& MinoLocalMatrixLocations = GetMinoLocalMatrixLocations();
 	check(MinoLocalMatrixLocations.Num() == MinoNum);
@@ -454,7 +447,7 @@ void ATetrimino::InitializeMinoArray()
 		if (AMino* const Mino = GetWorld()->SpawnActor<AMino>(MinoClass, FVector::ZeroVector, FRotator::ZeroRotator))
 		{
 			static constexpr int32 ElementIndex = 0;
-			Mino->SetMaterial(ElementIndex, DynamicMaterialInstance);
+			Mino->SetMaterial(ElementIndex, MinoMaterial);
 
 			Mino->AttachToActor(this, FAttachmentTransformRules::KeepRelativeTransform);
 			Mino->SetRelativeLocationByMatrixLocation(MinoLocalMatrixLocation);
@@ -494,27 +487,6 @@ const TArray<FIntPoint>& ATetrimino::GetSRSRotationPointOffsetsByRotationInfo(co
 {
 	const FTetriminoShapeInfo& TetriminoShapeInfo = ATetrimino::GetTetriminoShapeInfoByShape(RotationInfo.Shape);
 	return TetriminoShapeInfo.SRSRotationPointOffsetsTable[RotationInfo.Facing][RotationInfo.Direction];
-}
-
-UMaterialInterface* ATetrimino::GetMaterialByTetriminoShapeInfo(const FTetriminoShapeInfo& TetriminoShapeInfo)
-{
-	UMaterialInterface* const MinoMaterial = Cast<UMaterialInterface>(StaticLoadObject(UMaterialInterface::StaticClass(), nullptr, *TetriminoShapeInfo.MaterialPath));
-	if (!MinoMaterial)
-	{
-		UE_LOG(LogTemp, Error, TEXT("Failed to load material: %s"), *TetriminoShapeInfo.MaterialPath);
-	}
-	return MinoMaterial;
-}
-
-UMaterialInstanceDynamic* ATetrimino::GetMaterialInstanceByTetriminoShapeInfo(UMaterialInterface* const BaseMaterial, UObject* const InOuter, const FTetriminoShapeInfo& TetriminoShapeInfo)
-{
-	check(BaseMaterial != nullptr);
-	if (UMaterialInstanceDynamic* DynamicMaterialInstance = UMaterialInstanceDynamic::Create(BaseMaterial, InOuter))
-	{
-		DynamicMaterialInstance->SetVectorParameterValue("BaseColor", TetriminoShapeInfo.Color);
-		return DynamicMaterialInstance;
-	}
-	return nullptr;
 }
 
 FString ATetrimino::GetTetriminoShapeName(const ETetriminoShape Shape)

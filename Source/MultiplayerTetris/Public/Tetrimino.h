@@ -100,7 +100,6 @@ public:
 protected:
 	void SetFacing(const ETetriminoFacing NewFacing) { Facing = NewFacing; }
 
-	UMaterialInterface* GetMaterial() const;
 	UMaterialInstanceDynamic* GetMaterialInstance();
 	void InitializeMinoArray();
 	void UpdateMinoLocalMatrixLocations();
@@ -115,8 +114,6 @@ protected:
 		ETetriminoRotationDirection Direction;
 	};
 	static const TArray<FIntPoint>& GetSRSRotationPointOffsetsByRotationInfo(const FRotationInfo& RotationInfo);
-	static UMaterialInterface* GetMaterialByTetriminoShapeInfo(const FTetriminoShapeInfo& TetriminoShapeInfo);
-	static UMaterialInstanceDynamic* GetMaterialInstanceByTetriminoShapeInfo(UMaterialInterface* const BaseMaterial, UObject* const InOuter, const FTetriminoShapeInfo& TetriminoShapeInfo);
 	static FString GetTetriminoShapeName(const ETetriminoShape Shape);
 	static FString GetFacingName(const ETetriminoFacing Facing);
 
