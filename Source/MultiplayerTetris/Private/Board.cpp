@@ -68,7 +68,7 @@ void ABoard::Initialize()
 
 void ABoard::InitializeBackground()
 {
-	UMaterialInterface* const BackgroundMinoMaterial = ABoard::GetMinoMaterialByPath(BackgroundMinoMaterialPath);
+	UMaterialInterface* const BackgroundMinoMaterial = ABoard::GetMaterialByPath(BackgroundMinoMaterialPath);
 	check(BackgroundMinoMaterial != nullptr);
 
 	Background.Reserve(TotalHeight * TotalWidth);
@@ -80,7 +80,7 @@ void ABoard::InitializeBackground()
 			check(Mino != nullptr);
 
 			const FString& MinoMaterialPath = (Row == (TotalHeight - VisibleHeight) ? SpecialMinoMaterialPath : BackgroundMinoMaterialPath);
-			UMaterialInterface* const MinoMaterial = ABoard::GetMinoMaterialByPath(MinoMaterialPath);
+			UMaterialInterface* const MinoMaterial = ABoard::GetMaterialByPath(MinoMaterialPath);
 			check(MinoMaterial != nullptr);
 
 			static constexpr int32 ElementIndex = 0;
@@ -129,9 +129,29 @@ bool ABoard::IsMinoLocationsPossible(const FIntPoint& TetriminoMatrixLocation, c
 	);
 }
 
-UMaterialInterface* ABoard::GetMinoMaterialByPath(const FString& Path)
+UMaterialInterface* ABoard::GetMaterialByPath(const FString& Path)
 {
 	UMaterialInterface* const MinoMaterial = Cast<UMaterialInterface>(StaticLoadObject(UMaterialInterface::StaticClass(), nullptr, *Path));
 	ensureMsgf(MinoMaterial != nullptr, TEXT("Failed to load material: %s"), *Path);
 	return MinoMaterial;
+}
+
+UMaterialInterface* ABoard::GetMaterialByMinoInfo(const FMinoInfo& MinoInfo)
+{
+	UMaterialInterface* const MinoMaterial = Cast<UMaterialInterface>(StaticLoadObject(UMaterialInterface::StaticClass(), nullptr, *MinoInfo.MaterialPath));
+	ensureMsgf(MinoMaterial != nullptr, TEXT("Failed to load material: %s"), *MinoInfo.MaterialPath);
+	return MinoMaterial;
+}
+
+UMaterialInstanceDynamic* ABoard::GetMaterialInstanceByMinoInfo(UObject* const InOuter, const FMinoInfo& MinoInfo)
+{
+	if (UMaterialInterface* const BaseMaterial = GetMaterialByMinoInfo(MinoInfo))
+	{
+		if (UMaterialInstanceDynamic* DynamicMaterialInstance = UMaterialInstanceDynamic::Create(BaseMaterial, InOuter))
+		{
+			DynamicMaterialInstance->SetVectorParameterValue("BaseColor", MinoInfo.Color);
+			return DynamicMaterialInstance;
+		}
+	}
+	return nullptr;
 }
