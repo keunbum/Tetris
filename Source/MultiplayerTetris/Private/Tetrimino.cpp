@@ -25,6 +25,7 @@ const TMap<ETetriminoShape, FTetriminoShapeInfo> ATetrimino::TetriminoShapeInfos
 				{ ETetriminoFacing::West, { {1, 1}, {1, 2}, {2, 1}, {2, 2} } }
 			},
 			TEXT("/Game/Material/M_MinoMaterial_Yellow"),
+			FLinearColor::Yellow,
 			FIntPoint(ABoard::TetriminoDefaultSpawnLocationX - 2, ABoard::TetriminoDefaultSpawnLocationY),
 			{
 				{
@@ -67,7 +68,9 @@ const TMap<ETetriminoShape, FTetriminoShapeInfo> ATetrimino::TetriminoShapeInfos
 				{ ETetriminoFacing::South, { {2, 0}, {2, 1}, {2, 2}, {2, 3} } },
 				{ ETetriminoFacing::West, { {0, 1}, {1, 1}, {2, 1}, {3, 1} } }
 			},
-			TEXT("/Game/Material/M_MinoMaterial_Cyan"),
+			//TEXT("/Game/Material/M_MinoMaterial_Cyan"),
+			TEXT("/Game/Material/M_MinoMaterial"),
+			FLinearColor(0.0f, 1.0f, 1.0f),
 			FIntPoint(ABoard::TetriminoDefaultSpawnLocationX - 1, ABoard::TetriminoDefaultSpawnLocationY),
 			{
 				{
@@ -111,6 +114,7 @@ const TMap<ETetriminoShape, FTetriminoShapeInfo> ATetrimino::TetriminoShapeInfos
 				{ ETetriminoFacing::West, { {1, 1}, {2, 0}, {2, 1}, {3, 1} } }
 			},
 			TEXT("/Game/Material/M_MinoMaterial_Purple"),
+			FLinearColor(0.5f, 0.0f, 0.5f),
 			FIntPoint(ABoard::TetriminoDefaultSpawnLocationX - 2, ABoard::TetriminoDefaultSpawnLocationY),
 			{
 				{
@@ -154,6 +158,7 @@ const TMap<ETetriminoShape, FTetriminoShapeInfo> ATetrimino::TetriminoShapeInfos
 				{ ETetriminoFacing::West, { {1, 0}, {1, 1}, {2, 1}, {3, 1} } }
 			},
 			TEXT("/Game/Material/M_MinoMaterial_Orange"),
+			FLinearColor(1.0f, 0.5f, 0.0f),
 			FIntPoint(ABoard::TetriminoDefaultSpawnLocationX - 2, ABoard::TetriminoDefaultSpawnLocationY),
 			{
 				{
@@ -197,6 +202,7 @@ const TMap<ETetriminoShape, FTetriminoShapeInfo> ATetrimino::TetriminoShapeInfos
 				{ ETetriminoFacing::West, { {1, 1}, {2, 1}, {3, 0}, {3, 1} } }
 			},
 			TEXT("/Game/Material/M_MinoMaterial_Blue"),
+			FLinearColor::Blue,
 			FIntPoint(ABoard::TetriminoDefaultSpawnLocationX - 2, ABoard::TetriminoDefaultSpawnLocationY),
 			{
 				{
@@ -240,6 +246,7 @@ const TMap<ETetriminoShape, FTetriminoShapeInfo> ATetrimino::TetriminoShapeInfos
 				{ ETetriminoFacing::West, { {1, 0}, {2, 0}, {2, 1}, {3, 1} } }
 			},
 			TEXT("/Game/Material/M_MinoMaterial_Green"),
+			FLinearColor::Green,
 			FIntPoint(ABoard::TetriminoDefaultSpawnLocationX - 2, ABoard::TetriminoDefaultSpawnLocationY),
 			{
 				{
@@ -283,6 +290,7 @@ const TMap<ETetriminoShape, FTetriminoShapeInfo> ATetrimino::TetriminoShapeInfos
 				{ ETetriminoFacing::West, { {1, 1}, {2, 0}, {2, 1}, {3, 0} } }
 			},
 			TEXT("/Game/Material/M_MinoMaterial_Red"),
+			FLinearColor::Red,
 			FIntPoint(ABoard::TetriminoDefaultSpawnLocationX - 2, ABoard::TetriminoDefaultSpawnLocationY),
 			{
 				{
@@ -425,10 +433,18 @@ UMaterialInterface* ATetrimino::GetMaterial() const
 	return ATetrimino::GetMaterialByTetriminoShapeInfo(GetTetriminoShapeInfo());
 }
 
+UMaterialInstanceDynamic* ATetrimino::GetMaterialInstance()
+{
+	return ATetrimino::GetMaterialInstanceByTetriminoShapeInfo(GetMaterial(), this, GetTetriminoShapeInfo());
+}
+
 void ATetrimino::InitializeMinoArray()
 {
-	UMaterialInterface* const MinoMaterial = GetMaterial();
-	check(MinoMaterial != nullptr);
+	//UMaterialInterface* const MinoMaterial = GetMaterial();
+	//check(MinoMaterial != nullptr);
+
+	UMaterialInstanceDynamic* const DynamicMaterialInstance = GetMaterialInstance();
+	check(DynamicMaterialInstance != nullptr);
 
 	const TArray<FIntPoint>& MinoLocalMatrixLocations = GetMinoLocalMatrixLocations();
 	check(MinoLocalMatrixLocations.Num() == MinoNum);
@@ -439,7 +455,7 @@ void ATetrimino::InitializeMinoArray()
 		if (AMino* const Mino = GetWorld()->SpawnActor<AMino>(MinoClass, FVector::ZeroVector, FRotator::ZeroRotator))
 		{
 			static constexpr int32 ElementIndex = 0;
-			Mino->SetMaterial(ElementIndex, MinoMaterial);
+			Mino->SetMaterial(ElementIndex, DynamicMaterialInstance);
 
 			Mino->AttachToActor(this, FAttachmentTransformRules::KeepRelativeTransform);
 			Mino->SetRelativeLocationByMatrixLocation(MinoLocalMatrixLocation);
@@ -489,6 +505,17 @@ UMaterialInterface* ATetrimino::GetMaterialByTetriminoShapeInfo(const FTetrimino
 		UE_LOG(LogTemp, Error, TEXT("Failed to load material: %s"), *TetriminoShapeInfo.MaterialPath);
 	}
 	return MinoMaterial;
+}
+
+UMaterialInstanceDynamic* ATetrimino::GetMaterialInstanceByTetriminoShapeInfo(UMaterialInterface* const BaseMaterial, UObject* const InOuter, const FTetriminoShapeInfo& TetriminoShapeInfo)
+{
+	check(BaseMaterial != nullptr);
+	if (UMaterialInstanceDynamic* DynamicMaterialInstance = UMaterialInstanceDynamic::Create(BaseMaterial, InOuter))
+	{
+		//DynamicMaterialInstance->SetVectorParameterValue("BaseColor", TetriminoShapeInfo.Color);
+		return DynamicMaterialInstance;
+	}
+	return nullptr;
 }
 
 FString ATetrimino::GetTetriminoShapeName(const ETetriminoShape Shape)
