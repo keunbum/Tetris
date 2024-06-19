@@ -14,23 +14,18 @@
 const FMinoInfo ABoard::BackgroundMinoInfo = FMinoInfo(TEXT("/Game/Material/M_MinoMaterial"), FLinearColor::Gray);
 const FMinoInfo ABoard::SpecialMinoInfo = FMinoInfo(TEXT("/Game/Material/M_MinoMaterial"), FLinearColor::Black);
 
-// Sets default values
 ABoard::ABoard()
 {
-	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	// Create and set the default root component
 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
 
-	// Initialize Class variables
 	MinoClass = UMino::StaticClass();
 
 	BackgroundRoot = CreateDefaultSubobject<USceneComponent>(TEXT("BackgroundRoot"));
 	BackgroundRoot->SetupAttachment(RootComponent);
 }
 
-// Called when the game starts or when spawned
 void ABoard::BeginPlay()
 {
 	Super::BeginPlay();
@@ -38,7 +33,6 @@ void ABoard::BeginPlay()
 	Initialize();
 }
 
-// Called every frame
 void ABoard::Tick(const float DeltaTime)
 {
 	Super::Tick(DeltaTime);
@@ -48,7 +42,7 @@ bool ABoard::IsMovementPossible(const ATetrimino* Tetrimino, const FIntPoint& Mo
 {
 	check(Tetrimino != nullptr);
 	const FIntPoint NewTetriminoMatrixLocation = Tetrimino->GetMatrixLocation() + MovementIntPoint2D;
-	const TArray<FIntPoint>& MinoLocalMatrixLocations = Tetrimino->GetMinoLocalMatrixLocations();
+	const TArray<FIntPoint>& MinoLocalMatrixLocations = Tetrimino->GetMinoMatrixLocalLocations();
 	return IsMinoLocationsPossible(NewTetriminoMatrixLocation, MinoLocalMatrixLocations);
 }
 
@@ -58,7 +52,7 @@ bool ABoard::IsRotationPossible(const ATetrimino* Tetrimino, const ETetriminoRot
 	const FIntPoint& NewTetriminoMatrixLocation = Tetrimino->GetMatrixLocation() + RotationPointOffset;
 	const ETetriminoShape TetriminoShape = Tetrimino->GetShape();
 	const ETetriminoFacing NewTetriminoFacing = Tetrimino->GetFacing() + static_cast<int32>(RotationDirection);
-	const TArray<FIntPoint>& NewMinoLocalMatrixLocations = ATetrimino::GetMinoLocalMatrixLocationsByTetriminoShapeAndFacing(TetriminoShape, NewTetriminoFacing);
+	const TArray<FIntPoint>& NewMinoLocalMatrixLocations = ATetrimino::GetMinoMatrixLocalLocationsByTetriminoShapeAndFacing(TetriminoShape, NewTetriminoFacing);
 	return IsMinoLocationsPossible(NewTetriminoMatrixLocation, NewMinoLocalMatrixLocations);
 }
 
@@ -73,20 +67,11 @@ void ABoard::InitializeBackground()
 	for (int32 Row = 0; Row < TotalHeight; ++Row)
 	{
 		const FMinoInfo& MinoInfo = (Row == (TotalHeight - VisibleHeight) ? SpecialMinoInfo : BackgroundMinoInfo);
-		UMaterialInterface* const MinoMaterial = UMino::GetMaterialInstanceByMinoInfo(this, MinoInfo);
-		check(MinoMaterial != nullptr);
 		for (int32 Col = 0; Col < TotalWidth; ++Col)
 		{
-			UMino* Mino = NewObject<UMino>(this);
+			const FIntPoint MinoMatrixLocation(Row, Col);
+			UMino* const Mino = UMino::CreateMino(this, BackgroundRoot, MinoInfo, MinoMatrixLocation);
 			check(Mino != nullptr);
-
-			static constexpr int32 ElementIndex = 0;
-			Mino->SetMaterial(ElementIndex, MinoMaterial);
-
-			Mino->RegisterComponent();
-			Mino->AttachToComponent(BackgroundRoot, FAttachmentTransformRules::KeepRelativeTransform);
-			const FIntPoint MinoLocalMatrixLocation(Row, Col);
-			Mino->SetRelativeLocationByMatrixLocation(MinoLocalMatrixLocation);
 		}
 	}
 }
