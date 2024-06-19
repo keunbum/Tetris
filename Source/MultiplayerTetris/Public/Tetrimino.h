@@ -1,4 +1,7 @@
-// Copyright Ryu KeunBeom, Inc. All Rights Reserved.
+/**
+ * @file Tetrimino.h
+ * @brief Defines the ATetrimino class, which represents a tetrimino in the game.
+ */
 
 #pragma once
 
@@ -17,6 +20,10 @@ class ABoard;
 class UMino;
 class UMaterialInterface;
 
+/**
+ * @enum ETetriminoShape
+ * @brief Represents the different shapes of a tetrimino.
+ */
 UENUM()
 enum class ETetriminoShape : int8
 {
@@ -31,6 +38,10 @@ enum class ETetriminoShape : int8
 	Max
 };
 
+/**
+ * @enum ETetriminoFacing
+ * @brief Represents the different facing directions of a tetrimino.
+ */
 UENUM()
 enum class ETetriminoFacing : uint8
 {
@@ -43,6 +54,10 @@ enum class ETetriminoFacing : uint8
 
 ENUM_CLASS_OPERATORS(ETetriminoFacing)
 
+/**
+ * @enum ETetriminoRotationDirection
+ * @brief Represents the rotation directions of a tetrimino.
+ */
 UENUM()
 enum class ETetriminoRotationDirection : int8
 {
@@ -50,6 +65,10 @@ enum class ETetriminoRotationDirection : int8
 	Clockwise = 1
 };
 
+/**
+ * @struct FTetriminoShapeInfo
+ * @brief Contains information about a tetrimino shape.
+ */
 struct FTetriminoShapeInfo
 {
 	TMap<ETetriminoFacing, TArray<FIntPoint>> MinoLocalMatrixLocationsByFacing;
@@ -59,6 +78,10 @@ struct FTetriminoShapeInfo
 	TMap<ETetriminoFacing, TMap<ETetriminoRotationDirection, TArray<FIntPoint>>> SRSRotationPointOffsetsTable; // Super Rotation System Rotation Point Table
 };
 
+/**
+ * @class ATetrimino
+ * @brief Represents a tetrimino in the game.
+ */
 UCLASS()
 class MULTIPLAYERTETRIS_API ATetrimino : public AActor
 {
