@@ -39,5 +39,6 @@ public:
 	static constexpr float UnitLength = DefaultUnitLength * MinoScale;
 
 private:
+	static const FName BaseColorParameterName;
 	static TMap<FString, UMaterialInstanceDynamic*> MaterialCache; // static cache for material instances
 };

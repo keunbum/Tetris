@@ -5,6 +5,7 @@
 
 #include "UObject/ConstructorHelpers.h"
 
+const FName UMino::BaseColorParameterName = TEXT("BaseColor");
 TMap<FString, UMaterialInstanceDynamic*> UMino::MaterialCache;
 
 UMino::UMino()
@@ -55,7 +56,7 @@ UMaterialInstanceDynamic* UMino::GetMaterialInstanceByMinoInfo(UObject* InOuter,
 	{
 		if (UMaterialInstanceDynamic* DynamicMaterialInstance = UMaterialInstanceDynamic::Create(BaseMaterial, InOuter))
 		{
-			DynamicMaterialInstance->SetVectorParameterValue("BaseColor", MinoInfo.Color);
+			DynamicMaterialInstance->SetVectorParameterValue(BaseColorParameterName, MinoInfo.Color);
 			MaterialCache.Add(MaterialKey, DynamicMaterialInstance);
 			return DynamicMaterialInstance;
 		}
