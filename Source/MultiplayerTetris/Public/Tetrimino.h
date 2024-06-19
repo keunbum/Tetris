@@ -71,7 +71,7 @@ enum class ETetriminoRotationDirection : int8
  */
 struct FTetriminoShapeInfo
 {
-	TMap<ETetriminoFacing, TArray<FIntPoint>> MinoLocalMatrixLocationsByFacing;
+	TMap<ETetriminoFacing, TArray<FIntPoint>> MinoMatrixLocalLocationsByFacing;
 	FString MaterialPath;
 	FLinearColor Color;
 	FIntPoint InitialMatrixLocation;
@@ -102,7 +102,7 @@ public:
 public:
 	const FTetriminoShapeInfo& GetTetriminoShapeInfo() const;
 	const FIntPoint& GetInitialMatrixLocation() const;
-	const TArray<FIntPoint>& GetMinoLocalMatrixLocations() const;
+	const TArray<FIntPoint>& GetMinoMatrixLocalLocations() const;
 	const TArray<FIntPoint>& GetSRSRotationPointOffsets(const ETetriminoRotationDirection RotationDirection) const;
 
 	const ETetriminoShape& GetShape() const { return Shape; }
@@ -119,14 +119,13 @@ public:
 	void DebugPrintState() const;
 
 	static ETetriminoShape GetTetriminoShapeRandom();
-	static const TArray<FIntPoint>& GetMinoLocalMatrixLocationsByTetriminoShapeAndFacing(const ETetriminoShape Shape, const ETetriminoFacing Facing);
+	static const TArray<FIntPoint>& GetMinoMatrixLocalLocationsByTetriminoShapeAndFacing(const ETetriminoShape Shape, const ETetriminoFacing Facing);
 
 protected:
 	void SetFacing(const ETetriminoFacing NewFacing) { Facing = NewFacing; }
 
-	UMaterialInstanceDynamic* GetMaterialInstance();
 	void InitializeMinoArray();
-	void UpdateMinoLocalMatrixLocations();
+	void UpdateMinoMatrixLocalLocations();
 
 	static const FTetriminoShapeInfo& GetTetriminoShapeInfoByShape(const ETetriminoShape Shape);
 	static const FIntPoint& GetInitialMatrixLocationByShape(const ETetriminoShape Shape);

@@ -351,9 +351,9 @@ void ATetrimino::Tick(const float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-const TArray<FIntPoint>& ATetrimino::GetMinoLocalMatrixLocations() const
+const TArray<FIntPoint>& ATetrimino::GetMinoMatrixLocalLocations() const
 {
-	return ATetrimino::GetMinoLocalMatrixLocationsByTetriminoShapeAndFacing(Shape, Facing);
+	return ATetrimino::GetMinoMatrixLocalLocationsByTetriminoShapeAndFacing(Shape, Facing);
 }
 
 const TArray<FIntPoint>& ATetrimino::GetSRSRotationPointOffsets(const ETetriminoRotationDirection RotationDirection) const
@@ -389,7 +389,7 @@ void ATetrimino::MoveBy(const FIntPoint& IntPoint2D)
 void ATetrimino::RotateTo(const ETetriminoRotationDirection RotationDirection)
 {
 	SetFacing(Facing + static_cast<int32>(RotationDirection));
-	UpdateMinoLocalMatrixLocations();
+	UpdateMinoMatrixLocalLocations();
 }
 
 void ATetrimino::AttachToBoard(ABoard* const Board)
@@ -421,51 +421,37 @@ ETetriminoShape ATetrimino::GetTetriminoShapeRandom()
 	return TetriminoShape;
 }
 
-const TArray<FIntPoint>& ATetrimino::GetMinoLocalMatrixLocationsByTetriminoShapeAndFacing(const ETetriminoShape Shape, const ETetriminoFacing Facing)
+const TArray<FIntPoint>& ATetrimino::GetMinoMatrixLocalLocationsByTetriminoShapeAndFacing(const ETetriminoShape Shape, const ETetriminoFacing Facing)
 {
 	const FTetriminoShapeInfo& TetriminoShapeInfo = ATetrimino::GetTetriminoShapeInfoByShape(Shape);
-	return TetriminoShapeInfo.MinoLocalMatrixLocationsByFacing[Facing];
-}
-
-UMaterialInstanceDynamic* ATetrimino::GetMaterialInstance()
-{
-	const FTetriminoShapeInfo& TetriminoShapeInfo = GetTetriminoShapeInfo();
-	return UMino::GetMaterialInstanceByMinoInfo(this, FMinoInfo(TetriminoShapeInfo.MaterialPath, TetriminoShapeInfo.Color));
+	return TetriminoShapeInfo.MinoMatrixLocalLocationsByFacing[Facing];
 }
 
 void ATetrimino::InitializeMinoArray()
 {
-	UMaterialInterface* const MinoMaterial = GetMaterialInstance();
-	check(MinoMaterial != nullptr);
-
-	const TArray<FIntPoint>& MinoLocalMatrixLocations = GetMinoLocalMatrixLocations();
-	check(MinoLocalMatrixLocations.Num() == MinoNum);
+	const TArray<FIntPoint>& MinoMatrixLocalLocations = GetMinoMatrixLocalLocations();
+	check(MinoMatrixLocalLocations.Num() == MinoNum);
+	const FTetriminoShapeInfo& TetriminoShapeInfo = GetTetriminoShapeInfo();
+	const FMinoInfo MinoInfo(TetriminoShapeInfo.MaterialPath, TetriminoShapeInfo.Color);
 
 	MinoArray.Reserve(MinoNum);
-	for (const FIntPoint& MinoLocalMatrixLocation : MinoLocalMatrixLocations)
+	for (const FIntPoint& MinoMatrixLocalLocation : MinoMatrixLocalLocations)
 	{
-		UMino* Mino = NewObject<UMino>(this);
+		UMino* const Mino = UMino::CreateMino(this, RootComponent, MinoInfo, MinoMatrixLocalLocation);
 		check(Mino != nullptr);
-		static constexpr int32 ElementIndex = 0;
-		Mino->SetMaterial(ElementIndex, MinoMaterial);
-
-		Mino->RegisterComponent();
-		Mino->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
-		Mino->SetRelativeLocationByMatrixLocation(MinoLocalMatrixLocation);
-
 		MinoArray.Add(Mino);
 	}
 }
 
-void ATetrimino::UpdateMinoLocalMatrixLocations()
+void ATetrimino::UpdateMinoMatrixLocalLocations()
 {
-	const TArray<FIntPoint>& MinoLocalMatrixLocations = GetMinoLocalMatrixLocations();
+	const TArray<FIntPoint>& MinoMatrixLocalLocations = GetMinoMatrixLocalLocations();
 	for (int32 MinoID = 0; MinoID < MinoNum; ++MinoID)
 	{
 		if (UMino* const Mino = MinoArray[MinoID])
 		{
-			const FIntPoint& NewMinoLocalMatrixLocation = MinoLocalMatrixLocations[MinoID];
-			Mino->SetRelativeLocationByMatrixLocation(NewMinoLocalMatrixLocation);
+			const FIntPoint& NewMinoMatrixLocalLocation = MinoMatrixLocalLocations[MinoID];
+			Mino->SetRelativeLocationByMatrixLocation(NewMinoMatrixLocalLocation);
 		}
 	}
 }
