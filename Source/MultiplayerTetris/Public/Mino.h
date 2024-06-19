@@ -40,7 +40,7 @@ public:
 	static void ClearMaterialCache();
 	static FVector Get3DRelativePositionByMatrixLocation(const FIntPoint& MatrixLocation, float Z = 0.0f);
 	static UMaterialInterface* GetMaterialByMinoInfo(const FMinoInfo& MinoInfo);
-	static UMaterialInstanceDynamic* GetMaterialInstanceByMinoInfo(UObject* InOuter, const FMinoInfo& MinoInfo);
+	static UMaterialInstanceDynamic* GetMaterialInstanceByMinoInfo(UObject* const InOuter, const FMinoInfo& MinoInfo);
 
 public:
 	static constexpr float DefaultUnitLength = 100.f;

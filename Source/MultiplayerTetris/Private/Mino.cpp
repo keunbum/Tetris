@@ -58,7 +58,7 @@ UMaterialInterface* UMino::GetMaterialByMinoInfo(const FMinoInfo& MinoInfo)
 	return MinoMaterial;
 }
 
-UMaterialInstanceDynamic* UMino::GetMaterialInstanceByMinoInfo(UObject* InOuter, const FMinoInfo& MinoInfo)
+UMaterialInstanceDynamic* UMino::GetMaterialInstanceByMinoInfo(UObject* const InOuter, const FMinoInfo& MinoInfo)
 {
 	const FString MaterialKey = MinoInfo.MaterialPath + MinoInfo.Color.ToString();
 
