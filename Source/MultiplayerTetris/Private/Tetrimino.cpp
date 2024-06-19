@@ -7,7 +7,6 @@
 #include "UObject/ConstructorHelpers.h"
 
 #include "Mino.h"
-#include "Mino.h"
 #include "Board.h"
 
 const FVector2D ATetrimino::MoveDirectionLeft = FVector2D(0, -1);
