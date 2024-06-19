@@ -1,4 +1,7 @@
-// Copyright Ryu KeunBeom, Inc. All Rights Reserved.
+/**
+ * @file Board.h
+ * This file contains the declaration of the ABoard class, which represents the game board in the Tetris game.
+ */
 
 #pragma once
 
@@ -13,34 +16,88 @@
 struct FMinoInfo;
 class UMino;
 
+/**
+ * @class ABoard
+ * @brief Represents the game board in the Tetris game.
+ */
 UCLASS()
 class MULTIPLAYERTETRIS_API ABoard : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
-	// Sets default values for this actor's properties
+	/**
+  * @brief Sets default values for this actor's properties.
+  */
 	ABoard();
 
 protected:
-	// Called when the game starts or when spawned
+	/**
+  * @brief Called when the game starts or when spawned.
+  */
 	virtual void BeginPlay() override;
 
 public:
-	// Called every frame
+	/**
+  * @brief Called every frame.
+  * @param DeltaTime The time since the last frame.
+  */
 	virtual void Tick(const float DeltaTime) override;
 
 public:
+	/**
+  * @brief Checks if the movement of a tetrimino is possible.
+  * @param Tetrimino The tetrimino to check.
+  * @param MovementIntPoint2D The movement direction as a 2D integer point.
+  * @return True if the movement is possible, false otherwise.
+  */
 	bool IsMovementPossible(const ATetrimino* Tetrimino, const FIntPoint& MovementIntPoint2D) const;
+
+	/**
+  * @brief Checks if the rotation of a tetrimino is possible.
+  * @param Tetrimino The tetrimino to check.
+  * @param RotationDirection The rotation direction.
+  * @param RotationPointOffset The rotation point offset as a 2D integer point.
+  * @return True if the rotation is possible, false otherwise.
+  */
 	bool IsRotationPossible(const ATetrimino* Tetrimino, const ETetriminoRotationDirection RotationDirection, const FIntPoint& RotationPointOffset) const;
 
 private:
+	/**
+  * @brief Initializes the game board.
+  */
 	void Initialize();
+
+	/**
+  * @brief Initializes the background of the game board.
+  */
 	void InitializeBackground();
+
+	/**
+  * @brief Initializes the mino matrix of the game board.
+  */
 	void InitializeMinoMatrix();
 
+	/**
+  * @brief Gets the mino at the specified matrix location.
+  * @param MatrixLocation The matrix location as a 2D integer point.
+  * @return The mino at the specified matrix location, or nullptr if no mino exists at that location.
+  */
 	UMino* GetMinoByMatrixLocation(const FIntPoint& MatrixLocation) const;
+
+	/**
+  * @brief Checks if the specified matrix location is empty.
+  * @param MatrixLocation The matrix location as a 2D integer point.
+  * @return True if the matrix location is empty, false otherwise.
+  */
 	bool IsMatrixLocationEmpty(const FIntPoint& MatrixLocation) const;
+
+	/**
+  * @brief Checks if the specified mino locations are possible.
+  * @param TetriminoMatrixLocation The matrix location of the tetrimino as a 2D integer point.
+  * @param MinoLocalMatrixLocations The local matrix locations of the minos as an array of 2D integer points.
+  * @return True if the mino locations are possible, false otherwise.
+  */
 	bool IsMinoLocationsPossible(const FIntPoint& TetriminoMatrixLocation, const TArray<FIntPoint>& MinoLocalMatrixLocations) const;
 
 public:
