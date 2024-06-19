@@ -25,6 +25,20 @@ void UMino::SetRelativeLocationByMatrixLocation(const FIntPoint& MatrixLocation)
 	SetRelativeLocation(UMino::Get3DRelativePositionByMatrixLocation(MatrixLocation));
 }
 
+UMino* UMino::CreateMino(UObject* const InOuter, USceneComponent* const Parent, const FMinoInfo& MinoInfo, const FIntPoint& MatrixLocation)
+{
+	if (UMino* const Mino = NewObject<UMino>(InOuter))
+	{
+		static constexpr int32 ElementIndex = 0;
+		Mino->SetMaterial(ElementIndex, UMino::GetMaterialInstanceByMinoInfo(InOuter, MinoInfo));
+		Mino->RegisterComponent();
+		Mino->AttachToComponent(Parent, FAttachmentTransformRules::KeepRelativeTransform);
+		Mino->SetRelativeLocationByMatrixLocation(MatrixLocation);
+		return Mino;
+	}
+	return nullptr;
+}
+
 void UMino::ClearMaterialCache()
 {
 	MaterialCache.Empty();

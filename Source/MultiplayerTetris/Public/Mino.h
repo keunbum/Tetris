@@ -28,6 +28,7 @@ public:
 
 	void SetRelativeLocationByMatrixLocation(const FIntPoint& MatrixLocation);
 
+	static UMino* CreateMino(UObject* const InOuter, USceneComponent* const Parent, const FMinoInfo& MinoInfo, const FIntPoint& MatrixLocation);
 	static void ClearMaterialCache();
 	static FVector Get3DRelativePositionByMatrixLocation(const FIntPoint& MatrixLocation, float Z = 0.0f);
 	static UMaterialInterface* GetMaterialByMinoInfo(const FMinoInfo& MinoInfo);
