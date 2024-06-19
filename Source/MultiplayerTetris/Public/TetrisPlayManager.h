@@ -14,6 +14,10 @@ class ATetrisGameModeBase;
 class ABoard;
 class UInputComponent;
 
+/**
+ * @class ATetrisPlayManager
+ * @brief The ATetrisPlayManager class is responsible for managing the gameplay logic of the Tetris game.
+ */
 UCLASS()
 class MULTIPLAYERTETRIS_API ATetrisPlayManager : public AActor
 {
@@ -87,7 +91,6 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<ATetrimino> TetriminoClass;
 
-	// 조작 중인 테트로미노
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<ATetrimino> TetriminoInPlay;
 
