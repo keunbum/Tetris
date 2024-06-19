@@ -40,5 +40,6 @@ public:
 
 private:
 	static const FName BaseColorParameterName;
+	static const FString CubeMeshPath;
 	static TMap<FString, UMaterialInstanceDynamic*> MaterialCache; // static cache for material instances
 };

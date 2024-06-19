@@ -6,11 +6,12 @@
 #include "UObject/ConstructorHelpers.h"
 
 const FName UMino::BaseColorParameterName = TEXT("BaseColor");
+const FString UMino::CubeMeshPath = TEXT("/Engine/BasicShapes/Cube.Cube");
 TMap<FString, UMaterialInstanceDynamic*> UMino::MaterialCache;
 
 UMino::UMino()
 {
-	static ConstructorHelpers::FObjectFinder<UStaticMesh> CubeMesh(TEXT("/Engine/BasicShapes/Cube.Cube"));
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> CubeMesh(*UMino::CubeMeshPath);
 	if (CubeMesh.Succeeded())
 	{
 		SetStaticMesh(CubeMesh.Object);
