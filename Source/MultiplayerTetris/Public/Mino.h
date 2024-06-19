@@ -1,4 +1,7 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+/**
+ * @file Mino.h
+ * @brief Contains the declaration of the UMino class and related structures and functions.
+ */
 
 #pragma once
 
@@ -9,6 +12,10 @@
 
 class UMaterialInterface;
 
+/**
+ * @struct FMinoInfo
+ * @brief Represents information about a "Mino" object.
+ */
 struct FMinoInfo
 {
 	FString MaterialPath;
@@ -16,7 +23,8 @@ struct FMinoInfo
 };
 
 /**
- *
+ * @class UMino
+ * @brief Represents a specialized static mesh component used in a multiplayer Tetris game.
  */
 UCLASS()
 class MULTIPLAYERTETRIS_API UMino : public UStaticMeshComponent
