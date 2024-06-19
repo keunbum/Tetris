@@ -1,9 +1,6 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
+// Copyright Ryu KeunBeom, Inc. All Rights Reserved.
 
 #include "TetrisPlayManager.h"
-
-#include "Algo/AllOf.h"
 
 #include "Board.h"
 #include "TetrisGameModeBase.h"
@@ -109,7 +106,7 @@ void ATetrisPlayManager::MoveTetriminoTo(const FVector2D& Direction)
 {
 	if (TetriminoInPlay)
 	{
-		const float OneSpace = 1.f;
+		static constexpr float OneSpace = 1.0f;
 		const FVector2D MovementVector2D = OneSpace * Direction;
 		const FIntPoint MovementIntVector2D(static_cast<int32>(MovementVector2D.X), static_cast<int32>(MovementVector2D.Y));
 		if (Board->IsMovementPossible(TetriminoInPlay, MovementIntVector2D))
