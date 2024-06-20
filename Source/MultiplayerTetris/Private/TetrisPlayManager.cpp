@@ -135,20 +135,26 @@ void ATetrisPlayManager::MoveTetriminoTo(const FVector2D& Direction)
 	}
 	
 	const FIntPoint MovementIntVector2D = GetMovementIntVector2D(Direction);
-	if (Board->IsMovementPossible(TetriminoInPlay, MovementIntVector2D))
+	const bool bIsSoftDropOrNormalFall = (Direction == ATetrimino::MoveDirectionDown);
+	const bool bIsMovementPossible = Board->IsMovementPossible(TetriminoInPlay, MovementIntVector2D);
+	if (bIsMovementPossible)
 	{
-		static constexpr float OneSpace = 1.0f;
-		const FVector2D MovementVector2D = OneSpace * Direction;
-		const FIntPoint MovementIntVector2D(static_cast<int32>(MovementVector2D.X), static_cast<int32>(MovementVector2D.Y));
-		if (Board->IsMovementPossible(TetriminoInPlay, MovementIntVector2D))
 		TetriminoInPlay->MoveBy(MovementIntVector2D);
+
+		const bool bIsOnSurface = !Board->IsMovementPossible(TetriminoInPlay, MovementIntVector2D);
+		const bool bIsLockPhaseReached = bIsSoftDropOrNormalFall && bIsOnSurface;
+		if (bIsLockPhaseReached)
 		{
-			TetriminoInPlay->MoveBy(MovementIntVector2D);
+			SetLockDownTimer();
 		}
 	}
 	else
 	{
 		UE_LOG(LogTemp, Display, TEXT("Movement is impossible."));
+		if (bIsSoftDropOrNormalFall)
+		{
+			ForcedLockDown();
+		}
 	}
 }
 
@@ -187,6 +193,27 @@ void ATetrisPlayManager::RunSuperRotationSystem(const ETetriminoRotationDirectio
 void ATetrisPlayManager::LockDown()
 {
 	Phase = EPhase::LockDown;
+
+	check(TetriminoInPlay != nullptr);
+
+	PlayLockDownEffect(TetriminoInPlay->GetMinoArray());
+
+	// Add minos from TetriminoInPlay to the board
+	Board->AddMinos(TetriminoInPlay);
+
+	// Remove TetriminoInPlay
+	TetriminoInPlay->Destroy();
+	TetriminoInPlay = nullptr;
+
+	// Switch to Generation Phase.
+	static constexpr bool bIsGenerationPhaseTimerLoop = false;
+	GetWorldTimerManager().SetTimer(GenerationPhaseTimerHandle, this, &ATetrisPlayManager::StartGenerationPhase, GenerationPhaseInitialDelay, bIsGenerationPhaseTimerLoop);
+}
+
+void ATetrisPlayManager::ForcedLockDown()
+{
+	ClearTimer(LockDownTimerHandle);
+	LockDown();
 }
 
 void ATetrisPlayManager::SetAutoRepeatMovement()
