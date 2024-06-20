@@ -108,7 +108,12 @@ FIntPoint ATetrisPlayManager::GetMovementIntVector2D(const FVector2D& Direction)
 
 void ATetrisPlayManager::MoveTetriminoTo(const FVector2D& Direction)
 {
-	if (TetriminoInPlay)
+	if (!TetriminoInPlay)
+	{
+		UE_LOG(LogTemp, Display, TEXT("TetriminoInPlay is nullptr."));
+		return;
+	}
+	
 	const FIntPoint MovementIntVector2D = GetMovementIntVector2D(Direction);
 	if (Board->IsMovementPossible(TetriminoInPlay, MovementIntVector2D))
 	{
@@ -120,6 +125,10 @@ void ATetrisPlayManager::MoveTetriminoTo(const FVector2D& Direction)
 		{
 			TetriminoInPlay->MoveBy(MovementIntVector2D);
 		}
+	}
+	else
+	{
+		UE_LOG(LogTemp, Display, TEXT("Movement is impossible."));
 	}
 }
 
