@@ -401,7 +401,6 @@ void ATetrimino::DetachMinos()
 {
 	for (UMino* const Mino : MinoArray)
 	{
-		UE_LOG(LogTemp, Display, TEXT("Detach Mino: %s"), *Mino->GetName());
 		Mino->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
 	}
 }
