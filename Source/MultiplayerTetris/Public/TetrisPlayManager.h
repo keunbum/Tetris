@@ -68,6 +68,7 @@ private:
 	void SetAutoRepeatMovement();
 	void SetSoftDropTimer();
 	void SetNormalFallTimer();
+	void SetLockDownTimer();
 
 	void ClearTimer(FTimerHandle& InOutTimerHandle);
 
@@ -86,6 +87,10 @@ private:
 	static constexpr bool bIsAutoRepeatMovementLoop = true;
 	static constexpr float AutoRepeatMovementInitialDelay = 0.3f;
 	static constexpr float AutoRepeatMovementInterval = 0.05f; // Adjust this value as needed
+
+	// LockDown
+	static constexpr bool bIsLockDownTimerLoop = false;
+	static constexpr float LockDownTimerInitialDelay = 0.5f;
 
 private:
 	float NormalFallSpeed;
@@ -108,6 +113,7 @@ private:
 	FTimerHandle NormalFallTimerHandle;
 	FTimerHandle SoftDropTimerHandle;
 	FTimerHandle AutoRepeatMovementTimerHandle;
+	FTimerHandle LockDownTimerHandle;
 
 	UPROPERTY(VisibleAnywhere)
 	FVector2D CurrentMovementDirection;

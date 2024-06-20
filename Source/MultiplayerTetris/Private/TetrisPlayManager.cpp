@@ -183,6 +183,11 @@ void ATetrisPlayManager::SetNormalFallTimer()
 	}
 }
 
+void ATetrisPlayManager::SetLockDownTimer()
+{
+	GetWorldTimerManager().SetTimer(LockDownTimerHandle, this, &ATetrisPlayManager::LockDown, LockDownTimerInitialDelay, bIsLockDownTimerLoop);
+}
+
 void ATetrisPlayManager::ClearTimer(FTimerHandle& InOutTimerHandle)
 {
 	GetWorldTimerManager().ClearTimer(InOutTimerHandle);
