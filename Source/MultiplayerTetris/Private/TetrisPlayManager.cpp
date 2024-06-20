@@ -52,6 +52,7 @@ void ATetrisPlayManager::StartMovement(const FVector2D& InMovementDirection)
 {
 	if (!IsTetriminoManipulable())
 	{
+		UE_LOG(LogTemp, Display, TEXT("Tetrimino is not manipulable."));
 		return;
 	}
 
@@ -75,6 +76,7 @@ void ATetrisPlayManager::StartSoftDrop()
 {
 	if (!IsTetriminoManipulable())
 	{
+		UE_LOG(LogTemp, Display, TEXT("Tetrimino is not manipulable."));
 		return;
 	}
 
@@ -106,6 +108,7 @@ void ATetrisPlayManager::DoRotation(const ETetriminoRotationDirection RotationDi
 {
 	if (!IsTetriminoManipulable())
 	{
+		UE_LOG(LogTemp, Display, TEXT("Tetrimino is not manipulable."));
 		return;
 	}
 
