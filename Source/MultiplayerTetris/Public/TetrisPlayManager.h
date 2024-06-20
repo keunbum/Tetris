@@ -50,11 +50,12 @@ public:
 
 	virtual void Tick(const float DeltaTime) override;
 
-	void StartGenerationPhase();
+	const FVector2D& GetMovementDirection() const { return CurrentMovementDirection; }
 	void SetTetriminoInPlay(ATetrimino* const NewTetriminoInPlay) { TetriminoInPlay = NewTetriminoInPlay; }
 	void SetNormalFallSpeed(const float NewNormalFallSpeed) { NormalFallSpeed = NewNormalFallSpeed; }
 
-	const FVector2D& GetMovementDirection() const { return CurrentMovementDirection; }
+	void StartGenerationPhase();
+	void StartFallingPhase();
 
 	// Event Handlers
 	void StartMovement(const FVector2D& InMovementDirection);
@@ -95,19 +96,29 @@ private:
 	static FIntPoint GetMovementIntVector2D(const FVector2D& Direction);
 
 private:
+	// Normal Fall
 	static constexpr bool bIsNormalFallTimerLoop = true;
 	static constexpr float NormalFallTimerInitialDelay = 0.0f;
 
-	static constexpr bool bSoftDropTimerLoop = true;
-	static constexpr float SoftDropTimerInitialDelay = 0.0f;
-
+	// Auto Repeat Movement
 	static constexpr bool bIsAutoRepeatMovementLoop = true;
 	static constexpr float AutoRepeatMovementInitialDelay = 0.3f;
 	static constexpr float AutoRepeatMovementInterval = 0.05f; // Adjust this value as needed
 
+	// Soft Drop
+	static constexpr bool bSoftDropTimerLoop = true;
+	static constexpr float SoftDropTimerInitialDelay = 0.0f;
+
+	// Hard Drop
+	static constexpr bool bIsHardDropTimerLoop = false;
+	static constexpr float HardDropTimerInitialDelay = 0.02f;
+
 	// LockDown
 	static constexpr bool bIsLockDownTimerLoop = false;
 	static constexpr float LockDownTimerInitialDelay = 0.5f;
+
+	// Etc
+	static constexpr float GenerationPhaseInitialDelay = 0.2f;
 
 private:
 	float NormalFallSpeed;
