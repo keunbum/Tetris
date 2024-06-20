@@ -134,6 +134,7 @@ private:
 	FTimerHandle SoftDropTimerHandle;
 	FTimerHandle AutoRepeatMovementTimerHandle;
 	FTimerHandle LockDownTimerHandle;
+	FTimerHandle GenerationPhaseTimerHandle;
 
 	UPROPERTY(VisibleAnywhere)
 	FVector2D CurrentMovementDirection;
