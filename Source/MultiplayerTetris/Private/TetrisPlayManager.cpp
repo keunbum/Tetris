@@ -5,6 +5,7 @@
 #include "Board.h"
 #include "TetrisGameModeBase.h"
 #include "Tetrimino.h"
+#include "TetrisPlayerController.h"
 
 ATetrisPlayManager::ATetrisPlayManager()
 {
@@ -46,6 +47,13 @@ void ATetrisPlayManager::StartFallingPhase()
 	SetPhase(EPhase::Falling);
 
 	SetNormalFallTimer();
+
+	ATetrisPlayerController* const PlayerController = GameMode->GetTetrisPlayerController();
+	check(PlayerController != nullptr);
+	if (PlayerController->IsSoftDropKeyPressed())
+	{
+		StartSoftDrop();
+	}
 }
 
 void ATetrisPlayManager::StartMovement(const FVector2D& InMovementDirection)
