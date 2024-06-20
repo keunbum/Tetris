@@ -140,7 +140,7 @@ void ATetrisPlayManager::MoveTetriminoTo(const FVector2D& Direction)
 		UE_LOG(LogTemp, Display, TEXT("TetriminoInPlay is nullptr."));
 		return;
 	}
-	
+
 	const FIntPoint MovementIntVector2D = GetMovementIntVector2D(Direction);
 	const bool bIsSoftDropOrNormalFall = (Direction == ATetrimino::MoveDirectionDown);
 	const bool bIsMovementPossible = Board->IsMovementPossible(TetriminoInPlay, MovementIntVector2D);
@@ -256,7 +256,7 @@ void ATetrisPlayManager::ClearTimer(FTimerHandle& InOutTimerHandle)
 	GetWorldTimerManager().ClearTimer(InOutTimerHandle);
 }
 
-void ATetrisPlayManager::ClearTimers(const TArray<FTimerHandle* const>& TimerHandles)
+void ATetrisPlayManager::ClearTimers(const TArray<FTimerHandle*>& TimerHandles)
 {
 	for (FTimerHandle* const TimerHandle : TimerHandles)
 	{
@@ -269,7 +269,7 @@ void ATetrisPlayManager::ClearTimers(const TArray<FTimerHandle* const>& TimerHan
 
 void ATetrisPlayManager::ClearUserInputTimers()
 {
-	const TArray<FTimerHandle* const> UserInputTimerHandles =
+	const TArray<FTimerHandle*> UserInputTimerHandles =
 	{
 		&AutoRepeatMovementTimerHandle,
 		&SoftDropTimerHandle,
