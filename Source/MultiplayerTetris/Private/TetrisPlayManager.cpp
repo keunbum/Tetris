@@ -135,8 +135,6 @@ void ATetrisPlayManager::Initialize()
 
 void ATetrisPlayManager::MoveTetriminoTo(const FVector2D& Direction)
 {
-	UE_LOG(LogTemp, Display, TEXT("Move Tetrimino to %s."), *Direction.ToString());
-
 	if (!TetriminoInPlay)
 	{
 		UE_LOG(LogTemp, Display, TEXT("TetriminoInPlay is nullptr."));
