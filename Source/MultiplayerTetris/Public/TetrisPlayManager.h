@@ -95,7 +95,7 @@ private:
 	void ChangeTetrimino(ATetrimino* const NewTetrimino);
 
 	// Effect
-	void PlayLockDownEffect(const TArray<TObjectPtr<UMino>>& GetMinoArray);
+	void PlayLockDownEffect(const TArray<UMino*>& GetMinoArray);
 
 	static FIntPoint GetMovementIntVector2D(const FVector2D& Direction);
 

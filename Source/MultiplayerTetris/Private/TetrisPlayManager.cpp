@@ -282,7 +282,7 @@ void ATetrisPlayManager::ChangeTetrimino(ATetrimino* const NewTetrimino)
 	SetTetriminoInPlay(NewTetrimino);
 }
 
-void ATetrisPlayManager::PlayLockDownEffect(const TArray<TObjectPtr<UMino>>& GetMinoArray)
+void ATetrisPlayManager::PlayLockDownEffect(const TArray<UMino*>& GetMinoArray)
 {
 }
 

@@ -55,7 +55,7 @@ void ABoard::AddMinos(const ATetrimino* Tetrimino)
 
 	const FIntPoint TetriminoMatrixLocation = Tetrimino->GetMatrixLocation();
 	const TArray<FIntPoint>& MinoMatrixLocalLocations = Tetrimino->GetMinoMatrixLocalLocations();
-	const TArray<TObjectPtr<UMino>>& MinoArray = Tetrimino->GetMinoArray();
+	const TArray<UMino*>& MinoArray = Tetrimino->GetMinoArray();
 	for (int32 MinoIndex = 0; MinoIndex < Tetrimino->MinoNum; ++MinoIndex)
 	{
 		const FIntPoint& MinoMatrixLocalLocation = MinoMatrixLocalLocations[MinoIndex];

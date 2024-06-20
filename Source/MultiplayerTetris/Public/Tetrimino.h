@@ -82,7 +82,7 @@ public:
 	const ETetriminoShape& GetShape() const { return Shape; }
 	const ETetriminoFacing& GetFacing() const { return Facing; }
 	const FIntPoint& GetMatrixLocation() const { return MatrixLocation; }
-	const TArray<TObjectPtr<UMino>>& GetMinoArray() const { return MinoArray; }
+	const TArray<UMino*>& GetMinoArray() const { return MinoArray; }
 
 	void Initialize(const ETetriminoShape NewTetriminoShape);
 	void SetShape(const ETetriminoShape NewShape) { Shape = NewShape; }
