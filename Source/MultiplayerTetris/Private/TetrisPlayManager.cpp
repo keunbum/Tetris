@@ -192,7 +192,7 @@ ATetrimino* ATetrisPlayManager::SpawnNextTetrimino() const
 	{
 #define TETRIMINO_SPAWN_RANDOM 1
 
-#ifdef TETRIMINO_SPAWN_RANDOM == 1
+#if TETRIMINO_SPAWN_RANDOM == 1
 		const ETetriminoShape NewTetriminoType = ATetrimino::GetTetriminoShapeRandom();
 		NewTetrimino->Initialize(NewTetriminoType);
 #else
