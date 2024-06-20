@@ -397,6 +397,17 @@ void ATetrimino::AttachToBoard(ABoard* const Board)
 	MoveBy(GetInitialMatrixLocation());
 }
 
+TArray<UMino* const> ATetrimino::DetachMinos()
+{
+	TArray<UMino* const> DetachedMinos;
+	for (UMino* const Mino : MinoArray)
+	{
+		Mino->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
+		DetachedMinos.Add(Mino);
+	}
+	return DetachedMinos;
+}
+
 void ATetrimino::DebugPrintState() const
 {
 	UE_LOG(LogTemp, Log, TEXT("TetriminoInPlay Type: %s"), *GetTetriminoShapeName(Shape));
