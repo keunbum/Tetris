@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright KeunBeom Ryu, Inc. All Rights Reserved.
 
 #pragma once
 
@@ -24,18 +24,9 @@ class MULTIPLAYERTETRIS_API ATetrisPlayManager : public AActor
 	GENERATED_BODY()
 	
 public:
-	// Sets default values for this actor's properties
 	ATetrisPlayManager();
-
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-public:
-	// Called every frame
 	virtual void Tick(const float DeltaTime) override;
 
-public:
 	void StartGenerationPhase();
 	void SetTetriminoInPlay(ATetrimino* const NewTetriminoInPlay) { TetriminoInPlay = NewTetriminoInPlay; }
 	void SetNormalFallSpeed(const float NewNormalFallSpeed) { NormalFallSpeed = NewNormalFallSpeed; }
@@ -49,6 +40,9 @@ public:
 	void EndSoftDrop();
 	void DoHardDrop();
 	void DoRotation(const ETetriminoRotationDirection RotationDirection);
+
+protected:
+	virtual void BeginPlay() override;
 
 private:
 	void Initialize();

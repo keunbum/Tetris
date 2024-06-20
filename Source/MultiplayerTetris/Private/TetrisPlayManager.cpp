@@ -1,4 +1,4 @@
-// Copyright Ryu KeunBeom, Inc. All Rights Reserved.
+// Copyright KeunBeom Ryu, Inc. All Rights Reserved.
 
 #include "TetrisPlayManager.h"
 
@@ -6,7 +6,6 @@
 #include "TetrisGameModeBase.h"
 #include "Tetrimino.h"
 
-// Sets default values
 ATetrisPlayManager::ATetrisPlayManager()
 {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
@@ -19,15 +18,6 @@ ATetrisPlayManager::ATetrisPlayManager()
 	TetriminoInPlay = nullptr;
 }
 
-// Called when the game starts or when spawned
-void ATetrisPlayManager::BeginPlay()
-{
-	Super::BeginPlay();
-
-	Initialize();
-}
-
-// Called every frame
 void ATetrisPlayManager::Tick(const float DeltaTime)
 {
 	Super::Tick(DeltaTime);
@@ -80,6 +70,13 @@ void ATetrisPlayManager::DoHardDrop()
 void ATetrisPlayManager::DoRotation(const ETetriminoRotationDirection RotationDirection)
 {
 	RunSuperRotationSystem(RotationDirection);
+}
+
+void ATetrisPlayManager::BeginPlay()
+{
+	Super::BeginPlay();
+
+	Initialize();
 }
 
 void ATetrisPlayManager::Initialize()
