@@ -260,7 +260,10 @@ void ATetrisPlayManager::ClearTimers(const TArray<FTimerHandle* const>& TimerHan
 {
 	for (FTimerHandle* const TimerHandle : TimerHandles)
 	{
-		ClearTimer(*TimerHandle);
+		if (TimerHandle)
+		{
+			ClearTimer(*TimerHandle);
+		}
 	}
 }
 
