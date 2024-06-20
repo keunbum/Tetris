@@ -35,8 +35,8 @@ bool ABoard::IsMovementPossible(const ATetrimino* Tetrimino, const FIntPoint& Mo
 {
 	check(Tetrimino != nullptr);
 	const FIntPoint NewTetriminoMatrixLocation = Tetrimino->GetMatrixLocation() + MovementIntPoint2D;
-	const TArray<FIntPoint>& MinoLocalMatrixLocations = Tetrimino->GetMinoMatrixLocalLocations();
-	return IsMinoLocationsPossible(NewTetriminoMatrixLocation, MinoLocalMatrixLocations);
+	const TArray<FIntPoint>& MinoMatrixLocalLocations = Tetrimino->GetMinoMatrixLocalLocations();
+	return IsMinoLocationsPossible(NewTetriminoMatrixLocation, MinoMatrixLocalLocations);
 }
 
 bool ABoard::IsRotationPossible(const ATetrimino* Tetrimino, const ETetriminoRotationDirection RotationDirection, const FIntPoint& RotationPointOffset) const
