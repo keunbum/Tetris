@@ -1,7 +1,4 @@
-/**
- * @file Board.h
- * This file contains the declaration of the ABoard class, which represents the game board in the Tetris game.
- */
+// Copyright KeunBeom Ryu. All Rights Reserved.
 
 #pragma once
 

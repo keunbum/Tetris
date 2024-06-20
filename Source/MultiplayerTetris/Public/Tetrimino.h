@@ -1,7 +1,4 @@
-/**
- * @file Tetrimino.h
- * @brief Defines the ATetrimino class, which represents a tetrimino in the game.
- */
+// Copyright KeunBeom Ryu. All Rights Reserved.
 
 #pragma once
 

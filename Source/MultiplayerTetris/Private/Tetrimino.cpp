@@ -1,4 +1,4 @@
-// Copyright KeunBeom Ryu, Inc. All Rights Reserved.
+// Copyright KeunBeom Ryu. All Rights Reserved.
 
 #include "Tetrimino.h"
 

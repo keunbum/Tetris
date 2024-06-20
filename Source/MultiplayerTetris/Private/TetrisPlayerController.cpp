@@ -1,5 +1,4 @@
-// Copyright Ryu KeunBeom, Inc. All Rights Reserved.
-
+// Copyright KeunBeom Ryu. All Rights Reserved.
 
 #include "TetrisPlayerController.h"
 

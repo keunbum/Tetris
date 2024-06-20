@@ -1,7 +1,4 @@
-/**
- * @file Mino.h
- * @brief Contains the declaration of the UMino class and related structures and functions.
- */
+// Copyright KeunBeom Ryu. All Rights Reserved.
 
 #pragma once
 
