@@ -63,6 +63,8 @@ private:
 
 	void RunSuperRotationSystem(const ETetriminoRotationDirection RotationDirection);
 
+	void LockDown();
+
 	void SetAutoRepeatMovement();
 	void SetSoftDropTimer();
 	void SetNormalFallTimer();

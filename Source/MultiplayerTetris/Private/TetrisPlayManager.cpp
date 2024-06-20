@@ -161,6 +161,10 @@ void ATetrisPlayManager::RunSuperRotationSystem(const ETetriminoRotationDirectio
 	//UE_LOG(LogTemp, Display, TEXT("All of Rotation Points failed."));
 }
 
+void ATetrisPlayManager::LockDown()
+{
+}
+
 void ATetrisPlayManager::SetAutoRepeatMovement()
 {
 	GetWorldTimerManager().SetTimer(AutoRepeatMovementTimerHandle, this, &ATetrisPlayManager::MoveTetriminoToCurrentDirection, AutoRepeatMovementInterval, bIsAutoRepeatMovementLoop, AutoRepeatMovementInitialDelay);
