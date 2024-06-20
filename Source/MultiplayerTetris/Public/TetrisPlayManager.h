@@ -65,6 +65,7 @@ private:
 	void RunSuperRotationSystem(const ETetriminoRotationDirection RotationDirection);
 
 	void SetAutoRepeatMovement();
+	void SetSoftDropTimer();
 	void SetNormalFallTimer();
 
 	void SetMovementDirection(const FVector2D& NewMovementDirection) { CurrentMovementDirection = NewMovementDirection; }
