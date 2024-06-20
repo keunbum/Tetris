@@ -447,8 +447,9 @@ void ATetrimino::InitializeMinoArray()
 	MinoArray.Reserve(MinoNum);
 	for (const FIntPoint& MinoMatrixLocalLocation : MinoMatrixLocalLocations)
 	{
-		UMino* const Mino = UMino::CreateMino(this, RootComponent, MinoInfo, MinoMatrixLocalLocation);
+		UMino* const Mino = UMino::CreateMino(this, MinoInfo);
 		check(Mino != nullptr);
+		Mino->AttachToWithMatrixLocation(RootComponent, MinoMatrixLocalLocation);
 		MinoArray.Add(Mino);
 	}
 }
