@@ -20,10 +20,6 @@ class ABoard;
 class UMino;
 class UMaterialInterface;
 
-/**
- * @enum ETetriminoShape
- * @brief Represents the different shapes of a tetrimino.
- */
 UENUM()
 enum class ETetriminoShape : int8
 {
@@ -38,10 +34,6 @@ enum class ETetriminoShape : int8
 	Max
 };
 
-/**
- * @enum ETetriminoFacing
- * @brief Represents the different facing directions of a tetrimino.
- */
 UENUM()
 enum class ETetriminoFacing : uint8
 {
@@ -54,10 +46,6 @@ enum class ETetriminoFacing : uint8
 
 ENUM_CLASS_OPERATORS(ETetriminoFacing)
 
-/**
- * @enum ETetriminoRotationDirection
- * @brief Represents the rotation directions of a tetrimino.
- */
 UENUM()
 enum class ETetriminoRotationDirection : int8
 {
@@ -65,10 +53,6 @@ enum class ETetriminoRotationDirection : int8
 	Clockwise = 1
 };
 
-/**
- * @struct FTetriminoShapeInfo
- * @brief Contains information about a tetrimino shape.
- */
 struct FTetriminoShapeInfo
 {
 	TMap<ETetriminoFacing, TArray<FIntPoint>> MinoMatrixLocalLocationsByFacing;
