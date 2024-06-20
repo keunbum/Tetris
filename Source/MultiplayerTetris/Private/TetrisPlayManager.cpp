@@ -31,7 +31,7 @@ void ATetrisPlayManager::StartGenerationPhase()
 {
 	UE_LOG(LogTemp, Display, TEXT("Start Generation Phase."));
 
-	Phase = EPhase::Generation;
+	SetPhase(EPhase::Generation);
 	ATetrimino* const NewTetrimino = SpawnNextTetrimino();
 	check(NewTetrimino != nullptr);
 	ChangeTetrimino(NewTetrimino);
@@ -43,7 +43,8 @@ void ATetrisPlayManager::StartFallingPhase()
 {
 	UE_LOG(LogTemp, Display, TEXT("Start Falling Phase."));
 
-	Phase = EPhase::Falling;
+	SetPhase(EPhase::Falling);
+
 	SetNormalFallTimer();
 }
 
@@ -198,7 +199,7 @@ void ATetrisPlayManager::LockDown()
 {
 	UE_LOG(LogTemp, Display, TEXT("Lock Down."));
 
-	Phase = EPhase::LockDown;
+	SetPhase(EPhase::LockDown);
 
 	check(TetriminoInPlay != nullptr);
 
