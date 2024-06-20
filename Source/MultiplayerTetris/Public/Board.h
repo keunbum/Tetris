@@ -29,6 +29,8 @@ public:
 	bool IsMovementPossible(const ATetrimino* Tetrimino, const FIntPoint& MovementIntPoint2D) const;
 	bool IsRotationPossible(const ATetrimino* Tetrimino, const ETetriminoRotationDirection RotationDirection, const FIntPoint& RotationPointOffset) const;
 
+	void AddMinos(const ATetrimino* Tetrimino);
+
 protected:
 	virtual void BeginPlay() override;
 

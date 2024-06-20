@@ -49,6 +49,23 @@ bool ABoard::IsRotationPossible(const ATetrimino* Tetrimino, const ETetriminoRot
 	return IsMinoLocationsPossible(NewTetriminoMatrixLocation, NewMinoLocalMatrixLocations);
 }
 
+void ABoard::AddMinos(const ATetrimino* Tetrimino)
+{
+	check(Tetrimino != nullptr);
+
+	const FIntPoint TetriminoMatrixLocation = Tetrimino->GetMatrixLocation();
+	const TArray<FIntPoint>& MinoMatrixLocalLocations = Tetrimino->GetMinoMatrixLocalLocations();
+	const TArray<TObjectPtr<UMino>>& MinoArray = Tetrimino->GetMinoArray();
+	for (int32 MinoIndex = 0; MinoIndex < Tetrimino->MinoNum; ++MinoIndex)
+	{
+		const FIntPoint& MinoMatrixLocalLocation = MinoMatrixLocalLocations[MinoIndex];
+		const FIntPoint MinoMatrixLocation = TetriminoMatrixLocation + MinoMatrixLocalLocation;
+		UMino* const Mino = MinoArray[MinoIndex];
+		const int32 MatrixIndex = GetMatrixIndexByMatrixLocation(MinoMatrixLocation);
+		MinoMatrix[MatrixIndex] = Mino;
+	}
+}
+
 void ABoard::BeginPlay()
 {
 	Super::BeginPlay();
