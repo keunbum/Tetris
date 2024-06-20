@@ -11,6 +11,8 @@ ATetrisPlayManager::ATetrisPlayManager()
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	Phase = EPhase::None;
+
 	LockDownOption = ELockDownOption::ExtendedPlacement;
 
 	NormalFallSpeed = -1.0f;
@@ -27,9 +29,16 @@ void ATetrisPlayManager::Tick(const float DeltaTime)
 
 void ATetrisPlayManager::StartGenerationPhase()
 {
+	Phase = EPhase::Generation;
 	ATetrimino* const NewTetrimino = SpawnNextTetrimino();
 	check(NewTetrimino != nullptr);
 	ChangeTetrimino(NewTetrimino);
+	StartFallingPhase();
+}
+
+void ATetrisPlayManager::StartFallingPhase()
+{
+	Phase = EPhase::Falling;
 }
 
 void ATetrisPlayManager::StartMovement(const FVector2D& InMovementDirection)
@@ -156,6 +165,7 @@ void ATetrisPlayManager::RunSuperRotationSystem(const ETetriminoRotationDirectio
 
 void ATetrisPlayManager::LockDown()
 {
+	Phase = EPhase::LockDown;
 }
 
 void ATetrisPlayManager::SetAutoRepeatMovement()
