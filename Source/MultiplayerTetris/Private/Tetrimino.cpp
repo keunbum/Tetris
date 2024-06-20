@@ -1,4 +1,4 @@
-// Copyright Ryu KeunBeom, Inc. All Rights Reserved.
+// Copyright KeunBeom Ryu, Inc. All Rights Reserved.
 
 #include "Tetrimino.h"
 
@@ -339,13 +339,6 @@ ATetrimino::ATetrimino()
 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
 }
 
-// Called when the game starts or when spawned
-void ATetrimino::BeginPlay()
-{
-	Super::BeginPlay();
-}
-
-// Called every frame
 void ATetrimino::Tick(const float DeltaTime)
 {
 	Super::Tick(DeltaTime);
@@ -425,6 +418,11 @@ const TArray<FIntPoint>& ATetrimino::GetMinoMatrixLocalLocationsByTetriminoShape
 {
 	const FTetriminoShapeInfo& TetriminoShapeInfo = ATetrimino::GetTetriminoShapeInfoByShape(Shape);
 	return TetriminoShapeInfo.MinoMatrixLocalLocationsByFacing[Facing];
+}
+
+void ATetrimino::BeginPlay()
+{
+	Super::BeginPlay();
 }
 
 void ATetrimino::InitializeMinoArray()

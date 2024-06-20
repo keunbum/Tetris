@@ -88,18 +88,9 @@ class MULTIPLAYERTETRIS_API ATetrimino : public AActor
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this actor's properties
 	ATetrimino();
-
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-public:
-	// Called every frame
 	virtual void Tick(const float DeltaTime) override;
 
-public:
 	const FTetriminoShapeInfo& GetTetriminoShapeInfo() const;
 	const FIntPoint& GetInitialMatrixLocation() const;
 	const TArray<FIntPoint>& GetMinoMatrixLocalLocations() const;
@@ -122,6 +113,8 @@ public:
 	static const TArray<FIntPoint>& GetMinoMatrixLocalLocationsByTetriminoShapeAndFacing(const ETetriminoShape Shape, const ETetriminoFacing Facing);
 
 protected:
+	virtual void BeginPlay() override;
+
 	void SetFacing(const ETetriminoFacing NewFacing) { Facing = NewFacing; }
 
 	void InitializeMinoArray();
