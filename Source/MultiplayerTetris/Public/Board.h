@@ -27,16 +27,13 @@ class MULTIPLAYERTETRIS_API ABoard : public AActor
 	
 public:
 	ABoard();
+	virtual void Tick(const float DeltaTime) override;
+
+	bool IsMovementPossible(const ATetrimino* Tetrimino, const FIntPoint& MovementIntPoint2D) const;
+	bool IsRotationPossible(const ATetrimino* Tetrimino, const ETetriminoRotationDirection RotationDirection, const FIntPoint& RotationPointOffset) const;
 
 protected:
 	virtual void BeginPlay() override;
-
-public:
-	virtual void Tick(const float DeltaTime) override;
-
-public:
-	bool IsMovementPossible(const ATetrimino* Tetrimino, const FIntPoint& MovementIntPoint2D) const;
-	bool IsRotationPossible(const ATetrimino* Tetrimino, const ETetriminoRotationDirection RotationDirection, const FIntPoint& RotationPointOffset) const;
 
 private:
 	void Initialize();

@@ -26,13 +26,6 @@ ABoard::ABoard()
 	BackgroundRoot->SetupAttachment(RootComponent);
 }
 
-void ABoard::BeginPlay()
-{
-	Super::BeginPlay();
-
-	Initialize();
-}
-
 void ABoard::Tick(const float DeltaTime)
 {
 	Super::Tick(DeltaTime);
@@ -54,6 +47,13 @@ bool ABoard::IsRotationPossible(const ATetrimino* Tetrimino, const ETetriminoRot
 	const ETetriminoFacing NewTetriminoFacing = Tetrimino->GetFacing() + static_cast<int32>(RotationDirection);
 	const TArray<FIntPoint>& NewMinoLocalMatrixLocations = ATetrimino::GetMinoMatrixLocalLocationsByTetriminoShapeAndFacing(TetriminoShape, NewTetriminoFacing);
 	return IsMinoLocationsPossible(NewTetriminoMatrixLocation, NewMinoLocalMatrixLocations);
+}
+
+void ABoard::BeginPlay()
+{
+	Super::BeginPlay();
+
+	Initialize();
 }
 
 void ABoard::Initialize()
@@ -95,7 +95,7 @@ UMino* ABoard::GetMinoByMatrixLocation(const FIntPoint& MatrixLocation) const
 
 bool ABoard::IsMatrixLocationEmpty(const FIntPoint& MatrixLocation) const
 {
-	return GetMinoByMatrixLocation(MatrixLocation) == nullptr;
+	return (GetMinoByMatrixLocation(MatrixLocation) == nullptr);
 }
 
 bool ABoard::IsMinoLocationsPossible(const FIntPoint& TetriminoMatrixLocation, const TArray<FIntPoint>& MinoLocalMatrixLocations) const
