@@ -124,6 +124,7 @@ private:
 	static constexpr float LockDownTimerInitialDelay = 0.5f;
 
 	// Etc
+	static constexpr bool bIsGenerationPhaseTimerLoop = false;
 	static constexpr float GenerationPhaseInitialDelay = 0.2f;
 
 private:

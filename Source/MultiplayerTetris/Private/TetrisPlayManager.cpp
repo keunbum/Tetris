@@ -218,7 +218,6 @@ void ATetrisPlayManager::LockDown()
 	TetriminoInPlay = nullptr;
 
 	// Switch to Generation Phase.
-	static constexpr bool bIsGenerationPhaseTimerLoop = false;
 	GetWorldTimerManager().SetTimer(GenerationPhaseTimerHandle, this, &ATetrisPlayManager::StartGenerationPhase, GenerationPhaseInitialDelay, bIsGenerationPhaseTimerLoop);
 }
 
