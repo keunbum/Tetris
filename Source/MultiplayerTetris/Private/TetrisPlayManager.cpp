@@ -1,15 +1,11 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
+// Copyright KeunBeom Ryu. All Rights Reserved.
 
 #include "TetrisPlayManager.h"
-
-#include "Algo/AllOf.h"
 
 #include "Board.h"
 #include "TetrisGameModeBase.h"
 #include "Tetrimino.h"
 
-// Sets default values
 ATetrisPlayManager::ATetrisPlayManager()
 {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
@@ -22,15 +18,6 @@ ATetrisPlayManager::ATetrisPlayManager()
 	TetriminoInPlay = nullptr;
 }
 
-// Called when the game starts or when spawned
-void ATetrisPlayManager::BeginPlay()
-{
-	Super::BeginPlay();
-
-	Initialize();
-}
-
-// Called every frame
 void ATetrisPlayManager::Tick(const float DeltaTime)
 {
 	Super::Tick(DeltaTime);
@@ -63,7 +50,7 @@ void ATetrisPlayManager::StartSoftDrop()
 		// NormalFall 일시 중지
 		ClearTimer(NormalFallTimerHandle);
 
-		GetWorldTimerManager().SetTimer(SoftDropTimerHandle, this, &ATetrisPlayManager::MoveDown, GameMode->GetSoftDropSpeed(), bSoftDropTimerLoop, SoftDropTimerInitialDelay);
+		GetWorldTimerManager().SetTimer(SoftDropTimerHandle, this, &ATetrisPlayManager::MoveTetriminoDown, GameMode->GetSoftDropSpeed(), bSoftDropTimerLoop, SoftDropTimerInitialDelay);
 	}
 }
 
@@ -75,17 +62,21 @@ void ATetrisPlayManager::EndSoftDrop()
 	SetNormalFallTimer();
 }
 
-void ATetrisPlayManager::StartHardDrop()
+void ATetrisPlayManager::DoHardDrop()
 {
 	// TODO: 하드 드롭 로직 추가
 }
 
-void ATetrisPlayManager::StartRotate(const int32 RotationDirection)
+void ATetrisPlayManager::DoRotation(const ETetriminoRotationDirection RotationDirection)
 {
-	if (TetriminoInPlay)
-	{
-		TetriminoInPlay->RotateBy(RotationDirection);
-	}
+	RunSuperRotationSystem(RotationDirection);
+}
+
+void ATetrisPlayManager::BeginPlay()
+{
+	Super::BeginPlay();
+
+	Initialize();
 }
 
 void ATetrisPlayManager::Initialize()
@@ -99,6 +90,8 @@ void ATetrisPlayManager::Initialize()
 
 	Board = World->SpawnActor<ABoard>();
 	check(Board != nullptr);
+
+	UMino::ClearMaterialCache();
 }
 
 void ATetrisPlayManager::ClearTimer(FTimerHandle& InOutTimerHandle)
@@ -110,7 +103,7 @@ void ATetrisPlayManager::MoveTetriminoTo(const FVector2D& Direction)
 {
 	if (TetriminoInPlay)
 	{
-		const float OneSpace = 1.f;
+		static constexpr float OneSpace = 1.0f;
 		const FVector2D MovementVector2D = OneSpace * Direction;
 		const FIntPoint MovementIntVector2D(static_cast<int32>(MovementVector2D.X), static_cast<int32>(MovementVector2D.Y));
 		if (Board->IsMovementPossible(TetriminoInPlay, MovementIntVector2D))
@@ -125,9 +118,31 @@ void ATetrisPlayManager::MoveTetriminoToCurrentDirection()
 	MoveTetriminoTo(CurrentMovementDirection);
 }
 
-void ATetrisPlayManager::MoveDown()
+void ATetrisPlayManager::MoveTetriminoDown()
 {
 	MoveTetriminoTo(ATetrimino::MoveDirectionDown);
+}
+
+void ATetrisPlayManager::RunSuperRotationSystem(const ETetriminoRotationDirection RotationDirection)
+{
+	if (!TetriminoInPlay)
+	{
+		return;
+	}
+
+	const TArray<FIntPoint>& RotationPointOffsets = TetriminoInPlay->GetSRSRotationPointOffsets(RotationDirection);
+	for (int32 PointIndex = 0; PointIndex < RotationPointOffsets.Num(); ++PointIndex)
+	{
+		const FIntPoint& RotationPointOffset = RotationPointOffsets[PointIndex];
+		if (Board->IsRotationPossible(TetriminoInPlay, RotationDirection, RotationPointOffset))
+		{
+			TetriminoInPlay->RotateTo(RotationDirection);
+			TetriminoInPlay->MoveBy(RotationPointOffset);
+			//UE_LOG(LogTemp, Display, TEXT("%Rotation with Point%d."), PointIndex + 1);
+			return;
+		}
+	}
+	//UE_LOG(LogTemp, Display, TEXT("All of Rotation Points failed."));
 }
 
 void ATetrisPlayManager::SetAutoRepeatMovement()
@@ -139,7 +154,7 @@ void ATetrisPlayManager::SetNormalFallTimer()
 {
 	if (GameMode && !GameMode->bNormalFallOff)
 	{
-		GetWorldTimerManager().SetTimer(NormalFallTimerHandle, this, &ATetrisPlayManager::MoveDown, NormalFallSpeed, bIsNormalFallTimerLoop, NormalFallTimerInitialDelay);
+		GetWorldTimerManager().SetTimer(NormalFallTimerHandle, this, &ATetrisPlayManager::MoveTetriminoDown, NormalFallSpeed, bIsNormalFallTimerLoop, NormalFallTimerInitialDelay);
 	}
 }
 

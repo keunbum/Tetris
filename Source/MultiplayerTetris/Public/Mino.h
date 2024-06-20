@@ -1,46 +1,53 @@
-// Copyright Ryu KeunBeom, Inc. All Rights Reserved.
+// Copyright KeunBeom Ryu. All Rights Reserved.
 
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Actor.h"
+#include "Components/StaticMeshComponent.h"
 
 #include "Mino.generated.h"
 
 class UMaterialInterface;
-class UStaticMeshComponent;
 
+/**
+ * @struct FMinoInfo
+ * @brief Represents information about a "Mino" object.
+ */
+struct FMinoInfo
+{
+	FString MaterialPath;
+	FLinearColor Color;
+};
+
+/**
+ * @class UMino
+ * @brief Represents a specialized static mesh component used in a multiplayer Tetris game.
+ */
 UCLASS()
-class MULTIPLAYERTETRIS_API AMino : public AActor
+class MULTIPLAYERTETRIS_API UMino : public UStaticMeshComponent
 {
 	GENERATED_BODY()
-	
-public:	
-	// Sets default values for this actor's properties
-	AMino();
-
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-public:	
-	// Called every frame
-	virtual void Tick(const float DeltaTime) override;
 
 public:
+	UMino();
+
+	void SetRelativeLocationByMatrixLocation(const FIntPoint& MatrixLocation, const float Z = 0.0f);
+
+	static UMino* CreateMino(UObject* const InOuter, USceneComponent* const Parent, const FMinoInfo& MinoInfo, const FIntPoint& MatrixLocation, const float Z = 0.0f);
+	static void ClearMaterialCache();
 	static FVector Get3DRelativePositionByMatrixLocation(const FIntPoint& MatrixLocation, const float Z = 0.0f);
+	static UMaterialInterface* GetMaterialByMinoInfo(const FMinoInfo& MinoInfo);
+	static UMaterialInstanceDynamic* GetMaterialInstanceByMinoInfo(UObject* const InOuter, const FMinoInfo& MinoInfo);
 
-	void SetRelativeLocationByMatrixLocation(const FIntPoint& MatrixLocation);
-	FVector GetRelativeLocation() const;
-	void SetRelativeLocation(const FVector& NewLocation);
-	void SetMaterial(UMaterialInterface* const Material, const int32 ElementIndex = 0);
+private:
+	static constexpr float DefaultUnitLength = 100.f;
 
 public:
-	static constexpr float DefaultUnitLength = 100.f;
 	static constexpr float MinoScale = 0.125f;
 	static constexpr float UnitLength = DefaultUnitLength * MinoScale;
 
 private:
-	UPROPERTY(EditDefaultsOnly)
-	TObjectPtr<UStaticMeshComponent> MinoMesh;
+	static const FName BaseColorParameterName;
+	static const FString CubeMeshPath;
+	static TMap<FString, UMaterialInstanceDynamic*> MaterialCache; // static cache for material instances
 };

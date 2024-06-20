@@ -1,5 +1,4 @@
-// Copyright Ryu KeunBeom, Inc. All Rights Reserved.
-
+// Copyright Ryu KeunBeom. All Rights Reserved.
 
 #include "TetrisGameModeBase.h"
 
@@ -32,7 +31,7 @@ void ATetrisGameModeBase::BeginPlay()
 	Super::BeginPlay();
 
 	Initialize();
-	StartGenerationPhase();
+	StartGamePlay();
 }
 
 void ATetrisGameModeBase::Initialize()
@@ -45,7 +44,7 @@ void ATetrisGameModeBase::Initialize()
 	check(TetrisPlayManager != nullptr);
 }
 
-void ATetrisGameModeBase::StartGenerationPhase()
+void ATetrisGameModeBase::StartGamePlay()
 {
 	TetrisPlayManager->StartGenerationPhase();
 }

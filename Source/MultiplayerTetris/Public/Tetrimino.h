@@ -1,4 +1,4 @@
-// Copyright Ryu KeunBeom, Inc. All Rights Reserved.
+// Copyright KeunBeom Ryu. All Rights Reserved.
 
 #pragma once
 
@@ -12,8 +12,9 @@
 
 #include "Tetrimino.generated.h"
 
-class AMino;
+class UMino;
 class ABoard;
+class UMino;
 class UMaterialInterface;
 
 UENUM()
@@ -42,60 +43,75 @@ enum class ETetriminoFacing : uint8
 
 ENUM_CLASS_OPERATORS(ETetriminoFacing)
 
-struct FTetriminoInfo
+UENUM()
+enum class ETetriminoRotationDirection : int8
 {
-	TMap<ETetriminoFacing, TArray<FIntPoint>> MinoLocalMatrixLocationsByFacing;
-	FString MaterialPath;
-	FIntPoint InitialMatrixLocation;
-
-	const TArray<FIntPoint>& GetMinoLocalMatrixLocationsByFacing(const ETetriminoFacing Facing) const
-	{
-		return MinoLocalMatrixLocationsByFacing[Facing];
-	}
+	CounterClockwise = -1,
+	Clockwise = 1
 };
 
+struct FTetriminoShapeInfo
+{
+	TMap<ETetriminoFacing, TArray<FIntPoint>> MinoMatrixLocalLocationsByFacing;
+	FString MaterialPath;
+	FLinearColor Color;
+	FIntPoint InitialMatrixLocation;
+	TMap<ETetriminoFacing, TMap<ETetriminoRotationDirection, TArray<FIntPoint>>> SRSRotationPointOffsetsTable; // Super Rotation System Rotation Point Table
+};
+
+/**
+ * @class ATetrimino
+ * @brief Represents a tetrimino in the game.
+ */
 UCLASS()
 class MULTIPLAYERTETRIS_API ATetrimino : public AActor
 {
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this actor's properties
 	ATetrimino();
-
-	const TArray<FIntPoint>& GetMinoLocalMatrixLocations() const;
-	const FIntPoint& GetInitialMatrixLocation() const;
-	const ETetriminoShape GetTetriminoShape() const { return TetriminoShape; }
-	const FIntPoint& GetMatrixLocation() const { return MatrixLocation; }
-	const TArray<TObjectPtr<AMino>>& GetMinoArray() const { return MinoArray; }
-
-	void Initialize(const ETetriminoShape NewTetriminoShape);
-	void SetTetriminoShape(const ETetriminoShape NewTetriminoShape) { TetriminoShape = NewTetriminoShape; }
-	void MoveBy(const FIntPoint& IntVector2D);
-	void RotateBy(const int32 Value);
-	void AttachToBoard(ABoard* const Board);
-
-	static ETetriminoShape GetTetriminoShapeRandom();
-
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-public:
-	// Called every frame
 	virtual void Tick(const float DeltaTime) override;
 
-protected:
-	void SetFacing(const ETetriminoFacing NewFacing) { Facing = NewFacing; }
+	const FTetriminoShapeInfo& GetTetriminoShapeInfo() const;
+	const FIntPoint& GetInitialMatrixLocation() const;
+	const TArray<FIntPoint>& GetMinoMatrixLocalLocations() const;
+	const TArray<FIntPoint>& GetSRSRotationPointOffsets(const ETetriminoRotationDirection RotationDirection) const;
 
-	void InitializeMinoArray(const FTetriminoInfo& TetriminoInfo);
-	void UpdateMinoPositions();
+	const ETetriminoShape& GetShape() const { return Shape; }
+	const ETetriminoFacing& GetFacing() const { return Facing; }
+	const FIntPoint& GetMatrixLocation() const { return MatrixLocation; }
+	const TArray<TObjectPtr<UMino>>& GetMinoArray() const { return MinoArray; }
+
+	void Initialize(const ETetriminoShape NewTetriminoShape);
+	void SetShape(const ETetriminoShape NewShape) { Shape = NewShape; }
+	void MoveBy(const FIntPoint& IntVector2D);
+	void RotateTo(const ETetriminoRotationDirection RotationDirection);
+	void AttachToBoard(ABoard* const Board);
 
 	void DebugPrintState() const;
 
-	static const FTetriminoInfo& GetTetriminoInfoByShape(const ETetriminoShape TetriminoShape);
-	static UMaterialInterface* GetMaterialByTetriminoInfo(const FTetriminoInfo& TetriminoInfo);
-	static FString GetTetriminoShapeName(const ETetriminoShape TetriminoShape);
+	static ETetriminoShape GetTetriminoShapeRandom();
+	static const TArray<FIntPoint>& GetMinoMatrixLocalLocationsByTetriminoShapeAndFacing(const ETetriminoShape Shape, const ETetriminoFacing Facing);
+
+protected:
+	virtual void BeginPlay() override;
+
+	void SetFacing(const ETetriminoFacing NewFacing) { Facing = NewFacing; }
+
+	void InitializeMinoArray();
+	void UpdateMinoMatrixLocalLocations();
+
+	static const FTetriminoShapeInfo& GetTetriminoShapeInfoByShape(const ETetriminoShape Shape);
+	static const FIntPoint& GetInitialMatrixLocationByShape(const ETetriminoShape Shape);
+
+	struct FRotationInfo
+	{
+		ETetriminoShape Shape;
+		ETetriminoFacing Facing;
+		ETetriminoRotationDirection Direction;
+	};
+	static const TArray<FIntPoint>& GetSRSRotationPointOffsetsByRotationInfo(const FRotationInfo& RotationInfo);
+	static FString GetTetriminoShapeName(const ETetriminoShape Shape);
 	static FString GetFacingName(const ETetriminoFacing Facing);
 
 public:
@@ -104,11 +120,11 @@ public:
 	static const FVector2D MoveDirectionRight;
 	static const FVector2D MoveDirectionDown;
 
-	static const TMap<ETetriminoShape, FTetriminoInfo> TetriminoInfos;
+	static const TMap<ETetriminoShape, FTetriminoShapeInfo> TetriminoShapeInfos;
 
 private:
 	UPROPERTY(VisibleAnywhere)
-	ETetriminoShape TetriminoShape;
+	ETetriminoShape Shape;
 
 	UPROPERTY(VisibleAnywhere)
 	ETetriminoFacing Facing;
@@ -117,10 +133,10 @@ private:
 	FIntPoint MatrixLocation;
 
 	UPROPERTY(VisibleAnywhere)
-	TSubclassOf<AMino> MinoClass;
+	TSubclassOf<UMino> MinoClass;
 
 	UPROPERTY(VisibleAnywhere)
-	TArray<TObjectPtr<AMino>> MinoArray;
+	TArray<TObjectPtr<UMino>> MinoArray;
 
 	UPROPERTY(EditDefaultsOnly)
 	bool bIsGhostPieceOn;

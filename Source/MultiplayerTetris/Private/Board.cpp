@@ -9,42 +9,51 @@
 #include "UObject/ConstructorHelpers.h"
 #include "Algo/AllOf.h"
 
-#include "Mino.h"
 #include "Tetrimino.h"
 
-const FString ABoard::BackgroundMinoMaterialPath = TEXT("/Game/Material/M_MinoMaterial_Grey");
-const FString ABoard::SpecialMinoMaterialPath = TEXT("/Game/Material/M_MinoMaterial_Black");
+const FMinoInfo ABoard::BackgroundMinoInfo = FMinoInfo(TEXT("/Game/Material/M_MinoMaterial"), FLinearColor::Gray);
+const FMinoInfo ABoard::SpecialMinoInfo = FMinoInfo(TEXT("/Game/Material/M_MinoMaterial"), FLinearColor::Black);
 
-// Sets default values
 ABoard::ABoard()
 {
-	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	// Create and set the default root component
 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
 
-	// Initialize Class variables
-	MinoClass = AMino::StaticClass();
+	MinoClass = UMino::StaticClass();
+
+	BackgroundRoot = CreateDefaultSubobject<USceneComponent>(TEXT("BackgroundRoot"));
+	BackgroundRoot->SetupAttachment(RootComponent);
+}
+
+void ABoard::Tick(const float DeltaTime)
+{
+	Super::Tick(DeltaTime);
 }
 
 bool ABoard::IsMovementPossible(const ATetrimino* Tetrimino, const FIntPoint& MovementIntPoint2D) const
 {
-	return IsMovementWithinRange(Tetrimino, MovementIntPoint2D);
+	check(Tetrimino != nullptr);
+	const FIntPoint NewTetriminoMatrixLocation = Tetrimino->GetMatrixLocation() + MovementIntPoint2D;
+	const TArray<FIntPoint>& MinoLocalMatrixLocations = Tetrimino->GetMinoMatrixLocalLocations();
+	return IsMinoLocationsPossible(NewTetriminoMatrixLocation, MinoLocalMatrixLocations);
 }
 
-// Called when the game starts or when spawned
+bool ABoard::IsRotationPossible(const ATetrimino* Tetrimino, const ETetriminoRotationDirection RotationDirection, const FIntPoint& RotationPointOffset) const
+{
+	check(Tetrimino != nullptr);
+	const FIntPoint& NewTetriminoMatrixLocation = Tetrimino->GetMatrixLocation() + RotationPointOffset;
+	const ETetriminoShape TetriminoShape = Tetrimino->GetShape();
+	const ETetriminoFacing NewTetriminoFacing = Tetrimino->GetFacing() + static_cast<int32>(RotationDirection);
+	const TArray<FIntPoint>& NewMinoLocalMatrixLocations = ATetrimino::GetMinoMatrixLocalLocationsByTetriminoShapeAndFacing(TetriminoShape, NewTetriminoFacing);
+	return IsMinoLocationsPossible(NewTetriminoMatrixLocation, NewMinoLocalMatrixLocations);
+}
+
 void ABoard::BeginPlay()
 {
 	Super::BeginPlay();
 
 	Initialize();
-}
-
-// Called every frame
-void ABoard::Tick(const float DeltaTime)
-{
-	Super::Tick(DeltaTime);
 }
 
 void ABoard::Initialize()
@@ -55,31 +64,15 @@ void ABoard::Initialize()
 
 void ABoard::InitializeBackground()
 {
-	UMaterialInterface* const BackgroundMinoMaterial = ABoard::GetMinoMaterialByPath(BackgroundMinoMaterialPath);
-	if (!ensureMsgf(BackgroundMinoMaterial, TEXT("Failed to load material: %s"), *BackgroundMinoMaterialPath))
-	{
-		return;
-	}
-
-	Background.Reserve(TotalHeight * TotalWidth);
 	for (int32 Row = 0; Row < TotalHeight; ++Row)
 	{
+		const FMinoInfo& MinoInfo = (Row == (TotalHeight - VisibleHeight) ? SpecialMinoInfo : BackgroundMinoInfo);
 		for (int32 Col = 0; Col < TotalWidth; ++Col)
 		{
-			AMino* const Mino = GetWorld()->SpawnActor<AMino>(MinoClass, FVector::ZeroVector, FRotator::ZeroRotator);
+			const FIntPoint MinoMatrixLocation(Row, Col);
+			static constexpr float Z = 0 - UMino::UnitLength;
+			UMino* const Mino = UMino::CreateMino(this, BackgroundRoot, MinoInfo, MinoMatrixLocation, Z);
 			check(Mino != nullptr);
-
-			const FString& MinoMaterialPath = (Row == (TotalHeight - VisibleHeight) ? SpecialMinoMaterialPath : BackgroundMinoMaterialPath);
-			UMaterialInterface* const MinoMaterial = ABoard::GetMinoMaterialByPath(MinoMaterialPath);
-			check(MinoMaterial != nullptr);
-
-			Mino->SetMaterial(MinoMaterial);
-
-			Mino->AttachToActor(this, FAttachmentTransformRules::KeepRelativeTransform);
-			const FIntPoint MinoLocalMatrixLocation(Row, Col);
-			Mino->SetRelativeLocationByMatrixLocation(MinoLocalMatrixLocation);
-
-			Background.Add(Mino);
 		}
 	}
 }
@@ -87,28 +80,31 @@ void ABoard::InitializeBackground()
 void ABoard::InitializeMinoMatrix()
 {
 	MinoMatrix.Reserve(TotalHeight * TotalWidth);
-	for (int32 Row = 0; Row < TotalHeight; ++Row)
+	for (int32 _ = 0; _ < TotalHeight * TotalWidth; ++_)
 	{
-		for (int32 Col = 0; Col < TotalWidth; ++Col)
-		{
-			AMino* const Mino = nullptr;
-			MinoMatrix.Add(Mino);
-		}
+		UMino* const Mino = nullptr;
+		MinoMatrix.Add(Mino);
 	}
 }
 
-bool ABoard::IsMovementWithinRange(const ATetrimino* Tetrimino, const FIntPoint& MovementIntPoint2D) const
+UMino* ABoard::GetMinoByMatrixLocation(const FIntPoint& MatrixLocation) const
 {
-	const TArray<FIntPoint>& MinoLocalMatrixLocations = Tetrimino->GetMinoLocalMatrixLocations();
-	return Algo::AllOf(MinoLocalMatrixLocations, [&MovementIntPoint2D, &Tetrimino](const FIntPoint& MatrixLocation) {
-		const FIntPoint NextMatrixLocation = Tetrimino->GetMatrixLocation() + MatrixLocation + MovementIntPoint2D;
-		return NextMatrixLocation.X < VisibleEndRow && FMath::IsWithin(NextMatrixLocation.Y, VisibleBeginCol, VisibleEndCol);
-		});
+	const int32 Index = TotalWidth * MatrixLocation.X + MatrixLocation.Y;
+	return MinoMatrix[Index];
 }
 
-UMaterialInterface* ABoard::GetMinoMaterialByPath(const FString& Path)
+bool ABoard::IsMatrixLocationEmpty(const FIntPoint& MatrixLocation) const
 {
-	UMaterialInterface* const MinoMaterial = Cast<UMaterialInterface>(StaticLoadObject(UMaterialInterface::StaticClass(), nullptr, *Path));
-	return MinoMaterial;
+	return (GetMinoByMatrixLocation(MatrixLocation) == nullptr);
 }
 
+bool ABoard::IsMinoLocationsPossible(const FIntPoint& TetriminoMatrixLocation, const TArray<FIntPoint>& MinoLocalMatrixLocations) const
+{
+	return Algo::AllOf(MinoLocalMatrixLocations, [this, &TetriminoMatrixLocation](const FIntPoint& MinoLocalMatrixLocation) {
+		const FIntPoint NewMinoLocalMatrixLocation = TetriminoMatrixLocation + MinoLocalMatrixLocation;
+		return FMath::IsWithin(NewMinoLocalMatrixLocation.X, TotalBeginRow, VisibleEndRow)
+			&& FMath::IsWithin(NewMinoLocalMatrixLocation.Y, VisibleBeginCol, VisibleEndCol)
+			&& (IsMatrixLocationEmpty(NewMinoLocalMatrixLocation));
+		}
+	);
+}

@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright KeunBeom Ryu. All Rights Reserved.
 
 #pragma once
 
@@ -14,40 +14,35 @@ class ATetrisGameModeBase;
 class ABoard;
 class UInputComponent;
 
+/**
+ * @class ATetrisPlayManager
+ * @brief The ATetrisPlayManager class is responsible for managing the gameplay logic of the Tetris game.
+ */
 UCLASS()
 class MULTIPLAYERTETRIS_API ATetrisPlayManager : public AActor
 {
 	GENERATED_BODY()
 	
 public:
-	// Sets default values for this actor's properties
 	ATetrisPlayManager();
-
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-public:
-	// Called every frame
 	virtual void Tick(const float DeltaTime) override;
 
-public:
 	void StartGenerationPhase();
 	void SetTetriminoInPlay(ATetrimino* const NewTetriminoInPlay) { TetriminoInPlay = NewTetriminoInPlay; }
 	void SetNormalFallSpeed(const float NewNormalFallSpeed) { NormalFallSpeed = NewNormalFallSpeed; }
 
-	FVector2D GetMovementDirection() const { return CurrentMovementDirection; }
+	const FVector2D& GetMovementDirection() const { return CurrentMovementDirection; }
 
 	// Event Handlers
 	void StartMovement(const FVector2D& InMovementDirection);
 	void EndMovement();
 	void StartSoftDrop();
 	void EndSoftDrop();
-	void StartHardDrop();
-	/**
-	* @param RotationDirection - +1: 시계 방향, -1: 반시계 방향.
-	*/
-	void StartRotate(const int32 RotationDirection);
+	void DoHardDrop();
+	void DoRotation(const ETetriminoRotationDirection RotationDirection);
+
+protected:
+	virtual void BeginPlay() override;
 
 private:
 	void Initialize();
@@ -55,7 +50,9 @@ private:
 
 	void MoveTetriminoTo(const FVector2D& Direction);
 	void MoveTetriminoToCurrentDirection();
-	void MoveDown();
+	void MoveTetriminoDown();
+
+	void RunSuperRotationSystem(const ETetriminoRotationDirection RotationDirection);
 
 	void SetAutoRepeatMovement();
 	void SetNormalFallTimer();
@@ -88,7 +85,6 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<ATetrimino> TetriminoClass;
 
-	// 조작 중인 테트로미노
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<ATetrimino> TetriminoInPlay;
 

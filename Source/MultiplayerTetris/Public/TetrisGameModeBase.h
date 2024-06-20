@@ -1,4 +1,4 @@
-// Copyright Ryu KeunBeom, Inc. All Rights Reserved.
+// Copyright Ryu KeunBeom. All Rights Reserved.
 
 #pragma once
 
@@ -37,7 +37,7 @@ protected:
 
 private:
 	void Initialize();
-	void StartGenerationPhase();
+	void StartGamePlay();
 	void StartCompletionPhase();
 
 	static float CalculateNormalFallSpeed(const int32 Level);

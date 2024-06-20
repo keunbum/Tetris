@@ -1,47 +1,51 @@
-// Copyright Ryu KeunBeom, Inc. All Rights Reserved.
+// Copyright KeunBeom Ryu. All Rights Reserved.
 
 #pragma once
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 
+#include "Mino.h"
 #include "Tetrimino.h"
 
 #include "Board.generated.h"
 
-class AMino;
+struct FMinoInfo;
+class UMino;
 
+/**
+ * @class ABoard
+ * @brief Represents the game board in the Tetris game.
+ */
 UCLASS()
 class MULTIPLAYERTETRIS_API ABoard : public AActor
 {
 	GENERATED_BODY()
 	
-public:	
-	// Sets default values for this actor's properties
+public:
 	ABoard();
+	virtual void Tick(const float DeltaTime) override;
 
 	bool IsMovementPossible(const ATetrimino* Tetrimino, const FIntPoint& MovementIntPoint2D) const;
+	bool IsRotationPossible(const ATetrimino* Tetrimino, const ETetriminoRotationDirection RotationDirection, const FIntPoint& RotationPointOffset) const;
 
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
-public:	
-	// Called every frame
-	virtual void Tick(const float DeltaTime) override;
 
 private:
 	void Initialize();
 	void InitializeBackground();
 	void InitializeMinoMatrix();
-
-	bool IsMovementWithinRange(const ATetrimino* Tetrimino, const FIntPoint& MovementIntPoint2D) const;
-
-	static UMaterialInterface* GetMinoMaterialByPath(const FString& Path);
+	UMino* GetMinoByMatrixLocation(const FIntPoint& MatrixLocation) const;
+	bool IsMatrixLocationEmpty(const FIntPoint& MatrixLocation) const;
+	bool IsMinoLocationsPossible(const FIntPoint& TetriminoMatrixLocation, const TArray<FIntPoint>& MinoLocalMatrixLocations) const;
 
 public:
 	static constexpr int32 TotalHeight = 40;
 	static constexpr int32 TotalWidth = 10;
+	/** [TotalBeginRow, TotalHeight) */
+	static constexpr int32 TotalBeginRow = 0;
+	static constexpr int32 TotalEndRow = TotalBeginRow + TotalHeight;
 
 	static constexpr int32 VisibleHeight = 20;
 	static constexpr int32 VisibleWidth = 10;
@@ -58,15 +62,15 @@ public:
 	static constexpr int32 TetriminoDefaultSpawnLocationY = ABoard::VisibleBeginCol + 3;
 
 private:
-	static const FString BackgroundMinoMaterialPath;
-	static const FString SpecialMinoMaterialPath;
+	static const FMinoInfo BackgroundMinoInfo;
+	static const FMinoInfo SpecialMinoInfo;
 
 	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<AMino> MinoClass;
+	TSubclassOf<UMino> MinoClass;
 
-	UPROPERTY(EditDefaultsOnly)
-	TArray<TObjectPtr<AMino>> Background;
+	UPROPERTY()
+	TObjectPtr<USceneComponent> BackgroundRoot;
 
 	UPROPERTY(VisibleAnywhere)
-	TArray<TObjectPtr<AMino>> MinoMatrix;
+	TArray<TObjectPtr<UMino>> MinoMatrix;
 };
