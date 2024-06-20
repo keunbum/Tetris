@@ -40,7 +40,6 @@ protected:
 private:
 	void Initialize();
 	void StartGamePlay();
-	void StartCompletionPhase();
 
 	static float CalculateNormalFallSpeed(const int32 Level);
 
