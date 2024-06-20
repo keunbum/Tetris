@@ -93,6 +93,9 @@ private:
 	ATetrimino* SpawnNextTetrimino() const;
 	void ChangeTetrimino(ATetrimino* const NewTetrimino);
 
+	// Effect
+	void PlayLockDownEffect(const TArray<TObjectPtr<UMino>>& GetMinoArray);
+
 	static FIntPoint GetMovementIntVector2D(const FVector2D& Direction);
 
 private:

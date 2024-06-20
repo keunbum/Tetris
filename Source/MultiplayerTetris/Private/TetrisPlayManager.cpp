@@ -220,6 +220,10 @@ void ATetrisPlayManager::ChangeTetrimino(ATetrimino* const NewTetrimino)
 	SetTetriminoInPlay(NewTetrimino);
 }
 
+void ATetrisPlayManager::PlayLockDownEffect(const TArray<TObjectPtr<UMino>>& GetMinoArray)
+{
+}
+
 FIntPoint ATetrisPlayManager::GetMovementIntVector2D(const FVector2D& Direction)
 {
 	static constexpr float OneSpace = 1.0f;
