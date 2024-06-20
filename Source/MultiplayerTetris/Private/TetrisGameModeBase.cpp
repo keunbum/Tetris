@@ -11,6 +11,7 @@
 #include "TetrisPlayManager.h"
 #include "TetrisMatrix.h"
 #include "Board.h"
+#include "TetrisPlayerController.h"
 
 ATetrisGameModeBase::ATetrisGameModeBase()
 	: CurrentLevel(DefaultGameLevel)
