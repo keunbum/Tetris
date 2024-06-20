@@ -54,7 +54,6 @@ protected:
 
 private:
 	void Initialize();
-	void ClearTimer(FTimerHandle& InOutTimerHandle);
 
 	FIntPoint GetMovementIntVector2D(const FVector2D& Direction) const;
 
@@ -67,6 +66,8 @@ private:
 	void SetAutoRepeatMovement();
 	void SetSoftDropTimer();
 	void SetNormalFallTimer();
+
+	void ClearTimer(FTimerHandle& InOutTimerHandle);
 
 	void SetMovementDirection(const FVector2D& NewMovementDirection) { CurrentMovementDirection = NewMovementDirection; }
 

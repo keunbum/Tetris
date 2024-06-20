@@ -96,11 +96,6 @@ void ATetrisPlayManager::Initialize()
 	UMino::ClearMaterialCache();
 }
 
-void ATetrisPlayManager::ClearTimer(FTimerHandle& InOutTimerHandle)
-{
-	GetWorldTimerManager().ClearTimer(InOutTimerHandle);
-}
-
 FIntPoint ATetrisPlayManager::GetMovementIntVector2D(const FVector2D& Direction) const
 {
 	static constexpr float OneSpace = 1.0f;
@@ -182,6 +177,11 @@ void ATetrisPlayManager::SetNormalFallTimer()
 	{
 		GetWorldTimerManager().SetTimer(NormalFallTimerHandle, this, &ATetrisPlayManager::MoveTetriminoDown, NormalFallSpeed, bIsNormalFallTimerLoop, NormalFallTimerInitialDelay);
 	}
+}
+
+void ATetrisPlayManager::ClearTimer(FTimerHandle& InOutTimerHandle)
+{
+	GetWorldTimerManager().ClearTimer(InOutTimerHandle);
 }
 
 ATetrimino* ATetrisPlayManager::SpawnNextTetrimino() const
