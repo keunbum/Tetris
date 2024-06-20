@@ -19,7 +19,7 @@ enum class ELockDownOption : uint8
 {
 	ExtendedPlacement,
 	InfinitePlacement,
-	Classic
+	Classic,
 };
 
 UENUM()
@@ -33,7 +33,7 @@ enum class EPhase : uint8
 	Iterate,
 	Animate,
 	Elimate,
-	Completion
+	Completion,
 };
 
 /**
