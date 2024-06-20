@@ -449,13 +449,11 @@ void ATetrimino::InitializeMinoArray()
 void ATetrimino::UpdateMinoMatrixLocalLocations()
 {
 	const TArray<FIntPoint>& MinoMatrixLocalLocations = GetMinoMatrixLocalLocations();
-	for (int32 MinoID = 0; MinoID < MinoNum; ++MinoID)
+	for (int32 MinoIndex = 0; MinoIndex < MinoNum; ++MinoIndex)
 	{
-		if (UMino* const Mino = MinoArray[MinoID])
-		{
-			const FIntPoint& NewMinoMatrixLocalLocation = MinoMatrixLocalLocations[MinoID];
-			Mino->SetRelativeLocationByMatrixLocation(NewMinoMatrixLocalLocation);
-		}
+		UMino* const Mino = MinoArray[MinoIndex];
+		const FIntPoint& NewMinoMatrixLocalLocation = MinoMatrixLocalLocations[MinoIndex];
+		Mino->SetRelativeLocationByMatrixLocation(NewMinoMatrixLocalLocation);
 	}
 }
 
