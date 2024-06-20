@@ -44,6 +44,7 @@ void ATetrisPlayManager::StartFallingPhase()
 	UE_LOG(LogTemp, Display, TEXT("Start Falling Phase."));
 
 	Phase = EPhase::Falling;
+	SetNormalFallTimer();
 }
 
 void ATetrisPlayManager::StartMovement(const FVector2D& InMovementDirection)
@@ -123,7 +124,7 @@ void ATetrisPlayManager::Initialize()
 	check(World != nullptr);
 	GameMode = World->GetAuthGameMode<ATetrisGameModeBase>();
 
-	SetNormalFallTimer();
+	SetNormalFallSpeed(GameMode->GetNormalFallSpeed());
 	SetMovementDirection(FVector2D::ZeroVector);
 
 	Board = World->SpawnActor<ABoard>();
