@@ -101,6 +101,7 @@ void ATetrisPlayManager::DoRotation(const ETetriminoRotationDirection RotationDi
 	{
 		return;
 	}
+
 	RunSuperRotationSystem(RotationDirection);
 }
 
@@ -151,6 +152,7 @@ void ATetrisPlayManager::MoveTetriminoTo(const FVector2D& Direction)
 	else
 	{
 		UE_LOG(LogTemp, Display, TEXT("Movement is impossible."));
+
 		if (bIsSoftDropOrNormalFall)
 		{
 			ForcedLockDown();
