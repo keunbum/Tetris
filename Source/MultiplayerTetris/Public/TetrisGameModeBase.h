@@ -8,6 +8,7 @@
 #include "TetrisGameModeBase.generated.h"
 
 class ATetrisPlayManager;
+class ATetrisPlayerController;
 class UUserWidget;
 
 /**
@@ -31,6 +32,7 @@ public:
 	float GetSoftDropSpeed() const { return GetNormalFallSpeed() / SoftDropMultiplier; }
 
 	ATetrisPlayManager* GetTetrisPlayManager() const { return TetrisPlayManager; }
+	ATetrisPlayerController* GetTetrisPlayerController() const { return TetrisPlayerController; }
 
 protected:
 	virtual void BeginPlay() override;
@@ -62,6 +64,9 @@ protected:
 
 	UPROPERTY()
 	TObjectPtr<ATetrisPlayManager> TetrisPlayManager;
+
+	UPROPERTY()
+	TObjectPtr<ATetrisPlayerController> TetrisPlayerController;
 
 	//UPROPERTY()
 	//// Widgets
