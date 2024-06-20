@@ -29,15 +29,20 @@ void ATetrisPlayManager::Tick(const float DeltaTime)
 
 void ATetrisPlayManager::StartGenerationPhase()
 {
+	UE_LOG(LogTemp, Display, TEXT("StartGenerationPhase."));
+
 	Phase = EPhase::Generation;
 	ATetrimino* const NewTetrimino = SpawnNextTetrimino();
 	check(NewTetrimino != nullptr);
 	ChangeTetrimino(NewTetrimino);
+
 	StartFallingPhase();
 }
 
 void ATetrisPlayManager::StartFallingPhase()
 {
+	UE_LOG(LogTemp, Display, TEXT("StartFallingPhase."));
+
 	Phase = EPhase::Falling;
 }
 
@@ -194,6 +199,8 @@ void ATetrisPlayManager::RunSuperRotationSystem(const ETetriminoRotationDirectio
 
 void ATetrisPlayManager::LockDown()
 {
+	UE_LOG(LogTemp, Display, TEXT("LockDown."));
+
 	Phase = EPhase::LockDown;
 
 	check(TetriminoInPlay != nullptr);
