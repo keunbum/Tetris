@@ -34,16 +34,18 @@ class MULTIPLAYERTETRIS_API UMino : public UStaticMeshComponent
 public:
 	UMino();
 
-	void SetRelativeLocationByMatrixLocation(const FIntPoint& MatrixLocation);
+	void SetRelativeLocationByMatrixLocation(const FIntPoint& MatrixLocation, const float Z = 0.0f);
 
-	static UMino* CreateMino(UObject* const InOuter, USceneComponent* const Parent, const FMinoInfo& MinoInfo, const FIntPoint& MatrixLocation);
+	static UMino* CreateMino(UObject* const InOuter, USceneComponent* const Parent, const FMinoInfo& MinoInfo, const FIntPoint& MatrixLocation, const float Z = 0.0f);
 	static void ClearMaterialCache();
-	static FVector Get3DRelativePositionByMatrixLocation(const FIntPoint& MatrixLocation, float Z = 0.0f);
+	static FVector Get3DRelativePositionByMatrixLocation(const FIntPoint& MatrixLocation, const float Z = 0.0f);
 	static UMaterialInterface* GetMaterialByMinoInfo(const FMinoInfo& MinoInfo);
 	static UMaterialInstanceDynamic* GetMaterialInstanceByMinoInfo(UObject* const InOuter, const FMinoInfo& MinoInfo);
 
-public:
+private:
 	static constexpr float DefaultUnitLength = 100.f;
+
+public:
 	static constexpr float MinoScale = 0.125f;
 	static constexpr float UnitLength = DefaultUnitLength * MinoScale;
 

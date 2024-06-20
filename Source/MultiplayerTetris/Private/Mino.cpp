@@ -20,12 +20,12 @@ UMino::UMino()
 	SetWorldScale3D(FVector(MinoScale));
 }
 
-void UMino::SetRelativeLocationByMatrixLocation(const FIntPoint& MatrixLocation)
+void UMino::SetRelativeLocationByMatrixLocation(const FIntPoint& MatrixLocation, const float Z)
 {
-	SetRelativeLocation(UMino::Get3DRelativePositionByMatrixLocation(MatrixLocation));
+	SetRelativeLocation(UMino::Get3DRelativePositionByMatrixLocation(MatrixLocation, Z));
 }
 
-UMino* UMino::CreateMino(UObject* const InOuter, USceneComponent* const Parent, const FMinoInfo& MinoInfo, const FIntPoint& MatrixLocation)
+UMino* UMino::CreateMino(UObject* const InOuter, USceneComponent* const Parent, const FMinoInfo& MinoInfo, const FIntPoint& MatrixLocation, const float Z)
 {
 	if (UMino* const Mino = NewObject<UMino>(InOuter))
 	{
@@ -33,7 +33,7 @@ UMino* UMino::CreateMino(UObject* const InOuter, USceneComponent* const Parent, 
 		Mino->SetMaterial(ElementIndex, UMino::GetMaterialInstanceByMinoInfo(InOuter, MinoInfo));
 		Mino->RegisterComponent();
 		Mino->AttachToComponent(Parent, FAttachmentTransformRules::KeepRelativeTransform);
-		Mino->SetRelativeLocationByMatrixLocation(MatrixLocation);
+		Mino->SetRelativeLocationByMatrixLocation(MatrixLocation, Z);
 		return Mino;
 	}
 	return nullptr;
@@ -44,7 +44,7 @@ void UMino::ClearMaterialCache()
 	MaterialCache.Empty();
 }
 
-FVector UMino::Get3DRelativePositionByMatrixLocation(const FIntPoint& MatrixLocation, float Z)
+FVector UMino::Get3DRelativePositionByMatrixLocation(const FIntPoint& MatrixLocation, const float Z)
 {
 	const float X = -UnitLength * MatrixLocation.Y;
 	const float Y = -UnitLength * MatrixLocation.X;

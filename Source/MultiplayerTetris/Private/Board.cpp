@@ -70,7 +70,8 @@ void ABoard::InitializeBackground()
 		for (int32 Col = 0; Col < TotalWidth; ++Col)
 		{
 			const FIntPoint MinoMatrixLocation(Row, Col);
-			UMino* const Mino = UMino::CreateMino(this, BackgroundRoot, MinoInfo, MinoMatrixLocation);
+			static constexpr float Z = 0 - UMino::UnitLength;
+			UMino* const Mino = UMino::CreateMino(this, BackgroundRoot, MinoInfo, MinoMatrixLocation, Z);
 			check(Mino != nullptr);
 		}
 	}
