@@ -55,8 +55,6 @@ protected:
 private:
 	void Initialize();
 
-	FIntPoint GetMovementIntVector2D(const FVector2D& Direction) const;
-
 	void MoveTetriminoTo(const FVector2D& Direction);
 	void MoveTetriminoToCurrentDirection();
 	void MoveTetriminoDown();
@@ -76,6 +74,8 @@ private:
 
 	ATetrimino* SpawnNextTetrimino() const;
 	void ChangeTetrimino(ATetrimino* const NewTetrimino);
+
+	static FIntPoint GetMovementIntVector2D(const FVector2D& Direction);
 
 private:
 	static constexpr bool bIsNormalFallTimerLoop = true;

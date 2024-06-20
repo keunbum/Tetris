@@ -96,13 +96,6 @@ void ATetrisPlayManager::Initialize()
 	UMino::ClearMaterialCache();
 }
 
-FIntPoint ATetrisPlayManager::GetMovementIntVector2D(const FVector2D& Direction) const
-{
-	static constexpr float OneSpace = 1.0f;
-	const FVector2D MovementVector2D = OneSpace * Direction;
-	return FIntPoint(static_cast<int32>(MovementVector2D.X), static_cast<int32>(MovementVector2D.Y));
-}
-
 void ATetrisPlayManager::MoveTetriminoTo(const FVector2D& Direction)
 {
 	if (!TetriminoInPlay)
@@ -215,4 +208,11 @@ void ATetrisPlayManager::ChangeTetrimino(ATetrimino* const NewTetrimino)
 	check(NewTetrimino != nullptr);
 	NewTetrimino->AttachToBoard(Board);
 	SetTetriminoInPlay(NewTetrimino);
+}
+
+FIntPoint ATetrisPlayManager::GetMovementIntVector2D(const FVector2D& Direction)
+{
+	static constexpr float OneSpace = 1.0f;
+	const FVector2D MovementVector2D = OneSpace * Direction;
+	return FIntPoint(static_cast<int32>(MovementVector2D.X), static_cast<int32>(MovementVector2D.Y));
 }
