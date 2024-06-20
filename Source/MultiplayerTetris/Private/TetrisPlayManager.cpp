@@ -29,7 +29,7 @@ void ATetrisPlayManager::Tick(const float DeltaTime)
 
 void ATetrisPlayManager::StartGenerationPhase()
 {
-	UE_LOG(LogTemp, Display, TEXT("StartGenerationPhase."));
+	UE_LOG(LogTemp, Display, TEXT("Start Generation Phase."));
 
 	Phase = EPhase::Generation;
 	ATetrimino* const NewTetrimino = SpawnNextTetrimino();
@@ -41,7 +41,7 @@ void ATetrisPlayManager::StartGenerationPhase()
 
 void ATetrisPlayManager::StartFallingPhase()
 {
-	UE_LOG(LogTemp, Display, TEXT("StartFallingPhase."));
+	UE_LOG(LogTemp, Display, TEXT("Start Falling Phase."));
 
 	Phase = EPhase::Falling;
 }
@@ -134,6 +134,8 @@ void ATetrisPlayManager::Initialize()
 
 void ATetrisPlayManager::MoveTetriminoTo(const FVector2D& Direction)
 {
+	UE_LOG(LogTemp, Display, TEXT("Move Tetrimino to %s."), *Direction.ToString());
+
 	if (!TetriminoInPlay)
 	{
 		UE_LOG(LogTemp, Display, TEXT("TetriminoInPlay is nullptr."));
@@ -151,6 +153,7 @@ void ATetrisPlayManager::MoveTetriminoTo(const FVector2D& Direction)
 		const bool bIsLockPhaseReached = bIsSoftDropOrNormalFall && bIsOnSurface;
 		if (bIsLockPhaseReached)
 		{
+			UE_LOG(LogTemp, Display, TEXT("LockDown Timer is set."));
 			SetLockDownTimer();
 		}
 	}
@@ -199,7 +202,7 @@ void ATetrisPlayManager::RunSuperRotationSystem(const ETetriminoRotationDirectio
 
 void ATetrisPlayManager::LockDown()
 {
-	UE_LOG(LogTemp, Display, TEXT("LockDown."));
+	UE_LOG(LogTemp, Display, TEXT("Lock Down."));
 
 	Phase = EPhase::LockDown;
 
@@ -239,6 +242,7 @@ void ATetrisPlayManager::SetNormalFallTimer()
 {
 	if (GameMode && !GameMode->bNormalFallOff)
 	{
+		UE_LOG(LogTemp, Display, TEXT("Normal Fall Timer is set."));
 		GetWorldTimerManager().SetTimer(NormalFallTimerHandle, this, &ATetrisPlayManager::MoveTetriminoDown, NormalFallSpeed, bIsNormalFallTimerLoop, NormalFallTimerInitialDelay);
 	}
 }
