@@ -43,6 +43,13 @@ void ATetrisPlayManager::StartFallingPhase()
 
 void ATetrisPlayManager::StartMovement(const FVector2D& InMovementDirection)
 {
+	if (!IsTetriminoManipulable())
+	{
+		return;
+	}
+
+	check(TetriminoInPlay != nullptr);
+
 	SetMovementDirection(InMovementDirection);
 	MoveTetriminoToCurrentDirection();
 	SetAutoRepeatMovement();
@@ -50,27 +57,37 @@ void ATetrisPlayManager::StartMovement(const FVector2D& InMovementDirection)
 
 void ATetrisPlayManager::EndMovement()
 {
-	ClearTimer(AutoRepeatMovementTimerHandle);
-	SetMovementDirection(FVector2D::ZeroVector);
+	if (TetriminoInPlay)
+	{
+		ClearTimer(AutoRepeatMovementTimerHandle);
+		SetMovementDirection(FVector2D::ZeroVector);
+	}
 }
 
 void ATetrisPlayManager::StartSoftDrop()
 {
-	if (TetriminoInPlay)
+	if (!IsTetriminoManipulable())
 	{
-		// NormalFall 일시 중지
-		ClearTimer(NormalFallTimerHandle);
-
-		SetSoftDropTimer();
+		return;
 	}
+
+	check(TetriminoInPlay != nullptr);
+
+	// NormalFall 일시 중지
+	ClearTimer(NormalFallTimerHandle);
+
+	SetSoftDropTimer();
 }
 
 void ATetrisPlayManager::EndSoftDrop()
 {
-	ClearTimer(SoftDropTimerHandle);
+	if (TetriminoInPlay)
+	{
+		ClearTimer(SoftDropTimerHandle);
 
-	// NormalFall 재개
-	SetNormalFallTimer();
+		// NormalFall 재개
+		SetNormalFallTimer();
+	}
 }
 
 void ATetrisPlayManager::DoHardDrop()
@@ -80,6 +97,10 @@ void ATetrisPlayManager::DoHardDrop()
 
 void ATetrisPlayManager::DoRotation(const ETetriminoRotationDirection RotationDirection)
 {
+	if (!IsTetriminoManipulable())
+	{
+		return;
+	}
 	RunSuperRotationSystem(RotationDirection);
 }
 
