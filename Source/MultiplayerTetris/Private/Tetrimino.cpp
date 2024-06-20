@@ -380,8 +380,8 @@ void ATetrimino::Initialize(const ETetriminoShape NewTetriminoShape)
 
 void ATetrimino::MoveBy(const FIntPoint& IntPoint2D)
 {
-	const FVector LocalOffset(UMino::Get3DRelativePositionByMatrixLocation(IntPoint2D));
-	AddActorLocalOffset(LocalOffset);
+	const FVector ActorLocalOffset(UMino::Get3DRelativePositionByMatrixLocation(IntPoint2D));
+	AddActorLocalOffset(ActorLocalOffset);
 	MatrixLocation += IntPoint2D;
 }
 
