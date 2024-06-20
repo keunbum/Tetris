@@ -181,9 +181,9 @@ ATetrimino* ATetrisPlayManager::SpawnNextTetrimino() const
 {
 	if (ATetrimino* const NewTetrimino = GetWorld()->SpawnActor<ATetrimino>(TetriminoClass))
 	{
-//#define TETRIMINO_SPAWN_RANDOM
+#define TETRIMINO_SPAWN_RANDOM 1
 
-#ifdef TETRIMINO_SPAWN_RANDOM
+#ifdef TETRIMINO_SPAWN_RANDOM == 1
 		const ETetriminoShape NewTetriminoType = ATetrimino::GetTetriminoShapeRandom();
 		NewTetrimino->Initialize(NewTetriminoType);
 #else
