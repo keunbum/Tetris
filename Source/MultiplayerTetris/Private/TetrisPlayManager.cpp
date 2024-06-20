@@ -209,6 +209,9 @@ void ATetrisPlayManager::LockDown()
 
 	PlayLockDownEffect(TetriminoInPlay->GetMinoArray());
 
+	// Disable all user input timers
+	ClearUserInputTimers();
+
 	// Transfer of TetriminoInPlay's Minos to Board
 	TetriminoInPlay->DetachMinos();
 	Board->AddMinos(TetriminoInPlay);
