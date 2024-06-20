@@ -61,8 +61,7 @@ void ABoard::AddMinos(const ATetrimino* Tetrimino)
 		const FIntPoint& MinoMatrixLocalLocation = MinoMatrixLocalLocations[MinoIndex];
 		const FIntPoint MinoMatrixLocation = TetriminoMatrixLocation + MinoMatrixLocalLocation;
 		UMino* const Mino = MinoArray[MinoIndex];
-		const int32 MatrixIndex = GetMatrixIndexByMatrixLocation(MinoMatrixLocation);
-		MinoMatrix[MatrixIndex] = Mino;
+		SetMinoByMatrixLocation(Mino, MinoMatrixLocation);
 	}
 }
 
@@ -107,6 +106,12 @@ void ABoard::InitializeMinoMatrix()
 int32 ABoard::GetMatrixIndexByMatrixLocation(const FIntPoint& MatrixLocation) const
 {
 	return TotalWidth * MatrixLocation.X + MatrixLocation.Y;
+}
+
+void ABoard::SetMinoByMatrixLocation(UMino* const Mino, const FIntPoint& MatrixLocation)
+{
+	const int32 Index = GetMatrixIndexByMatrixLocation(MatrixLocation);
+	MinoMatrix[Index] = Mino;
 }
 
 UMino* ABoard::GetMinoByMatrixLocation(const FIntPoint& MatrixLocation) const

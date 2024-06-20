@@ -39,6 +39,7 @@ private:
 	void InitializeBackground();
 	void InitializeMinoMatrix();
 	int32 GetMatrixIndexByMatrixLocation(const FIntPoint& MatrixLocation) const;
+	void SetMinoByMatrixLocation(UMino* const Mino, const FIntPoint& MatrixLocation);
 	UMino* GetMinoByMatrixLocation(const FIntPoint& MatrixLocation) const;
 	bool IsMatrixLocationEmpty(const FIntPoint& MatrixLocation) const;
 	bool IsMinoLocationsPossible(const FIntPoint& TetriminoMatrixLocation, const TArray<FIntPoint>& MinoLocalMatrixLocations) const;
