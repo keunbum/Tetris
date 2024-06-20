@@ -22,6 +22,20 @@ enum class ELockDownOption : uint8
 	Classic
 };
 
+UENUM()
+enum class EPhase : uint8
+{
+	None,
+	Generation,
+	Falling,
+	LockDown,
+	Pattern,
+	Iterate,
+	Animate,
+	Elimate,
+	Completion
+};
+
 /**
  * @class ATetrisPlayManager
  * @brief The ATetrisPlayManager class is responsible for managing the gameplay logic of the Tetris game.
@@ -33,6 +47,7 @@ class MULTIPLAYERTETRIS_API ATetrisPlayManager : public AActor
 	
 public:
 	ATetrisPlayManager();
+
 	virtual void Tick(const float DeltaTime) override;
 
 	void StartGenerationPhase();
@@ -54,6 +69,8 @@ protected:
 
 private:
 	void Initialize();
+
+	bool IsTetriminoManipulable() const { return Phase == EPhase::Falling; }
 
 	void MoveTetriminoTo(const FVector2D& Direction);
 	void MoveTetriminoToCurrentDirection();
@@ -95,11 +112,14 @@ private:
 private:
 	float NormalFallSpeed;
 
-	UPROPERTY()
-	TObjectPtr<ATetrisGameModeBase> GameMode;
+	UPROPERTY(VisibleAnywhere)
+	EPhase Phase;
 
 	UPROPERTY()
 	ELockDownOption LockDownOption;
+
+	UPROPERTY()
+	TObjectPtr<ATetrisGameModeBase> GameMode;
 
 	UPROPERTY()
 	TObjectPtr<ABoard> Board;
