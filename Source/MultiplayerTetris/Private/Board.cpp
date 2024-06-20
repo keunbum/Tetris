@@ -61,7 +61,8 @@ void ABoard::AddMinos(const ATetrimino* Tetrimino)
 		const FIntPoint& MinoMatrixLocalLocation = MinoMatrixLocalLocations[MinoIndex];
 		const FIntPoint MinoMatrixLocation = TetriminoMatrixLocation + MinoMatrixLocalLocation;
 		UMino* const Mino = MinoArray[MinoIndex];
-		check(Mino != nullptr);
+		// Change ownership of the component to the board
+		Mino->Rename(nullptr, this);
 		Mino->AttachToWithMatrixLocation(BackgroundRoot, MinoMatrixLocation);
 		SetMinoByMatrixLocation(Mino, MinoMatrixLocation);
 	}

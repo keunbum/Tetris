@@ -209,7 +209,8 @@ void ATetrisPlayManager::LockDown()
 
 	PlayLockDownEffect(TetriminoInPlay->GetMinoArray());
 
-	// Add minos from TetriminoInPlay to the board
+	// Transfer of TetriminoInPlay's Minos to Board
+	TetriminoInPlay->DetachMinos();
 	Board->AddMinos(TetriminoInPlay);
 
 	// Remove TetriminoInPlay
