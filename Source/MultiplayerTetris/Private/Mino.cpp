@@ -60,16 +60,18 @@ UMaterialInterface* UMino::GetMaterialByMinoInfo(const FMinoInfo& MinoInfo)
 
 UMaterialInstanceDynamic* UMino::GetMaterialInstanceByMinoInfo(UObject* const InOuter, const FMinoInfo& MinoInfo)
 {
+	check(!MinoInfo.MaterialPath.IsEmpty());
+
 	const FString MaterialKey = MinoInfo.MaterialPath + MinoInfo.Color.ToString();
 
-	if (UMaterialInstanceDynamic** FoundMaterial = MaterialCache.Find(MaterialKey))
+	if (UMaterialInstanceDynamic** const FoundMaterial = MaterialCache.Find(MaterialKey))
 	{
 		return *FoundMaterial;
 	}
 
-	if (UMaterialInterface* BaseMaterial = UMino::GetMaterialByMinoInfo(MinoInfo))
+	if (UMaterialInterface* const BaseMaterial = UMino::GetMaterialByMinoInfo(MinoInfo))
 	{
-		if (UMaterialInstanceDynamic* DynamicMaterialInstance = UMaterialInstanceDynamic::Create(BaseMaterial, InOuter))
+		if (UMaterialInstanceDynamic* const DynamicMaterialInstance = UMaterialInstanceDynamic::Create(BaseMaterial, InOuter))
 		{
 			DynamicMaterialInstance->SetVectorParameterValue(BaseColorParameterName, MinoInfo.Color);
 			MaterialCache.Add(MaterialKey, DynamicMaterialInstance);
