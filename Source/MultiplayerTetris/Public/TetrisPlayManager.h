@@ -145,9 +145,12 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<ATetrimino> TetriminoInPlay;
 
+	// User Input Timers
 	FTimerHandle NormalFallTimerHandle;
 	FTimerHandle SoftDropTimerHandle;
 	FTimerHandle AutoRepeatMovementTimerHandle;
+
+	// Game Logic Timers
 	FTimerHandle LockDownTimerHandle;
 	FTimerHandle GenerationPhaseTimerHandle;
 
