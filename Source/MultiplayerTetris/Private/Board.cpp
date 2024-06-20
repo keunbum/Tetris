@@ -87,9 +87,14 @@ void ABoard::InitializeMinoMatrix()
 	}
 }
 
+int32 ABoard::GetMatrixIndexByMatrixLocation(const FIntPoint& MatrixLocation) const
+{
+	return TotalWidth * MatrixLocation.X + MatrixLocation.Y;
+}
+
 UMino* ABoard::GetMinoByMatrixLocation(const FIntPoint& MatrixLocation) const
 {
-	const int32 Index = TotalWidth * MatrixLocation.X + MatrixLocation.Y;
+	const int32 Index = GetMatrixIndexByMatrixLocation(MatrixLocation);
 	return MinoMatrix[Index];
 }
 
