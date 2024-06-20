@@ -11,7 +11,7 @@ TMap<FString, UMaterialInstanceDynamic*> UMino::MaterialCache;
 
 UMino::UMino()
 {
-	static ConstructorHelpers::FObjectFinder<UStaticMesh> CubeMesh(*UMino::CubeMeshPath);
+	static const ConstructorHelpers::FObjectFinder<UStaticMesh> CubeMesh(*UMino::CubeMeshPath);
 	if (CubeMesh.Succeeded())
 	{
 		SetStaticMesh(CubeMesh.Object);
