@@ -99,14 +99,24 @@ void ATetrisPlayManager::ClearTimer(FTimerHandle& InOutTimerHandle)
 	GetWorldTimerManager().ClearTimer(InOutTimerHandle);
 }
 
+FIntPoint ATetrisPlayManager::GetMovementIntVector2D(const FVector2D& Direction) const
+{
+	static constexpr float OneSpace = 1.0f;
+	const FVector2D MovementVector2D = OneSpace * Direction;
+	return FIntPoint(static_cast<int32>(MovementVector2D.X), static_cast<int32>(MovementVector2D.Y));
+}
+
 void ATetrisPlayManager::MoveTetriminoTo(const FVector2D& Direction)
 {
 	if (TetriminoInPlay)
+	const FIntPoint MovementIntVector2D = GetMovementIntVector2D(Direction);
+	if (Board->IsMovementPossible(TetriminoInPlay, MovementIntVector2D))
 	{
 		static constexpr float OneSpace = 1.0f;
 		const FVector2D MovementVector2D = OneSpace * Direction;
 		const FIntPoint MovementIntVector2D(static_cast<int32>(MovementVector2D.X), static_cast<int32>(MovementVector2D.Y));
 		if (Board->IsMovementPossible(TetriminoInPlay, MovementIntVector2D))
+		TetriminoInPlay->MoveBy(MovementIntVector2D);
 		{
 			TetriminoInPlay->MoveBy(MovementIntVector2D);
 		}

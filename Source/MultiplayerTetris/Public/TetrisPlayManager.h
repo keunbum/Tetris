@@ -48,6 +48,8 @@ private:
 	void Initialize();
 	void ClearTimer(FTimerHandle& InOutTimerHandle);
 
+	FIntPoint GetMovementIntVector2D(const FVector2D& Direction) const;
+
 	void MoveTetriminoTo(const FVector2D& Direction);
 	void MoveTetriminoToCurrentDirection();
 	void MoveTetriminoDown();
