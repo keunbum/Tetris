@@ -88,6 +88,8 @@ private:
 	void SetLockDownTimer();
 
 	void ClearTimer(FTimerHandle& InOutTimerHandle);
+	void ClearTimers(const TArray<FTimerHandle* const>& TimerHandles);
+	void ClearUserInputTimers();
 
 	void SetMovementDirection(const FVector2D& NewMovementDirection) { CurrentMovementDirection = NewMovementDirection; }
 

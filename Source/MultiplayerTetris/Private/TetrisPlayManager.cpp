@@ -257,6 +257,25 @@ void ATetrisPlayManager::ClearTimer(FTimerHandle& InOutTimerHandle)
 	GetWorldTimerManager().ClearTimer(InOutTimerHandle);
 }
 
+void ATetrisPlayManager::ClearTimers(const TArray<FTimerHandle* const>& TimerHandles)
+{
+	for (FTimerHandle* const TimerHandle : TimerHandles)
+	{
+		ClearTimer(*TimerHandle);
+	}
+}
+
+void ATetrisPlayManager::ClearUserInputTimers()
+{
+	const TArray<FTimerHandle* const> UserInputTimerHandles =
+	{
+		&AutoRepeatMovementTimerHandle,
+		&SoftDropTimerHandle,
+		&NormalFallTimerHandle
+	};
+	ClearTimers(UserInputTimerHandles);
+}
+
 ATetrimino* ATetrisPlayManager::SpawnNextTetrimino() const
 {
 	if (ATetrimino* const NewTetrimino = GetWorld()->SpawnActor<ATetrimino>(TetriminoClass))
