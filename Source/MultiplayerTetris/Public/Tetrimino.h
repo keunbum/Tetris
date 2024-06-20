@@ -12,6 +12,7 @@
 
 #include "Tetrimino.generated.h"
 
+struct FMinoInfo;
 class UMino;
 class ABoard;
 class UMino;
@@ -72,6 +73,7 @@ public:
 	ATetrimino();
 	virtual void Tick(const float DeltaTime) override;
 
+	const FMinoInfo GetMinoInfo() const;
 	const FTetriminoShapeInfo& GetTetriminoShapeInfo() const;
 	const FIntPoint& GetInitialMatrixLocation() const;
 	const TArray<FIntPoint>& GetMinoMatrixLocalLocations() const;

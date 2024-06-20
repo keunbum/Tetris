@@ -355,6 +355,12 @@ const TArray<FIntPoint>& ATetrimino::GetSRSRotationPointOffsets(const ETetrimino
 	return ATetrimino::GetSRSRotationPointOffsetsByRotationInfo(RotationInfo);
 }
 
+const FMinoInfo ATetrimino::GetMinoInfo() const
+{
+	const FTetriminoShapeInfo& TetriminoShapeInfo = GetTetriminoShapeInfo();
+	return FMinoInfo(TetriminoShapeInfo.MaterialPath, TetriminoShapeInfo.Color);
+}
+
 const FTetriminoShapeInfo& ATetrimino::GetTetriminoShapeInfo() const
 {
 	return ATetrimino::GetTetriminoShapeInfoByShape(Shape);
@@ -429,8 +435,7 @@ void ATetrimino::InitializeMinoArray()
 {
 	const TArray<FIntPoint>& MinoMatrixLocalLocations = GetMinoMatrixLocalLocations();
 	check(MinoMatrixLocalLocations.Num() == MinoNum);
-	const FTetriminoShapeInfo& TetriminoShapeInfo = GetTetriminoShapeInfo();
-	const FMinoInfo MinoInfo(TetriminoShapeInfo.MaterialPath, TetriminoShapeInfo.Color);
+	const FMinoInfo MinoInfo = GetMinoInfo();
 
 	MinoArray.Reserve(MinoNum);
 	for (const FIntPoint& MinoMatrixLocalLocation : MinoMatrixLocalLocations)
