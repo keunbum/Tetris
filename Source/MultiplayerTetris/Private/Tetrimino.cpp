@@ -396,16 +396,12 @@ void ATetrimino::AttachToBoard(ABoard* const Board)
 	AttachToActor(Board, FAttachmentTransformRules::KeepRelativeTransform);
 	MoveBy(GetInitialMatrixLocation());
 }
-
-TArray<UMino* const> ATetrimino::DetachMinos()
+void ATetrimino::DetachMinos()
 {
-	TArray<UMino* const> DetachedMinos;
 	for (UMino* const Mino : MinoArray)
 	{
 		Mino->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
-		DetachedMinos.Add(Mino);
 	}
-	return DetachedMinos;
 }
 
 void ATetrimino::DebugPrintState() const
