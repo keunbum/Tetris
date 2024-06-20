@@ -14,6 +14,14 @@ class ATetrisGameModeBase;
 class ABoard;
 class UInputComponent;
 
+UENUM()
+enum class ELockDownOption : uint8
+{
+	ExtendedPlacement,
+	InfinitePlacement,
+	Classic
+};
+
 /**
  * @class ATetrisPlayManager
  * @brief The ATetrisPlayManager class is responsible for managing the gameplay logic of the Tetris game.
@@ -80,6 +88,9 @@ private:
 
 	UPROPERTY()
 	TObjectPtr<ATetrisGameModeBase> GameMode;
+
+	UPROPERTY()
+	ELockDownOption LockDownOption;
 
 	UPROPERTY()
 	TObjectPtr<ABoard> Board;
