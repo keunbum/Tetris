@@ -290,18 +290,20 @@ void ATetrisPlayManager::ClearUserInputTimers()
 	ClearTimers(UserInputTimerHandles);
 }
 
-ATetrimino* ATetrisPlayManager::SpawnNewTetrimino() const
+ATetrimino* ATetrisPlayManager::SpawnNewTetrimino(ETetriminoShape InTetriminoShape) const
 {
 	if (ATetrimino* const NewTetrimino = GetWorld()->SpawnActor<ATetrimino>(TetriminoClass))
 	{
 #define TETRIMINO_SPAWN_RANDOM 1
-		ETetriminoShape NewTetriminoType = ETetriminoShape::None;
 #if TETRIMINO_SPAWN_RANDOM == 1
-		NewTetriminoType = ATetrimino::GetTetriminoShapeRandom();
+		InTetriminoShape = ATetrimino::GetTetriminoShapeRandom();
 #else
-		NewTetriminoType = TestSpawnType;
+		if (InTetriminoShape == ETetriminoShape::None)
+		{
+			InTetriminoShape = TestSpawnType;
+		}
 #endif
-		NewTetrimino->Initialize(NewTetriminoType);
+		NewTetrimino->Initialize(InTetriminoShape);
 		return NewTetrimino;
 	}
 	return nullptr;
