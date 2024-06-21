@@ -8,9 +8,11 @@ ATetriminoQueue::ATetriminoQueue()
 	PrimaryActorTick.bCanEverTick = false;
 }
 
-void ATetriminoQueue::BeginPlay()
+void ATetriminoQueue::PushTetrimino(ATetrimino* const Tetrimino)
 {
-	Super::BeginPlay();
-	
 }
 
+ATetrimino* ATetriminoQueue::PopTetrimino()
+{
+    return nullptr;
+}

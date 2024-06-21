@@ -24,19 +24,16 @@ public:
 	ATetriminoQueue();
 
 	/**
-	 * Removes and returns the next Tetrimino from the queue.
-	 * @return The next Tetrimino in the queue, or nullptr if the queue is empty.
-	 */
-	ATetrimino* PopTetrimino();
-
-	/**
 	 * Adds a new Tetrimino to the end of the queue.
 	 * @param Tetrimino The Tetrimino to add to the queue.
 	 */
 	void PushTetrimino(ATetrimino* const Tetrimino);
 
-protected:
-	virtual void BeginPlay() override;
+	/**
+	 * Removes and returns the next Tetrimino from the queue.
+	 * @return The next Tetrimino in the queue, or nullptr if the queue is empty.
+	 */
+	ATetrimino* PopTetrimino();
 
 private:
 	TArray<TObjectPtr<ATetrimino>> TetriminoArray;
