@@ -8,20 +8,14 @@
 #include "TetrisPlayerController.h"
 
 ATetrisPlayManager::ATetrisPlayManager()
+	: Phase(EPhase::None)
+	, LockDownOption(ELockDownOption::ExtendedPlacement)
+	, bIsGhostPieceOn(true)
+	, NormalFallSpeed(-1.0f)
+	, TetriminoClass(ATetrimino::StaticClass())
+	, TetriminoInPlay(nullptr)
 {
 	PrimaryActorTick.bCanEverTick = false;
-
-	Phase = EPhase::None;
-
-	LockDownOption = ELockDownOption::ExtendedPlacement;
-
-	bIsGhostPieceOn = true;
-
-	NormalFallSpeed = -1.0f;
-
-	TetriminoClass = ATetrimino::StaticClass();
-
-	TetriminoInPlay = nullptr;
 }
 
 void ATetrisPlayManager::StartGenerationPhase()
