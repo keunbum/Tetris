@@ -333,14 +333,9 @@ ATetrimino::ATetrimino()
 	, MinoArray()
 	, GhostPiece(nullptr)
 {
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 
 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
-}
-
-void ATetrimino::Tick(const float DeltaTime)
-{
-	Super::Tick(DeltaTime);
 }
 
 const TArray<FIntPoint>& ATetrimino::GetMinoMatrixLocalLocations() const
@@ -431,11 +426,6 @@ const TArray<FIntPoint>& ATetrimino::GetMinoMatrixLocalLocationsByTetriminoShape
 {
 	const FTetriminoShapeInfo& TetriminoShapeInfo = ATetrimino::GetTetriminoShapeInfoByShape(Shape);
 	return TetriminoShapeInfo.MinoMatrixLocalLocationsByFacing[Facing];
-}
-
-void ATetrimino::BeginPlay()
-{
-	Super::BeginPlay();
 }
 
 void ATetrimino::InitializeMinoArray()

@@ -71,7 +71,6 @@ class MULTIPLAYERTETRIS_API ATetrimino : public AActor
 
 public:
 	ATetrimino();
-	virtual void Tick(const float DeltaTime) override;
 
 	const FMinoInfo GetMinoInfo() const;
 	const FTetriminoShapeInfo& GetTetriminoShapeInfo() const;
@@ -97,8 +96,6 @@ public:
 	static const TArray<FIntPoint>& GetMinoMatrixLocalLocationsByTetriminoShapeAndFacing(const ETetriminoShape Shape, const ETetriminoFacing Facing);
 
 protected:
-	virtual void BeginPlay() override;
-
 	void SetFacing(const ETetriminoFacing NewFacing) { Facing = NewFacing; }
 
 	void InitializeMinoArray();
