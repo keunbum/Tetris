@@ -9,8 +9,7 @@
 
 ATetrisPlayManager::ATetrisPlayManager()
 {
-	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 
 	Phase = EPhase::None;
 
@@ -23,11 +22,6 @@ ATetrisPlayManager::ATetrisPlayManager()
 	TetriminoClass = ATetrimino::StaticClass();
 
 	TetriminoInPlay = nullptr;
-}
-
-void ATetrisPlayManager::Tick(const float DeltaTime)
-{
-	Super::Tick(DeltaTime);
 }
 
 void ATetrisPlayManager::StartGenerationPhase()
