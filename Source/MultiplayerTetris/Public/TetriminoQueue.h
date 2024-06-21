@@ -7,6 +7,8 @@
 
 #include "TetriminoQueue.generated.h"
 
+class ATetrimino;
+
 UCLASS()
 class MULTIPLAYERTETRIS_API ATetriminoQueue : public AActor
 {
@@ -15,8 +17,12 @@ class MULTIPLAYERTETRIS_API ATetriminoQueue : public AActor
 public:	
 	ATetriminoQueue();
 
+	ATetrimino* PopTetrimino();
+	void PushTetrimino(ATetrimino* const Tetrimino);
+
 protected:
 	virtual void BeginPlay() override;
 
 private:
+	TArray<TObjectPtr<ATetrimino>> TetriminoArray;
 };
