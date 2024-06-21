@@ -16,6 +16,8 @@ const FMinoInfo ABoard::SpecialMinoInfo = FMinoInfo(TEXT("/Game/Material/M_MinoM
 
 ABoard::ABoard()
 {
+	PrimaryActorTick.bCanEverTick = false;
+
 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
 
 	MinoClass = UMino::StaticClass();
