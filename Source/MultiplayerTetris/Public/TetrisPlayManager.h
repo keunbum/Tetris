@@ -12,7 +12,7 @@
 class ATetrimino;
 class ATetrisGameModeBase;
 class ABoard;
-class 
+class UTetriminoGenerator;
 
 UENUM()
 enum class ELockDownOption : uint8
@@ -161,6 +161,9 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 	FVector2D CurrentMovementDirection;
+
+	UPROPERTY()
+	TObjectPtr<UTetriminoGenerator> TetriminoGenerator;
 
 	UPROPERTY(EditDefaultsOnly)
 	ETetriminoShape TestSpawnType = ETetriminoShape::None;
