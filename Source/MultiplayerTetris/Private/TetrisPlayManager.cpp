@@ -295,13 +295,13 @@ ATetrimino* ATetrisPlayManager::SpawnNewTetrimino() const
 	if (ATetrimino* const NewTetrimino = GetWorld()->SpawnActor<ATetrimino>(TetriminoClass))
 	{
 #define TETRIMINO_SPAWN_RANDOM 1
-
+		ETetriminoShape NewTetriminoType = ETetriminoShape::None;
 #if TETRIMINO_SPAWN_RANDOM == 1
-		const ETetriminoShape NewTetriminoType = ATetrimino::GetTetriminoShapeRandom();
-		NewTetrimino->Initialize(NewTetriminoType);
+		NewTetriminoType = ATetrimino::GetTetriminoShapeRandom();
 #else
-		NewTetrimino->Initialize(TestSpawnType);
+		NewTetriminoType = TestSpawnType;
 #endif
+		NewTetrimino->Initialize(NewTetriminoType);
 		return NewTetrimino;
 	}
 	return nullptr;
