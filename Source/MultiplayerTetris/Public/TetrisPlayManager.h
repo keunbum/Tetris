@@ -12,7 +12,7 @@
 class ATetrimino;
 class ATetrisGameModeBase;
 class ABoard;
-class UInputComponent;
+class 
 
 UENUM()
 enum class ELockDownOption : uint8
