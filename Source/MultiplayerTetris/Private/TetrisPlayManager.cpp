@@ -165,7 +165,7 @@ void ATetrisPlayManager::MoveTetriminoTo(const FVector2D& Direction)
 	}
 	else
 	{
-		UE_LOG(LogTemp, Display, TEXT("Movement is impossible."));
+		//UE_LOG(LogTemp, Display, TEXT("Movement is impossible."));
 	}
 }
 
