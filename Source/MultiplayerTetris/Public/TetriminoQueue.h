@@ -9,6 +9,12 @@
 
 class ATetrimino;
 
+/**
+ * ATetriminoQueue is an Actor responsible for managing a queue of Tetriminos in the game.
+ * It allows Tetriminos to be added to the queue and provides functionality to retrieve
+ * and remove the next Tetrimino from the queue when needed. This system is essential
+ * for controlling the flow of Tetriminos that the player will place on the game board.
+ */
 UCLASS()
 class MULTIPLAYERTETRIS_API ATetriminoQueue : public AActor
 {
@@ -17,7 +23,16 @@ class MULTIPLAYERTETRIS_API ATetriminoQueue : public AActor
 public:	
 	ATetriminoQueue();
 
+	/**
+	 * Removes and returns the next Tetrimino from the queue.
+	 * @return The next Tetrimino in the queue, or nullptr if the queue is empty.
+	 */
 	ATetrimino* PopTetrimino();
+
+	/**
+	 * Adds a new Tetrimino to the end of the queue.
+	 * @param Tetrimino The Tetrimino to add to the queue.
+	 */
 	void PushTetrimino(ATetrimino* const Tetrimino);
 
 protected:
