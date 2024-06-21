@@ -4,6 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
+
+#include "Tetrimino.h"
+
 #include "TetriminoGenerator.generated.h"
 
 /**
@@ -22,4 +25,17 @@ class MULTIPLAYERTETRIS_API UTetriminoGenerator : public UObject
 {
 	GENERATED_BODY()
 	
+public:
+	UTetriminoGenerator();
+
+	ATetrimino* SpawnTetriminoByBagSystem(UClass* const TetriminoClass);
+	ATetrimino* SpawnTetriminoByShape(UClass* const TetriminoClass, const ETetriminoShape TetriminoShape);
+
+private:
+	void InitializeBag();
+	void ShuffleBag();
+
+private:
+	int32 BagCurrentIndex;
+	TArray<ETetriminoShape> TetriminoBag;
 };
