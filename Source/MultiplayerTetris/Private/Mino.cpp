@@ -24,15 +24,19 @@ void UMino::SetRelativeLocationByMatrixLocation(const FIntPoint& MatrixLocation,
 	SetRelativeLocation(UMino::Get3DRelativePositionByMatrixLocation(MatrixLocation, Z));
 }
 
-UMino* UMino::CreateMino(UObject* const InOuter, USceneComponent* const Parent, const FMinoInfo& MinoInfo, const FIntPoint& MatrixLocation, const float Z)
+void UMino::AttachToWithMatrixLocation(USceneComponent* const Parent, const FIntPoint& MatrixLocation, const float Z)
+{
+	AttachToComponent(Parent, FAttachmentTransformRules::KeepRelativeTransform);
+	SetRelativeLocationByMatrixLocation(MatrixLocation, Z);
+}
+
+UMino* UMino::CreateMino(UObject* const InOuter, const FMinoInfo& MinoInfo)
 {
 	if (UMino* const Mino = NewObject<UMino>(InOuter))
 	{
 		static constexpr int32 ElementIndex = 0;
 		Mino->SetMaterial(ElementIndex, UMino::GetMaterialInstanceByMinoInfo(InOuter, MinoInfo));
 		Mino->RegisterComponent();
-		Mino->AttachToComponent(Parent, FAttachmentTransformRules::KeepRelativeTransform);
-		Mino->SetRelativeLocationByMatrixLocation(MatrixLocation, Z);
 		return Mino;
 	}
 	return nullptr;
@@ -52,7 +56,7 @@ FVector UMino::Get3DRelativePositionByMatrixLocation(const FIntPoint& MatrixLoca
 
 UMaterialInterface* UMino::GetMaterialByMinoInfo(const FMinoInfo& MinoInfo)
 {
-	UMaterialInterface* MinoMaterial = Cast<UMaterialInterface>(StaticLoadObject(UMaterialInterface::StaticClass(), nullptr, *MinoInfo.MaterialPath));
+	UMaterialInterface* const MinoMaterial = Cast<UMaterialInterface>(StaticLoadObject(UMaterialInterface::StaticClass(), nullptr, *MinoInfo.MaterialPath));
 	ensureMsgf(MinoMaterial != nullptr, TEXT("Failed to load material: %s"), *MinoInfo.MaterialPath);
 	return MinoMaterial;
 }

@@ -12,6 +12,7 @@
 
 #include "Tetrimino.generated.h"
 
+struct FMinoInfo;
 class UMino;
 class ABoard;
 class UMino;
@@ -72,6 +73,7 @@ public:
 	ATetrimino();
 	virtual void Tick(const float DeltaTime) override;
 
+	const FMinoInfo GetMinoInfo() const;
 	const FTetriminoShapeInfo& GetTetriminoShapeInfo() const;
 	const FIntPoint& GetInitialMatrixLocation() const;
 	const TArray<FIntPoint>& GetMinoMatrixLocalLocations() const;
@@ -80,13 +82,14 @@ public:
 	const ETetriminoShape& GetShape() const { return Shape; }
 	const ETetriminoFacing& GetFacing() const { return Facing; }
 	const FIntPoint& GetMatrixLocation() const { return MatrixLocation; }
-	const TArray<TObjectPtr<UMino>>& GetMinoArray() const { return MinoArray; }
+	const TArray<UMino*>& GetMinoArray() const { return MinoArray; }
 
 	void Initialize(const ETetriminoShape NewTetriminoShape);
 	void SetShape(const ETetriminoShape NewShape) { Shape = NewShape; }
 	void MoveBy(const FIntPoint& IntVector2D);
 	void RotateTo(const ETetriminoRotationDirection RotationDirection);
 	void AttachToBoard(ABoard* const Board);
+	void DetachMinos();
 
 	void DebugPrintState() const;
 
@@ -137,9 +140,6 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 	TArray<TObjectPtr<UMino>> MinoArray;
-
-	UPROPERTY(EditDefaultsOnly)
-	bool bIsGhostPieceOn;
 
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<ATetrimino> GhostPiece;

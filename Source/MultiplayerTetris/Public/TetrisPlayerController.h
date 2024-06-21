@@ -22,6 +22,7 @@ enum class EKeyFlags : uint8
 	None = 0,
 	Left = 1 << 0,
 	Right = 1 << 1,
+	SoftDrop = 1 << 2,
 };
 
 ENUM_CLASS_FLAGS(EKeyFlags)
@@ -33,6 +34,10 @@ UCLASS()
 class MULTIPLAYERTETRIS_API ATetrisPlayerController : public APlayerController
 {
 	GENERATED_BODY()
+
+public:
+	bool IsKeyPressed(const EKeyFlags KeyFlag) const { return EnumHasAnyFlags(KeyPressingFlags, KeyFlag); }
+	bool IsSoftDropKeyPressed() const { return IsKeyPressed(EKeyFlags::SoftDrop); }
 
 protected:
 	virtual void BeginPlay() override;

@@ -5,11 +5,18 @@
 #include "Board.h"
 #include "TetrisGameModeBase.h"
 #include "Tetrimino.h"
+#include "TetrisPlayerController.h"
 
 ATetrisPlayManager::ATetrisPlayManager()
 {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+
+	Phase = EPhase::None;
+
+	LockDownOption = ELockDownOption::ExtendedPlacement;
+
+	bIsGhostPieceOn = true;
 
 	NormalFallSpeed = -1.0f;
 
@@ -25,13 +32,42 @@ void ATetrisPlayManager::Tick(const float DeltaTime)
 
 void ATetrisPlayManager::StartGenerationPhase()
 {
-	ATetrimino* const NewTetrimino = SpawnNextTetrimino();
+	UE_LOG(LogTemp, Display, TEXT("Start Generation Phase."));
+
+	SetPhase(EPhase::Generation);
+	ATetrimino* const NewTetrimino = SpawnNewTetrimino();
 	check(NewTetrimino != nullptr);
 	ChangeTetrimino(NewTetrimino);
+
+	StartFallingPhase();
+}
+
+void ATetrisPlayManager::StartFallingPhase()
+{
+	UE_LOG(LogTemp, Display, TEXT("Start Falling Phase."));
+
+	SetPhase(EPhase::Falling);
+
+	SetNormalFallTimer();
+
+	ATetrisPlayerController* const PlayerController = GameMode->GetTetrisPlayerController();
+	check(PlayerController != nullptr);
+	if (PlayerController->IsSoftDropKeyPressed())
+	{
+		StartSoftDrop();
+	}
 }
 
 void ATetrisPlayManager::StartMovement(const FVector2D& InMovementDirection)
 {
+	if (!IsTetriminoManipulable())
+	{
+		UE_LOG(LogTemp, Display, TEXT("Tetrimino is not manipulable."));
+		return;
+	}
+
+	check(TetriminoInPlay != nullptr);
+
 	SetMovementDirection(InMovementDirection);
 	MoveTetriminoToCurrentDirection();
 	SetAutoRepeatMovement();
@@ -39,27 +75,38 @@ void ATetrisPlayManager::StartMovement(const FVector2D& InMovementDirection)
 
 void ATetrisPlayManager::EndMovement()
 {
-	ClearTimer(AutoRepeatMovementTimerHandle);
-	SetMovementDirection(FVector2D::ZeroVector);
+	if (TetriminoInPlay)
+	{
+		ClearTimer(AutoRepeatMovementTimerHandle);
+		SetMovementDirection(FVector2D::ZeroVector);
+	}
 }
 
 void ATetrisPlayManager::StartSoftDrop()
 {
-	if (TetriminoInPlay)
+	if (!IsTetriminoManipulable())
 	{
-		// NormalFall 일시 중지
-		ClearTimer(NormalFallTimerHandle);
-
-		GetWorldTimerManager().SetTimer(SoftDropTimerHandle, this, &ATetrisPlayManager::MoveTetriminoDown, GameMode->GetSoftDropSpeed(), bSoftDropTimerLoop, SoftDropTimerInitialDelay);
+		UE_LOG(LogTemp, Display, TEXT("Tetrimino is not manipulable."));
+		return;
 	}
+
+	check(TetriminoInPlay != nullptr);
+
+	// NormalFall 일시 중지
+	ClearTimer(NormalFallTimerHandle);
+
+	SetSoftDropTimer();
 }
 
 void ATetrisPlayManager::EndSoftDrop()
 {
-	ClearTimer(SoftDropTimerHandle);
+	if (TetriminoInPlay)
+	{
+		ClearTimer(SoftDropTimerHandle);
 
-	// NormalFall 재개
-	SetNormalFallTimer();
+		// NormalFall 재개
+		SetNormalFallTimer();
+	}
 }
 
 void ATetrisPlayManager::DoHardDrop()
@@ -69,6 +116,12 @@ void ATetrisPlayManager::DoHardDrop()
 
 void ATetrisPlayManager::DoRotation(const ETetriminoRotationDirection RotationDirection)
 {
+	if (!IsTetriminoManipulable())
+	{
+		UE_LOG(LogTemp, Display, TEXT("Tetrimino is not manipulable."));
+		return;
+	}
+
 	RunSuperRotationSystem(RotationDirection);
 }
 
@@ -85,7 +138,7 @@ void ATetrisPlayManager::Initialize()
 	check(World != nullptr);
 	GameMode = World->GetAuthGameMode<ATetrisGameModeBase>();
 
-	SetNormalFallTimer();
+	SetNormalFallSpeed(GameMode->GetNormalFallSpeed());
 	SetMovementDirection(FVector2D::ZeroVector);
 
 	Board = World->SpawnActor<ABoard>();
@@ -94,22 +147,32 @@ void ATetrisPlayManager::Initialize()
 	UMino::ClearMaterialCache();
 }
 
-void ATetrisPlayManager::ClearTimer(FTimerHandle& InOutTimerHandle)
-{
-	GetWorldTimerManager().ClearTimer(InOutTimerHandle);
-}
-
 void ATetrisPlayManager::MoveTetriminoTo(const FVector2D& Direction)
 {
-	if (TetriminoInPlay)
+	if (!TetriminoInPlay)
 	{
-		static constexpr float OneSpace = 1.0f;
-		const FVector2D MovementVector2D = OneSpace * Direction;
-		const FIntPoint MovementIntVector2D(static_cast<int32>(MovementVector2D.X), static_cast<int32>(MovementVector2D.Y));
-		if (Board->IsMovementPossible(TetriminoInPlay, MovementIntVector2D))
+		UE_LOG(LogTemp, Display, TEXT("TetriminoInPlay is nullptr."));
+		return;
+	}
+
+	const FIntPoint MovementIntVector2D = GetMovementIntVector2D(Direction);
+	const bool bIsSoftDropOrNormalFall = (Direction == ATetrimino::MoveDirectionDown);
+	const bool bIsMovementPossible = Board->IsMovementPossible(TetriminoInPlay, MovementIntVector2D);
+	if (bIsMovementPossible)
+	{
+		TetriminoInPlay->MoveBy(MovementIntVector2D);
+
+		const bool bIsOnSurface = !Board->IsMovementPossible(TetriminoInPlay, MovementIntVector2D);
+		const bool bIsLockPhaseReached = bIsSoftDropOrNormalFall && bIsOnSurface;
+		if (bIsLockPhaseReached)
 		{
-			TetriminoInPlay->MoveBy(MovementIntVector2D);
+			UE_LOG(LogTemp, Display, TEXT("LockDown Timer is set."));
+			SetLockDownTimer();
 		}
+	}
+	else
+	{
+		UE_LOG(LogTemp, Display, TEXT("Movement is impossible."));
 	}
 }
 
@@ -145,31 +208,100 @@ void ATetrisPlayManager::RunSuperRotationSystem(const ETetriminoRotationDirectio
 	//UE_LOG(LogTemp, Display, TEXT("All of Rotation Points failed."));
 }
 
+void ATetrisPlayManager::LockDown()
+{
+	UE_LOG(LogTemp, Display, TEXT("Lock Down."));
+
+	SetPhase(EPhase::LockDown);
+
+	check(TetriminoInPlay != nullptr);
+
+	PlayLockDownEffect(TetriminoInPlay->GetMinoArray());
+
+	// Disable all user input timers
+	ClearUserInputTimers();
+
+	// Transfer of TetriminoInPlay's Minos to Board
+	TetriminoInPlay->DetachMinos();
+	Board->AddMinos(TetriminoInPlay);
+
+	// Remove TetriminoInPlay
+	TetriminoInPlay->Destroy();
+	TetriminoInPlay = nullptr;
+
+	// Switch to Generation Phase.
+	GetWorldTimerManager().SetTimer(GenerationPhaseTimerHandle, this, &ATetrisPlayManager::StartGenerationPhase, GenerationPhaseInitialDelay, bIsGenerationPhaseTimerLoop);
+}
+
+void ATetrisPlayManager::ForcedLockDown()
+{
+	ClearTimer(LockDownTimerHandle);
+	LockDown();
+}
+
 void ATetrisPlayManager::SetAutoRepeatMovement()
 {
 	GetWorldTimerManager().SetTimer(AutoRepeatMovementTimerHandle, this, &ATetrisPlayManager::MoveTetriminoToCurrentDirection, AutoRepeatMovementInterval, bIsAutoRepeatMovementLoop, AutoRepeatMovementInitialDelay);
+}
+
+void ATetrisPlayManager::SetSoftDropTimer()
+{
+	GetWorldTimerManager().SetTimer(SoftDropTimerHandle, this, &ATetrisPlayManager::MoveTetriminoDown, GameMode->GetSoftDropSpeed(), bSoftDropTimerLoop, SoftDropTimerInitialDelay);
 }
 
 void ATetrisPlayManager::SetNormalFallTimer()
 {
 	if (GameMode && !GameMode->bNormalFallOff)
 	{
+		UE_LOG(LogTemp, Display, TEXT("Normal Fall Timer is set."));
 		GetWorldTimerManager().SetTimer(NormalFallTimerHandle, this, &ATetrisPlayManager::MoveTetriminoDown, NormalFallSpeed, bIsNormalFallTimerLoop, NormalFallTimerInitialDelay);
 	}
 }
 
-ATetrimino* ATetrisPlayManager::SpawnNextTetrimino() const
+void ATetrisPlayManager::SetLockDownTimer()
+{
+	GetWorldTimerManager().SetTimer(LockDownTimerHandle, this, &ATetrisPlayManager::LockDown, LockDownTimerInitialDelay, bIsLockDownTimerLoop);
+}
+
+void ATetrisPlayManager::ClearTimer(FTimerHandle& InOutTimerHandle)
+{
+	GetWorldTimerManager().ClearTimer(InOutTimerHandle);
+}
+
+void ATetrisPlayManager::ClearTimers(const TArray<FTimerHandle*>& TimerHandles)
+{
+	for (FTimerHandle* const TimerHandle : TimerHandles)
+	{
+		if (TimerHandle)
+		{
+			ClearTimer(*TimerHandle);
+		}
+	}
+}
+
+void ATetrisPlayManager::ClearUserInputTimers()
+{
+	const TArray<FTimerHandle*> UserInputTimerHandles =
+	{
+		&AutoRepeatMovementTimerHandle,
+		&SoftDropTimerHandle,
+		&NormalFallTimerHandle
+	};
+	ClearTimers(UserInputTimerHandles);
+}
+
+ATetrimino* ATetrisPlayManager::SpawnNewTetrimino() const
 {
 	if (ATetrimino* const NewTetrimino = GetWorld()->SpawnActor<ATetrimino>(TetriminoClass))
 	{
-//#define TETRIMINO_SPAWN_RANDOM
-
-#ifdef TETRIMINO_SPAWN_RANDOM
-		const ETetriminoShape NewTetriminoType = ATetrimino::GetTetriminoShapeRandom();
-		NewTetrimino->Initialize(NewTetriminoType);
+#define TETRIMINO_SPAWN_RANDOM 1
+		ETetriminoShape NewTetriminoType = ETetriminoShape::None;
+#if TETRIMINO_SPAWN_RANDOM == 1
+		NewTetriminoType = ATetrimino::GetTetriminoShapeRandom();
 #else
-		NewTetrimino->Initialize(TestSpawnType);
+		NewTetriminoType = TestSpawnType;
 #endif
+		NewTetrimino->Initialize(NewTetriminoType);
 		return NewTetrimino;
 	}
 	return nullptr;
@@ -180,4 +312,15 @@ void ATetrisPlayManager::ChangeTetrimino(ATetrimino* const NewTetrimino)
 	check(NewTetrimino != nullptr);
 	NewTetrimino->AttachToBoard(Board);
 	SetTetriminoInPlay(NewTetrimino);
+}
+
+void ATetrisPlayManager::PlayLockDownEffect(const TArray<UMino*>& GetMinoArray)
+{
+}
+
+FIntPoint ATetrisPlayManager::GetMovementIntVector2D(const FVector2D& Direction)
+{
+	static constexpr float OneSpace = 1.0f;
+	const FVector2D MovementVector2D = OneSpace * Direction;
+	return FIntPoint(static_cast<int32>(MovementVector2D.X), static_cast<int32>(MovementVector2D.Y));
 }

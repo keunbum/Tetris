@@ -29,6 +29,8 @@ public:
 	bool IsMovementPossible(const ATetrimino* Tetrimino, const FIntPoint& MovementIntPoint2D) const;
 	bool IsRotationPossible(const ATetrimino* Tetrimino, const ETetriminoRotationDirection RotationDirection, const FIntPoint& RotationPointOffset) const;
 
+	void AddMinos(const ATetrimino* Tetrimino);
+
 protected:
 	virtual void BeginPlay() override;
 
@@ -36,7 +38,9 @@ private:
 	void Initialize();
 	void InitializeBackground();
 	void InitializeMinoMatrix();
+	int32 GetMatrixIndexByMatrixLocation(const FIntPoint& MatrixLocation) const;
 	UMino* GetMinoByMatrixLocation(const FIntPoint& MatrixLocation) const;
+	void SetMinoByMatrixLocation(UMino* const Mino, const FIntPoint& MatrixLocation);
 	bool IsMatrixLocationEmpty(const FIntPoint& MatrixLocation) const;
 	bool IsMinoLocationsPossible(const FIntPoint& TetriminoMatrixLocation, const TArray<FIntPoint>& MinoLocalMatrixLocations) const;
 

@@ -115,12 +115,14 @@ void ATetrisPlayerController::OnMoveRightCompleted(const FInputActionValue& Acti
 void ATetrisPlayerController::OnMoveSoftDropStarted(const FInputActionValue& ActionValue)
 {
 	UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayerController::OnMoveSoftDropStarted()"));
+	EnumAddFlags(KeyPressingFlags, EKeyFlags::SoftDrop);
 	GameMode->GetTetrisPlayManager()->StartSoftDrop();
 }
 
 void ATetrisPlayerController::OnMoveSoftDropCompleted(const FInputActionValue& ActionValue)
 {
 	UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayerController::OnMoveSoftDropCompleted()"));
+	EnumRemoveFlags(KeyPressingFlags, EKeyFlags::SoftDrop);
 	GameMode->GetTetrisPlayManager()->EndSoftDrop();
 }
 

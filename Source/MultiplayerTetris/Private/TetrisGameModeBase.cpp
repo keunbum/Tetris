@@ -11,6 +11,7 @@
 #include "TetrisPlayManager.h"
 #include "TetrisMatrix.h"
 #include "Board.h"
+#include "TetrisPlayerController.h"
 
 ATetrisGameModeBase::ATetrisGameModeBase()
 	: CurrentLevel(DefaultGameLevel)
@@ -42,15 +43,14 @@ void ATetrisGameModeBase::Initialize()
 	check(TetrisPlayManagerClass != nullptr);
 	TetrisPlayManager = World->SpawnActor<ATetrisPlayManager>(TetrisPlayManagerClass);
 	check(TetrisPlayManager != nullptr);
+
+	TetrisPlayerController = Cast<ATetrisPlayerController>(UGameplayStatics::GetPlayerController(World, PlayerIndex));
+	check(TetrisPlayerController != nullptr);
 }
 
 void ATetrisGameModeBase::StartGamePlay()
 {
 	TetrisPlayManager->StartGenerationPhase();
-}
-
-void ATetrisGameModeBase::StartCompletionPhase()
-{
 }
 
 float ATetrisGameModeBase::CalculateNormalFallSpeed(const int32 Level)
