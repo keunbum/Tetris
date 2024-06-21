@@ -16,6 +16,8 @@ ATetrisPlayManager::ATetrisPlayManager()
 
 	LockDownOption = ELockDownOption::ExtendedPlacement;
 
+	bIsGhostPieceOn = true;
+
 	NormalFallSpeed = -1.0f;
 
 	TetriminoClass = ATetrimino::StaticClass();

@@ -141,9 +141,6 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	TArray<TObjectPtr<UMino>> MinoArray;
 
-	UPROPERTY(EditDefaultsOnly)
-	bool bIsGhostPieceOn;
-
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<ATetrimino> GhostPiece;
 };

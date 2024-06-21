@@ -137,6 +137,9 @@ private:
 	UPROPERTY()
 	ELockDownOption LockDownOption;
 
+	UPROPERTY(EditDefaultsOnly)
+	bool bIsGhostPieceOn;
+
 	UPROPERTY()
 	TObjectPtr<ATetrisGameModeBase> GameMode;
 
