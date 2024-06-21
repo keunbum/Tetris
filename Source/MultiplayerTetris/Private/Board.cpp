@@ -16,19 +16,12 @@ const FMinoInfo ABoard::SpecialMinoInfo = FMinoInfo(TEXT("/Game/Material/M_MinoM
 
 ABoard::ABoard()
 {
-	PrimaryActorTick.bCanEverTick = true;
-
 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
 
 	MinoClass = UMino::StaticClass();
 
 	BackgroundRoot = CreateDefaultSubobject<USceneComponent>(TEXT("BackgroundRoot"));
 	BackgroundRoot->SetupAttachment(RootComponent);
-}
-
-void ABoard::Tick(const float DeltaTime)
-{
-	Super::Tick(DeltaTime);
 }
 
 bool ABoard::IsMovementPossible(const ATetrimino* Tetrimino, const FIntPoint& MovementIntPoint2D) const
