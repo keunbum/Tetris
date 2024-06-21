@@ -24,16 +24,16 @@ public:
 	ATetriminoQueue();
 
 	/**
-	 * Adds a new Tetrimino to the end of the queue.
+	 * Adds a Tetrimino to the queue.
 	 * @param Tetrimino The Tetrimino to add to the queue.
 	 */
-	void PushTetrimino(ATetrimino* const Tetrimino);
+	void Enqueue(ATetrimino* const Tetrimino);
 
 	/**
 	 * Removes and returns the next Tetrimino from the queue.
 	 * @return The next Tetrimino in the queue, or nullptr if the queue is empty.
 	 */
-	ATetrimino* PopTetrimino();
+	ATetrimino* Dequeue();
 
 private:
 	TArray<TObjectPtr<ATetrimino>> TetriminoArray;

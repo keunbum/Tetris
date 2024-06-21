@@ -8,11 +8,19 @@ ATetriminoQueue::ATetriminoQueue()
 	PrimaryActorTick.bCanEverTick = false;
 }
 
-void ATetriminoQueue::PushTetrimino(ATetrimino* const Tetrimino)
+void ATetriminoQueue::Enqueue(ATetrimino* const Tetrimino)
 {
+	TetriminoArray.Add(Tetrimino);
 }
 
-ATetrimino* ATetriminoQueue::PopTetrimino()
+ATetrimino* ATetriminoQueue::Dequeue()
 {
-    return nullptr;
+	if (TetriminoArray.Num() == 0)
+	{
+		return nullptr;
+	}
+
+	ATetrimino* const NextTetrimino = TetriminoArray[0];
+	TetriminoArray.RemoveAt(0);
+	return NextTetrimino;
 }
