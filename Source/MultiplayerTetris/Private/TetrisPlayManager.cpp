@@ -35,7 +35,7 @@ void ATetrisPlayManager::StartGenerationPhase()
 	UE_LOG(LogTemp, Display, TEXT("Start Generation Phase."));
 
 	SetPhase(EPhase::Generation);
-	ATetrimino* const NewTetrimino = SpawnNextTetrimino();
+	ATetrimino* const NewTetrimino = SpawnNewTetrimino();
 	check(NewTetrimino != nullptr);
 	ChangeTetrimino(NewTetrimino);
 
@@ -290,7 +290,7 @@ void ATetrisPlayManager::ClearUserInputTimers()
 	ClearTimers(UserInputTimerHandles);
 }
 
-ATetrimino* ATetrisPlayManager::SpawnNextTetrimino() const
+ATetrimino* ATetrisPlayManager::SpawnNewTetrimino() const
 {
 	if (ATetrimino* const NewTetrimino = GetWorld()->SpawnActor<ATetrimino>(TetriminoClass))
 	{

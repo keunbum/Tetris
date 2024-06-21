@@ -94,7 +94,7 @@ private:
 	void SetPhase(const EPhase NewPhase) { Phase = NewPhase; }
 	void SetMovementDirection(const FVector2D& NewMovementDirection) { CurrentMovementDirection = NewMovementDirection; }
 
-	ATetrimino* SpawnNextTetrimino() const;
+	ATetrimino* SpawnNewTetrimino() const;
 	void ChangeTetrimino(ATetrimino* const NewTetrimino);
 
 	// Effect
