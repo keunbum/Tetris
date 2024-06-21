@@ -7,7 +7,15 @@
 #include "TetriminoGenerator.generated.h"
 
 /**
- * 
+ * The UTetriminoGenerator class is responsible for generating Tetriminos
+ * in a way that adheres to the 7-bag system used in modern Tetris games.
+ * This system ensures that players receive all seven unique Tetrimino shapes
+ * in a randomized order before any shape is repeated, enhancing the fairness
+ * and predictability of the game.
+ *
+ * This class is designed to be used as a logical component within the game,
+ * managing the sequence of Tetriminos that are to be spawned into the game world.
+ * It does not interact directly with the game world, and thus inherits from UObject.
  */
 UCLASS()
 class MULTIPLAYERTETRIS_API UTetriminoGenerator : public UObject
