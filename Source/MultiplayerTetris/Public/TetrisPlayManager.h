@@ -92,7 +92,7 @@ private:
 	void SetPhase(const EPhase NewPhase) { Phase = NewPhase; }
 	void SetMovementDirection(const FVector2D& NewMovementDirection) { CurrentMovementDirection = NewMovementDirection; }
 
-	ATetrimino* SpawnNewTetrimino(ETetriminoShape InTetriminoShape = ETetriminoShape::None) const;
+	ATetrimino* GetNextTetrimino() const;
 	void ChangeTetrimino(ATetrimino* const NewTetrimino);
 
 	// Effect
@@ -127,8 +127,6 @@ private:
 	static constexpr float GenerationPhaseInitialDelay = 0.2f;
 
 private:
-	float NormalFallSpeed;
-
 	UPROPERTY(VisibleAnywhere)
 	EPhase Phase;
 
@@ -137,6 +135,9 @@ private:
 
 	UPROPERTY(EditDefaultsOnly)
 	bool bIsGhostPieceOn;
+
+	UPROPERTY(VisibleAnywhere)
+	float NormalFallSpeed;
 
 	UPROPERTY()
 	TObjectPtr<ATetrisGameModeBase> GameMode;
@@ -166,5 +167,5 @@ private:
 	TObjectPtr<UTetriminoGenerator> TetriminoGenerator;
 
 	UPROPERTY(EditDefaultsOnly)
-	ETetriminoShape TestSpawnType = ETetriminoShape::None;
+	ETetriminoShape TestSpawnShape = ETetriminoShape::None;
 };

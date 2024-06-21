@@ -6,6 +6,7 @@
 #include "TetrisGameModeBase.h"
 #include "Tetrimino.h"
 #include "TetrisPlayerController.h"
+#include "TetriminoGenerator.h"
 
 ATetrisPlayManager::ATetrisPlayManager()
 	: Phase(EPhase::None)
@@ -14,6 +15,7 @@ ATetrisPlayManager::ATetrisPlayManager()
 	, NormalFallSpeed(-1.0f)
 	, TetriminoClass(ATetrimino::StaticClass())
 	, TetriminoInPlay(nullptr)
+	, TetriminoGenerator(nullptr)
 {
 	PrimaryActorTick.bCanEverTick = false;
 }
@@ -23,7 +25,7 @@ void ATetrisPlayManager::StartGenerationPhase()
 	UE_LOG(LogTemp, Display, TEXT("Start Generation Phase."));
 
 	SetPhase(EPhase::Generation);
-	ATetrimino* const NewTetrimino = SpawnNewTetrimino();
+	ATetrimino* const NewTetrimino = GetNextTetrimino();
 	check(NewTetrimino != nullptr);
 	ChangeTetrimino(NewTetrimino);
 
@@ -131,6 +133,9 @@ void ATetrisPlayManager::Initialize()
 
 	Board = World->SpawnActor<ABoard>();
 	check(Board != nullptr);
+
+	TetriminoGenerator = NewObject<UTetriminoGenerator>(this);
+	check(TetriminoGenerator != nullptr);
 
 	UMino::ClearMaterialCache();
 }
@@ -278,23 +283,15 @@ void ATetrisPlayManager::ClearUserInputTimers()
 	ClearTimers(UserInputTimerHandles);
 }
 
-ATetrimino* ATetrisPlayManager::SpawnNewTetrimino(ETetriminoShape InTetriminoShape) const
+ATetrimino* ATetrisPlayManager::GetNextTetrimino() const
 {
-	if (ATetrimino* const NewTetrimino = GetWorld()->SpawnActor<ATetrimino>(TetriminoClass))
-	{
 #define TETRIMINO_SPAWN_RANDOM 1
+
 #if TETRIMINO_SPAWN_RANDOM == 1
-		InTetriminoShape = ATetrimino::GetTetriminoShapeRandom();
+	return TetriminoGenerator->SpawnTetriminoByBagSystem(TetriminoClass);
 #else
-		if (InTetriminoShape == ETetriminoShape::None)
-		{
-			InTetriminoShape = TestSpawnType;
-		}
+	return TetriminoGenerator->SpawnTetriminoByShape(TetriminoClass, TestSpawnShape);
 #endif
-		NewTetrimino->Initialize(InTetriminoShape);
-		return NewTetrimino;
-	}
-	return nullptr;
 }
 
 void ATetrisPlayManager::ChangeTetrimino(ATetrimino* const NewTetrimino)
