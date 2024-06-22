@@ -252,7 +252,8 @@ void ATetrisPlayManager::SetSoftDropTimer()
 
 void ATetrisPlayManager::SetNormalFallTimer()
 {
-	if (GameMode && !GameMode->bNormalFallOff)
+	const bool bIsNormalFallOn = GameMode && !GameMode->bNormalFallOff;
+	if (bIsNormalFallOn)
 	{
 		UE_LOG(LogTemp, Display, TEXT("Normal Fall Timer is set."));
 		GetWorldTimerManager().SetTimer(NormalFallTimerHandle, this, &ATetrisPlayManager::MoveTetriminoDown, NormalFallSpeed, bIsNormalFallTimerLoop, NormalFallTimerInitialDelay);
