@@ -92,11 +92,11 @@ private:
 	void SetPhase(const EPhase NewPhase) { Phase = NewPhase; }
 	bool IsTetriminoManipulable() const { return Phase == EPhase::Falling; }
 	void SetTetriminoMovementDirection(const FVector2D& NewTetriminoMovementDirection) { TetriminoMovementDirection = NewTetriminoMovementDirection; }
+	void SetTetriminoInPlay(ATetrimino* const NewTetriminoInPlay);
 
 	ATetrimino* GetTetriminoFromNextQueue();
 	void SpawnAndPushTetriminoToNextQueue();
 	ATetrimino* SpawnNextTetrimino() const;
-	void SetTetriminoInPlay(ATetrimino* const NewTetriminoInPlay);
 
 	// Effect
 	void PlayLockDownEffect(const TArray<UMino*>& GetMinoArray);

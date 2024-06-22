@@ -291,6 +291,13 @@ void ATetrisPlayManager::ClearUserInputTimers()
 	ClearTimers(UserInputTimerHandles);
 }
 
+void ATetrisPlayManager::SetTetriminoInPlay(ATetrimino* const NewTetriminoInPlay)
+{
+	check(NewTetriminoInPlay != nullptr);
+	NewTetriminoInPlay->AttachToBoard(Board);
+	TetriminoInPlay = NewTetriminoInPlay;
+}
+
 ATetrimino* ATetrisPlayManager::GetTetriminoFromNextQueue()
 {
 	ATetrimino* const NextTetrimino = NextQueue->Dequeue();
@@ -315,13 +322,6 @@ ATetrimino* ATetrisPlayManager::SpawnNextTetrimino() const
 #else
 	return TetriminoGenerator->SpawnTetriminoByShape(TetriminoClass, TestSpawnShape);
 #endif
-}
-
-void ATetrisPlayManager::SetTetriminoInPlay(ATetrimino* const NewTetriminoInPlay)
-{
-	check(NewTetriminoInPlay != nullptr);
-	NewTetriminoInPlay->AttachToBoard(Board);
-	TetriminoInPlay = NewTetriminoInPlay;
 }
 
 void ATetrisPlayManager::PlayLockDownEffect(const TArray<UMino*>& GetMinoArray)
