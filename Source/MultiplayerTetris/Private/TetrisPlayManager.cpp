@@ -144,7 +144,7 @@ void ATetrisPlayManager::InitializeNextQueue()
 {
 	for (int32 Count = 0; Count < ATetrisPlayManager::NextQueueSize; ++Count)
 	{
-		ATetrimino* const NewTetrimino = GetNextTetrimino();
+		ATetrimino* const NewTetrimino = SpawnNextTetrimino();
 		check(NewTetrimino != nullptr);
 		NextQueue->Enqueue(NewTetrimino);
 	}
@@ -293,7 +293,7 @@ void ATetrisPlayManager::ClearUserInputTimers()
 	ClearTimers(UserInputTimerHandles);
 }
 
-ATetrimino* ATetrisPlayManager::GetNextTetrimino() const
+ATetrimino* ATetrisPlayManager::SpawnNextTetrimino() const
 {
 #define TETRIMINO_SPAWN_RANDOM 1
 
