@@ -31,22 +31,6 @@ void ATetrisPlayManager::StartGenerationPhase()
 	StartFallingPhase();
 }
 
-void ATetrisPlayManager::StartFallingPhase()
-{
-	UE_LOG(LogTemp, Display, TEXT("Start Falling Phase."));
-
-	SetPhase(EPhase::Falling);
-
-	SetNormalFallTimer();
-
-	ATetrisPlayerController* const PlayerController = GameMode->GetTetrisPlayerController();
-	check(PlayerController != nullptr);
-	if (PlayerController->IsSoftDropKeyPressed())
-	{
-		StartSoftDrop();
-	}
-}
-
 void ATetrisPlayManager::StartMovement(const FVector2D& InMovementDirection)
 {
 	if (!IsTetriminoManipulable())
@@ -149,6 +133,22 @@ void ATetrisPlayManager::InitializeNextQueue()
 	for (int32 Count = 0; Count < ATetrisPlayManager::NextQueueSize; ++Count)
 	{
 		SpawnAndPushTetriminoToNextQueue();
+	}
+}
+
+void ATetrisPlayManager::StartFallingPhase()
+{
+	UE_LOG(LogTemp, Display, TEXT("Start Falling Phase."));
+
+	SetPhase(EPhase::Falling);
+
+	SetNormalFallTimer();
+
+	ATetrisPlayerController* const PlayerController = GameMode->GetTetrisPlayerController();
+	check(PlayerController != nullptr);
+	if (PlayerController->IsSoftDropKeyPressed())
+	{
+		StartSoftDrop();
 	}
 }
 

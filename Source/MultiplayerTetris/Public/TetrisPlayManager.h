@@ -53,7 +53,6 @@ public:
 	void SetNormalFallSpeed(const float NewNormalFallSpeed) { NormalFallSpeed = NewNormalFallSpeed; }
 
 	void StartGenerationPhase();
-	void StartFallingPhase();
 
 	// Event Handlers
 	void StartMovement(const FVector2D& InMovementDirection);
@@ -70,7 +69,7 @@ private:
 	void Initialize();
 	void InitializeNextQueue();
 
-	bool IsTetriminoManipulable() const { return Phase == EPhase::Falling; }
+	void StartFallingPhase();
 
 	void MoveTetriminoTo(const FVector2D& Direction);
 	void MoveTetriminoToCurrentDirection();
@@ -91,6 +90,7 @@ private:
 	void ClearUserInputTimers();
 
 	void SetPhase(const EPhase NewPhase) { Phase = NewPhase; }
+	bool IsTetriminoManipulable() const { return Phase == EPhase::Falling; }
 	void SetMovementDirection(const FVector2D& NewMovementDirection) { CurrentMovementDirection = NewMovementDirection; }
 
 	ATetrimino* GetTetriminoFromNextQueue();
