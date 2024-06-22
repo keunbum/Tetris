@@ -136,6 +136,11 @@ void ATetrisPlayManager::Initialize()
 	TetriminoGenerator = NewObject<UTetriminoGenerator>(this);
 	check(TetriminoGenerator != nullptr);
 
+	// Spawn NextQueue Actor
+	NextQueue = World->SpawnActor<ATetriminoQueue>(ATetriminoQueue::StaticClass());
+	check(NextQueue != nullptr);
+	InitializeNextQueue();
+
 	UMino::ClearMaterialCache();
 }
 
