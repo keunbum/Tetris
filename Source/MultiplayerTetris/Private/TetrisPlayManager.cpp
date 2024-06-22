@@ -25,7 +25,7 @@ void ATetrisPlayManager::StartGenerationPhase()
 	UE_LOG(LogTemp, Display, TEXT("Start Generation Phase."));
 
 	SetPhase(EPhase::Generation);
-	ATetrimino* const NewTetriminoInPlay = GetNextTetriminoFromQueue();
+	ATetrimino* const NewTetriminoInPlay = GetTetriminoFromNextQueue();
 	ChangeTetriminoInPlay(NewTetriminoInPlay);
 
 	StartFallingPhase();
@@ -290,7 +290,7 @@ void ATetrisPlayManager::ClearUserInputTimers()
 	ClearTimers(UserInputTimerHandles);
 }
 
-ATetrimino* ATetrisPlayManager::GetNextTetriminoFromQueue()
+ATetrimino* ATetrisPlayManager::GetTetriminoFromNextQueue()
 {
 	if (ATetrimino* const NextTetrimino = NextQueue->Dequeue())
 	{
