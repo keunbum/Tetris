@@ -93,7 +93,7 @@ private:
 	void ClearUserInputTimers();
 
 	// Tetrimino
-	ATetrimino* GetTetriminoFromNextQueue();
+	ATetrimino* PopTetriminoFromNextQueue();
 	void SpawnAndPushTetriminoToNextQueue();
 	ATetrimino* SpawnNextTetrimino() const;
 
