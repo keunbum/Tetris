@@ -294,6 +294,13 @@ void ATetrisPlayManager::ClearUserInputTimers()
 	ClearTimers(UserInputTimerHandles);
 }
 
+void ATetrisPlayManager::SpawnAndPushTetriminoToQueue()
+{
+	ATetrimino* const NewTetrimino = SpawnNextTetrimino();
+	check(NewTetrimino != nullptr);
+	NextQueue->Enqueue(NewTetrimino);
+}
+
 ATetrimino* ATetrisPlayManager::SpawnNextTetrimino() const
 {
 #define TETRIMINO_SPAWN_RANDOM 1
