@@ -47,6 +47,7 @@ void ATetrisGameModeBase::Initialize()
 	check(TetrisPlayerController != nullptr);
 
 	TetrisPlayManager->Initialize();
+	TetrisPlayerController->Initialize();
 }
 
 void ATetrisGameModeBase::StartGamePlay()
