@@ -293,13 +293,10 @@ void ATetrisPlayManager::ClearUserInputTimers()
 
 ATetrimino* ATetrisPlayManager::GetTetriminoFromNextQueue()
 {
-	if (ATetrimino* const NextTetrimino = NextQueue->Dequeue())
-	{
-		SpawnAndPushTetriminoToNextQueue();
-		return NextTetrimino;
-	}
-	UE_LOG(LogTemp, Warning, TEXT("NextTetrimino is nullptr."));
-	return nullptr;
+	ATetrimino* const NextTetrimino = NextQueue->Dequeue();
+	check(NextTetrimino != nullptr);
+	SpawnAndPushTetriminoToNextQueue();
+	return NextTetrimino;
 }
 
 void ATetrisPlayManager::SpawnAndPushTetriminoToNextQueue()
