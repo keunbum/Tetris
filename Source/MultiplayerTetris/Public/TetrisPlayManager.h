@@ -83,7 +83,7 @@ private:
 	void LockDown();
 	void ForcedLockDown();
 
-	void SetAutoRepeatMovement();
+	void SetAutoRepeatMovementTimer();
 	void SetSoftDropTimer();
 	void SetNormalFallTimer();
 	void SetLockDownTimer();

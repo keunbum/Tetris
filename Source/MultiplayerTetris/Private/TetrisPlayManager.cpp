@@ -43,7 +43,7 @@ void ATetrisPlayManager::StartMovement(const FVector2D& InMovementDirection)
 
 	SetTetriminoMovementDirection(InMovementDirection);
 	MoveTetriminoToCurrentDirection();
-	SetAutoRepeatMovement();
+	SetAutoRepeatMovementTimer();
 }
 
 void ATetrisPlayManager::EndMovement()
@@ -240,7 +240,7 @@ void ATetrisPlayManager::ForcedLockDown()
 	LockDown();
 }
 
-void ATetrisPlayManager::SetAutoRepeatMovement()
+void ATetrisPlayManager::SetAutoRepeatMovementTimer()
 {
 	GetWorldTimerManager().SetTimer(AutoRepeatMovementTimerHandle, this, &ATetrisPlayManager::MoveTetriminoToCurrentDirection, AutoRepeatMovementInterval, bIsAutoRepeatMovementLoop, AutoRepeatMovementInitialDelay);
 }
