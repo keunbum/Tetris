@@ -296,14 +296,14 @@ ATetrimino* ATetrisPlayManager::GetNextTetriminoFromQueue()
 {
 	if (ATetrimino* const NextTetrimino = NextQueue->Dequeue())
 	{
-		SpawnAndPushTetriminoToQueue();
+		SpawnAndPushTetriminoToNextQueue();
 		return NextTetrimino;
 	}
 	UE_LOG(LogTemp, Warning, TEXT("NextTetrimino is nullptr."));
 	return nullptr;
 }
 
-void ATetrisPlayManager::SpawnAndPushTetriminoToQueue()
+void ATetrisPlayManager::SpawnAndPushTetriminoToNextQueue()
 {
 	ATetrimino* const NewTetrimino = SpawnNextTetrimino();
 	check(NewTetrimino != nullptr);

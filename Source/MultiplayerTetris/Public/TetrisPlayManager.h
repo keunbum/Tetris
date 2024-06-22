@@ -95,7 +95,7 @@ private:
 	void SetMovementDirection(const FVector2D& NewMovementDirection) { CurrentMovementDirection = NewMovementDirection; }
 
 	ATetrimino* GetNextTetriminoFromQueue();
-	void SpawnAndPushTetriminoToQueue();
+	void SpawnAndPushTetriminoToNextQueue();
 	ATetrimino* SpawnNextTetrimino() const;
 	void ChangeTetriminoInPlay(ATetrimino* const NewTetriminoInPlay);
 
