@@ -7,6 +7,7 @@
 #include "Tetrimino.h"
 #include "TetrisPlayerController.h"
 #include "TetriminoGenerator.h"
+#include "TetriminoQueue.h"
 
 ATetrisPlayManager::ATetrisPlayManager()
 	: Phase(EPhase::None)
@@ -137,6 +138,16 @@ void ATetrisPlayManager::Initialize()
 	check(TetriminoGenerator != nullptr);
 
 	UMino::ClearMaterialCache();
+}
+
+void ATetrisPlayManager::InitializeNextQueue()
+{
+	for (int32 Count = 0; Count < ATetrisPlayManager::NextQueueSize; ++Count)
+	{
+		ATetrimino* const NewTetrimino = GetNextTetrimino();
+		check(NewTetrimino != nullptr);
+		NextQueue->Enqueue(NewTetrimino);
+	}
 }
 
 void ATetrisPlayManager::MoveTetriminoTo(const FVector2D& Direction)

@@ -69,6 +69,7 @@ protected:
 
 private:
 	void Initialize();
+	void InitializeNextQueue();
 
 	bool IsTetriminoManipulable() const { return Phase == EPhase::Falling; }
 
