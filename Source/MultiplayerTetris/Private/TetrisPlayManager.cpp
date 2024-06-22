@@ -315,13 +315,15 @@ void ATetrisPlayManager::SpawnAndPushTetriminoToNextQueue()
 
 ATetrimino* ATetrisPlayManager::SpawnNextTetrimino() const
 {
-#define TETRIMINO_SPAWN_RANDOM 1
-
-#if TETRIMINO_SPAWN_RANDOM == 1
-	return TetriminoGenerator->SpawnTetriminoByBagSystem(TetriminoClass);
-#else
-	return TetriminoGenerator->SpawnTetriminoByShape(TetriminoClass, TestSpawnShape);
-#endif
+	static constexpr bool bIsTetriminoSpawnRandom = true;
+	if constexpr (bIsTetriminoSpawnRandom)
+	{
+		return TetriminoGenerator->SpawnTetriminoByBagSystem(TetriminoClass);
+	}
+	else
+	{
+		return TetriminoGenerator->SpawnTetriminoByShape(TetriminoClass, TestSpawnShape);
+	}
 }
 
 void ATetrisPlayManager::PlayLockDownEffect(const TArray<UMino*>& MinoArray)
