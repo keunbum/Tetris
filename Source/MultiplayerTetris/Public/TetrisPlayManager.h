@@ -9,9 +9,10 @@
 
 #include "TetrisPlayManager.generated.h"
 
-class ATetrimino;
 class ATetrisGameModeBase;
+class ATetrimino;
 class ABoard;
+class ATetriminoQueue;
 class UTetriminoGenerator;
 
 UENUM()
@@ -122,9 +123,12 @@ private:
 	static constexpr bool bIsLockDownTimerLoop = false;
 	static constexpr float LockDownTimerInitialDelay = 0.5f;
 
-	// Etc
+	// GenerationPhase
 	static constexpr bool bIsGenerationPhaseTimerLoop = false;
 	static constexpr float GenerationPhaseInitialDelay = 0.2f;
+
+	// Queue
+	static constexpr int32 NextQueueSize = 5;
 
 private:
 	UPROPERTY(VisibleAnywhere)
@@ -142,14 +146,17 @@ private:
 	UPROPERTY()
 	TObjectPtr<ATetrisGameModeBase> GameMode;
 
-	UPROPERTY()
-	TObjectPtr<ABoard> Board;
-
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<ATetrimino> TetriminoClass;
 
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<ATetrimino> TetriminoInPlay;
+
+	UPROPERTY()
+	TObjectPtr<ABoard> Board;
+
+	UPROPERTY(VisibleAnywhere)
+	TObjectPtr<ATetriminoQueue> NextQueue;
 
 	// User Input Timers
 	FTimerHandle NormalFallTimerHandle;
