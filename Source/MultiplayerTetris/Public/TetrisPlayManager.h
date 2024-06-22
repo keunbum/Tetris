@@ -75,7 +75,7 @@ private:
 
 	// User Input
 	void MoveTetriminoTo(const FVector2D& Direction);
-	void MoveTetriminoToCurrentDirection();
+	void MoveTetrimino();
 	void MoveTetriminoDown();
 
 	void RunSuperRotationSystem(const ETetriminoRotationDirection RotationDirection);

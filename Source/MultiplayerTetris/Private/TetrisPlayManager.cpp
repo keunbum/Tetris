@@ -42,7 +42,7 @@ void ATetrisPlayManager::StartMovement(const FVector2D& InMovementDirection)
 	check(TetriminoInPlay != nullptr);
 
 	SetTetriminoMovementDirection(InMovementDirection);
-	MoveTetriminoToCurrentDirection();
+	MoveTetrimino();
 	SetAutoRepeatMovementTimer();
 }
 
@@ -181,7 +181,7 @@ void ATetrisPlayManager::MoveTetriminoTo(const FVector2D& Direction)
 	}
 }
 
-void ATetrisPlayManager::MoveTetriminoToCurrentDirection()
+void ATetrisPlayManager::MoveTetrimino()
 {
 	MoveTetriminoTo(TetriminoMovementDirection);
 }
@@ -242,7 +242,7 @@ void ATetrisPlayManager::ForcedLockDown()
 
 void ATetrisPlayManager::SetAutoRepeatMovementTimer()
 {
-	GetWorldTimerManager().SetTimer(AutoRepeatMovementTimerHandle, this, &ATetrisPlayManager::MoveTetriminoToCurrentDirection, AutoRepeatMovementInterval, bIsAutoRepeatMovementLoop, AutoRepeatMovementInitialDelay);
+	GetWorldTimerManager().SetTimer(AutoRepeatMovementTimerHandle, this, &ATetrisPlayManager::MoveTetrimino, AutoRepeatMovementInterval, bIsAutoRepeatMovementLoop, AutoRepeatMovementInitialDelay);
 }
 
 void ATetrisPlayManager::SetSoftDropTimer()
