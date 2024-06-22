@@ -50,7 +50,6 @@ public:
 	ATetrisPlayManager();
 
 	const FVector2D& GetMovementDirection() const { return CurrentMovementDirection; }
-	void SetTetriminoInPlay(ATetrimino* const NewTetriminoInPlay) { TetriminoInPlay = NewTetriminoInPlay; }
 	void SetNormalFallSpeed(const float NewNormalFallSpeed) { NormalFallSpeed = NewNormalFallSpeed; }
 
 	void StartGenerationPhase();
@@ -97,7 +96,7 @@ private:
 	ATetrimino* GetTetriminoFromNextQueue();
 	void SpawnAndPushTetriminoToNextQueue();
 	ATetrimino* SpawnNextTetrimino() const;
-	void ChangeTetriminoInPlay(ATetrimino* const NewTetriminoInPlay);
+	void SetTetriminoInPlay(ATetrimino* const NewTetriminoInPlay);
 
 	// Effect
 	void PlayLockDownEffect(const TArray<UMino*>& GetMinoArray);

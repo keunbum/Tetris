@@ -26,7 +26,7 @@ void ATetrisPlayManager::StartGenerationPhase()
 
 	SetPhase(EPhase::Generation);
 	ATetrimino* const NewTetriminoInPlay = GetTetriminoFromNextQueue();
-	ChangeTetriminoInPlay(NewTetriminoInPlay);
+	SetTetriminoInPlay(NewTetriminoInPlay);
 
 	StartFallingPhase();
 }
@@ -324,11 +324,11 @@ ATetrimino* ATetrisPlayManager::SpawnNextTetrimino() const
 #endif
 }
 
-void ATetrisPlayManager::ChangeTetriminoInPlay(ATetrimino* const NewTetriminoInPlay)
+void ATetrisPlayManager::SetTetriminoInPlay(ATetrimino* const NewTetriminoInPlay)
 {
 	check(NewTetriminoInPlay != nullptr);
 	NewTetriminoInPlay->AttachToBoard(Board);
-	SetTetriminoInPlay(NewTetriminoInPlay);
+	TetriminoInPlay = NewTetriminoInPlay;
 }
 
 void ATetrisPlayManager::PlayLockDownEffect(const TArray<UMino*>& GetMinoArray)
