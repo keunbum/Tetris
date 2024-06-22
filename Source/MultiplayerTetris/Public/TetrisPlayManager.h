@@ -49,7 +49,7 @@ class MULTIPLAYERTETRIS_API ATetrisPlayManager : public AActor
 public:
 	ATetrisPlayManager();
 
-	const FVector2D& GetMovementDirection() const { return CurrentMovementDirection; }
+	const FVector2D& GetTetriminoMovementDirection() const { return TetriminoMovementDirection; }
 	void SetNormalFallSpeed(const float NewNormalFallSpeed) { NormalFallSpeed = NewNormalFallSpeed; }
 
 	void StartGenerationPhase();
@@ -91,7 +91,7 @@ private:
 
 	void SetPhase(const EPhase NewPhase) { Phase = NewPhase; }
 	bool IsTetriminoManipulable() const { return Phase == EPhase::Falling; }
-	void SetMovementDirection(const FVector2D& NewMovementDirection) { CurrentMovementDirection = NewMovementDirection; }
+	void SetTetriminoMovementDirection(const FVector2D& NewTetriminoMovementDirection) { TetriminoMovementDirection = NewTetriminoMovementDirection; }
 
 	ATetrimino* GetTetriminoFromNextQueue();
 	void SpawnAndPushTetriminoToNextQueue();
@@ -170,7 +170,7 @@ private:
 	FTimerHandle GenerationPhaseTimerHandle;
 
 	UPROPERTY(VisibleAnywhere)
-	FVector2D CurrentMovementDirection;
+	FVector2D TetriminoMovementDirection;
 
 	UPROPERTY()
 	TObjectPtr<UTetriminoGenerator> TetriminoGenerator;

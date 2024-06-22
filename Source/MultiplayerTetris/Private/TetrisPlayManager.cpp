@@ -41,7 +41,7 @@ void ATetrisPlayManager::StartMovement(const FVector2D& InMovementDirection)
 
 	check(TetriminoInPlay != nullptr);
 
-	SetMovementDirection(InMovementDirection);
+	SetTetriminoMovementDirection(InMovementDirection);
 	MoveTetriminoToCurrentDirection();
 	SetAutoRepeatMovement();
 }
@@ -51,7 +51,7 @@ void ATetrisPlayManager::EndMovement()
 	if (TetriminoInPlay)
 	{
 		ClearTimer(AutoRepeatMovementTimerHandle);
-		SetMovementDirection(FVector2D::ZeroVector);
+		SetTetriminoMovementDirection(FVector2D::ZeroVector);
 	}
 }
 
@@ -112,7 +112,7 @@ void ATetrisPlayManager::Initialize()
 	GameMode = World->GetAuthGameMode<ATetrisGameModeBase>();
 
 	SetNormalFallSpeed(GameMode->GetNormalFallSpeed());
-	SetMovementDirection(FVector2D::ZeroVector);
+	SetTetriminoMovementDirection(FVector2D::ZeroVector);
 
 	Board = World->SpawnActor<ABoard>();
 	check(Board != nullptr);
@@ -183,7 +183,7 @@ void ATetrisPlayManager::MoveTetriminoTo(const FVector2D& Direction)
 
 void ATetrisPlayManager::MoveTetriminoToCurrentDirection()
 {
-	MoveTetriminoTo(CurrentMovementDirection);
+	MoveTetriminoTo(TetriminoMovementDirection);
 }
 
 void ATetrisPlayManager::MoveTetriminoDown()
