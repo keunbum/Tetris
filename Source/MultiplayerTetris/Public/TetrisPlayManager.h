@@ -66,11 +66,14 @@ protected:
 	virtual void BeginPlay() override;
 
 private:
+	// Initialization
 	void Initialize();
 	void InitializeNextQueue();
 
+	// Phase Flow
 	void StartFallingPhase();
 
+	// User Input
 	void MoveTetriminoTo(const FVector2D& Direction);
 	void MoveTetriminoToCurrentDirection();
 	void MoveTetriminoDown();
@@ -89,18 +92,21 @@ private:
 	void ClearTimers(const TArray<FTimerHandle*>& TimerHandles);
 	void ClearUserInputTimers();
 
+	// Tetrimino
+	ATetrimino* GetTetriminoFromNextQueue();
+	void SpawnAndPushTetriminoToNextQueue();
+	ATetrimino* SpawnNextTetrimino() const;
+
+	// Basic Member Variables
 	void SetPhase(const EPhase NewPhase) { Phase = NewPhase; }
 	bool IsTetriminoManipulable() const { return Phase == EPhase::Falling; }
 	void SetTetriminoMovementDirection(const FVector2D& NewTetriminoMovementDirection) { TetriminoMovementDirection = NewTetriminoMovementDirection; }
 	void SetTetriminoInPlay(ATetrimino* const NewTetriminoInPlay);
 
-	ATetrimino* GetTetriminoFromNextQueue();
-	void SpawnAndPushTetriminoToNextQueue();
-	ATetrimino* SpawnNextTetrimino() const;
-
 	// Effect
 	void PlayLockDownEffect(const TArray<UMino*>& GetMinoArray);
-
+	
+	// static method
 	static FIntPoint GetMovementIntVector2D(const FVector2D& Direction);
 
 private:
