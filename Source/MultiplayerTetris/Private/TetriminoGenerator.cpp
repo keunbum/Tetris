@@ -24,7 +24,6 @@ ATetrimino* UTetriminoGenerator::SpawnTetriminoByBagSystem(UClass* const Tetrimi
 
 	// Get the next Tetrimino shape from the bag
 	const ETetriminoShape NextTetriminoShape = TetriminoBag[BagCurrentIndex++];
-
 	return SpawnTetriminoByShape(TetriminoClass, NextTetriminoShape);
 }
 
