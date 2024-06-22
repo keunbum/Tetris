@@ -333,6 +333,7 @@ void ATetrisPlayManager::SetTetriminoInPlay(ATetrimino* const NewTetriminoInPlay
 
 void ATetrisPlayManager::PlayLockDownEffect(const TArray<UMino*>& GetMinoArray)
 {
+	// TODO: LockDown Effect 추가
 }
 
 FIntPoint ATetrisPlayManager::GetMovementIntVector2D(const FVector2D& Direction)
