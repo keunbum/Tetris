@@ -124,13 +124,6 @@ void ATetrisPlayManager::DoRotation(const ETetriminoRotationDirection RotationDi
 	RunSuperRotationSystem(RotationDirection);
 }
 
-void ATetrisPlayManager::BeginPlay()
-{
-	Super::BeginPlay();
-
-	Initialize();
-}
-
 void ATetrisPlayManager::InitializeNextQueue()
 {
 	for (int32 Count = 0; Count < ATetrisPlayManager::NextQueueSize; ++Count)

@@ -64,9 +64,6 @@ public:
 	void DoHardDrop();
 	void DoRotation(const ETetriminoRotationDirection RotationDirection);
 
-protected:
-	virtual void BeginPlay() override;
-
 private:
 	// Initialization
 	void InitializeNextQueue();
