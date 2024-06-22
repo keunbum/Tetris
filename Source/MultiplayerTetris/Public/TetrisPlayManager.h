@@ -96,7 +96,7 @@ private:
 
 	void SpawnAndPushTetriminoToQueue();
 	ATetrimino* SpawnNextTetrimino() const;
-	void ChangeTetriminoInPlay(ATetrimino* const NewTetrimino);
+	void ChangeTetriminoInPlay(ATetrimino* const NewTetriminoInPlay);
 
 	// Effect
 	void PlayLockDownEffect(const TArray<UMino*>& GetMinoArray);

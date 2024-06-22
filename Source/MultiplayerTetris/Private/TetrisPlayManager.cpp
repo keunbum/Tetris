@@ -312,11 +312,11 @@ ATetrimino* ATetrisPlayManager::SpawnNextTetrimino() const
 #endif
 }
 
-void ATetrisPlayManager::ChangeTetriminoInPlay(ATetrimino* const NewTetrimino)
+void ATetrisPlayManager::ChangeTetriminoInPlay(ATetrimino* const NewTetriminoInPlay)
 {
-	check(NewTetrimino != nullptr);
-	NewTetrimino->AttachToBoard(Board);
-	SetTetriminoInPlay(NewTetrimino);
+	check(NewTetriminoInPlay != nullptr);
+	NewTetriminoInPlay->AttachToBoard(Board);
+	SetTetriminoInPlay(NewTetriminoInPlay);
 }
 
 void ATetrisPlayManager::PlayLockDownEffect(const TArray<UMino*>& GetMinoArray)
