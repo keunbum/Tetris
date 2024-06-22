@@ -282,7 +282,7 @@ void ATetrisPlayManager::ClearTimers(const TArray<FTimerHandle*>& TimerHandles)
 
 void ATetrisPlayManager::ClearUserInputTimers()
 {
-	const TArray<FTimerHandle*> UserInputTimerHandles =
+	static const TArray<FTimerHandle*> UserInputTimerHandles =
 	{
 		&AutoRepeatMovementTimerHandle,
 		&SoftDropTimerHandle,
