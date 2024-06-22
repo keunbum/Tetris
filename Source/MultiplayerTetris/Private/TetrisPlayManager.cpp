@@ -193,15 +193,11 @@ void ATetrisPlayManager::MoveTetriminoDown()
 
 void ATetrisPlayManager::RunSuperRotationSystem(const ETetriminoRotationDirection RotationDirection)
 {
-	if (!TetriminoInPlay)
-	{
-		return;
-	}
+	check(TetriminoInPlay != nullptr);
 
 	const TArray<FIntPoint>& RotationPointOffsets = TetriminoInPlay->GetSRSRotationPointOffsets(RotationDirection);
-	for (int32 PointIndex = 0; PointIndex < RotationPointOffsets.Num(); ++PointIndex)
+	for (const FIntPoint& RotationPointOffset : RotationPointOffsets)
 	{
-		const FIntPoint& RotationPointOffset = RotationPointOffsets[PointIndex];
 		if (Board->IsRotationPossible(TetriminoInPlay, RotationDirection, RotationPointOffset))
 		{
 			TetriminoInPlay->RotateTo(RotationDirection);
