@@ -49,6 +49,8 @@ class MULTIPLAYERTETRIS_API ATetrisPlayManager : public AActor
 public:
 	ATetrisPlayManager();
 
+	void Initialize();
+
 	const FVector2D& GetTetriminoMovementDirection() const { return TetriminoMovementDirection; }
 	void SetNormalFallSpeed(const float NewNormalFallSpeed) { NormalFallSpeed = NewNormalFallSpeed; }
 
@@ -67,7 +69,6 @@ protected:
 
 private:
 	// Initialization
-	void Initialize();
 	void InitializeNextQueue();
 
 	// Phase Flow

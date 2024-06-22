@@ -20,6 +20,32 @@ ATetrisPlayManager::ATetrisPlayManager()
 	PrimaryActorTick.bCanEverTick = false;
 }
 
+void ATetrisPlayManager::Initialize()
+{
+	UWorld* const World = GetWorld();
+	check(World != nullptr);
+	GameMode = World->GetAuthGameMode<ATetrisGameModeBase>();
+
+	SetNormalFallSpeed(GameMode->GetNormalFallSpeed());
+	SetTetriminoMovementDirection(FVector2D::ZeroVector);
+
+	// Board
+	Board = World->SpawnActor<ABoard>();
+	check(Board != nullptr);
+
+	// TetriminoGenerator
+	TetriminoGenerator = NewObject<UTetriminoGenerator>(this);
+	check(TetriminoGenerator != nullptr);
+
+	// NextQueue
+	NextQueue = World->SpawnActor<ATetriminoQueue>(ATetriminoQueue::StaticClass());
+	check(NextQueue != nullptr);
+	InitializeNextQueue();
+
+	// UMino
+	UMino::ClearMaterialCache();
+}
+
 void ATetrisPlayManager::StartGenerationPhase()
 {
 	UE_LOG(LogTemp, Display, TEXT("Start Generation Phase."));
@@ -103,29 +129,6 @@ void ATetrisPlayManager::BeginPlay()
 	Super::BeginPlay();
 
 	Initialize();
-}
-
-void ATetrisPlayManager::Initialize()
-{
-	UWorld* const World = GetWorld();
-	check(World != nullptr);
-	GameMode = World->GetAuthGameMode<ATetrisGameModeBase>();
-
-	SetNormalFallSpeed(GameMode->GetNormalFallSpeed());
-	SetTetriminoMovementDirection(FVector2D::ZeroVector);
-
-	Board = World->SpawnActor<ABoard>();
-	check(Board != nullptr);
-
-	TetriminoGenerator = NewObject<UTetriminoGenerator>(this);
-	check(TetriminoGenerator != nullptr);
-
-	// Spawn NextQueue Actor
-	NextQueue = World->SpawnActor<ATetriminoQueue>(ATetriminoQueue::StaticClass());
-	check(NextQueue != nullptr);
-	InitializeNextQueue();
-
-	UMino::ClearMaterialCache();
 }
 
 void ATetrisPlayManager::InitializeNextQueue()
