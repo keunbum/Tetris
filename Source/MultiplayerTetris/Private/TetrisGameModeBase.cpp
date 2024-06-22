@@ -45,6 +45,8 @@ void ATetrisGameModeBase::Initialize()
 
 	TetrisPlayerController = Cast<ATetrisPlayerController>(UGameplayStatics::GetPlayerController(World, PlayerIndex));
 	check(TetrisPlayerController != nullptr);
+
+	TetrisPlayManager->Initialize();
 }
 
 void ATetrisGameModeBase::StartGamePlay()
