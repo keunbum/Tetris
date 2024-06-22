@@ -95,7 +95,7 @@ private:
 	void SetMovementDirection(const FVector2D& NewMovementDirection) { CurrentMovementDirection = NewMovementDirection; }
 
 	ATetrimino* SpawnNextTetrimino() const;
-	void ChangeTetrimino(ATetrimino* const NewTetrimino);
+	void ChangeTetriminoInPlay(ATetrimino* const NewTetrimino);
 
 	// Effect
 	void PlayLockDownEffect(const TArray<UMino*>& GetMinoArray);
