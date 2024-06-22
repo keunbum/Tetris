@@ -15,7 +15,6 @@ ATetrisPlayManager::ATetrisPlayManager()
 	, NormalFallSpeed(-1.0f)
 	, TetriminoClass(ATetrimino::StaticClass())
 	, TetriminoInPlay(nullptr)
-	, TetriminoGenerator(nullptr)
 {
 	PrimaryActorTick.bCanEverTick = false;
 }
