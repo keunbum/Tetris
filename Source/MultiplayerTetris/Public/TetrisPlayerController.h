@@ -36,14 +36,12 @@ class MULTIPLAYERTETRIS_API ATetrisPlayerController : public APlayerController
 	GENERATED_BODY()
 
 public:
+	void Initialize();
+
 	bool IsKeyPressed(const EKeyFlags KeyFlag) const { return EnumHasAnyFlags(KeyPressingFlags, KeyFlag); }
 	bool IsSoftDropKeyPressed() const { return IsKeyPressed(EKeyFlags::SoftDrop); }
 
-protected:
-	virtual void BeginPlay() override;
-
 private:
-	void Initialize();
 	void InitializeCamera();
 	void InitializeInput();
 

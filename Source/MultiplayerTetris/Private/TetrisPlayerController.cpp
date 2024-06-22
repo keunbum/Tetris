@@ -14,12 +14,6 @@
 #include "TetrisGameModeBase.h"
 #include "TetrisPlayManager.h"
 
-void ATetrisPlayerController::BeginPlay()
-{
-	Super::BeginPlay();
-	Initialize();
-}
-
 void ATetrisPlayerController::Initialize()
 {
 	InitializeCamera();
