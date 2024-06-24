@@ -134,7 +134,7 @@ private:
 	static constexpr float GenerationPhaseInitialDelay = 0.2f;
 
 	// Queue
-	static constexpr int32 NextQueueSize = 5;
+	static constexpr int32 NextQueueMaxSize = 5;
 
 private:
 	UPROPERTY(VisibleAnywhere)

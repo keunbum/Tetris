@@ -126,7 +126,7 @@ void ATetrisPlayManager::DoRotation(const ETetriminoRotationDirection RotationDi
 
 void ATetrisPlayManager::InitializeNextQueue()
 {
-	for (int32 Count = 0; Count < ATetrisPlayManager::NextQueueSize; ++Count)
+	for (int32 Count = 0; Count < ATetrisPlayManager::NextQueueMaxSize; ++Count)
 	{
 		SpawnAndPushTetriminoToNextQueue();
 	}
