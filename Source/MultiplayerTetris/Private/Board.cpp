@@ -114,9 +114,8 @@ void ABoard::SetMinoByMatrixLocation(UMino* const Mino, const FIntPoint& MatrixL
 
 bool ABoard::IsMatrixLocationEmpty(const FIntPoint& MatrixLocation) const
 {
-	UMino* const Mino = GetMinoByMatrixLocation(MatrixLocation);
-	const bool bIsMinoValid = (Mino != nullptr) && !Mino->IsPendingKill();
-	return !bIsMinoValid;
+	const UMino* Mino = GetMinoByMatrixLocation(MatrixLocation);
+	return !IsValid(Mino);
 }
 
 bool ABoard::IsMinoLocationsPossible(const FIntPoint& TetriminoMatrixLocation, const TArray<FIntPoint>& MinoLocalMatrixLocations) const
