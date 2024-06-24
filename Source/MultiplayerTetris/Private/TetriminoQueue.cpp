@@ -40,7 +40,7 @@ ATetrimino* ATetriminoQueue::Dequeue()
 	return NextTetrimino;
 }
 
-void ATetriminoQueue::ReArrangeQueue()
+void ATetriminoQueue::ReArrangeTetriminoLocations()
 {
 	for (int32 Index = 0; Index < TetriminoArray.Num(); ++Index)
 	{

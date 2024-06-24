@@ -46,7 +46,7 @@ public:
 	 */
 	ATetrimino* Dequeue();
 
-	void ReArrangeQueue();
+	void ReArrangeTetriminoLocations();
 
 private:
 	static FVector GetTetriminoLocalLocationByIndex(const int32 Index);
