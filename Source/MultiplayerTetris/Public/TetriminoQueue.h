@@ -9,6 +9,7 @@
 
 class ATetrimino;
 class ABoard;
+class USceneComponent;
 
 /**
  * ATetriminoQueue is an Actor responsible for managing a queue of Tetriminos in the game.
@@ -23,6 +24,13 @@ class MULTIPLAYERTETRIS_API ATetriminoQueue : public AActor
 	
 public:	
 	ATetriminoQueue();
+
+	/**
+	* Initializes the Tetrimino queue with the specified maximum queue size.
+	 * @param MaxQueueSize The maximum number of Tetriminos that can be stored in the queue.
+	 * @param ParentComponent The component that will be the root of the Tetrimino queue.
+	*/
+	void Initialize(const int32 QueueSize, USceneComponent* const ParentComponent);
 
 	/**
 	 * Adds a Tetrimino to the queue.

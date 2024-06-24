@@ -6,6 +6,16 @@
 ATetriminoQueue::ATetriminoQueue()
 {
 	PrimaryActorTick.bCanEverTick = false;
+
+	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
+	check(RootComponent != nullptr);
+}
+
+void ATetriminoQueue::Initialize(const int32 QueueSize, USceneComponent* const ParentComponent)
+{
+	TetriminoArray.Reserve(QueueSize);
+	check(ParentComponent != nullptr);
+	RootComponent->AttachToComponent(ParentComponent, FAttachmentTransformRules::KeepRelativeTransform);
 }
 
 void ATetriminoQueue::Enqueue(ATetrimino* const Tetrimino)
