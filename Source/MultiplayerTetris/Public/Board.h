@@ -31,9 +31,6 @@ public:
 
 	void AddMinos(const ATetrimino* Tetrimino);
 
-protected:
-	virtual void BeginPlay() override;
-
 private:
 	void InitializeBackground();
 	void InitializeMinoMatrix();

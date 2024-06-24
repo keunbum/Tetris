@@ -69,13 +69,6 @@ void ABoard::AddMinos(const ATetrimino* Tetrimino)
 	}
 }
 
-void ABoard::BeginPlay()
-{
-	Super::BeginPlay();
-
-	Initialize();
-}
-
 void ABoard::InitializeBackground()
 {
 	for (int32 Row = 0; Row < TotalHeight; ++Row)
