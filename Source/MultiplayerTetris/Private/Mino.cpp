@@ -70,10 +70,10 @@ UMaterialInstanceDynamic* UMino::GetMaterialInstanceByMinoInfo(UObject* const In
 
 	const FString MaterialKey = MinoInfo.MaterialPath + MinoInfo.Color.ToString();
 
-	if (UMaterialInstanceDynamic** const FoundMaterial = MaterialCache.Find(MaterialKey))
-	{
-		return *FoundMaterial;
-	}
+	//if (UMaterialInstanceDynamic** const FoundMaterial = MaterialCache.Find(MaterialKey))
+	//{
+	//	return *FoundMaterial;
+	//}
 
 	if (UMaterialInterface* const BaseMaterial = UMino::GetMaterialByMinoInfo(MinoInfo))
 	{
