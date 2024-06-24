@@ -77,7 +77,7 @@ void ABoard::InitializeBackground()
 		for (int32 Col = 0; Col < TotalWidth; ++Col)
 		{
 			const FIntPoint MinoMatrixLocation(Row, Col);
-			static constexpr float Z = 0 - UMino::UnitLength;
+			static constexpr float Z = 0.f - UMino::UnitLength;
 			UMino* const Mino = UMino::CreateMino(this, MinoInfo);
 			check(Mino != nullptr);
 			Mino->AttachToWithMatrixLocation(MatrixRoot, MinoMatrixLocation, Z);
