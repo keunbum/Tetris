@@ -49,6 +49,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Tetrimino")
 	bool bNormalFallOff = false;
 
+	// Queue
+	static constexpr int32 NextQueueSize = 5;
+
 private:
 	static constexpr int32 PlayerIndex = 0;
 	static constexpr int32 DefaultGameLevel = 1;

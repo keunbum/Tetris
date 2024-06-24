@@ -133,9 +133,6 @@ private:
 	static constexpr bool bIsGenerationPhaseTimerLoop = false;
 	static constexpr float GenerationPhaseInitialDelay = 0.2f;
 
-	// Queue
-	static constexpr int32 NextQueueMaxSize = 5;
-
 private:
 	UPROPERTY(VisibleAnywhere)
 	EPhase Phase;
