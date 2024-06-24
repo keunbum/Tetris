@@ -37,5 +37,7 @@ private:
 
 private:
 	int32 BagCurrentIndex;
+
+	UPROPERTY()
 	TArray<ETetriminoShape> TetriminoBag;
 };
