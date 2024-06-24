@@ -11,11 +11,11 @@ ATetriminoQueue::ATetriminoQueue()
 	check(RootComponent != nullptr);
 }
 
-void ATetriminoQueue::Initialize(const int32 QueueSize, USceneComponent* const ParentComponent)
+void ATetriminoQueue::Initialize(const int32 QueueSize, USceneComponent* const NewParentComponent)
 {
 	TetriminoArray.Reserve(QueueSize);
-	check(ParentComponent != nullptr);
-	RootComponent->AttachToComponent(ParentComponent, FAttachmentTransformRules::KeepRelativeTransform);
+	check(NewParentComponent != nullptr);
+	RootComponent->AttachToComponent(NewParentComponent, FAttachmentTransformRules::KeepRelativeTransform);
 }
 
 void ATetriminoQueue::Enqueue(ATetrimino* const Tetrimino)

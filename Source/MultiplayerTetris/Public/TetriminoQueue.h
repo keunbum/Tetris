@@ -30,7 +30,7 @@ public:
 	 * @param MaxQueueSize The maximum number of Tetriminos that can be stored in the queue.
 	 * @param ParentComponent The component that will be the root of the Tetrimino queue.
 	*/
-	void Initialize(const int32 QueueSize, USceneComponent* const ParentComponent);
+	void Initialize(const int32 QueueSize, USceneComponent* const NewParentComponent);
 
 	/**
 	 * Adds a Tetrimino to the queue.
