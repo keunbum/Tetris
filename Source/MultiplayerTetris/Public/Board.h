@@ -30,6 +30,7 @@ public:
 	bool IsRotationPossible(const ATetrimino* Tetrimino, const ETetriminoRotationDirection RotationDirection, const FIntPoint& RotationPointOffset) const;
 
 	USceneComponent* GetMatrixRoot() const { return MatrixRoot; }
+	USceneComponent* GetNextQueueRoot() const { return NextQueueRoot; }
 
 	void AddMinos(const ATetrimino* Tetrimino);
 
@@ -75,6 +76,9 @@ private:
 
 	UPROPERTY()
 	TObjectPtr<USceneComponent> BackgroundRoot;
+
+	UPROPERTY()
+	TObjectPtr<USceneComponent> NextQueueRoot;
 
 	UPROPERTY(VisibleAnywhere)
 	TArray<TObjectPtr<UMino>> MinoMatrix;

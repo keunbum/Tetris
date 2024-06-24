@@ -30,6 +30,10 @@ ABoard::ABoard()
 	BackgroundRoot = CreateDefaultSubobject<USceneComponent>(TEXT("BackgroundRoot"));
 	check(BackgroundRoot != nullptr);
 	BackgroundRoot->SetupAttachment(RootComponent);
+
+	NextQueueRoot = CreateDefaultSubobject<USceneComponent>(TEXT("NextQueueRoot"));
+	check(NextQueueRoot != nullptr);
+	NextQueueRoot->SetupAttachment(RootComponent);
 }
 
 void ABoard::Initialize()
