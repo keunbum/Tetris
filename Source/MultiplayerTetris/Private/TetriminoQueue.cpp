@@ -15,7 +15,7 @@ void ATetriminoQueue::Enqueue(ATetrimino* const Tetrimino)
 
 ATetrimino* ATetriminoQueue::Dequeue()
 {
-	if (TetriminoArray.Num() == 0)
+	if (TetriminoArray.IsEmpty())
 	{
 		return nullptr;
 	}
