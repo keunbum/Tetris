@@ -18,6 +18,8 @@ ABoard::ABoard()
 {
 	PrimaryActorTick.bCanEverTick = false;
 
+	NextQueueRelativeLocation = FVector(UMino::UnitLength * -12.f, UMino::UnitLength * -15.f, 0.f);
+
 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
 	check(RootComponent != nullptr);
 
@@ -34,6 +36,8 @@ ABoard::ABoard()
 	NextQueueRoot = CreateDefaultSubobject<USceneComponent>(TEXT("NextQueueRoot"));
 	check(NextQueueRoot != nullptr);
 	NextQueueRoot->SetupAttachment(RootComponent);
+	// Set NextQueueRoot's relative location
+	NextQueueRoot->SetRelativeLocation(NextQueueRelativeLocation);
 }
 
 void ABoard::Initialize()

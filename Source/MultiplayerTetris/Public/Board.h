@@ -69,6 +69,9 @@ private:
 	static const FMinoInfo SpecialMinoInfo;
 
 	UPROPERTY(EditDefaultsOnly)
+	FVector NextQueueRelativeLocation;
+
+	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UMino> MinoClass;
 
 	UPROPERTY()
