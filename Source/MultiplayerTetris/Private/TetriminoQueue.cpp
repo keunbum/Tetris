@@ -3,6 +3,8 @@
 
 #include "TetriminoQueue.h"
 
+#include "Tetrimino.h"
+
 ATetriminoQueue::ATetriminoQueue()
 {
 	PrimaryActorTick.bCanEverTick = false;
@@ -20,7 +22,10 @@ void ATetriminoQueue::Initialize(const int32 QueueSize, USceneComponent* const N
 
 void ATetriminoQueue::Enqueue(ATetrimino* const Tetrimino)
 {
+	check(Tetrimino != nullptr);
 	TetriminoArray.Add(Tetrimino);
+	// Attach the Tetrimino to the queue's root component
+	Tetrimino->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 }
 
 ATetrimino* ATetriminoQueue::Dequeue()
