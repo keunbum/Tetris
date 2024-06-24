@@ -103,6 +103,8 @@ protected:
 	void UpdateMinoMatrixLocalLocations();
 
 	void SetRelativeLocationByMatrixLocation(const FIntPoint& NewMatrixLocation);
+	void AttachToComponent(USceneComponent* const NewParentComponent, const FIntPoint& InitialMatrixLocation);
+
 	static const FTetriminoShapeInfo& GetTetriminoShapeInfoByShape(const ETetriminoShape Shape);
 	static const FIntPoint& GetInitialMatrixLocationByShape(const ETetriminoShape Shape);
 

@@ -387,9 +387,7 @@ void ATetrimino::RotateTo(const ETetriminoRotationDirection RotationDirection)
 
 void ATetrimino::AttachToBoard(ABoard* const Board)
 {
-	// Attach RootComponent To Board's MatrixRoot
-	RootComponent->AttachToComponent(Board->GetMatrixRoot(), FAttachmentTransformRules::KeepRelativeTransform);
-	MoveBy(GetInitialMatrixLocation());
+	AttachToComponent(Board->GetRootComponent(), GetInitialMatrixLocation());
 }
 
 void ATetrimino::DetachMinos()
@@ -461,6 +459,12 @@ void ATetrimino::SetRelativeLocationByMatrixLocation(const FIntPoint& NewMatrixL
 	const FVector ActorLocalOffset(UMino::GetRelativeLocationByMatrixLocation(NewMatrixLocation));
 	SetActorRelativeLocation(ActorLocalOffset);
 	SetMatrixLocation(NewMatrixLocation);
+}
+
+void ATetrimino::AttachToComponent(USceneComponent* const NewParentComponent, const FIntPoint& InitialMatrixLocation)
+{
+	RootComponent->AttachToComponent(NewParentComponent, FAttachmentTransformRules::KeepRelativeTransform);
+	SetRelativeLocationByMatrixLocation(InitialMatrixLocation);
 }
 
 const FTetriminoShapeInfo& ATetrimino::GetTetriminoShapeInfoByShape(const ETetriminoShape Shape)
