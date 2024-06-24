@@ -24,6 +24,9 @@ ABoard::ABoard()
 
 	MatrixRoot = CreateDefaultSubobject<USceneComponent>(TEXT("MatrixRoot"));
 	MatrixRoot->SetupAttachment(RootComponent);
+
+	BackgroundRoot = CreateDefaultSubobject<USceneComponent>(TEXT("BackgroundRoot"));
+	BackgroundRoot->SetupAttachment(RootComponent);
 }
 
 void ABoard::Initialize()
@@ -80,7 +83,7 @@ void ABoard::InitializeBackground()
 			static constexpr float Z = 0.f - UMino::UnitLength;
 			UMino* const Mino = UMino::CreateMino(this, MinoInfo);
 			check(Mino != nullptr);
-			Mino->AttachToWithMatrixLocation(MatrixRoot, MinoMatrixLocation, Z);
+			Mino->AttachToWithMatrixLocation(BackgroundRoot, MinoMatrixLocation, Z);
 		}
 	}
 }

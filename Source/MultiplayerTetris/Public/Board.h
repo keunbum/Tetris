@@ -73,6 +73,9 @@ private:
 	UPROPERTY()
 	TObjectPtr<USceneComponent> MatrixRoot;
 
+	UPROPERTY()
+	TObjectPtr<USceneComponent> BackgroundRoot;
+
 	UPROPERTY(VisibleAnywhere)
 	TArray<TObjectPtr<UMino>> MinoMatrix;
 };
