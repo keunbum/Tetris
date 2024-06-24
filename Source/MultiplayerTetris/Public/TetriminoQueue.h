@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 
+#include "Mino.h"
+
 #include "TetriminoQueue.generated.h"
 
 class ATetrimino;
@@ -43,6 +45,9 @@ public:
 	 * @return The next Tetrimino in the queue, or nullptr if the queue is empty.
 	 */
 	ATetrimino* Dequeue();
+
+private:
+	static constexpr float TetriminoYOffset = -(UMino::UnitLength * 4.0f);
 
 private:
 	UPROPERTY()
