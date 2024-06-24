@@ -47,6 +47,9 @@ public:
 	ATetrimino* Dequeue();
 
 private:
+	FVector GetTetriminoLocalLocation(const int32 Index) const;
+
+private:
 	static constexpr float TetriminoYOffset = -(UMino::UnitLength * 4.0f);
 
 private:
