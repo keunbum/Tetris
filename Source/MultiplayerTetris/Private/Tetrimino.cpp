@@ -374,7 +374,7 @@ void ATetrimino::Initialize(const ETetriminoShape NewTetriminoShape)
 
 void ATetrimino::MoveBy(const FIntPoint& IntPoint2D)
 {
-	const FVector ActorLocalOffset(UMino::Get3DRelativePositionByMatrixLocation(IntPoint2D));
+	const FVector ActorLocalOffset(UMino::GetRelativeLocationByMatrixLocation(IntPoint2D));
 	AddActorLocalOffset(ActorLocalOffset);
 	MatrixLocation += IntPoint2D;
 }

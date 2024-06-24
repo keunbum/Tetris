@@ -21,7 +21,7 @@ UMino::UMino()
 
 void UMino::SetRelativeLocationByMatrixLocation(const FIntPoint& MatrixLocation, const float Z)
 {
-	SetRelativeLocation(UMino::Get3DRelativePositionByMatrixLocation(MatrixLocation, Z));
+	SetRelativeLocation(UMino::GetRelativeLocationByMatrixLocation(MatrixLocation, Z));
 }
 
 void UMino::AttachToWithMatrixLocation(USceneComponent* const Parent, const FIntPoint& MatrixLocation, const float Z)
@@ -47,7 +47,7 @@ void UMino::ClearMaterialCache()
 	MaterialCache.Empty();
 }
 
-FVector UMino::Get3DRelativePositionByMatrixLocation(const FIntPoint& MatrixLocation, const float Z)
+FVector UMino::GetRelativeLocationByMatrixLocation(const FIntPoint& MatrixLocation, const float Z)
 {
 	const float X = -UnitLength * MatrixLocation.Y;
 	const float Y = -UnitLength * MatrixLocation.X;
