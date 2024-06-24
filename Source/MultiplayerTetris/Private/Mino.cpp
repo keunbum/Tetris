@@ -35,7 +35,9 @@ UMino* UMino::CreateMino(UObject* const InOuter, const FMinoInfo& MinoInfo)
 	if (UMino* const Mino = NewObject<UMino>(InOuter))
 	{
 		static constexpr int32 ElementIndex = 0;
-		Mino->SetMaterial(ElementIndex, UMino::GetMaterialInstanceByMinoInfo(InOuter, MinoInfo));
+		UMaterialInstanceDynamic* const MaterialInstance = UMino::GetMaterialInstanceByMinoInfo(InOuter, MinoInfo);
+		ensureMsgf(MaterialInstance != nullptr, TEXT("Failed to create material instance: %s"), *MinoInfo.MaterialPath);
+		Mino->SetMaterial(ElementIndex, MaterialInstance);
 		Mino->RegisterComponent();
 		return Mino;
 	}
@@ -44,6 +46,7 @@ UMino* UMino::CreateMino(UObject* const InOuter, const FMinoInfo& MinoInfo)
 
 void UMino::ClearMaterialCache()
 {
+	UE_LOG(LogTemp, Warning, TEXT("Clearing material cache."));
 	MaterialCache.Empty();
 }
 
