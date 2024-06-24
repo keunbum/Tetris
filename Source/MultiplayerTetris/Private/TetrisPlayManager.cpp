@@ -32,6 +32,7 @@ void ATetrisPlayManager::Initialize()
 	// Board
 	Board = World->SpawnActor<ABoard>();
 	check(Board != nullptr);
+	Board->Initialize();
 
 	// TetriminoGenerator
 	TetriminoGenerator = NewObject<UTetriminoGenerator>(this);
