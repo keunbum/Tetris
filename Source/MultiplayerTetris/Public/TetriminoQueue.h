@@ -37,5 +37,6 @@ public:
 	ATetrimino* Dequeue();
 
 private:
+	UPROPERTY()
 	TArray<TObjectPtr<ATetrimino>> TetriminoArray;
 };
