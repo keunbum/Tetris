@@ -22,8 +22,8 @@ ABoard::ABoard()
 
 	MinoClass = UMino::StaticClass();
 
-	BackgroundRoot = CreateDefaultSubobject<USceneComponent>(TEXT("BackgroundRoot"));
-	BackgroundRoot->SetupAttachment(RootComponent);
+	MatrixRoot = CreateDefaultSubobject<USceneComponent>(TEXT("MatrixRoot"));
+	MatrixRoot->SetupAttachment(RootComponent);
 }
 
 void ABoard::Initialize()
@@ -64,7 +64,7 @@ void ABoard::AddMinos(const ATetrimino* Tetrimino)
 		UMino* const Mino = MinoArray[MinoIndex];
 		// Change ownership of the component to the board
 		Mino->Rename(nullptr, this);
-		Mino->AttachToWithMatrixLocation(BackgroundRoot, MinoMatrixLocation);
+		Mino->AttachToWithMatrixLocation(MatrixRoot, MinoMatrixLocation);
 		SetMinoByMatrixLocation(Mino, MinoMatrixLocation);
 	}
 }
@@ -80,7 +80,7 @@ void ABoard::InitializeBackground()
 			static constexpr float Z = 0 - UMino::UnitLength;
 			UMino* const Mino = UMino::CreateMino(this, MinoInfo);
 			check(Mino != nullptr);
-			Mino->AttachToWithMatrixLocation(BackgroundRoot, MinoMatrixLocation, Z);
+			Mino->AttachToWithMatrixLocation(MatrixRoot, MinoMatrixLocation, Z);
 		}
 	}
 }

@@ -69,7 +69,7 @@ private:
 	TSubclassOf<UMino> MinoClass;
 
 	UPROPERTY()
-	TObjectPtr<USceneComponent> BackgroundRoot;
+	TObjectPtr<USceneComponent> MatrixRoot;
 
 	UPROPERTY(VisibleAnywhere)
 	TArray<TObjectPtr<UMino>> MinoMatrix;
