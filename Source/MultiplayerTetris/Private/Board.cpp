@@ -26,6 +26,12 @@ ABoard::ABoard()
 	BackgroundRoot->SetupAttachment(RootComponent);
 }
 
+void ABoard::Initialize()
+{
+	InitializeBackground();
+	InitializeMinoMatrix();
+}
+
 bool ABoard::IsMovementPossible(const ATetrimino* Tetrimino, const FIntPoint& MovementIntPoint2D) const
 {
 	check(Tetrimino != nullptr);
@@ -68,12 +74,6 @@ void ABoard::BeginPlay()
 	Super::BeginPlay();
 
 	Initialize();
-}
-
-void ABoard::Initialize()
-{
-	InitializeBackground();
-	InitializeMinoMatrix();
 }
 
 void ABoard::InitializeBackground()

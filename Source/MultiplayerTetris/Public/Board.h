@@ -24,6 +24,7 @@ class MULTIPLAYERTETRIS_API ABoard : public AActor
 	
 public:
 	ABoard();
+	void Initialize();
 
 	bool IsMovementPossible(const ATetrimino* Tetrimino, const FIntPoint& MovementIntPoint2D) const;
 	bool IsRotationPossible(const ATetrimino* Tetrimino, const ETetriminoRotationDirection RotationDirection, const FIntPoint& RotationPointOffset) const;
@@ -34,7 +35,6 @@ protected:
 	virtual void BeginPlay() override;
 
 private:
-	void Initialize();
 	void InitializeBackground();
 	void InitializeMinoMatrix();
 	int32 GetMatrixIndexByMatrixLocation(const FIntPoint& MatrixLocation) const;
