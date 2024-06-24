@@ -45,12 +45,12 @@ void ATetriminoQueue::ReArrangeQueue()
 	for (int32 Index = 0; Index < TetriminoArray.Num(); ++Index)
 	{
 		ATetrimino* const Tetrimino = TetriminoArray[Index];
-		const FVector TetriminoLocalLocation = GetTetriminoLocalLocation(Index);
-		Tetrimino->SetActorRelativeLocation(TetriminoLocalLocation);
+		const FVector NewLocation = ATetriminoQueue::GetTetriminoLocalLocationByIndex(Index);
+		Tetrimino->SetActorRelativeLocation(NewLocation);
 	}
 }
 
-FVector ATetriminoQueue::GetTetriminoLocalLocation(const int32 Index) const
+FVector ATetriminoQueue::GetTetriminoLocalLocationByIndex(const int32 Index)
 {
 	return FVector(0.0f, TetriminoYOffset * Index, 0.0f);
 }

@@ -49,7 +49,7 @@ public:
 	void ReArrangeQueue();
 
 private:
-	FVector GetTetriminoLocalLocation(const int32 Index) const;
+	static FVector GetTetriminoLocalLocationByIndex(const int32 Index);
 
 private:
 	static constexpr float TetriminoYOffset = -(UMino::UnitLength * 4.0f);
