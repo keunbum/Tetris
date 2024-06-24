@@ -336,6 +336,7 @@ ATetrimino::ATetrimino()
 	PrimaryActorTick.bCanEverTick = false;
 
 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
+	check(RootComponent != nullptr);
 }
 
 const TArray<FIntPoint>& ATetrimino::GetMinoMatrixLocalLocations() const
@@ -463,6 +464,7 @@ void ATetrimino::SetRelativeLocationByMatrixLocation(const FIntPoint& NewMatrixL
 
 void ATetrimino::AttachToComponentByMatrixLocation(USceneComponent* const NewParentComponent, const FIntPoint& InitialMatrixLocation)
 {
+	check(NewParentComponent != nullptr);
 	RootComponent->AttachToComponent(NewParentComponent, FAttachmentTransformRules::KeepRelativeTransform);
 	SetRelativeLocationByMatrixLocation(InitialMatrixLocation);
 }
