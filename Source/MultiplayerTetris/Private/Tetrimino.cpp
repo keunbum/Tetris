@@ -387,7 +387,8 @@ void ATetrimino::RotateTo(const ETetriminoRotationDirection RotationDirection)
 
 void ATetrimino::AttachToBoard(ABoard* const Board)
 {
-	AttachToActor(Board, FAttachmentTransformRules::KeepRelativeTransform);
+	// Attach RootComponent To Board's MatrixRoot
+	RootComponent->AttachToComponent(Board->GetMatrixRoot(), FAttachmentTransformRules::KeepRelativeTransform);
 	MoveBy(GetInitialMatrixLocation());
 }
 

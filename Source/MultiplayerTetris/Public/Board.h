@@ -29,6 +29,8 @@ public:
 	bool IsMovementPossible(const ATetrimino* Tetrimino, const FIntPoint& MovementIntPoint2D) const;
 	bool IsRotationPossible(const ATetrimino* Tetrimino, const ETetriminoRotationDirection RotationDirection, const FIntPoint& RotationPointOffset) const;
 
+	USceneComponent* GetMatrixRoot() const { return MatrixRoot; }
+
 	void AddMinos(const ATetrimino* Tetrimino);
 
 private:
