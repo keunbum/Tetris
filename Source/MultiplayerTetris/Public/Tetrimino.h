@@ -97,10 +97,12 @@ public:
 
 protected:
 	void SetFacing(const ETetriminoFacing NewFacing) { Facing = NewFacing; }
+	void SetMatrixLocation(const FIntPoint& NewMatrixLocation) { MatrixLocation = NewMatrixLocation; }
 
 	void InitializeMinoArray();
 	void UpdateMinoMatrixLocalLocations();
 
+	void SetRelativeLocationByMatrixLocation(const FIntPoint& NewMatrixLocation);
 	static const FTetriminoShapeInfo& GetTetriminoShapeInfoByShape(const ETetriminoShape Shape);
 	static const FIntPoint& GetInitialMatrixLocationByShape(const ETetriminoShape Shape);
 

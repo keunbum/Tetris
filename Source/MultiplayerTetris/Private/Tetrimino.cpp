@@ -456,6 +456,13 @@ void ATetrimino::UpdateMinoMatrixLocalLocations()
 	}
 }
 
+void ATetrimino::SetRelativeLocationByMatrixLocation(const FIntPoint& NewMatrixLocation)
+{
+	const FVector ActorLocalOffset(UMino::GetRelativeLocationByMatrixLocation(NewMatrixLocation));
+	SetActorRelativeLocation(ActorLocalOffset);
+	SetMatrixLocation(NewMatrixLocation);
+}
+
 const FTetriminoShapeInfo& ATetrimino::GetTetriminoShapeInfoByShape(const ETetriminoShape Shape)
 {
 	const FTetriminoShapeInfo* TetriminoShapeInfo = TetriminoShapeInfos.Find(Shape);
