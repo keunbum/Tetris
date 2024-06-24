@@ -19,13 +19,16 @@ ABoard::ABoard()
 	PrimaryActorTick.bCanEverTick = false;
 
 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
+	check(RootComponent != nullptr);
 
 	MinoClass = UMino::StaticClass();
 
 	MatrixRoot = CreateDefaultSubobject<USceneComponent>(TEXT("MatrixRoot"));
+	check(MatrixRoot != nullptr);
 	MatrixRoot->SetupAttachment(RootComponent);
 
 	BackgroundRoot = CreateDefaultSubobject<USceneComponent>(TEXT("BackgroundRoot"));
+	check(BackgroundRoot != nullptr);
 	BackgroundRoot->SetupAttachment(RootComponent);
 }
 
