@@ -36,8 +36,6 @@ public:
 	 */
 	ATetrimino* Dequeue();
 
-	void AttachToBoard(ABoard* const Board);
-
 private:
 	TArray<TObjectPtr<ATetrimino>> TetriminoArray;
 };
