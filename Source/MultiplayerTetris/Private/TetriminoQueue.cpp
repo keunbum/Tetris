@@ -34,6 +34,17 @@ ATetrimino* ATetriminoQueue::Dequeue()
 	TetriminoArray.RemoveAt(0);
 	return NextTetrimino;
 }
+
+void ATetriminoQueue::ReArrangeQueue()
+{
+	for (int32 Index = 0; Index < TetriminoArray.Num(); ++Index)
+	{
+		ATetrimino* const Tetrimino = TetriminoArray[Index];
+		const FVector TetriminoLocalLocation = GetTetriminoLocalLocation(Index);
+		Tetrimino->SetActorRelativeLocation(TetriminoLocalLocation);
+	}
+}
+
 FVector ATetriminoQueue::GetTetriminoLocalLocation(const int32 Index) const
 {
 	return FVector(0.0f, TetriminoYOffset * Index, 0.0f);
