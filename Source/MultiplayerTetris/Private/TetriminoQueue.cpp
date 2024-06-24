@@ -24,3 +24,7 @@ ATetrimino* ATetriminoQueue::Dequeue()
 	TetriminoArray.RemoveAt(0);
 	return NextTetrimino;
 }
+
+void ATetriminoQueue::AttachToBoard(ABoard* const Board)
+{
+}

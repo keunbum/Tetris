@@ -8,6 +8,7 @@
 #include "TetriminoQueue.generated.h"
 
 class ATetrimino;
+class ABoard;
 
 /**
  * ATetriminoQueue is an Actor responsible for managing a queue of Tetriminos in the game.
@@ -34,6 +35,8 @@ public:
 	 * @return The next Tetrimino in the queue, or nullptr if the queue is empty.
 	 */
 	ATetrimino* Dequeue();
+
+	void AttachToBoard(ABoard* const Board);
 
 private:
 	TArray<TObjectPtr<ATetrimino>> TetriminoArray;
