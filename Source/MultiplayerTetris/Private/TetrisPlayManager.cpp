@@ -132,6 +132,7 @@ void ATetrisPlayManager::InitializeNextQueue()
 	{
 		SpawnAndPushTetriminoToNextQueue();
 	}
+	NextQueue->ReArrangeTetriminoLocations();
 }
 
 void ATetrisPlayManager::StartFallingPhase()
@@ -303,6 +304,7 @@ ATetrimino* ATetrisPlayManager::PopTetriminoFromNextQueue()
 	ATetrimino* const NextTetrimino = NextQueue->Dequeue();
 	check(NextTetrimino != nullptr);
 	SpawnAndPushTetriminoToNextQueue();
+	NextQueue->ReArrangeTetriminoLocations();
 	return NextTetrimino;
 }
 
