@@ -161,15 +161,6 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<ATetriminoQueue> NextQueue;
 
-	// User Input Timers
-	FTimerHandle NormalFallTimerHandle;
-	FTimerHandle SoftDropTimerHandle;
-	FTimerHandle AutoRepeatMovementTimerHandle;
-
-	// Game Logic Timers
-	FTimerHandle LockDownTimerHandle;
-	FTimerHandle GenerationPhaseTimerHandle;
-
 	UPROPERTY(VisibleAnywhere)
 	FVector2D TetriminoMovementDirection;
 
@@ -178,4 +169,13 @@ private:
 
 	UPROPERTY(EditDefaultsOnly)
 	ETetriminoShape TestSpawnShape = ETetriminoShape::None;
+
+	// User Input Timers
+	FTimerHandle NormalFallTimerHandle;
+	FTimerHandle SoftDropTimerHandle;
+	FTimerHandle AutoRepeatMovementTimerHandle;
+
+	// Game Logic Timers
+	FTimerHandle LockDownTimerHandle;
+	FTimerHandle GenerationPhaseTimerHandle;
 };
