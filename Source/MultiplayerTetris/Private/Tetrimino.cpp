@@ -333,14 +333,10 @@ ATetrimino::ATetrimino()
 	, MinoArray()
 	, GhostPiece(nullptr)
 {
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 
 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
-}
-
-void ATetrimino::Tick(const float DeltaTime)
-{
-	Super::Tick(DeltaTime);
+	check(RootComponent != nullptr);
 }
 
 const TArray<FIntPoint>& ATetrimino::GetMinoMatrixLocalLocations() const
@@ -379,7 +375,7 @@ void ATetrimino::Initialize(const ETetriminoShape NewTetriminoShape)
 
 void ATetrimino::MoveBy(const FIntPoint& IntPoint2D)
 {
-	const FVector ActorLocalOffset(UMino::Get3DRelativePositionByMatrixLocation(IntPoint2D));
+	const FVector ActorLocalOffset(UMino::GetRelativeLocationByMatrixLocation(IntPoint2D));
 	AddActorLocalOffset(ActorLocalOffset);
 	MatrixLocation += IntPoint2D;
 }
@@ -392,8 +388,7 @@ void ATetrimino::RotateTo(const ETetriminoRotationDirection RotationDirection)
 
 void ATetrimino::AttachToBoard(ABoard* const Board)
 {
-	AttachToActor(Board, FAttachmentTransformRules::KeepRelativeTransform);
-	MoveBy(GetInitialMatrixLocation());
+	AttachToComponentByMatrixLocation(Board->GetMatrixRoot(), GetInitialMatrixLocation());
 }
 
 void ATetrimino::DetachMinos()
@@ -433,11 +428,6 @@ const TArray<FIntPoint>& ATetrimino::GetMinoMatrixLocalLocationsByTetriminoShape
 	return TetriminoShapeInfo.MinoMatrixLocalLocationsByFacing[Facing];
 }
 
-void ATetrimino::BeginPlay()
-{
-	Super::BeginPlay();
-}
-
 void ATetrimino::InitializeMinoArray()
 {
 	const TArray<FIntPoint>& MinoMatrixLocalLocations = GetMinoMatrixLocalLocations();
@@ -463,6 +453,20 @@ void ATetrimino::UpdateMinoMatrixLocalLocations()
 		const FIntPoint& NewMinoMatrixLocalLocation = MinoMatrixLocalLocations[MinoIndex];
 		Mino->SetRelativeLocationByMatrixLocation(NewMinoMatrixLocalLocation);
 	}
+}
+
+void ATetrimino::SetRelativeLocationByMatrixLocation(const FIntPoint& NewMatrixLocation)
+{
+	const FVector ActorLocalOffset(UMino::GetRelativeLocationByMatrixLocation(NewMatrixLocation));
+	SetActorRelativeLocation(ActorLocalOffset);
+	SetMatrixLocation(NewMatrixLocation);
+}
+
+void ATetrimino::AttachToComponentByMatrixLocation(USceneComponent* const NewParentComponent, const FIntPoint& InitialMatrixLocation)
+{
+	check(NewParentComponent != nullptr);
+	RootComponent->AttachToComponent(NewParentComponent, FAttachmentTransformRules::KeepRelativeTransform);
+	SetRelativeLocationByMatrixLocation(InitialMatrixLocation);
 }
 
 const FTetriminoShapeInfo& ATetrimino::GetTetriminoShapeInfoByShape(const ETetriminoShape Shape)

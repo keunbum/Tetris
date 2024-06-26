@@ -21,7 +21,7 @@ UMino::UMino()
 
 void UMino::SetRelativeLocationByMatrixLocation(const FIntPoint& MatrixLocation, const float Z)
 {
-	SetRelativeLocation(UMino::Get3DRelativePositionByMatrixLocation(MatrixLocation, Z));
+	SetRelativeLocation(UMino::GetRelativeLocationByMatrixLocation(MatrixLocation, Z));
 }
 
 void UMino::AttachToWithMatrixLocation(USceneComponent* const Parent, const FIntPoint& MatrixLocation, const float Z)
@@ -35,7 +35,9 @@ UMino* UMino::CreateMino(UObject* const InOuter, const FMinoInfo& MinoInfo)
 	if (UMino* const Mino = NewObject<UMino>(InOuter))
 	{
 		static constexpr int32 ElementIndex = 0;
-		Mino->SetMaterial(ElementIndex, UMino::GetMaterialInstanceByMinoInfo(InOuter, MinoInfo));
+		UMaterialInstanceDynamic* const MaterialInstance = UMino::GetMaterialInstanceByMinoInfo(InOuter, MinoInfo);
+		ensureMsgf(MaterialInstance != nullptr, TEXT("Failed to create material instance: %s"), *MinoInfo.MaterialPath);
+		Mino->SetMaterial(ElementIndex, MaterialInstance);
 		Mino->RegisterComponent();
 		return Mino;
 	}
@@ -44,10 +46,12 @@ UMino* UMino::CreateMino(UObject* const InOuter, const FMinoInfo& MinoInfo)
 
 void UMino::ClearMaterialCache()
 {
+	UE_LOG(LogTemp, Warning, TEXT("Clearing material cache."));
 	MaterialCache.Empty();
+	check(UMino::IsMaterialCacheEmpty());
 }
 
-FVector UMino::Get3DRelativePositionByMatrixLocation(const FIntPoint& MatrixLocation, const float Z)
+FVector UMino::GetRelativeLocationByMatrixLocation(const FIntPoint& MatrixLocation, const float Z)
 {
 	const float X = -UnitLength * MatrixLocation.Y;
 	const float Y = -UnitLength * MatrixLocation.X;
@@ -67,10 +71,10 @@ UMaterialInstanceDynamic* UMino::GetMaterialInstanceByMinoInfo(UObject* const In
 
 	const FString MaterialKey = MinoInfo.MaterialPath + MinoInfo.Color.ToString();
 
-	if (UMaterialInstanceDynamic** const FoundMaterial = MaterialCache.Find(MaterialKey))
-	{
-		return *FoundMaterial;
-	}
+	//if (UMaterialInstanceDynamic** const FoundMaterial = MaterialCache.Find(MaterialKey))
+	//{
+	//	return *FoundMaterial;
+	//}
 
 	if (UMaterialInterface* const BaseMaterial = UMino::GetMaterialByMinoInfo(MinoInfo))
 	{

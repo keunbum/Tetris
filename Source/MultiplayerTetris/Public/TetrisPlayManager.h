@@ -9,10 +9,11 @@
 
 #include "TetrisPlayManager.generated.h"
 
-class ATetrimino;
 class ATetrisGameModeBase;
+class ATetrimino;
 class ABoard;
-class UInputComponent;
+class ATetriminoQueue;
+class UTetriminoGenerator;
 
 UENUM()
 enum class ELockDownOption : uint8
@@ -48,14 +49,12 @@ class MULTIPLAYERTETRIS_API ATetrisPlayManager : public AActor
 public:
 	ATetrisPlayManager();
 
-	virtual void Tick(const float DeltaTime) override;
+	void Initialize();
 
-	const FVector2D& GetMovementDirection() const { return CurrentMovementDirection; }
-	void SetTetriminoInPlay(ATetrimino* const NewTetriminoInPlay) { TetriminoInPlay = NewTetriminoInPlay; }
+	const FVector2D& GetTetriminoMovementDirection() const { return TetriminoMovementDirection; }
 	void SetNormalFallSpeed(const float NewNormalFallSpeed) { NormalFallSpeed = NewNormalFallSpeed; }
 
 	void StartGenerationPhase();
-	void StartFallingPhase();
 
 	// Event Handlers
 	void StartMovement(const FVector2D& InMovementDirection);
@@ -65,16 +64,16 @@ public:
 	void DoHardDrop();
 	void DoRotation(const ETetriminoRotationDirection RotationDirection);
 
-protected:
-	virtual void BeginPlay() override;
-
 private:
-	void Initialize();
+	// Initialization
+	void InitializeNextQueue();
 
-	bool IsTetriminoManipulable() const { return Phase == EPhase::Falling; }
+	// Phase Flow
+	void StartFallingPhase();
 
+	// User Input
 	void MoveTetriminoTo(const FVector2D& Direction);
-	void MoveTetriminoToCurrentDirection();
+	void MoveTetrimino();
 	void MoveTetriminoDown();
 
 	void RunSuperRotationSystem(const ETetriminoRotationDirection RotationDirection);
@@ -82,7 +81,7 @@ private:
 	void LockDown();
 	void ForcedLockDown();
 
-	void SetAutoRepeatMovement();
+	void SetAutoRepeatMovementTimer();
 	void SetSoftDropTimer();
 	void SetNormalFallTimer();
 	void SetLockDownTimer();
@@ -91,15 +90,21 @@ private:
 	void ClearTimers(const TArray<FTimerHandle*>& TimerHandles);
 	void ClearUserInputTimers();
 
-	void SetPhase(const EPhase NewPhase) { Phase = NewPhase; }
-	void SetMovementDirection(const FVector2D& NewMovementDirection) { CurrentMovementDirection = NewMovementDirection; }
+	// Tetrimino
+	ATetrimino* PopTetriminoFromNextQueue();
+	void SpawnAndPushTetriminoToNextQueue();
+	ATetrimino* SpawnNextTetrimino() const;
 
-	ATetrimino* SpawnNewTetrimino() const;
-	void ChangeTetrimino(ATetrimino* const NewTetrimino);
+	// Basic Member Variables
+	void SetPhase(const EPhase NewPhase) { Phase = NewPhase; }
+	bool IsTetriminoManipulable() const { return Phase == EPhase::Falling; }
+	void SetTetriminoMovementDirection(const FVector2D& NewTetriminoMovementDirection) { TetriminoMovementDirection = NewTetriminoMovementDirection; }
+	void SetTetriminoInPlay(ATetrimino* const NewTetriminoInPlay);
 
 	// Effect
-	void PlayLockDownEffect(const TArray<UMino*>& GetMinoArray);
-
+	void PlayLockDownEffect(const TArray<UMino*>& MinoArray);
+	
+	// static method
 	static FIntPoint GetMovementIntVector2D(const FVector2D& Direction);
 
 private:
@@ -124,13 +129,11 @@ private:
 	static constexpr bool bIsLockDownTimerLoop = false;
 	static constexpr float LockDownTimerInitialDelay = 0.5f;
 
-	// Etc
+	// GenerationPhase
 	static constexpr bool bIsGenerationPhaseTimerLoop = false;
 	static constexpr float GenerationPhaseInitialDelay = 0.2f;
 
 private:
-	float NormalFallSpeed;
-
 	UPROPERTY(VisibleAnywhere)
 	EPhase Phase;
 
@@ -140,17 +143,23 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	bool bIsGhostPieceOn;
 
-	UPROPERTY()
-	TObjectPtr<ATetrisGameModeBase> GameMode;
+	UPROPERTY(VisibleAnywhere)
+	float NormalFallSpeed;
 
 	UPROPERTY()
-	TObjectPtr<ABoard> Board;
+	TObjectPtr<ATetrisGameModeBase> GameMode;
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<ATetrimino> TetriminoClass;
 
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<ATetrimino> TetriminoInPlay;
+
+	UPROPERTY()
+	TObjectPtr<ABoard> Board;
+
+	UPROPERTY(VisibleAnywhere)
+	TObjectPtr<ATetriminoQueue> NextQueue;
 
 	// User Input Timers
 	FTimerHandle NormalFallTimerHandle;
@@ -162,8 +171,11 @@ private:
 	FTimerHandle GenerationPhaseTimerHandle;
 
 	UPROPERTY(VisibleAnywhere)
-	FVector2D CurrentMovementDirection;
+	FVector2D TetriminoMovementDirection;
+
+	UPROPERTY()
+	TObjectPtr<UTetriminoGenerator> TetriminoGenerator;
 
 	UPROPERTY(EditDefaultsOnly)
-	ETetriminoShape TestSpawnType = ETetriminoShape::None;
+	ETetriminoShape TestSpawnShape = ETetriminoShape::None;
 };

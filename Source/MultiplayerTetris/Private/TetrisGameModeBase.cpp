@@ -9,7 +9,6 @@
 
 #include "Tetrimino.h"
 #include "TetrisPlayManager.h"
-#include "TetrisMatrix.h"
 #include "Board.h"
 #include "TetrisPlayerController.h"
 
@@ -46,6 +45,9 @@ void ATetrisGameModeBase::Initialize()
 
 	TetrisPlayerController = Cast<ATetrisPlayerController>(UGameplayStatics::GetPlayerController(World, PlayerIndex));
 	check(TetrisPlayerController != nullptr);
+
+	TetrisPlayManager->Initialize();
+	TetrisPlayerController->Initialize();
 }
 
 void ATetrisGameModeBase::StartGamePlay()

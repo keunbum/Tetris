@@ -14,12 +14,6 @@
 #include "TetrisGameModeBase.h"
 #include "TetrisPlayManager.h"
 
-void ATetrisPlayerController::BeginPlay()
-{
-	Super::BeginPlay();
-	Initialize();
-}
-
 void ATetrisPlayerController::Initialize()
 {
 	InitializeCamera();
@@ -169,7 +163,7 @@ void ATetrisPlayerController::EndTetriminoMovement(const EKeyFlags KeyReleased)
 	{
 		const FVector2D& DirectionReleased = GetDirectionByKeyFlag(KeyReleased);
 		// 테트로미노 현재 이동 중인 방향 키를 뗐을 경우
-		if (GameMode->GetTetrisPlayManager()->GetMovementDirection() == DirectionReleased)
+		if (GameMode->GetTetrisPlayManager()->GetTetriminoMovementDirection() == DirectionReleased)
 		{
 			const FVector2D OppositeDirection = -DirectionReleased;
 			GameMode->GetTetrisPlayManager()->StartMovement(OppositeDirection);

@@ -24,18 +24,17 @@ class MULTIPLAYERTETRIS_API ABoard : public AActor
 	
 public:
 	ABoard();
-	virtual void Tick(const float DeltaTime) override;
+	void Initialize();
 
 	bool IsMovementPossible(const ATetrimino* Tetrimino, const FIntPoint& MovementIntPoint2D) const;
 	bool IsRotationPossible(const ATetrimino* Tetrimino, const ETetriminoRotationDirection RotationDirection, const FIntPoint& RotationPointOffset) const;
 
+	USceneComponent* GetMatrixRoot() const { return MatrixRoot; }
+	USceneComponent* GetNextQueueRoot() const { return NextQueueRoot; }
+
 	void AddMinos(const ATetrimino* Tetrimino);
 
-protected:
-	virtual void BeginPlay() override;
-
 private:
-	void Initialize();
 	void InitializeBackground();
 	void InitializeMinoMatrix();
 	int32 GetMatrixIndexByMatrixLocation(const FIntPoint& MatrixLocation) const;
@@ -70,10 +69,19 @@ private:
 	static const FMinoInfo SpecialMinoInfo;
 
 	UPROPERTY(EditDefaultsOnly)
+	FVector NextQueueRelativeLocation;
+
+	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UMino> MinoClass;
 
 	UPROPERTY()
+	TObjectPtr<USceneComponent> MatrixRoot;
+
+	UPROPERTY()
 	TObjectPtr<USceneComponent> BackgroundRoot;
+
+	UPROPERTY()
+	TObjectPtr<USceneComponent> NextQueueRoot;
 
 	UPROPERTY(VisibleAnywhere)
 	TArray<TObjectPtr<UMino>> MinoMatrix;

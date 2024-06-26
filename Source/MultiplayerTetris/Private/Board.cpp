@@ -16,19 +16,34 @@ const FMinoInfo ABoard::SpecialMinoInfo = FMinoInfo(TEXT("/Game/Material/M_MinoM
 
 ABoard::ABoard()
 {
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
+
+	NextQueueRelativeLocation = FVector(UMino::UnitLength * -12.f, UMino::UnitLength * -15.f, 0.f);
 
 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
+	check(RootComponent != nullptr);
 
 	MinoClass = UMino::StaticClass();
 
+	MatrixRoot = CreateDefaultSubobject<USceneComponent>(TEXT("MatrixRoot"));
+	check(MatrixRoot != nullptr);
+	MatrixRoot->SetupAttachment(RootComponent);
+
 	BackgroundRoot = CreateDefaultSubobject<USceneComponent>(TEXT("BackgroundRoot"));
+	check(BackgroundRoot != nullptr);
 	BackgroundRoot->SetupAttachment(RootComponent);
+
+	NextQueueRoot = CreateDefaultSubobject<USceneComponent>(TEXT("NextQueueRoot"));
+	check(NextQueueRoot != nullptr);
+	NextQueueRoot->SetupAttachment(RootComponent);
+	// Set NextQueueRoot's relative location
+	NextQueueRoot->SetRelativeLocation(NextQueueRelativeLocation);
 }
 
-void ABoard::Tick(const float DeltaTime)
+void ABoard::Initialize()
 {
-	Super::Tick(DeltaTime);
+	InitializeBackground();
+	InitializeMinoMatrix();
 }
 
 bool ABoard::IsMovementPossible(const ATetrimino* Tetrimino, const FIntPoint& MovementIntPoint2D) const
@@ -63,22 +78,9 @@ void ABoard::AddMinos(const ATetrimino* Tetrimino)
 		UMino* const Mino = MinoArray[MinoIndex];
 		// Change ownership of the component to the board
 		Mino->Rename(nullptr, this);
-		Mino->AttachToWithMatrixLocation(BackgroundRoot, MinoMatrixLocation);
+		Mino->AttachToWithMatrixLocation(MatrixRoot, MinoMatrixLocation);
 		SetMinoByMatrixLocation(Mino, MinoMatrixLocation);
 	}
-}
-
-void ABoard::BeginPlay()
-{
-	Super::BeginPlay();
-
-	Initialize();
-}
-
-void ABoard::Initialize()
-{
-	InitializeBackground();
-	InitializeMinoMatrix();
 }
 
 void ABoard::InitializeBackground()
@@ -89,7 +91,7 @@ void ABoard::InitializeBackground()
 		for (int32 Col = 0; Col < TotalWidth; ++Col)
 		{
 			const FIntPoint MinoMatrixLocation(Row, Col);
-			static constexpr float Z = 0 - UMino::UnitLength;
+			static constexpr float Z = 0.f - UMino::UnitLength;
 			UMino* const Mino = UMino::CreateMino(this, MinoInfo);
 			check(Mino != nullptr);
 			Mino->AttachToWithMatrixLocation(BackgroundRoot, MinoMatrixLocation, Z);
@@ -126,9 +128,8 @@ void ABoard::SetMinoByMatrixLocation(UMino* const Mino, const FIntPoint& MatrixL
 
 bool ABoard::IsMatrixLocationEmpty(const FIntPoint& MatrixLocation) const
 {
-	UMino* const Mino = GetMinoByMatrixLocation(MatrixLocation);
-	const bool bIsMinoValid = (Mino != nullptr) && !Mino->IsPendingKill();
-	return !bIsMinoValid;
+	const UMino* Mino = GetMinoByMatrixLocation(MatrixLocation);
+	return !IsValid(Mino);
 }
 
 bool ABoard::IsMinoLocationsPossible(const FIntPoint& TetriminoMatrixLocation, const TArray<FIntPoint>& MinoLocalMatrixLocations) const
