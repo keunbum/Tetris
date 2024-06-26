@@ -24,6 +24,9 @@ void ATetrisPlayManager::Initialize()
 {
 	UE_LOG(LogTemp, Display, TEXT("TetrisPlayManager is initialized."));
 
+	// UMino
+	UMino::ClearMaterialCache();
+
 	UWorld* const World = GetWorld();
 	check(World != nullptr);
 	GameMode = World->GetAuthGameMode<ATetrisGameModeBase>();
@@ -44,9 +47,6 @@ void ATetrisPlayManager::Initialize()
 	NextQueue = World->SpawnActor<ATetriminoQueue>(ATetriminoQueue::StaticClass());
 	check(NextQueue != nullptr);
 	InitializeNextQueue();
-
-	// UMino
-	UMino::ClearMaterialCache();
 }
 
 void ATetrisPlayManager::StartGenerationPhase()
