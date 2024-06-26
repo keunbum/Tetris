@@ -11,6 +11,7 @@
 
 class ATetrisGameModeBase;
 class ATetrimino;
+class AGhostPiece;
 class ABoard;
 class ATetriminoQueue;
 class UTetriminoGenerator;
@@ -154,6 +155,12 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<ATetrimino> TetriminoInPlay;
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<AGhostPiece> GhostPieceClass;
+
+	UPROPERTY(VisibleAnywhere)
+	TObjectPtr<AGhostPiece> GhostPiece;
 
 	UPROPERTY()
 	TObjectPtr<ABoard> Board;

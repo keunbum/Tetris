@@ -5,6 +5,7 @@
 #include "Board.h"
 #include "TetrisGameModeBase.h"
 #include "Tetrimino.h"
+#include "GhostPiece.h"
 #include "TetrisPlayerController.h"
 #include "TetriminoGenerator.h"
 #include "TetriminoQueue.h"
@@ -16,6 +17,8 @@ ATetrisPlayManager::ATetrisPlayManager()
 	, NormalFallSpeed(-1.0f)
 	, TetriminoClass(ATetrimino::StaticClass())
 	, TetriminoInPlay(nullptr)
+	, GhostPieceClass(AGhostPiece::StaticClass())
+	, GhostPiece(nullptr)
 {
 	PrimaryActorTick.bCanEverTick = false;
 }
