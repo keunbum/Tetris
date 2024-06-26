@@ -48,6 +48,7 @@ void UMino::ClearMaterialCache()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Clearing material cache."));
 	MaterialCache.Empty();
+	check(UMino::IsMaterialCacheEmpty());
 }
 
 FVector UMino::GetRelativeLocationByMatrixLocation(const FIntPoint& MatrixLocation, const float Z)
