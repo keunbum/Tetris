@@ -22,6 +22,8 @@ ATetrisPlayManager::ATetrisPlayManager()
 
 void ATetrisPlayManager::Initialize()
 {
+	UE_LOG(LogTemp, Display, TEXT("TetrisPlayManager is initialized."));
+
 	UWorld* const World = GetWorld();
 	check(World != nullptr);
 	GameMode = World->GetAuthGameMode<ATetrisGameModeBase>();
