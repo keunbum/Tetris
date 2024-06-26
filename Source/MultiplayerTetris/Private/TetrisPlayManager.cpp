@@ -155,7 +155,7 @@ void ATetrisPlayManager::MoveTetriminoTo(const FVector2D& Direction)
 {
 	if (!TetriminoInPlay)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("TetriminoInPlay is nullptr."));
+		UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayManager::MoveTetriminoTo(): TetriminoInPlay is nullptr."));
 		return;
 	}
 
