@@ -83,8 +83,9 @@ public:
 	const FIntPoint& GetMatrixLocation() const { return MatrixLocation; }
 	const TArray<UMino*>& GetMinoArray() const { return MinoArray; }
 
-	void Initialize(const ETetriminoShape NewTetriminoShape);
 	void SetShape(const ETetriminoShape NewShape) { Shape = NewShape; }
+
+	void Initialize(const ETetriminoShape NewTetriminoShape);
 	void MoveBy(const FIntPoint& IntVector2D);
 	void RotateTo(const ETetriminoRotationDirection RotationDirection);
 	void AttachToBoard(ABoard* const Board);
