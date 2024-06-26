@@ -331,6 +331,7 @@ ATetrimino::ATetrimino()
 	, MatrixLocation(FIntPoint(0, 0))
 	, MinoClass(UMino::StaticClass())
 	, MinoArray()
+	, bIsGhostPieceOn(false)
 	, GhostPiece(nullptr)
 {
 	PrimaryActorTick.bCanEverTick = false;
