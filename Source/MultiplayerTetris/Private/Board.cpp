@@ -46,7 +46,7 @@ void ABoard::Initialize()
 	InitializeMinoMatrix();
 }
 
-bool ABoard::IsMovementPossible(const ATetriminoBase* Tetrimino, const FIntPoint& MovementIntPoint2D) const
+bool ABoard::IsMovementPossible(const ATetrimino* Tetrimino, const FIntPoint& MovementIntPoint2D) const
 {
 	check(Tetrimino != nullptr);
 	const FIntPoint NewTetriminoMatrixLocation = Tetrimino->GetMatrixLocation() + MovementIntPoint2D;
@@ -54,7 +54,7 @@ bool ABoard::IsMovementPossible(const ATetriminoBase* Tetrimino, const FIntPoint
 	return IsMinoLocationsPossible(NewTetriminoMatrixLocation, MinoMatrixLocalLocations);
 }
 
-bool ABoard::IsRotationPossible(const ATetriminoBase* Tetrimino, const ETetriminoRotationDirection RotationDirection, const FIntPoint& RotationPointOffset) const
+bool ABoard::IsRotationPossible(const ATetrimino* Tetrimino, const ETetriminoRotationDirection RotationDirection, const FIntPoint& RotationPointOffset) const
 {
 	check(Tetrimino != nullptr);
 	const FIntPoint& NewTetriminoMatrixLocation = Tetrimino->GetMatrixLocation() + RotationPointOffset;
@@ -64,7 +64,7 @@ bool ABoard::IsRotationPossible(const ATetriminoBase* Tetrimino, const ETetrimin
 	return IsMinoLocationsPossible(NewTetriminoMatrixLocation, NewMinoLocalMatrixLocations);
 }
 
-void ABoard::AddMinos(const ATetriminoBase* Tetrimino)
+void ABoard::AddMinos(const ATetrimino* Tetrimino)
 {
 	check(Tetrimino != nullptr);
 
