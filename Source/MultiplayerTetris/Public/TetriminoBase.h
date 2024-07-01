@@ -82,7 +82,6 @@ public:
 	const FIntPoint& GetMatrixLocation() const { return MatrixLocation; }
 	const TArray<UMino*>& GetMinoArray() const { return MinoArray; }
 
-	void SetShape(const ETetriminoShape NewShape) { Shape = NewShape; }
 	void Initialize(const ETetriminoShape NewTetriminoShape);
 	void MoveBy(const FIntPoint& IntVector2D);
 	void RotateTo(const ETetriminoRotationDirection RotationDirection);
@@ -95,6 +94,7 @@ public:
 	static const TArray<FIntPoint>& GetMinoMatrixLocalLocationsByTetriminoShapeAndFacing(const ETetriminoShape Shape, const ETetriminoFacing Facing);
 
 protected:
+	void SetShape(const ETetriminoShape NewShape) { Shape = NewShape; }
 	void SetFacing(const ETetriminoFacing NewFacing) { Facing = NewFacing; }
 	void SetMatrixLocation(const FIntPoint& NewMatrixLocation) { MatrixLocation = NewMatrixLocation; }
 
