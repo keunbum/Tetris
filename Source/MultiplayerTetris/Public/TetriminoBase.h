@@ -93,7 +93,7 @@ public:
 	// static method
 	static ETetriminoShape GetTetriminoShapeRandom();
 	static const TArray<FIntPoint>& GetMinoMatrixLocalLocationsByTetriminoShapeAndFacing(const ETetriminoShape Shape, const ETetriminoFacing Facing);
-	static FIntPoint GetMovementIntVector2D(const FVector2D& Direction);
+	static FIntPoint GetMovementIntPoint2D(const FVector2D& Direction);
 
 protected:
 	void SetShape(const ETetriminoShape NewShape) { Shape = NewShape; }
