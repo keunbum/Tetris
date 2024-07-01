@@ -7,4 +7,5 @@ ATetrimino::ATetrimino()
 	: bIsGhostPieceOn(false)
 	, GhostPiece(nullptr)
 {
+	PrimaryActorTick.bCanEverTick = false;
 }
