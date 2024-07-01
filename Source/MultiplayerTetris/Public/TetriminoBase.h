@@ -62,7 +62,6 @@ struct FTetriminoShapeInfo
 
 /**
  * @class ATetriminoBase
- * @brief Represents a tetrimino in the game.
  */
 UCLASS()
 class MULTIPLAYERTETRIS_API ATetriminoBase : public AActor
