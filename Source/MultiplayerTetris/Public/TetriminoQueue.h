@@ -9,7 +9,7 @@
 
 #include "TetriminoQueue.generated.h"
 
-class ATetriminoBase;
+class ATetrimino;
 class ABoard;
 class USceneComponent;
 
@@ -38,13 +38,13 @@ public:
 	 * Adds a Tetrimino to the queue.
 	 * @param Tetrimino The Tetrimino to add to the queue.
 	 */
-	void Enqueue(ATetriminoBase* const Tetrimino);
+	void Enqueue(ATetrimino* const Tetrimino);
 
 	/**
 	 * Removes and returns the next Tetrimino from the queue.
 	 * @return The next Tetrimino in the queue, or nullptr if the queue is empty.
 	 */
-	ATetriminoBase* Dequeue();
+	ATetrimino* Dequeue();
 
 	void ReArrangeTetriminoLocations();
 
@@ -56,5 +56,5 @@ private:
 
 private:
 	UPROPERTY()
-	TArray<TObjectPtr<ATetriminoBase>> TetriminoArray;
+	TArray<TObjectPtr<ATetrimino>> TetriminoArray;
 };
