@@ -4,7 +4,7 @@
 
 #include "Board.h"
 #include "TetrisGameModeBase.h"
-#include "Tetrimino.h"
+#include "TetriminoBase.h"
 #include "GhostPiece.h"
 #include "TetrisPlayerController.h"
 #include "TetriminoGenerator.h"
@@ -15,7 +15,7 @@ ATetrisPlayManager::ATetrisPlayManager()
 	, LockDownOption(ELockDownOption::ExtendedPlacement)
 	, bIsGhostPieceOn(true)
 	, NormalFallSpeed(-1.0f)
-	, TetriminoClass(ATetrimino::StaticClass())
+	, TetriminoClass(ATetriminoBase::StaticClass())
 	, TetriminoInPlay(nullptr)
 	, GhostPieceClass(AGhostPiece::StaticClass())
 	, GhostPiece(nullptr)
@@ -57,7 +57,7 @@ void ATetrisPlayManager::StartGenerationPhase()
 	UE_LOG(LogTemp, Display, TEXT("Start Generation Phase."));
 
 	SetPhase(EPhase::Generation);
-	ATetrimino* const NewTetriminoInPlay = PopTetriminoFromNextQueue();
+	ATetriminoBase* const NewTetriminoInPlay = PopTetriminoFromNextQueue();
 	SetTetriminoInPlay(NewTetriminoInPlay);
 
 	StartFallingPhase();
@@ -165,7 +165,7 @@ void ATetrisPlayManager::MoveTetriminoTo(const FVector2D& Direction)
 	}
 
 	const FIntPoint MovementIntVector2D = GetMovementIntVector2D(Direction);
-	const bool bIsSoftDropOrNormalFall = (Direction == ATetrimino::MoveDirectionDown);
+	const bool bIsSoftDropOrNormalFall = (Direction == ATetriminoBase::MoveDirectionDown);
 	const bool bIsMovementPossible = Board->IsMovementPossible(TetriminoInPlay, MovementIntVector2D);
 	if (bIsMovementPossible)
 	{
@@ -192,7 +192,7 @@ void ATetrisPlayManager::MoveTetrimino()
 
 void ATetrisPlayManager::MoveTetriminoDown()
 {
-	MoveTetriminoTo(ATetrimino::MoveDirectionDown);
+	MoveTetriminoTo(ATetriminoBase::MoveDirectionDown);
 }
 
 void ATetrisPlayManager::RunSuperRotationSystem(const ETetriminoRotationDirection RotationDirection)
@@ -297,16 +297,16 @@ void ATetrisPlayManager::ClearUserInputTimers()
 	ClearTimers(UserInputTimerHandles);
 }
 
-void ATetrisPlayManager::SetTetriminoInPlay(ATetrimino* const NewTetriminoInPlay)
+void ATetrisPlayManager::SetTetriminoInPlay(ATetriminoBase* const NewTetriminoInPlay)
 {
 	check(NewTetriminoInPlay != nullptr);
 	NewTetriminoInPlay->AttachToBoard(Board);
 	TetriminoInPlay = NewTetriminoInPlay;
 }
 
-ATetrimino* ATetrisPlayManager::PopTetriminoFromNextQueue()
+ATetriminoBase* ATetrisPlayManager::PopTetriminoFromNextQueue()
 {
-	ATetrimino* const NextTetrimino = NextQueue->Dequeue();
+	ATetriminoBase* const NextTetrimino = NextQueue->Dequeue();
 	check(NextTetrimino != nullptr);
 	SpawnAndPushTetriminoToNextQueue();
 	NextQueue->ReArrangeTetriminoLocations();
@@ -315,12 +315,12 @@ ATetrimino* ATetrisPlayManager::PopTetriminoFromNextQueue()
 
 void ATetrisPlayManager::SpawnAndPushTetriminoToNextQueue()
 {
-	ATetrimino* const NewTetrimino = SpawnNextTetrimino();
+	ATetriminoBase* const NewTetrimino = SpawnNextTetrimino();
 	check(NewTetrimino != nullptr);
 	NextQueue->Enqueue(NewTetrimino);
 }
 
-ATetrimino* ATetrisPlayManager::SpawnNextTetrimino() const
+ATetriminoBase* ATetrisPlayManager::SpawnNextTetrimino() const
 {
 	static constexpr bool bIsTetriminoSpawnRandom = true;
 	if constexpr (bIsTetriminoSpawnRandom)

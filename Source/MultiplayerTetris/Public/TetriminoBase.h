@@ -10,7 +10,7 @@
 
 #include "EnumClassOperators.h"
 
-#include "Tetrimino.generated.h"
+#include "TetriminoBase.generated.h"
 
 struct FMinoInfo;
 class UMino;
@@ -61,16 +61,16 @@ struct FTetriminoShapeInfo
 };
 
 /**
- * @class ATetrimino
+ * @class ATetriminoBase
  * @brief Represents a tetrimino in the game.
  */
 UCLASS()
-class MULTIPLAYERTETRIS_API ATetrimino : public AActor
+class MULTIPLAYERTETRIS_API ATetriminoBase : public AActor
 {
 	GENERATED_BODY()
 
 public:
-	ATetrimino();
+	ATetriminoBase();
 
 	const FMinoInfo GetMinoInfo() const;
 	const FTetriminoShapeInfo& GetTetriminoShapeInfo() const;
@@ -148,5 +148,5 @@ private:
 	bool bIsGhostPieceOn;
 
 	UPROPERTY(VisibleAnywhere)
-	TObjectPtr<ATetrimino> GhostPiece;
+	TObjectPtr<ATetriminoBase> GhostPiece;
 };

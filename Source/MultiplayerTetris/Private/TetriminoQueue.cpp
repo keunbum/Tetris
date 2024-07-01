@@ -3,7 +3,7 @@
 
 #include "TetriminoQueue.h"
 
-#include "Tetrimino.h"
+#include "TetriminoBase.h"
 
 ATetriminoQueue::ATetriminoQueue()
 {
@@ -20,7 +20,7 @@ void ATetriminoQueue::Initialize(const int32 QueueSize, USceneComponent* const N
 	RootComponent->AttachToComponent(NewParentComponent, FAttachmentTransformRules::KeepRelativeTransform);
 }
 
-void ATetriminoQueue::Enqueue(ATetrimino* const Tetrimino)
+void ATetriminoQueue::Enqueue(ATetriminoBase* const Tetrimino)
 {
 	check(Tetrimino != nullptr);
 	TetriminoArray.Add(Tetrimino);
@@ -28,14 +28,14 @@ void ATetriminoQueue::Enqueue(ATetrimino* const Tetrimino)
 	Tetrimino->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 }
 
-ATetrimino* ATetriminoQueue::Dequeue()
+ATetriminoBase* ATetriminoQueue::Dequeue()
 {
 	if (TetriminoArray.IsEmpty())
 	{
 		return nullptr;
 	}
 
-	ATetrimino* const NextTetrimino = TetriminoArray[0];
+	ATetriminoBase* const NextTetrimino = TetriminoArray[0];
 	TetriminoArray.RemoveAt(0);
 	return NextTetrimino;
 }
@@ -44,7 +44,7 @@ void ATetriminoQueue::ReArrangeTetriminoLocations()
 {
 	for (int32 Index = 0; Index < TetriminoArray.Num(); ++Index)
 	{
-		ATetrimino* const Tetrimino = TetriminoArray[Index];
+		ATetriminoBase* const Tetrimino = TetriminoArray[Index];
 		const FVector NewLocation = ATetriminoQueue::GetTetriminoLocalLocationByIndex(Index);
 		Tetrimino->SetActorRelativeLocation(NewLocation);
 	}

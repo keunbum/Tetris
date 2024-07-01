@@ -5,7 +5,7 @@
 
 #include "Algo/RandomShuffle.h"
 
-#include "Tetrimino.h"
+#include "TetriminoBase.h"
 
 UTetriminoGenerator::UTetriminoGenerator()
 {
@@ -13,7 +13,7 @@ UTetriminoGenerator::UTetriminoGenerator()
 	InitializeBag();
 }
 
-ATetrimino* UTetriminoGenerator::SpawnTetriminoByBagSystem(UClass* const TetriminoClass)
+ATetriminoBase* UTetriminoGenerator::SpawnTetriminoByBagSystem(UClass* const TetriminoClass)
 {
 	// Check if the bag has been exhausted
 	if (BagCurrentIndex >= TetriminoBag.Num())
@@ -27,10 +27,10 @@ ATetrimino* UTetriminoGenerator::SpawnTetriminoByBagSystem(UClass* const Tetrimi
 	return SpawnTetriminoByShape(TetriminoClass, NextTetriminoShape);
 }
 
-ATetrimino* UTetriminoGenerator::SpawnTetriminoByShape(UClass* const TetriminoClass, const ETetriminoShape TetriminoShape)
+ATetriminoBase* UTetriminoGenerator::SpawnTetriminoByShape(UClass* const TetriminoClass, const ETetriminoShape TetriminoShape)
 {
 	// Spawn the Tetrimino actor in the world
-	ATetrimino* const NewTetrimino = GetWorld()->SpawnActor<ATetrimino>(TetriminoClass);
+	ATetriminoBase* const NewTetrimino = GetWorld()->SpawnActor<ATetriminoBase>(TetriminoClass);
 	NewTetrimino->Initialize(TetriminoShape);
 	return NewTetrimino;
 }

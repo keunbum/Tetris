@@ -3,14 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Tetrimino.h"
+#include "TetriminoBase.h"
 #include "GhostPiece.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class MULTIPLAYERTETRIS_API AGhostPiece : public ATetrimino
+class MULTIPLAYERTETRIS_API AGhostPiece : public ATetriminoBase
 {
 	GENERATED_BODY()
 	

@@ -6,7 +6,7 @@
 #include "GameFramework/Actor.h"
 
 #include "Mino.h"
-#include "Tetrimino.h"
+#include "TetriminoBase.h"
 
 #include "Board.generated.h"
 
@@ -26,13 +26,13 @@ public:
 	ABoard();
 	void Initialize();
 
-	bool IsMovementPossible(const ATetrimino* Tetrimino, const FIntPoint& MovementIntPoint2D) const;
-	bool IsRotationPossible(const ATetrimino* Tetrimino, const ETetriminoRotationDirection RotationDirection, const FIntPoint& RotationPointOffset) const;
+	bool IsMovementPossible(const ATetriminoBase* Tetrimino, const FIntPoint& MovementIntPoint2D) const;
+	bool IsRotationPossible(const ATetriminoBase* Tetrimino, const ETetriminoRotationDirection RotationDirection, const FIntPoint& RotationPointOffset) const;
 
 	USceneComponent* GetMatrixRoot() const { return MatrixRoot; }
 	USceneComponent* GetNextQueueRoot() const { return NextQueueRoot; }
 
-	void AddMinos(const ATetrimino* Tetrimino);
+	void AddMinos(const ATetriminoBase* Tetrimino);
 
 private:
 	void InitializeBackground();

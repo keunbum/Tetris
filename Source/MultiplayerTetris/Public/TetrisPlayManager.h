@@ -5,12 +5,12 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 
-#include "Tetrimino.h"
+#include "TetriminoBase.h"
 
 #include "TetrisPlayManager.generated.h"
 
 class ATetrisGameModeBase;
-class ATetrimino;
+class ATetriminoBase;
 class AGhostPiece;
 class ABoard;
 class ATetriminoQueue;
@@ -92,15 +92,15 @@ private:
 	void ClearUserInputTimers();
 
 	// Tetrimino
-	ATetrimino* PopTetriminoFromNextQueue();
+	ATetriminoBase* PopTetriminoFromNextQueue();
 	void SpawnAndPushTetriminoToNextQueue();
-	ATetrimino* SpawnNextTetrimino() const;
+	ATetriminoBase* SpawnNextTetrimino() const;
 
 	// Basic Member Variables
 	void SetPhase(const EPhase NewPhase) { Phase = NewPhase; }
 	bool IsTetriminoManipulable() const { return Phase == EPhase::Falling; }
 	void SetTetriminoMovementDirection(const FVector2D& NewTetriminoMovementDirection) { TetriminoMovementDirection = NewTetriminoMovementDirection; }
-	void SetTetriminoInPlay(ATetrimino* const NewTetriminoInPlay);
+	void SetTetriminoInPlay(ATetriminoBase* const NewTetriminoInPlay);
 
 	// Effect
 	void PlayLockDownEffect(const TArray<UMino*>& MinoArray);
@@ -151,10 +151,10 @@ private:
 	TObjectPtr<ATetrisGameModeBase> GameMode;
 
 	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<ATetrimino> TetriminoClass;
+	TSubclassOf<ATetriminoBase> TetriminoClass;
 
 	UPROPERTY(VisibleAnywhere)
-	TObjectPtr<ATetrimino> TetriminoInPlay;
+	TObjectPtr<ATetriminoBase> TetriminoInPlay;
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<AGhostPiece> GhostPieceClass;

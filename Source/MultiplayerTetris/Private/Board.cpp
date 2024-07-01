@@ -9,7 +9,7 @@
 #include "UObject/ConstructorHelpers.h"
 #include "Algo/AllOf.h"
 
-#include "Tetrimino.h"
+#include "TetriminoBase.h"
 
 const FMinoInfo ABoard::BackgroundMinoInfo = FMinoInfo(TEXT("/Game/Material/M_MinoMaterial"), FLinearColor::Gray);
 const FMinoInfo ABoard::SpecialMinoInfo = FMinoInfo(TEXT("/Game/Material/M_MinoMaterial"), FLinearColor::Black);
@@ -46,7 +46,7 @@ void ABoard::Initialize()
 	InitializeMinoMatrix();
 }
 
-bool ABoard::IsMovementPossible(const ATetrimino* Tetrimino, const FIntPoint& MovementIntPoint2D) const
+bool ABoard::IsMovementPossible(const ATetriminoBase* Tetrimino, const FIntPoint& MovementIntPoint2D) const
 {
 	check(Tetrimino != nullptr);
 	const FIntPoint NewTetriminoMatrixLocation = Tetrimino->GetMatrixLocation() + MovementIntPoint2D;
@@ -54,17 +54,17 @@ bool ABoard::IsMovementPossible(const ATetrimino* Tetrimino, const FIntPoint& Mo
 	return IsMinoLocationsPossible(NewTetriminoMatrixLocation, MinoMatrixLocalLocations);
 }
 
-bool ABoard::IsRotationPossible(const ATetrimino* Tetrimino, const ETetriminoRotationDirection RotationDirection, const FIntPoint& RotationPointOffset) const
+bool ABoard::IsRotationPossible(const ATetriminoBase* Tetrimino, const ETetriminoRotationDirection RotationDirection, const FIntPoint& RotationPointOffset) const
 {
 	check(Tetrimino != nullptr);
 	const FIntPoint& NewTetriminoMatrixLocation = Tetrimino->GetMatrixLocation() + RotationPointOffset;
 	const ETetriminoShape TetriminoShape = Tetrimino->GetShape();
 	const ETetriminoFacing NewTetriminoFacing = Tetrimino->GetFacing() + static_cast<int32>(RotationDirection);
-	const TArray<FIntPoint>& NewMinoLocalMatrixLocations = ATetrimino::GetMinoMatrixLocalLocationsByTetriminoShapeAndFacing(TetriminoShape, NewTetriminoFacing);
+	const TArray<FIntPoint>& NewMinoLocalMatrixLocations = ATetriminoBase::GetMinoMatrixLocalLocationsByTetriminoShapeAndFacing(TetriminoShape, NewTetriminoFacing);
 	return IsMinoLocationsPossible(NewTetriminoMatrixLocation, NewMinoLocalMatrixLocations);
 }
 
-void ABoard::AddMinos(const ATetrimino* Tetrimino)
+void ABoard::AddMinos(const ATetriminoBase* Tetrimino)
 {
 	check(Tetrimino != nullptr);
 
