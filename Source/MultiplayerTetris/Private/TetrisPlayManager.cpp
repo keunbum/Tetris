@@ -164,7 +164,7 @@ void ATetrisPlayManager::MoveTetriminoTo(const FVector2D& Direction)
 		return;
 	}
 
-	const FIntPoint MovementIntVector2D = GetMovementIntVector2D(Direction);
+	const FIntPoint MovementIntVector2D = ATetriminoBase::GetMovementIntVector2D(Direction);
 	const bool bIsSoftDropOrNormalFall = (Direction == ATetrimino::MoveDirectionDown);
 	const bool bIsMovementPossible = Board->IsMovementPossible(TetriminoInPlay, MovementIntVector2D);
 	if (bIsMovementPossible)
@@ -337,11 +337,4 @@ void ATetrisPlayManager::PlayLockDownEffect(const TArray<UMino*>& MinoArray)
 {
 	// TODO: LockDown Effect 추가
 	// 파라미터 수정될 여지 있음
-}
-
-FIntPoint ATetrisPlayManager::GetMovementIntVector2D(const FVector2D& Direction)
-{
-	static constexpr float OneSpace = 1.0f;
-	const FVector2D MovementVector2D = OneSpace * Direction;
-	return FIntPoint(static_cast<int32>(MovementVector2D.X), static_cast<int32>(MovementVector2D.Y));
 }

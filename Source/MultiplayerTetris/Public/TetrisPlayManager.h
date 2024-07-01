@@ -65,9 +65,6 @@ public:
 	void DoHardDrop();
 	void DoRotation(const ETetriminoRotationDirection RotationDirection);
 
-	// static method
-	static FIntPoint GetMovementIntVector2D(const FVector2D& Direction);
-
 private:
 	// Initialization
 	void InitializeNextQueue();
