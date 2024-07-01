@@ -164,14 +164,14 @@ void ATetrisPlayManager::MoveTetriminoTo(const FVector2D& Direction)
 		return;
 	}
 
-	const FIntPoint MovementIntVector2D = ATetriminoBase::GetMovementIntPoint2D(Direction);
+	const FIntPoint MovementIntPoint2D = ATetriminoBase::GetMovementIntPoint2D(Direction);
 	const bool bIsSoftDropOrNormalFall = (Direction == ATetrimino::MoveDirectionDown);
-	const bool bIsMovementPossible = Board->IsMovementPossible(TetriminoInPlay, MovementIntVector2D);
+	const bool bIsMovementPossible = Board->IsMovementPossible(TetriminoInPlay, MovementIntPoint2D);
 	if (bIsMovementPossible)
 	{
-		TetriminoInPlay->MoveBy(MovementIntVector2D);
+		TetriminoInPlay->MoveBy(MovementIntPoint2D);
 
-		const bool bIsOnSurface = !Board->IsMovementPossible(TetriminoInPlay, MovementIntVector2D);
+		const bool bIsOnSurface = !Board->IsMovementPossible(TetriminoInPlay, MovementIntPoint2D);
 		const bool bIsLockPhaseReached = bIsSoftDropOrNormalFall && bIsOnSurface;
 		if (bIsLockPhaseReached)
 		{
