@@ -33,6 +33,10 @@ public:
 	USceneComponent* GetNextQueueRoot() const { return NextQueueRoot; }
 
 	void AddMinos(const ATetrimino* Tetrimino);
+	/**
+	 * Returns the final falling location of the Tetrimino in the matrix.
+	 */
+	FIntPoint GetFinalFallingLocation(const ATetrimino* Tetrimino) const;
 
 private:
 	void InitializeBackground();

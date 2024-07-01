@@ -83,6 +83,19 @@ void ABoard::AddMinos(const ATetrimino* Tetrimino)
 	}
 }
 
+FIntPoint ABoard::GetFinalFallingLocation(const ATetrimino* Tetrimino) const
+{
+	check(Tetrimino != nullptr);
+
+	FIntPoint FinalFallingLocation = Tetrimino->GetMatrixLocation();
+	const FIntPoint MovementIntPoint2D = ATetriminoBase::GetMovementIntPoint2D(ATetrimino::MoveDirectionDown);
+	while (IsMovementPossible(Tetrimino, MovementIntPoint2D))
+	{
+		FinalFallingLocation += MovementIntPoint2D;
+	}
+	return FinalFallingLocation;
+}
+
 void ABoard::InitializeBackground()
 {
 	for (int32 Row = 0; Row < TotalHeight; ++Row)
