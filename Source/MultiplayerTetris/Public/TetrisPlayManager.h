@@ -65,6 +65,9 @@ public:
 	void DoHardDrop();
 	void DoRotation(const ETetriminoRotationDirection RotationDirection);
 
+	// static method
+	static FIntPoint GetMovementIntVector2D(const FVector2D& Direction);
+
 private:
 	// Initialization
 	void InitializeNextQueue();
@@ -105,9 +108,6 @@ private:
 	// Effect
 	void PlayLockDownEffect(const TArray<UMino*>& MinoArray);
 	
-	// static method
-	static FIntPoint GetMovementIntVector2D(const FVector2D& Direction);
-
 private:
 	// Normal Fall
 	static constexpr bool bIsNormalFallTimerLoop = true;
