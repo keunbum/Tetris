@@ -3,3 +3,6 @@
 
 #include "Tetrimino.h"
 
+ATetrimino::ATetrimino()
+{
+}

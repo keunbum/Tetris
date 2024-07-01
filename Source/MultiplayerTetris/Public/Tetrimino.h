@@ -15,4 +15,6 @@ class MULTIPLAYERTETRIS_API ATetrimino : public ATetriminoBase
 {
 	GENERATED_BODY()
 	
+public:
+	ATetrimino();
 };
