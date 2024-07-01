@@ -17,4 +17,12 @@ class MULTIPLAYERTETRIS_API ATetrimino : public ATetriminoBase
 	
 public:
 	ATetrimino();
+	void SetIsGhostPieceOn(const bool bInIsGhostPieceOn) { bIsGhostPieceOn = bInIsGhostPieceOn; }
+
+private:
+	UPROPERTY(VisibleAnywhere)
+	bool bIsGhostPieceOn;
+
+	UPROPERTY(VisibleAnywhere)
+	TObjectPtr<ATetriminoBase> GhostPiece;
 };

@@ -83,8 +83,6 @@ public:
 	const TArray<UMino*>& GetMinoArray() const { return MinoArray; }
 
 	void SetShape(const ETetriminoShape NewShape) { Shape = NewShape; }
-	void SetIsGhostPieceOn(const bool bInIsGhostPieceOn) { bIsGhostPieceOn = bInIsGhostPieceOn; }
-
 	void Initialize(const ETetriminoShape NewTetriminoShape);
 	void MoveBy(const FIntPoint& IntVector2D);
 	void RotateTo(const ETetriminoRotationDirection RotationDirection);
@@ -142,10 +140,4 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 	TArray<TObjectPtr<UMino>> MinoArray;
-
-	UPROPERTY(VisibleAnywhere)
-	bool bIsGhostPieceOn;
-
-	UPROPERTY(VisibleAnywhere)
-	TObjectPtr<ATetriminoBase> GhostPiece;
 };

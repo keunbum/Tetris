@@ -4,5 +4,7 @@
 #include "Tetrimino.h"
 
 ATetrimino::ATetrimino()
+	: bIsGhostPieceOn(false)
+	, GhostPiece(nullptr)
 {
 }
