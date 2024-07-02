@@ -23,6 +23,12 @@ void ATetrimino::MoveBy(const FIntPoint& IntPoint2D)
 	const FVector ActorLocalOffset(UMino::GetRelativeLocationByMatrixLocation(IntPoint2D));
 	AddActorLocalOffset(ActorLocalOffset);
 	MatrixLocation += IntPoint2D;
+
+	if (GhostPiece)
+	{
+		check(Board != nullptr);
+		GhostPiece->SetRelativeLocationByMatrixLocation(Board->GetFinalFallingMatrixLocation(this));
+	}
 }
 
 void ATetrimino::RotateTo(const ETetriminoRotationDirection RotationDirection)
