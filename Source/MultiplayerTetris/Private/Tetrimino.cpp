@@ -18,6 +18,19 @@ void ATetrimino::SetGhostPiece(AGhostPiece* const InGhostPiece)
 	GhostPiece->Initialize(Shape);
 }
 
+void ATetrimino::MoveBy(const FIntPoint& IntPoint2D)
+{
+	const FVector ActorLocalOffset(UMino::GetRelativeLocationByMatrixLocation(IntPoint2D));
+	AddActorLocalOffset(ActorLocalOffset);
+	MatrixLocation += IntPoint2D;
+}
+
+void ATetrimino::RotateTo(const ETetriminoRotationDirection RotationDirection)
+{
+	SetFacing(Facing + static_cast<int32>(RotationDirection));
+	UpdateMinoMatrixLocalLocations();
+}
+
 void ATetrimino::AttachToBoard(ABoard* const Board)
 {
 	AttachToComponentByMatrixLocation(Board->GetMatrixRoot(), GetInitialMatrixLocation());

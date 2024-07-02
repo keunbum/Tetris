@@ -85,8 +85,6 @@ public:
 	void SetRelativeLocationByMatrixLocation(const FIntPoint& NewMatrixLocation);
 
 	void Initialize(const ETetriminoShape NewTetriminoShape);
-	void MoveBy(const FIntPoint& IntVector2D);
-	void RotateTo(const ETetriminoRotationDirection RotationDirection);
 	void DetachMinos();
 
 	void DebugPrintState() const;

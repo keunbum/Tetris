@@ -379,19 +379,6 @@ void ATetriminoBase::Initialize(const ETetriminoShape NewTetriminoShape)
 	InitializeMinoArray();
 }
 
-void ATetriminoBase::MoveBy(const FIntPoint& IntPoint2D)
-{
-	const FVector ActorLocalOffset(UMino::GetRelativeLocationByMatrixLocation(IntPoint2D));
-	AddActorLocalOffset(ActorLocalOffset);
-	MatrixLocation += IntPoint2D;
-}
-
-void ATetriminoBase::RotateTo(const ETetriminoRotationDirection RotationDirection)
-{
-	SetFacing(Facing + static_cast<int32>(RotationDirection));
-	UpdateMinoMatrixLocalLocations();
-}
-
 void ATetriminoBase::DetachMinos()
 {
 	for (UMino* const Mino : MinoArray)

@@ -22,6 +22,9 @@ public:
 
 	void SetGhostPiece(AGhostPiece* const InGhostPiece);
 
+	void MoveBy(const FIntPoint& IntVector2D);
+	void RotateTo(const ETetriminoRotationDirection RotationDirection);
+
 	void AttachToBoard(ABoard* const Board);
 
 private:
