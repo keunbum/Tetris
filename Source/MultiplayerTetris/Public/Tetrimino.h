@@ -6,6 +6,7 @@
 #include "TetriminoBase.h"
 #include "Tetrimino.generated.h"
 
+class ABoard;
 class AGhostPiece;
 
 /**
@@ -30,4 +31,7 @@ public:
 private:
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<ATetriminoBase> GhostPiece;
+
+	UPROPERTY()
+	TObjectPtr<ABoard> Board;
 };
