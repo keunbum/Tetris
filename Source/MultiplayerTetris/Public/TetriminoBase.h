@@ -126,7 +126,7 @@ public:
 
 	static const TMap<ETetriminoShape, FTetriminoShapeInfo> TetriminoShapeInfos;
 
-private:
+protected:
 	UPROPERTY(VisibleAnywhere)
 	ETetriminoShape Shape;
 
