@@ -442,7 +442,9 @@ void ATetriminoBase::InitializeMinoArray()
 	check(MinoMatrixLocalLocations.Num() == MinoNum);
 	const FMinoInfo MinoInfo = GetMinoInfo();
 
-	MinoArray.Reserve(MinoNum);
+	DestroyMinos();
+	MinoArray.Empty(MinoNum);
+
 	for (const FIntPoint& MinoMatrixLocalLocation : MinoMatrixLocalLocations)
 	{
 		UMino* const Mino = UMino::CreateMino(this, MinoInfo);
