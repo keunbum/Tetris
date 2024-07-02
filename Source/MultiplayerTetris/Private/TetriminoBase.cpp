@@ -452,6 +452,15 @@ void ATetriminoBase::InitializeMinoArray()
 	}
 }
 
+void ATetriminoBase::DestroyMinos()
+{
+	for (TObjectPtr<UMino>& Mino : MinoArray)
+	{
+		Mino->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
+		Mino->DestroyComponent();
+	}
+}
+
 void ATetriminoBase::UpdateMinoMatrixLocalLocations()
 {
 	const TArray<FIntPoint>& MinoMatrixLocalLocations = GetMinoMatrixLocalLocations();

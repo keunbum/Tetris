@@ -102,6 +102,7 @@ protected:
 	void SetMatrixLocation(const FIntPoint& NewMatrixLocation) { MatrixLocation = NewMatrixLocation; }
 
 	void InitializeMinoArray();
+	void DestroyMinos();
 	void UpdateMinoMatrixLocalLocations();
 
 	void AttachToComponentByMatrixLocation(USceneComponent* const NewParentComponent, const FIntPoint& InitialMatrixLocation);
