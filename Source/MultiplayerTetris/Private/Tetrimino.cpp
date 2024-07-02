@@ -14,8 +14,9 @@ ATetrimino::ATetrimino()
 
 void ATetrimino::SetGhostPiece(AGhostPiece* const InGhostPiece)
 {
+	check(InGhostPiece != nullptr);
 	GhostPiece = InGhostPiece;
-	GhostPiece->Initialize(GetShape());
+	GhostPiece->Initialize(Shape);
 }
 
 void ATetrimino::AttachToBoard(ABoard* const Board)
