@@ -19,6 +19,7 @@ class MULTIPLAYERTETRIS_API ATetrimino : public ATetriminoBase
 	
 public:
 	ATetrimino();
+
 	void SetGhostPiece(AGhostPiece* const InGhostPiece);
 
 	void AttachToBoard(ABoard* const Board);
