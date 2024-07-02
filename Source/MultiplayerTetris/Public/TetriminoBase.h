@@ -85,7 +85,6 @@ public:
 	void Initialize(const ETetriminoShape NewTetriminoShape);
 	void MoveBy(const FIntPoint& IntVector2D);
 	void RotateTo(const ETetriminoRotationDirection RotationDirection);
-	void AttachToBoard(ABoard* const Board);
 	void DetachMinos();
 
 	void DebugPrintState() const;

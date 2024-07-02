@@ -22,6 +22,8 @@ public:
 	void SetGhostPiece(AGhostPiece* const InGhostPiece);
 	void SetIsGhostPieceOn(const bool bInIsGhostPieceOn) { bIsGhostPieceOn = bInIsGhostPieceOn; }
 
+	void AttachToBoard(ABoard* const Board);
+
 private:
 	UPROPERTY(VisibleAnywhere)
 	bool bIsGhostPieceOn;
