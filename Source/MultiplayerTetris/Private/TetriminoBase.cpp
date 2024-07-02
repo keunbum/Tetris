@@ -379,6 +379,17 @@ void ATetriminoBase::Initialize(const ETetriminoShape NewTetriminoShape)
 	InitializeMinoArray();
 }
 
+void ATetriminoBase::UpdateMinoMatrixLocalLocations()
+{
+	const TArray<FIntPoint>& MinoMatrixLocalLocations = GetMinoMatrixLocalLocations();
+	for (int32 MinoIndex = 0; MinoIndex < MinoNum; ++MinoIndex)
+	{
+		UMino* const Mino = MinoArray[MinoIndex];
+		const FIntPoint& NewMinoMatrixLocalLocation = MinoMatrixLocalLocations[MinoIndex];
+		Mino->SetRelativeLocationByMatrixLocation(NewMinoMatrixLocalLocation);
+	}
+}
+
 void ATetriminoBase::DetachMinos()
 {
 	for (UMino* const Mino : MinoArray)
@@ -447,17 +458,6 @@ void ATetriminoBase::DestroyMinos()
 	{
 		Mino->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
 		Mino->DestroyComponent();
-	}
-}
-
-void ATetriminoBase::UpdateMinoMatrixLocalLocations()
-{
-	const TArray<FIntPoint>& MinoMatrixLocalLocations = GetMinoMatrixLocalLocations();
-	for (int32 MinoIndex = 0; MinoIndex < MinoNum; ++MinoIndex)
-	{
-		UMino* const Mino = MinoArray[MinoIndex];
-		const FIntPoint& NewMinoMatrixLocalLocation = MinoMatrixLocalLocations[MinoIndex];
-		Mino->SetRelativeLocationByMatrixLocation(NewMinoMatrixLocalLocation);
 	}
 }
 

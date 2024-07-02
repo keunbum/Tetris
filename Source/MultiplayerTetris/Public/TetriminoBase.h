@@ -82,9 +82,12 @@ public:
 	const FIntPoint& GetMatrixLocation() const { return MatrixLocation; }
 	const TArray<UMino*>& GetMinoArray() const { return MinoArray; }
 
+	void SetShape(const ETetriminoShape NewShape) { Shape = NewShape; }
+	void SetFacing(const ETetriminoFacing NewFacing) { Facing = NewFacing; }
 	void SetRelativeLocationByMatrixLocation(const FIntPoint& NewMatrixLocation);
 
 	void Initialize(const ETetriminoShape NewTetriminoShape);
+	void UpdateMinoMatrixLocalLocations();
 	void DetachMinos();
 
 	void DebugPrintState() const;
@@ -95,13 +98,10 @@ public:
 	static FIntPoint GetMovementIntPoint2D(const FVector2D& Direction);
 
 protected:
-	void SetShape(const ETetriminoShape NewShape) { Shape = NewShape; }
-	void SetFacing(const ETetriminoFacing NewFacing) { Facing = NewFacing; }
 	void SetMatrixLocation(const FIntPoint& NewMatrixLocation) { MatrixLocation = NewMatrixLocation; }
 
 	void InitializeMinoArray();
 	void DestroyMinos();
-	void UpdateMinoMatrixLocalLocations();
 
 	void AttachToComponentByMatrixLocation(USceneComponent* const NewParentComponent, const FIntPoint& InitialMatrixLocation);
 
