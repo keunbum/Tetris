@@ -90,6 +90,7 @@ public:
 	void Initialize(const ETetriminoShape NewTetriminoShape, const ETetriminoFacing NewTetriminoFacing);
 	void UpdateMinoMatrixLocalLocations();
 	void DetachMinos();
+	void RotateByFacing(const ETetriminoFacing NewFacing);
 
 	void DebugPrintState() const;
 

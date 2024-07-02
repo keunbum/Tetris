@@ -399,6 +399,12 @@ void ATetriminoBase::DetachMinos()
 	}
 }
 
+void ATetriminoBase::RotateByFacing(const ETetriminoFacing NewFacing)
+{
+	SetFacing(NewFacing);
+	UpdateMinoMatrixLocalLocations();
+}
+
 void ATetriminoBase::DebugPrintState() const
 {
 	UE_LOG(LogTemp, Log, TEXT("TetriminoInPlay Type: %s"), *GetTetriminoShapeName(Shape));
