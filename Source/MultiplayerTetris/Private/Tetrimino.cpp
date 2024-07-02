@@ -31,7 +31,7 @@ void ATetrimino::RotateTo(const ETetriminoRotationDirection RotationDirection)
 	UpdateMinoMatrixLocalLocations();
 }
 
-void ATetrimino::AttachToBoard(ABoard* const Board)
+void ATetrimino::AttachToBoard(ABoard* const InBoard)
 {
 	AttachToComponentByMatrixLocation(Board->GetMatrixRoot(), GetInitialMatrixLocation());
 }
