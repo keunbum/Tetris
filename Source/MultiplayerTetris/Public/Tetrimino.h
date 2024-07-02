@@ -29,6 +29,9 @@ public:
 	void AttachToBoard(ABoard* const Board);
 
 private:
+	void SetBoard(ABoard* const InBoard) { Board = InBoard; }
+
+private:
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<ATetriminoBase> GhostPiece;
 
