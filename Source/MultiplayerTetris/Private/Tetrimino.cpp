@@ -31,8 +31,13 @@ void ATetrimino::MoveBy(const FIntPoint& IntPoint2D)
 
 void ATetrimino::RotateTo(const ETetriminoRotationDirection RotationDirection)
 {
-	SetFacing(Facing + static_cast<int32>(RotationDirection));
-	UpdateMinoMatrixLocalLocations();
+	const ETetriminoFacing NewFacing = Facing + static_cast<int32>(RotationDirection);
+
+	RotateByFacing(NewFacing);
+	if (GhostPiece)
+	{
+		GhostPiece->RotateByFacing(NewFacing);
+	}
 }
 
 void ATetrimino::AttachToBoard(ABoard* const InBoard)
