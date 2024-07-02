@@ -6,8 +6,7 @@
 #include "Board.h"
 
 ATetrimino::ATetrimino()
-	: bIsGhostPieceOn(false)
-	, GhostPiece(nullptr)
+	: GhostPiece(nullptr)
 {
 	PrimaryActorTick.bCanEverTick = false;
 }

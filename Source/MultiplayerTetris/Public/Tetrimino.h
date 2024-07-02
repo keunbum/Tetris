@@ -20,14 +20,10 @@ class MULTIPLAYERTETRIS_API ATetrimino : public ATetriminoBase
 public:
 	ATetrimino();
 	void SetGhostPiece(AGhostPiece* const InGhostPiece);
-	void SetIsGhostPieceOn(const bool bInIsGhostPieceOn) { bIsGhostPieceOn = bInIsGhostPieceOn; }
 
 	void AttachToBoard(ABoard* const Board);
 
 private:
-	UPROPERTY(VisibleAnywhere)
-	bool bIsGhostPieceOn;
-
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<ATetriminoBase> GhostPiece;
 };
