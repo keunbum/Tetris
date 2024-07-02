@@ -365,6 +365,13 @@ const FIntPoint& ATetriminoBase::GetInitialMatrixLocation() const
 	return ATetriminoBase::GetInitialMatrixLocationByShape(Shape);
 }
 
+void ATetriminoBase::SetRelativeLocationByMatrixLocation(const FIntPoint& NewMatrixLocation)
+{
+	const FVector ActorLocalOffset(UMino::GetRelativeLocationByMatrixLocation(NewMatrixLocation));
+	SetActorRelativeLocation(ActorLocalOffset);
+	SetMatrixLocation(NewMatrixLocation);
+}
+
 void ATetriminoBase::Initialize(const ETetriminoShape NewTetriminoShape)
 {
 	SetShape(NewTetriminoShape);
@@ -454,13 +461,6 @@ void ATetriminoBase::UpdateMinoMatrixLocalLocations()
 		const FIntPoint& NewMinoMatrixLocalLocation = MinoMatrixLocalLocations[MinoIndex];
 		Mino->SetRelativeLocationByMatrixLocation(NewMinoMatrixLocalLocation);
 	}
-}
-
-void ATetriminoBase::SetRelativeLocationByMatrixLocation(const FIntPoint& NewMatrixLocation)
-{
-	const FVector ActorLocalOffset(UMino::GetRelativeLocationByMatrixLocation(NewMatrixLocation));
-	SetActorRelativeLocation(ActorLocalOffset);
-	SetMatrixLocation(NewMatrixLocation);
 }
 
 void ATetriminoBase::AttachToComponentByMatrixLocation(USceneComponent* const NewParentComponent, const FIntPoint& InitialMatrixLocation)
