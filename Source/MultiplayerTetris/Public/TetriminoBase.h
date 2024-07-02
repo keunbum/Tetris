@@ -127,7 +127,6 @@ public:
 	static const FVector2D MoveDirectionRight;
 	static const FVector2D MoveDirectionDown;
 
-	static constexpr ETetriminoFacing DefaultFacing = ETetriminoFacing::North;
 	static const TMap<ETetriminoShape, FTetriminoShapeInfo> TetriminoShapeInfos;
 
 protected:

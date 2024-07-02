@@ -28,6 +28,9 @@ public:
 
 	void AttachToBoard(ABoard* const InBoard);
 
+public:
+	static constexpr ETetriminoFacing DefaultFacing = ETetriminoFacing::North;
+
 private:
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<ATetriminoBase> GhostPiece;
