@@ -33,8 +33,9 @@ enum class ETetriminoShape : int8
 };
 
 UENUM()
-enum class ETetriminoFacing : uint8
+enum class ETetriminoFacing : int8
 {
+	None = -1,
 	North,
 	East,
 	South,
