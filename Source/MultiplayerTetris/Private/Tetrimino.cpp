@@ -20,9 +20,7 @@ void ATetrimino::SetGhostPiece(AGhostPiece* const InGhostPiece)
 
 void ATetrimino::MoveBy(const FIntPoint& IntPoint2D)
 {
-	const FVector ActorLocalOffset(UMino::GetRelativeLocationByMatrixLocation(IntPoint2D));
-	AddActorLocalOffset(ActorLocalOffset);
-	MatrixLocation += IntPoint2D;
+	AddRelativeLocationByMatrixLocationOffset(IntPoint2D);
 
 	if (GhostPiece)
 	{
