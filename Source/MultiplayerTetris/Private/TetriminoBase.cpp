@@ -461,6 +461,13 @@ void ATetriminoBase::DestroyMinos()
 	}
 }
 
+void ATetriminoBase::AddRelativeLocationByMatrixLocationOffset(const FIntPoint& MatrixLocationOffset)
+{
+	const FVector ActorLocalOffset(UMino::GetRelativeLocationByMatrixLocation(MatrixLocationOffset));
+	AddActorLocalOffset(ActorLocalOffset);
+	MatrixLocation += MatrixLocationOffset;
+}
+
 void ATetriminoBase::AttachToComponentByMatrixLocation(USceneComponent* const NewParentComponent, const FIntPoint& InitialMatrixLocation)
 {
 	check(NewParentComponent != nullptr);

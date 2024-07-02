@@ -102,6 +102,7 @@ protected:
 
 	void InitializeMinoArray();
 	void DestroyMinos();
+	void AddRelativeLocationByMatrixLocationOffset(const FIntPoint& MatrixLocationOffset);
 
 	void AttachToComponentByMatrixLocation(USceneComponent* const NewParentComponent, const FIntPoint& InitialMatrixLocation);
 
