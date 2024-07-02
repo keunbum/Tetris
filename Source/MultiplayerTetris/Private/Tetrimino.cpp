@@ -15,7 +15,7 @@ void ATetrimino::SetGhostPiece(AGhostPiece* const InGhostPiece)
 {
 	check(InGhostPiece != nullptr);
 	GhostPiece = InGhostPiece;
-	GhostPiece->Initialize(Shape);
+	GhostPiece->Initialize(Shape, Facing);
 }
 
 void ATetrimino::MoveBy(const FIntPoint& IntPoint2D)

@@ -31,7 +31,7 @@ ATetrimino* UTetriminoGenerator::SpawnTetriminoByShape(UClass* const TetriminoCl
 {
 	// Spawn the Tetrimino actor in the world
 	ATetrimino* const NewTetrimino = GetWorld()->SpawnActor<ATetrimino>(TetriminoClass);
-	NewTetrimino->Initialize(TetriminoShape);
+	NewTetrimino->Initialize(TetriminoShape, ATetrimino::DefaultFacing);
 	return NewTetrimino;
 }
 
