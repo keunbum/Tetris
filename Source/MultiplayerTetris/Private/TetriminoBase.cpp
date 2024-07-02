@@ -327,7 +327,7 @@ const TMap<ETetriminoShape, FTetriminoShapeInfo> ATetriminoBase::TetriminoShapeI
 
 ATetriminoBase::ATetriminoBase()
 	: Shape(ETetriminoShape::None)
-	, Facing(ETetriminoFacing::North)
+	, Facing(ETetriminoFacing::None)
 	, MatrixLocation(FIntPoint(0, 0))
 	, MinoClass(UMino::StaticClass())
 	, MinoArray()
