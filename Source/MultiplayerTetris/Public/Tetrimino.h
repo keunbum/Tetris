@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright Ryu KeunBeom. All Rights Reserved.
 
 #pragma once
 
