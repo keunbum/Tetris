@@ -191,7 +191,7 @@ void ATetrisPlayManager::MoveTetriminoTo(const FVector2D& Direction)
 		const bool bIsLockPhaseReached = bIsSoftDropOrNormalFall && bIsOnSurface;
 		if (bIsLockPhaseReached)
 		{
-			SetLockDownTimer();
+			StartLockPhase(LockDownTimerInitialDelayForNormalFallOrSoftDrop);
 		}
 	}
 	else
