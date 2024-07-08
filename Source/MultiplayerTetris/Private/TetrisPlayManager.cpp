@@ -50,6 +50,11 @@ void ATetrisPlayManager::Initialize()
 	NextQueue = World->SpawnActor<ATetriminoQueue>(ATetriminoQueue::StaticClass());
 	check(NextQueue != nullptr);
 	InitializeNextQueue();
+
+	// GhostPiece
+	GhostPiece = World->SpawnActor<AGhostPiece>(GhostPieceClass);
+	check(GhostPiece != nullptr);
+	GhostPiece->AttachToBoard(Board);
 }
 
 void ATetrisPlayManager::StartGenerationPhase()
@@ -58,7 +63,12 @@ void ATetrisPlayManager::StartGenerationPhase()
 
 	SetPhase(EPhase::Generation);
 	ATetrimino* const NewTetriminoInPlay = PopTetriminoFromNextQueue();
+
 	SetTetriminoInPlay(NewTetriminoInPlay);
+
+	// Set GhostPiece
+	TetriminoInPlay->SetGhostPiece(GhostPiece);
+	GhostPiece->SetRelativeLocationByMatrixLocation(Board->GetFinalFallingMatrixLocation(TetriminoInPlay));
 
 	StartFallingPhase();
 }
