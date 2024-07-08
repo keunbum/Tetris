@@ -2,6 +2,8 @@
 
 #include "TetrisPlayManager.h"
 
+#include "Math/UnrealMathUtility.h"
+
 #include "Board.h"
 #include "TetrisGameModeBase.h"
 #include "Tetrimino.h"
@@ -13,6 +15,7 @@
 ATetrisPlayManager::ATetrisPlayManager()
 	: Phase(EPhase::None)
 	, LockDownOption(ELockDownOption::ExtendedPlacement)
+	, bIsTetriminoInPlayManipulable(false)
 	, bIsGhostPieceOn(true)
 	, NormalFallSpeed(-1.0f)
 	, TetriminoClass(ATetrimino::StaticClass())
@@ -30,10 +33,14 @@ void ATetrisPlayManager::Initialize()
 	// UMino
 	UMino::ClearMaterialCache();
 
+	// World
 	UWorld* const World = GetWorld();
 	check(World != nullptr);
+
+	// GameMode
 	GameMode = World->GetAuthGameMode<ATetrisGameModeBase>();
 
+	// Set Basic members
 	SetNormalFallSpeed(GameMode->GetNormalFallSpeed());
 	SetTetriminoMovementDirection(FVector2D::ZeroVector);
 
@@ -75,7 +82,7 @@ void ATetrisPlayManager::StartGenerationPhase()
 
 void ATetrisPlayManager::StartMovement(const FVector2D& InMovementDirection)
 {
-	if (!IsTetriminoManipulable())
+	if (!IsTetriminoInPlayManipulable())
 	{
 		UE_LOG(LogTemp, Display, TEXT("Tetrimino is not manipulable."));
 		return;
@@ -99,7 +106,7 @@ void ATetrisPlayManager::EndMovement()
 
 void ATetrisPlayManager::StartSoftDrop()
 {
-	if (!IsTetriminoManipulable())
+	if (!IsTetriminoInPlayManipulable())
 	{
 		UE_LOG(LogTemp, Display, TEXT("Tetrimino is not manipulable."));
 		return;
@@ -126,12 +133,20 @@ void ATetrisPlayManager::EndSoftDrop()
 
 void ATetrisPlayManager::DoHardDrop()
 {
-	// TODO: 하드 드롭 로직 추가
+	// 테트리스 가이드라인 2009에 나와 있는 방식 그대로 구현하기.
+	// HardDrop에는 Auto-Repeat 없음.
+	// TODO: 나중에 Hard Drop Trail 관련 이펙트도 있으면 금상첨화.
+	if (!IsTetriminoInPlayManipulable())
+	{
+		UE_LOG(LogTemp, Display, TEXT("Tetrimino is not manipulable."));
+		return;
+	}
+	SetHardDropTimer();
 }
 
 void ATetrisPlayManager::DoRotation(const ETetriminoRotationDirection RotationDirection)
 {
-	if (!IsTetriminoManipulable())
+	if (!IsTetriminoInPlayManipulable())
 	{
 		UE_LOG(LogTemp, Display, TEXT("Tetrimino is not manipulable."));
 		return;
@@ -155,6 +170,7 @@ void ATetrisPlayManager::StartFallingPhase()
 	UE_LOG(LogTemp, Display, TEXT("Start Falling Phase."));
 
 	SetPhase(EPhase::Falling);
+	SetIsTetriminoInPlayManipulable(true);
 
 	SetNormalFallTimer();
 
@@ -163,6 +179,24 @@ void ATetrisPlayManager::StartFallingPhase()
 	if (PlayerController->IsSoftDropKeyPressed())
 	{
 		StartSoftDrop();
+	}
+}
+
+void ATetrisPlayManager::StartLockPhase(const float LockDownFirstDelay)
+{
+	UE_LOG(LogTemp, Display, TEXT("Start Lock Phase."));
+
+	SetPhase(EPhase::Lock);
+
+	// LockDownFirstDelay가 0.0f이면 LockDown 메서드를 바로 호출하고 (직접 비교 말고 오차 범위 고려해서 비교하기),
+	// 그렇지 않으면 LockDown 타이머를 설정한다. (0.0f를 타이머 함수에 넘겨주면 이상한 일이 일어나서 이렇게 구현함.)
+	if (FMath::IsNearlyZero(LockDownFirstDelay))
+	{
+		LockDown();
+	}
+	else
+	{
+		SetLockDownTimer(LockDownFirstDelay);
 	}
 }
 
@@ -180,12 +214,12 @@ void ATetrisPlayManager::MoveTetriminoTo(const FVector2D& Direction)
 	{
 		TetriminoInPlay->MoveBy(MovementIntPoint);
 
-		const bool bIsOnSurface = !Board->IsMovementPossible(TetriminoInPlay, MovementIntPoint);
 		const bool bIsSoftDropOrNormalFall = (Direction == ATetrimino::MoveDirectionDown);
+		const bool bIsOnSurface = !Board->IsMovementPossible(TetriminoInPlay, MovementIntPoint);
 		const bool bIsLockPhaseReached = bIsSoftDropOrNormalFall && bIsOnSurface;
 		if (bIsLockPhaseReached)
 		{
-			SetLockDownTimer();
+			StartLockPhase(LockDownTimerInitialDelayOfNormalFallOrSoftDrop);
 		}
 	}
 	else
@@ -204,18 +238,31 @@ void ATetrisPlayManager::MoveTetriminoDown()
 	MoveTetriminoTo(ATetriminoBase::MoveDirectionDown);
 }
 
+void ATetrisPlayManager::HardDrop()
+{
+	check(IsTetriminoInPlayManipulable());
+	MoveTetriminoToFinalFallingMatrixLocation();
+	ForcedLockDown();
+}
+
+void ATetrisPlayManager::MoveTetriminoToFinalFallingMatrixLocation()
+{
+	const FIntPoint FinalFallingMatrixLocation = GhostPiece->GetMatrixLocation();
+	TetriminoInPlay->SetRelativeLocationByMatrixLocation(FinalFallingMatrixLocation);
+}
+
 void ATetrisPlayManager::RunSuperRotationSystem(const ETetriminoRotationDirection RotationDirection)
 {
 	check(TetriminoInPlay != nullptr);
 
-	const TArray<FIntPoint>& RotationPointOffsets = TetriminoInPlay->GetSRSRotationPointOffsets(RotationDirection);
-	for (const FIntPoint& RotationPointOffset : RotationPointOffsets)
+	const TArray<FIntPoint>& SRSRotationPointOffsets = TetriminoInPlay->GetSRSRotationPointOffsets(RotationDirection);
+	for (const FIntPoint& SRSRotationPointOffset : SRSRotationPointOffsets)
 	{
-		const bool bIsRotationPossible = Board->IsRotationPossible(TetriminoInPlay, RotationDirection, RotationPointOffset);
+		const bool bIsRotationPossible = Board->IsRotationPossible(TetriminoInPlay, RotationDirection, SRSRotationPointOffset);
 		if (bIsRotationPossible)
 		{
 			TetriminoInPlay->RotateTo(RotationDirection);
-			TetriminoInPlay->MoveBy(RotationPointOffset);
+			TetriminoInPlay->MoveBy(SRSRotationPointOffset);
 			//UE_LOG(LogTemp, Display, TEXT("%Rotation with Point%d."), PointIndex + 1);
 			return;
 		}
@@ -227,9 +274,9 @@ void ATetrisPlayManager::LockDown()
 {
 	UE_LOG(LogTemp, Display, TEXT("Lock Down."));
 
-	SetPhase(EPhase::LockDown);
-
 	check(TetriminoInPlay != nullptr);
+
+	SetIsTetriminoInPlayManipulable(false);
 
 	PlayLockDownEffect(TetriminoInPlay->GetMinoArray());
 
@@ -250,8 +297,16 @@ void ATetrisPlayManager::LockDown()
 
 void ATetrisPlayManager::ForcedLockDown()
 {
+	// TODO: 아 이건 좀.. 그.. 아니 만약에 LockDownTimerHandle 남은 시간이 HardDropTimerInitialDelay보다 짧을 수도 있잖아?
+	// 가이드라인에 정확히는 안나와 있는데.. HardDrop의 강제성이 더 높아야 할 것 같은데..
+	// 물론 이건 추후에 다른 기능 구현하다보면 구체화될 수도 있는 거니, 지금은 이 정도로 넘어 가는 걸로.
+	// 버그는 아니잖아.
 	ClearTimer(LockDownTimerHandle);
-	LockDown();
+
+	// GenerationPhaseTimerHandle should be finished.
+	check(!GetWorldTimerManager().IsTimerActive(GenerationPhaseTimerHandle));
+
+	StartLockPhase(LockDownDelayOfHardDrop);
 }
 
 void ATetrisPlayManager::SetAutoRepeatMovementTimer()
@@ -264,6 +319,11 @@ void ATetrisPlayManager::SetSoftDropTimer()
 	GetWorldTimerManager().SetTimer(SoftDropTimerHandle, this, &ATetrisPlayManager::MoveTetriminoDown, GameMode->GetSoftDropSpeed(), bSoftDropTimerLoop, SoftDropTimerInitialDelay);
 }
 
+void ATetrisPlayManager::SetHardDropTimer()
+{
+	GetWorldTimerManager().SetTimer(HardDropTimerHandle, this, &ATetrisPlayManager::HardDrop, HardDropTimerInitialDelay, bIsHardDropTimerLoop);
+}
+
 void ATetrisPlayManager::SetNormalFallTimer()
 {
 	const bool bIsNormalFallOn = GameMode && !GameMode->bNormalFallOff;
@@ -274,10 +334,10 @@ void ATetrisPlayManager::SetNormalFallTimer()
 	}
 }
 
-void ATetrisPlayManager::SetLockDownTimer()
+void ATetrisPlayManager::SetLockDownTimer(const float FirstDelay)
 {
+	GetWorldTimerManager().SetTimer(LockDownTimerHandle, this, &ATetrisPlayManager::LockDown, FirstDelay, bIsLockDownTimerLoop);
 	UE_LOG(LogTemp, Display, TEXT("LockDown Timer is set."));
-	GetWorldTimerManager().SetTimer(LockDownTimerHandle, this, &ATetrisPlayManager::LockDown, LockDownTimerInitialDelay, bIsLockDownTimerLoop);
 }
 
 void ATetrisPlayManager::ClearTimer(FTimerHandle& InOutTimerHandle)
@@ -298,6 +358,11 @@ void ATetrisPlayManager::ClearTimers(const TArray<FTimerHandle*>& TimerHandles)
 
 void ATetrisPlayManager::ClearUserInputTimers()
 {
+	// 하드 드롭은 초기 딜레이가 있긴 하지만, 다른 타이머들에 비하면 그 즉시라고 봐야 함.
+	// 즉 다른 연산이 끼어들 가능성이 없기 때문에, ClearUserInputTimers()에서는 따로 처리하지 않음.
+	// TODO: 사용자가 일시 정지를 누르면 어떡하냐고 생각할 수도 있는데,
+	// 그 경우엔 하드 드롭 딜레이가 끝난 후에 일시 정지를 걸거나, 하드 드롭 딜레이 보다 더 많은 딜레이를 주고 일시 정지를 걸면 됨.
+	// 아무튼 버그는 아니기 때문에 일단 이렇게 처리한다.
 	static const TArray<FTimerHandle*> UserInputTimerHandles =
 	{
 		&AutoRepeatMovementTimerHandle,

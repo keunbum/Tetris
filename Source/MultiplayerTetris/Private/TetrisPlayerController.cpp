@@ -69,16 +69,16 @@ void ATetrisPlayerController::BindGamePlayInput()
 		EnhancedInputComponent->BindAction(MoveRightAction, ETriggerEvent::Completed, this, &ATetrisPlayerController::OnMoveRightCompleted);
 
 		// Soft Drop
-		EnhancedInputComponent->BindAction(SoftDropAction, ETriggerEvent::Started, this, &ATetrisPlayerController::OnMoveSoftDropStarted);
-		EnhancedInputComponent->BindAction(SoftDropAction, ETriggerEvent::Completed, this, &ATetrisPlayerController::OnMoveSoftDropCompleted);
+		EnhancedInputComponent->BindAction(SoftDropAction, ETriggerEvent::Started, this, &ATetrisPlayerController::OnSoftDropStarted);
+		EnhancedInputComponent->BindAction(SoftDropAction, ETriggerEvent::Completed, this, &ATetrisPlayerController::OnSoftDropCompleted);
 
 		// Hard Drop
-		EnhancedInputComponent->BindAction(HardDropAction, ETriggerEvent::Started, this, &ATetrisPlayerController::OnMoveHardDropStarted);
+		EnhancedInputComponent->BindAction(HardDropAction, ETriggerEvent::Started, this, &ATetrisPlayerController::OnHardDropStarted);
 
 		// RotateClockwise
-		EnhancedInputComponent->BindAction(RotateClockwiseAction, ETriggerEvent::Started, this, &ATetrisPlayerController::OnMoveHardRotateClockwiseStarted);
+		EnhancedInputComponent->BindAction(RotateClockwiseAction, ETriggerEvent::Started, this, &ATetrisPlayerController::OnRotateClockwiseStarted);
 		// RotateCounterClockwise
-		EnhancedInputComponent->BindAction(RotateCounterClockwiseAction, ETriggerEvent::Started, this, &ATetrisPlayerController::OnMoveHardCounterClockwiseStarted);
+		EnhancedInputComponent->BindAction(RotateCounterClockwiseAction, ETriggerEvent::Started, this, &ATetrisPlayerController::OnRotateCounterClockwiseStarted);
 	}
 }
 
@@ -106,33 +106,33 @@ void ATetrisPlayerController::OnMoveRightCompleted(const FInputActionValue& Acti
 	EndTetriminoMovement(EKeyFlags::Right);
 }
 
-void ATetrisPlayerController::OnMoveSoftDropStarted(const FInputActionValue& ActionValue)
+void ATetrisPlayerController::OnSoftDropStarted(const FInputActionValue& ActionValue)
 {
-	UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayerController::OnMoveSoftDropStarted()"));
+	UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayerController::OnSoftDropStarted()"));
 	EnumAddFlags(KeyPressingFlags, EKeyFlags::SoftDrop);
 	GameMode->GetTetrisPlayManager()->StartSoftDrop();
 }
 
-void ATetrisPlayerController::OnMoveSoftDropCompleted(const FInputActionValue& ActionValue)
+void ATetrisPlayerController::OnSoftDropCompleted(const FInputActionValue& ActionValue)
 {
-	UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayerController::OnMoveSoftDropCompleted()"));
+	UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayerController::OnSoftDropCompleted()"));
 	EnumRemoveFlags(KeyPressingFlags, EKeyFlags::SoftDrop);
 	GameMode->GetTetrisPlayManager()->EndSoftDrop();
 }
 
-void ATetrisPlayerController::OnMoveHardDropStarted(const FInputActionValue& ActionValue)
+void ATetrisPlayerController::OnHardDropStarted(const FInputActionValue& ActionValue)
 {
-	UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayerController::OnMoveHardDropStarted()"));
+	UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayerController::OnHardDropStarted()"));
 	GameMode->GetTetrisPlayManager()->DoHardDrop();
 }
 
-void ATetrisPlayerController::OnMoveHardRotateClockwiseStarted(const FInputActionValue& ActionValue)
+void ATetrisPlayerController::OnRotateClockwiseStarted(const FInputActionValue& ActionValue)
 {
 	UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayerController::RotateClockwise()"));
 	GameMode->GetTetrisPlayManager()->DoRotation(ETetriminoRotationDirection::Clockwise);
 }
 
-void ATetrisPlayerController::OnMoveHardCounterClockwiseStarted(const FInputActionValue& ActionValue)
+void ATetrisPlayerController::OnRotateCounterClockwiseStarted(const FInputActionValue& ActionValue)
 {
 	UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayerController::RotateCounterClockwise()"));
 	GameMode->GetTetrisPlayManager()->DoRotation(ETetriminoRotationDirection::CounterClockwise);

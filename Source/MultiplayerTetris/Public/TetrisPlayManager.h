@@ -30,7 +30,7 @@ enum class EPhase : uint8
 	None,
 	Generation,
 	Falling,
-	LockDown,
+	Lock,
 	Pattern,
 	Iterate,
 	Animate,
@@ -71,11 +71,15 @@ private:
 
 	// Phase Flow
 	void StartFallingPhase();
+	void StartLockPhase(const float LockDownFirstDelay);
 
 	// User Input
 	void MoveTetriminoTo(const FVector2D& Direction);
 	void MoveTetrimino();
 	void MoveTetriminoDown();
+	void HardDrop();
+	// Move the Tetrimino to FinalFallingMatrixLocation.
+	void MoveTetriminoToFinalFallingMatrixLocation();
 
 	void RunSuperRotationSystem(const ETetriminoRotationDirection RotationDirection);
 
@@ -84,8 +88,9 @@ private:
 
 	void SetAutoRepeatMovementTimer();
 	void SetSoftDropTimer();
+	void SetHardDropTimer();
 	void SetNormalFallTimer();
-	void SetLockDownTimer();
+	void SetLockDownTimer(const float FirstDelay);
 
 	void ClearTimer(FTimerHandle& InOutTimerHandle);
 	void ClearTimers(const TArray<FTimerHandle*>& TimerHandles);
@@ -98,7 +103,8 @@ private:
 
 	// Basic Member Variables
 	void SetPhase(const EPhase NewPhase) { Phase = NewPhase; }
-	bool IsTetriminoManipulable() const { return Phase == EPhase::Falling; }
+	void SetIsTetriminoInPlayManipulable(const bool bInIsTetriminoInPlayManipulable) { bIsTetriminoInPlayManipulable = bInIsTetriminoInPlayManipulable; }
+	bool IsTetriminoInPlayManipulable() const { return bIsTetriminoInPlayManipulable; }
 	void SetTetriminoMovementDirection(const FVector2D& NewTetriminoMovementDirection) { TetriminoMovementDirection = NewTetriminoMovementDirection; }
 	void SetTetriminoInPlay(ATetrimino* const NewTetriminoInPlay);
 
@@ -121,11 +127,12 @@ private:
 
 	// Hard Drop
 	static constexpr bool bIsHardDropTimerLoop = false;
-	static constexpr float HardDropTimerInitialDelay = 0.02f;
+	static constexpr float HardDropTimerInitialDelay = 0.0001f;
+	static constexpr float LockDownDelayOfHardDrop = 0.0f;
 
 	// LockDown
 	static constexpr bool bIsLockDownTimerLoop = false;
-	static constexpr float LockDownTimerInitialDelay = 0.5f;
+	static constexpr float LockDownTimerInitialDelayOfNormalFallOrSoftDrop = 0.5f;
 
 	// GenerationPhase
 	static constexpr bool bIsGenerationPhaseTimerLoop = false;
@@ -137,6 +144,9 @@ private:
 
 	UPROPERTY()
 	ELockDownOption LockDownOption;
+
+	UPROPERTY(VisibleAnywhere)
+	bool bIsTetriminoInPlayManipulable;
 
 	UPROPERTY(EditDefaultsOnly)
 	bool bIsGhostPieceOn;
@@ -178,6 +188,7 @@ private:
 	FTimerHandle NormalFallTimerHandle;
 	FTimerHandle SoftDropTimerHandle;
 	FTimerHandle AutoRepeatMovementTimerHandle;
+	FTimerHandle HardDropTimerHandle;
 
 	// Game Logic Timers
 	FTimerHandle LockDownTimerHandle;
