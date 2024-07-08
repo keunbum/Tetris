@@ -180,6 +180,7 @@ private:
 	FTimerHandle NormalFallTimerHandle;
 	FTimerHandle SoftDropTimerHandle;
 	FTimerHandle AutoRepeatMovementTimerHandle;
+	FTimerHandle HardDropTimerHandle;
 
 	// Game Logic Timers
 	FTimerHandle LockDownTimerHandle;
