@@ -227,6 +227,7 @@ void ATetrisPlayManager::MoveTetriminoDown()
 
 void ATetrisPlayManager::HardDrop()
 {
+	check(IsTetriminoInPlayManipulable());
 	MoveTetriminoToFinalFallingMatrixLocation();
 	ForcedLockDown();
 }
