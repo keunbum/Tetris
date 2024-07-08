@@ -294,6 +294,11 @@ void ATetrisPlayManager::SetSoftDropTimer()
 	GetWorldTimerManager().SetTimer(SoftDropTimerHandle, this, &ATetrisPlayManager::MoveTetriminoDown, GameMode->GetSoftDropSpeed(), bSoftDropTimerLoop, SoftDropTimerInitialDelay);
 }
 
+void ATetrisPlayManager::SetHardDropTimer()
+{
+	GetWorldTimerManager().SetTimer(HardDropTimerHandle, this, &ATetrisPlayManager::HardDrop, HardDropTimerInitialDelay, bIsHardDropTimerLoop);
+}
+
 void ATetrisPlayManager::SetNormalFallTimer()
 {
 	const bool bIsNormalFallOn = GameMode && !GameMode->bNormalFallOff;

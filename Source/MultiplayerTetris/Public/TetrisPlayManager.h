@@ -88,6 +88,7 @@ private:
 
 	void SetAutoRepeatMovementTimer();
 	void SetSoftDropTimer();
+	void SetHardDropTimer();
 	void SetNormalFallTimer();
 	void SetLockDownTimer(const float InitialDelay);
 
