@@ -129,7 +129,7 @@ private:
 
 	// LockDown
 	static constexpr bool bIsLockDownTimerLoop = false;
-	static constexpr float LockDownTimerInitialDelay = 0.5f;
+	static constexpr float LockDownTimerInitialDelayForNormalFallOrSoftDrop = 0.5f;
 
 	// GenerationPhase
 	static constexpr bool bIsGenerationPhaseTimerLoop = false;
