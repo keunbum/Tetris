@@ -258,6 +258,8 @@ void ATetrisPlayManager::LockDown()
 void ATetrisPlayManager::ForcedLockDown()
 {
 	ClearUserInputTimers();
+	// 아 이건 좀.. 그.. 아니 만약에 LockDownTimerHandle 남은 시간이 HardDropTimerInitialDelay보다 짧을 수도 있잖아?
+	// 가이드라인 좀 꼼꼼히 읽어봐야 할듯.. 일단 이렇게 구현.
 	ClearTimer(LockDownTimerHandle);
 
 	// GenerationPhaseTimerHandle should be finished.
