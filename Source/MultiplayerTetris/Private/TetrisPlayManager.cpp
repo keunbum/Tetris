@@ -204,11 +204,16 @@ void ATetrisPlayManager::MoveTetriminoDown()
 	MoveTetriminoTo(ATetriminoBase::MoveDirectionDown);
 }
 
+void ATetrisPlayManager::InternalDoHardDrop()
+{
+	MoveTetriminoToFinalFallingMatrixLocation();
+	ForcedLockDown();
+}
+
 void ATetrisPlayManager::MoveTetriminoToFinalFallingMatrixLocation()
 {
 	const FIntPoint FinalFallingMatrixLocation = GhostPiece->GetMatrixLocation();
 	TetriminoInPlay->SetRelativeLocationByMatrixLocation(FinalFallingMatrixLocation);
-	ForcedLockDown();
 }
 
 void ATetrisPlayManager::RunSuperRotationSystem(const ETetriminoRotationDirection RotationDirection)

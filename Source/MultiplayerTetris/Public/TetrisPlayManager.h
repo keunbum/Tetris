@@ -76,6 +76,7 @@ private:
 	void MoveTetriminoTo(const FVector2D& Direction);
 	void MoveTetrimino();
 	void MoveTetriminoDown();
+	void InternalDoHardDrop();
 	// Move the Tetrimino to FinalFallingMatrixLocation.
 	void MoveTetriminoToFinalFallingMatrixLocation();
 
