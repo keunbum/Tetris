@@ -1,4 +1,4 @@
-// Copyright Ryu KeunBeom, Inc. All Rights Reserved.
+// Copyright © 2024 Ryu KeunBeom. All Rights Reserved.
 
 
 #include "Board.h"
