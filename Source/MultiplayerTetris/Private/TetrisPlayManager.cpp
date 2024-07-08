@@ -346,7 +346,11 @@ void ATetrisPlayManager::ClearTimers(const TArray<FTimerHandle*>& TimerHandles)
 
 void ATetrisPlayManager::ClearUserInputTimers()
 {
-	// HardDropTimerHandle is an exception because it fires almost immediately.
+	// 하드 드롭은 초기 딜레이가 있긴 하지만, 다른 타이머들에 비하면 그 즉시라고 봐야 함.
+	// 즉 다른 연산이 끼어들 가능성이 없기 때문에, ClearUserInputTimers()에서는 따로 처리하지 않음.
+	// TODO: 사용자가 일시 정지를 누르면 어떡하냐고 생각할 수도 있는데,
+	// 그 경우엔 하드 드롭 딜레이가 끝난 후에 일시 정지를 걸거나, 하드 드롭 딜레이 보다 더 많은 딜레이를 주고 일시 정지를 걸면 됨.
+	// 아무튼 버그는 아니기 때문에 일단 이렇게 처리한다.
 	static const TArray<FTimerHandle*> UserInputTimerHandles =
 	{
 		&AutoRepeatMovementTimerHandle,
