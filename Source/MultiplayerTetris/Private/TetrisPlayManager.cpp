@@ -31,10 +31,14 @@ void ATetrisPlayManager::Initialize()
 	// UMino
 	UMino::ClearMaterialCache();
 
+	// World
 	UWorld* const World = GetWorld();
 	check(World != nullptr);
+
+	// GameMode
 	GameMode = World->GetAuthGameMode<ATetrisGameModeBase>();
 
+	// Set Basic members
 	SetNormalFallSpeed(GameMode->GetNormalFallSpeed());
 	SetTetriminoMovementDirection(FVector2D::ZeroVector);
 
