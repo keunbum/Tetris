@@ -103,7 +103,7 @@ private:
 	// Basic Member Variables
 	void SetPhase(const EPhase NewPhase) { Phase = NewPhase; }
 	void SetIsTetriminoInPlayManipulable(const bool bInIsTetriminoInPlayManipulable) { bIsTetriminoInPlayManipulable = bInIsTetriminoInPlayManipulable; }
-	bool IsTetriminoManipulable() const { return Phase == EPhase::Falling; }
+	bool IsTetriminoInPlayManipulable() const { return Phase == EPhase::Falling; }
 	void SetTetriminoMovementDirection(const FVector2D& NewTetriminoMovementDirection) { TetriminoMovementDirection = NewTetriminoMovementDirection; }
 	void SetTetriminoInPlay(ATetrimino* const NewTetriminoInPlay);
 

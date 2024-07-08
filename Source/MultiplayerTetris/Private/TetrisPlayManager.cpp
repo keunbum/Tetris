@@ -80,7 +80,7 @@ void ATetrisPlayManager::StartGenerationPhase()
 
 void ATetrisPlayManager::StartMovement(const FVector2D& InMovementDirection)
 {
-	if (!IsTetriminoManipulable())
+	if (!IsTetriminoInPlayManipulable())
 	{
 		UE_LOG(LogTemp, Display, TEXT("Tetrimino is not manipulable."));
 		return;
@@ -104,7 +104,7 @@ void ATetrisPlayManager::EndMovement()
 
 void ATetrisPlayManager::StartSoftDrop()
 {
-	if (!IsTetriminoManipulable())
+	if (!IsTetriminoInPlayManipulable())
 	{
 		UE_LOG(LogTemp, Display, TEXT("Tetrimino is not manipulable."));
 		return;
@@ -136,7 +136,7 @@ void ATetrisPlayManager::DoHardDrop()
 
 void ATetrisPlayManager::DoRotation(const ETetriminoRotationDirection RotationDirection)
 {
-	if (!IsTetriminoManipulable())
+	if (!IsTetriminoInPlayManipulable())
 	{
 		UE_LOG(LogTemp, Display, TEXT("Tetrimino is not manipulable."));
 		return;
