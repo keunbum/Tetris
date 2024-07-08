@@ -88,9 +88,8 @@ FIntPoint ABoard::GetFinalFallingMatrixLocation(const ATetrimino* Tetrimino) con
 	check(Tetrimino != nullptr);
 
 	FIntPoint FinalFallingMatrixLocation = Tetrimino->GetMatrixLocation();
-	const TArray<FIntPoint>& MinoMatrixLocalLocations = Tetrimino->GetMinoMatrixLocalLocations();
 	static const FIntPoint MovementIntPoint2D = ATetriminoBase::GetMatrixMovementIntPointByDirection(ATetrimino::MoveDirectionDown);
-	while (IsMinoLocationsPossible(MinoMatrixLocalLocations, FinalFallingMatrixLocation + MovementIntPoint2D))
+	while (IsMinoLocationsPossible(Tetrimino->GetMinoMatrixLocalLocations(), FinalFallingMatrixLocation + MovementIntPoint2D))
 	{
 		FinalFallingMatrixLocation += MovementIntPoint2D;
 	}
