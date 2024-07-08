@@ -182,6 +182,8 @@ void ATetrisPlayManager::StartFallingPhase()
 
 void ATetrisPlayManager::StartLockPhase(const float LockDownDelay)
 {
+	UE_LOG(LogTemp, Display, TEXT("Start Lock Phase."));
+
 	SetPhase(EPhase::Lock);
 	SetLockDownTimer(LockDownDelay);
 }
