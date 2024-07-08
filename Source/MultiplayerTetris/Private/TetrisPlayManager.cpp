@@ -215,14 +215,14 @@ void ATetrisPlayManager::RunSuperRotationSystem(const ETetriminoRotationDirectio
 {
 	check(TetriminoInPlay != nullptr);
 
-	const TArray<FIntPoint>& RotationPointOffsets = TetriminoInPlay->GetSRSRotationPointOffsets(RotationDirection);
-	for (const FIntPoint& RotationPointOffset : RotationPointOffsets)
+	const TArray<FIntPoint>& SRSRotationPointOffsets = TetriminoInPlay->GetSRSRotationPointOffsets(RotationDirection);
+	for (const FIntPoint& SRSRotationPointOffset : SRSRotationPointOffsets)
 	{
-		const bool bIsRotationPossible = Board->IsRotationPossible(TetriminoInPlay, RotationDirection, RotationPointOffset);
+		const bool bIsRotationPossible = Board->IsRotationPossible(TetriminoInPlay, RotationDirection, SRSRotationPointOffset);
 		if (bIsRotationPossible)
 		{
 			TetriminoInPlay->RotateTo(RotationDirection);
-			TetriminoInPlay->MoveBy(RotationPointOffset);
+			TetriminoInPlay->MoveBy(SRSRotationPointOffset);
 			//UE_LOG(LogTemp, Display, TEXT("%Rotation with Point%d."), PointIndex + 1);
 			return;
 		}
