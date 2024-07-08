@@ -2,6 +2,8 @@
 
 #include "TetrisPlayManager.h"
 
+#include "Math/UnrealMathUtility.h"
+
 #include "Board.h"
 #include "TetrisGameModeBase.h"
 #include "Tetrimino.h"
@@ -185,7 +187,17 @@ void ATetrisPlayManager::StartLockPhase(const float LockDownFirstDelay)
 	UE_LOG(LogTemp, Display, TEXT("Start Lock Phase."));
 
 	SetPhase(EPhase::Lock);
-	SetLockDownTimer(LockDownDelay);
+
+	// LockDownFirstDelay가 0.0f이면 LockDown 메서드를 바로 호출하고 (직접 비교 말고 오차 범위 고려해서 비교하기),
+	// 그렇지 않으면 LockDown 타이머를 설정한다. (0.0f를 타이머 함수에 넘겨주면 이상한 일이 일어나서 이렇게 구현함.)
+	if (FMath::IsNearlyZero(LockDownFirstDelay))
+	{
+		LockDown();
+	}
+	else
+	{
+		SetLockDownTimer(LockDownFirstDelay);
+	}
 }
 
 void ATetrisPlayManager::MoveTetriminoTo(const FVector2D& Direction)
