@@ -1,4 +1,4 @@
-// Copyright Ryu KeunBeom, Inc. All Rights Reserved.
+// Copyright © 2024 Ryu KeunBeom. All Rights Reserved.
 
 
 #include "Board.h"
@@ -9,7 +9,7 @@
 #include "UObject/ConstructorHelpers.h"
 #include "Algo/AllOf.h"
 
-#include "Tetrimino.h"
+#include "TetriminoBase.h"
 
 const FMinoInfo ABoard::BackgroundMinoInfo = FMinoInfo(TEXT("/Game/Material/M_MinoMaterial"), FLinearColor::Gray);
 const FMinoInfo ABoard::SpecialMinoInfo = FMinoInfo(TEXT("/Game/Material/M_MinoMaterial"), FLinearColor::Black);
@@ -51,7 +51,7 @@ bool ABoard::IsMovementPossible(const ATetrimino* Tetrimino, const FIntPoint& Mo
 	check(Tetrimino != nullptr);
 	const FIntPoint NewTetriminoMatrixLocation = Tetrimino->GetMatrixLocation() + MovementIntPoint2D;
 	const TArray<FIntPoint>& MinoMatrixLocalLocations = Tetrimino->GetMinoMatrixLocalLocations();
-	return IsMinoLocationsPossible(NewTetriminoMatrixLocation, MinoMatrixLocalLocations);
+	return IsMinoLocationsPossible(MinoMatrixLocalLocations, NewTetriminoMatrixLocation);
 }
 
 bool ABoard::IsRotationPossible(const ATetrimino* Tetrimino, const ETetriminoRotationDirection RotationDirection, const FIntPoint& RotationPointOffset) const
@@ -60,8 +60,8 @@ bool ABoard::IsRotationPossible(const ATetrimino* Tetrimino, const ETetriminoRot
 	const FIntPoint& NewTetriminoMatrixLocation = Tetrimino->GetMatrixLocation() + RotationPointOffset;
 	const ETetriminoShape TetriminoShape = Tetrimino->GetShape();
 	const ETetriminoFacing NewTetriminoFacing = Tetrimino->GetFacing() + static_cast<int32>(RotationDirection);
-	const TArray<FIntPoint>& NewMinoLocalMatrixLocations = ATetrimino::GetMinoMatrixLocalLocationsByTetriminoShapeAndFacing(TetriminoShape, NewTetriminoFacing);
-	return IsMinoLocationsPossible(NewTetriminoMatrixLocation, NewMinoLocalMatrixLocations);
+	const TArray<FIntPoint>& NewMinoLocalMatrixLocations = ATetriminoBase::GetMinoMatrixLocalLocationsByTetriminoShapeAndFacing(TetriminoShape, NewTetriminoFacing);
+	return IsMinoLocationsPossible(NewMinoLocalMatrixLocations, NewTetriminoMatrixLocation);
 }
 
 void ABoard::AddMinos(const ATetrimino* Tetrimino)
@@ -81,6 +81,19 @@ void ABoard::AddMinos(const ATetrimino* Tetrimino)
 		Mino->AttachToWithMatrixLocation(MatrixRoot, MinoMatrixLocation);
 		SetMinoByMatrixLocation(Mino, MinoMatrixLocation);
 	}
+}
+
+FIntPoint ABoard::GetFinalFallingMatrixLocation(const ATetrimino* Tetrimino) const
+{
+	check(Tetrimino != nullptr);
+
+	FIntPoint FinalFallingMatrixLocation = Tetrimino->GetMatrixLocation();
+	static const FIntPoint MovementIntPoint2D = ATetriminoBase::GetMatrixMovementIntPointByDirection(ATetrimino::MoveDirectionDown);
+	while (IsMinoLocationsPossible(Tetrimino->GetMinoMatrixLocalLocations(), FinalFallingMatrixLocation + MovementIntPoint2D))
+	{
+		FinalFallingMatrixLocation += MovementIntPoint2D;
+	}
+	return FinalFallingMatrixLocation;
 }
 
 void ABoard::InitializeBackground()
@@ -132,7 +145,7 @@ bool ABoard::IsMatrixLocationEmpty(const FIntPoint& MatrixLocation) const
 	return !IsValid(Mino);
 }
 
-bool ABoard::IsMinoLocationsPossible(const FIntPoint& TetriminoMatrixLocation, const TArray<FIntPoint>& MinoLocalMatrixLocations) const
+bool ABoard::IsMinoLocationsPossible(const TArray<FIntPoint>& MinoLocalMatrixLocations, const FIntPoint& TetriminoMatrixLocation) const
 {
 	return Algo::AllOf(MinoLocalMatrixLocations, [this, &TetriminoMatrixLocation](const FIntPoint& MinoLocalMatrixLocation) {
 		const FIntPoint NewMinoLocalMatrixLocation = TetriminoMatrixLocation + MinoLocalMatrixLocation;

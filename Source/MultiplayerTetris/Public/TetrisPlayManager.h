@@ -1,16 +1,17 @@
-// Copyright KeunBeom Ryu. All Rights Reserved.
+// Copyright © 2024 Ryu KeunBeom. All Rights Reserved.
 
 #pragma once
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 
-#include "Tetrimino.h"
+#include "TetriminoBase.h"
 
 #include "TetrisPlayManager.generated.h"
 
 class ATetrisGameModeBase;
 class ATetrimino;
+class AGhostPiece;
 class ABoard;
 class ATetriminoQueue;
 class UTetriminoGenerator;
@@ -104,9 +105,6 @@ private:
 	// Effect
 	void PlayLockDownEffect(const TArray<UMino*>& MinoArray);
 	
-	// static method
-	static FIntPoint GetMovementIntVector2D(const FVector2D& Direction);
-
 private:
 	// Normal Fall
 	static constexpr bool bIsNormalFallTimerLoop = true;
@@ -155,20 +153,17 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<ATetrimino> TetriminoInPlay;
 
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<AGhostPiece> GhostPieceClass;
+
+	UPROPERTY(VisibleAnywhere)
+	TObjectPtr<AGhostPiece> GhostPiece;
+
 	UPROPERTY()
 	TObjectPtr<ABoard> Board;
 
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<ATetriminoQueue> NextQueue;
-
-	// User Input Timers
-	FTimerHandle NormalFallTimerHandle;
-	FTimerHandle SoftDropTimerHandle;
-	FTimerHandle AutoRepeatMovementTimerHandle;
-
-	// Game Logic Timers
-	FTimerHandle LockDownTimerHandle;
-	FTimerHandle GenerationPhaseTimerHandle;
 
 	UPROPERTY(VisibleAnywhere)
 	FVector2D TetriminoMovementDirection;
@@ -178,4 +173,13 @@ private:
 
 	UPROPERTY(EditDefaultsOnly)
 	ETetriminoShape TestSpawnShape = ETetriminoShape::None;
+
+	// User Input Timers
+	FTimerHandle NormalFallTimerHandle;
+	FTimerHandle SoftDropTimerHandle;
+	FTimerHandle AutoRepeatMovementTimerHandle;
+
+	// Game Logic Timers
+	FTimerHandle LockDownTimerHandle;
+	FTimerHandle GenerationPhaseTimerHandle;
 };

@@ -1,4 +1,4 @@
-// Copyright KeunBeom Ryu. All Rights Reserved.
+﻿// Copyright © 2024 Ryu KeunBeom. All Rights Reserved.
 
 #pragma once
 
@@ -28,10 +28,10 @@ public:
 	ATetriminoQueue();
 
 	/**
-	* Initializes the Tetrimino queue with the specified maximum queue size.
+	 * Initializes the Tetrimino queue with the specified maximum queue size.
 	 * @param MaxQueueSize The maximum number of Tetriminos that can be stored in the queue.
 	 * @param ParentComponent The component that will be the root of the Tetrimino queue.
-	*/
+	 */
 	void Initialize(const int32 QueueSize, USceneComponent* const NewParentComponent);
 
 	/**

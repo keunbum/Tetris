@@ -7,7 +7,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "UObject/ConstructorHelpers.h"
 
-#include "Tetrimino.h"
+#include "TetriminoBase.h"
 #include "TetrisPlayManager.h"
 #include "Board.h"
 #include "TetrisPlayerController.h"
