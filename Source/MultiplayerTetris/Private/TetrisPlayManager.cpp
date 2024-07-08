@@ -131,10 +131,9 @@ void ATetrisPlayManager::EndSoftDrop()
 
 void ATetrisPlayManager::DoHardDrop()
 {
-	// TODO: 하드 드롭 로직 추가
 	// 테트리스 가이드라인 2009에 나와 있는 방식 그대로 구현하기.
 	// HardDrop에는 Auto-Repeat 없음.
-	// 나중에 Hard Drop Trail 관련 이펙트도 있으면 금상첨화.
+	// TODO: 나중에 Hard Drop Trail 관련 이펙트도 있으면 금상첨화.
 	if (!IsTetriminoInPlayManipulable())
 	{
 		UE_LOG(LogTemp, Display, TEXT("Tetrimino is not manipulable."));
