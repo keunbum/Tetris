@@ -180,8 +180,8 @@ void ATetrisPlayManager::MoveTetriminoTo(const FVector2D& Direction)
 	{
 		TetriminoInPlay->MoveBy(MovementIntPoint);
 
-		const bool bIsOnSurface = !Board->IsMovementPossible(TetriminoInPlay, MovementIntPoint);
 		const bool bIsSoftDropOrNormalFall = (Direction == ATetrimino::MoveDirectionDown);
+		const bool bIsOnSurface = !Board->IsMovementPossible(TetriminoInPlay, MovementIntPoint);
 		const bool bIsLockPhaseReached = bIsSoftDropOrNormalFall && bIsOnSurface;
 		if (bIsLockPhaseReached)
 		{
