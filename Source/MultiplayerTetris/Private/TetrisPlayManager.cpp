@@ -251,6 +251,11 @@ void ATetrisPlayManager::LockDown()
 void ATetrisPlayManager::ForcedLockDown()
 {
 	ClearUserInputTimers();
+	ClearTimer(LockDownTimerHandle);
+
+	// GenerationPhaseTimerHandle should be finished.
+	check(!GenerationPhaseTimerHandle.IsValid());
+
 	LockDown();
 }
 
