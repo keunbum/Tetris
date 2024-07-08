@@ -30,7 +30,7 @@ enum class EPhase : uint8
 	None,
 	Generation,
 	Falling,
-	LockDown,
+	Lock,
 	Pattern,
 	Iterate,
 	Animate,
