@@ -13,6 +13,7 @@
 ATetrisPlayManager::ATetrisPlayManager()
 	: Phase(EPhase::None)
 	, LockDownOption(ELockDownOption::ExtendedPlacement)
+	, bIsTetriminoInPlayManipulable(false)
 	, bIsGhostPieceOn(true)
 	, NormalFallSpeed(-1.0f)
 	, TetriminoClass(ATetrimino::StaticClass())
