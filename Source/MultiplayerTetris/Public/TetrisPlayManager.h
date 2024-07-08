@@ -88,7 +88,7 @@ private:
 	void SetAutoRepeatMovementTimer();
 	void SetSoftDropTimer();
 	void SetNormalFallTimer();
-	void SetLockDownTimer();
+	void SetLockDownTimer(const float InitialDelay);
 
 	void ClearTimer(FTimerHandle& InOutTimerHandle);
 	void ClearTimers(const TArray<FTimerHandle*>& TimerHandles);
