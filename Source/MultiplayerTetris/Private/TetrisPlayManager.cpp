@@ -250,7 +250,7 @@ void ATetrisPlayManager::LockDown()
 
 void ATetrisPlayManager::ForcedLockDown()
 {
-	ClearTimer(LockDownTimerHandle);
+	ClearUserInputTimers();
 	LockDown();
 }
 
