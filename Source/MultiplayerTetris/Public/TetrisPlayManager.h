@@ -90,7 +90,7 @@ private:
 	void SetSoftDropTimer();
 	void SetHardDropTimer();
 	void SetNormalFallTimer();
-	void SetLockDownTimer(const float InitialDelay);
+	void SetLockDownTimer(const float FirstDelay);
 
 	void ClearTimer(FTimerHandle& InOutTimerHandle);
 	void ClearTimers(const TArray<FTimerHandle*>& TimerHandles);

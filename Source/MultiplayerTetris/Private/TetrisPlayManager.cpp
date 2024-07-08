@@ -322,10 +322,10 @@ void ATetrisPlayManager::SetNormalFallTimer()
 	}
 }
 
-void ATetrisPlayManager::SetLockDownTimer(const float InitialDelay)
+void ATetrisPlayManager::SetLockDownTimer(const float FirstDelay)
 {
+	GetWorldTimerManager().SetTimer(LockDownTimerHandle, this, &ATetrisPlayManager::LockDown, FirstDelay, bIsLockDownTimerLoop);
 	UE_LOG(LogTemp, Display, TEXT("LockDown Timer is set."));
-	GetWorldTimerManager().SetTimer(LockDownTimerHandle, this, &ATetrisPlayManager::LockDown, InitialDelay, bIsLockDownTimerLoop);
 }
 
 void ATetrisPlayManager::ClearTimer(FTimerHandle& InOutTimerHandle)
