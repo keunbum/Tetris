@@ -52,11 +52,11 @@ private:
 	void OnMoveLeftCompleted(const FInputActionValue& ActionValue);
 	void OnMoveRightStarted(const FInputActionValue& ActionValue);
 	void OnMoveRightCompleted(const FInputActionValue& ActionValue);
-	void OnMoveSoftDropStarted(const FInputActionValue& ActionValue);
-	void OnMoveSoftDropCompleted(const FInputActionValue& ActionValue);
-	void OnMoveHardDropStarted(const FInputActionValue& ActionValue);
-	void OnMoveHardRotateClockwiseStarted(const FInputActionValue& ActionValue);
-	void OnMoveHardCounterClockwiseStarted(const FInputActionValue& ActionValue);
+	void OnSoftDropStarted(const FInputActionValue& ActionValue);
+	void OnSoftDropCompleted(const FInputActionValue& ActionValue);
+	void OnHardDropStarted(const FInputActionValue& ActionValue);
+	void OnRotateClockwiseStarted(const FInputActionValue& ActionValue);
+	void OnRotateCounterClockwiseStarted(const FInputActionValue& ActionValue);
 
 	static const FVector2D& GetDirectionByKeyFlag(const EKeyFlags KeyFlag);
 
