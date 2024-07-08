@@ -160,6 +160,7 @@ void ATetrisPlayManager::StartFallingPhase()
 	UE_LOG(LogTemp, Display, TEXT("Start Falling Phase."));
 
 	SetPhase(EPhase::Falling);
+	SetIsTetriminoInPlayManipulable(true);
 
 	SetNormalFallTimer();
 
@@ -251,6 +252,8 @@ void ATetrisPlayManager::LockDown()
 	UE_LOG(LogTemp, Display, TEXT("Lock Down."));
 
 	check(TetriminoInPlay != nullptr);
+
+	SetIsTetriminoInPlayManipulable(false);
 
 	PlayLockDownEffect(TetriminoInPlay->GetMinoArray());
 
