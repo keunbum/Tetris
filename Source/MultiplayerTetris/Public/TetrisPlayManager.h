@@ -123,7 +123,7 @@ private:
 
 	// Hard Drop
 	static constexpr bool bIsHardDropTimerLoop = false;
-	static constexpr float HardDropTimerInitialDelay = 0.02f;
+	static constexpr float HardDropTimerInitialDelay = 0.0001f;
 
 	// LockDown
 	static constexpr bool bIsLockDownTimerLoop = false;
