@@ -71,6 +71,7 @@ private:
 
 	// Phase Flow
 	void StartFallingPhase();
+	void StartLockPhase(const float LockDownDelay);
 
 	// User Input
 	void MoveTetriminoTo(const FVector2D& Direction);

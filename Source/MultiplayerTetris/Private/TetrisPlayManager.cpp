@@ -166,6 +166,12 @@ void ATetrisPlayManager::StartFallingPhase()
 	}
 }
 
+void ATetrisPlayManager::StartLockPhase(const float LockDownDelay)
+{
+	SetPhase(EPhase::Lock);
+	SetLockDownTimer(LockDownDelay);
+}
+
 void ATetrisPlayManager::MoveTetriminoTo(const FVector2D& Direction)
 {
 	if (!TetriminoInPlay)
@@ -238,8 +244,6 @@ void ATetrisPlayManager::RunSuperRotationSystem(const ETetriminoRotationDirectio
 void ATetrisPlayManager::LockDown()
 {
 	UE_LOG(LogTemp, Display, TEXT("Lock Down."));
-
-	SetPhase(EPhase::LockDown);
 
 	check(TetriminoInPlay != nullptr);
 
