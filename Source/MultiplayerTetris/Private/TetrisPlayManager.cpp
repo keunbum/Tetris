@@ -289,7 +289,7 @@ void ATetrisPlayManager::ForcedLockDown()
 	ClearTimer(LockDownTimerHandle);
 
 	// GenerationPhaseTimerHandle should be finished.
-	check(!GenerationPhaseTimerHandle.IsValid());
+	check(!GetWorldTimerManager().IsTimerActive(GenerationPhaseTimerHandle));
 
 	LockDown();
 }
