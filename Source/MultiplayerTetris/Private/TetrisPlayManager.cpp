@@ -185,7 +185,6 @@ void ATetrisPlayManager::MoveTetriminoTo(const FVector2D& Direction)
 		const bool bIsLockPhaseReached = bIsSoftDropOrNormalFall && bIsOnSurface;
 		if (bIsLockPhaseReached)
 		{
-			UE_LOG(LogTemp, Display, TEXT("LockDown Timer is set."));
 			SetLockDownTimer();
 		}
 	}
@@ -277,6 +276,7 @@ void ATetrisPlayManager::SetNormalFallTimer()
 
 void ATetrisPlayManager::SetLockDownTimer()
 {
+	UE_LOG(LogTemp, Display, TEXT("LockDown Timer is set."));
 	GetWorldTimerManager().SetTimer(LockDownTimerHandle, this, &ATetrisPlayManager::LockDown, LockDownTimerInitialDelay, bIsLockDownTimerLoop);
 }
 
