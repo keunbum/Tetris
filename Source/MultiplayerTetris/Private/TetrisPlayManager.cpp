@@ -306,7 +306,7 @@ void ATetrisPlayManager::ForcedLockDown()
 	// GenerationPhaseTimerHandle should be finished.
 	check(!GetWorldTimerManager().IsTimerActive(GenerationPhaseTimerHandle));
 
-	LockDown();
+	StartLockPhase(LockDownDelayOfHardDrop);
 }
 
 void ATetrisPlayManager::SetAutoRepeatMovementTimer()
