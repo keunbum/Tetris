@@ -434,7 +434,7 @@ const TArray<FIntPoint>& ATetriminoBase::GetMinoMatrixLocalLocationsByTetriminoS
 	return TetriminoShapeInfo.MinoMatrixLocalLocationsByFacing[Facing];
 }
 
-FIntPoint ATetriminoBase::GetMovementIntPoint2D(const FVector2D& Direction)
+FIntPoint ATetriminoBase::GetMatrixMovementIntPointByDirection(const FVector2D& Direction)
 {
 	static constexpr float OneSpace = 1.0f;
 	const FVector2D MovementVector2D = OneSpace * Direction;
