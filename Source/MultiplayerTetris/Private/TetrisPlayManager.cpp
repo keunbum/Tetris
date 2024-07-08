@@ -1,10 +1,11 @@
-// Copyright KeunBeom Ryu. All Rights Reserved.
+// Copyright © 2024 Ryu KeunBeom. All Rights Reserved.
 
 #include "TetrisPlayManager.h"
 
 #include "Board.h"
 #include "TetrisGameModeBase.h"
 #include "Tetrimino.h"
+#include "GhostPiece.h"
 #include "TetrisPlayerController.h"
 #include "TetriminoGenerator.h"
 #include "TetriminoQueue.h"
@@ -16,6 +17,8 @@ ATetrisPlayManager::ATetrisPlayManager()
 	, NormalFallSpeed(-1.0f)
 	, TetriminoClass(ATetrimino::StaticClass())
 	, TetriminoInPlay(nullptr)
+	, GhostPieceClass(AGhostPiece::StaticClass())
+	, GhostPiece(nullptr)
 {
 	PrimaryActorTick.bCanEverTick = false;
 }
@@ -47,6 +50,11 @@ void ATetrisPlayManager::Initialize()
 	NextQueue = World->SpawnActor<ATetriminoQueue>(ATetriminoQueue::StaticClass());
 	check(NextQueue != nullptr);
 	InitializeNextQueue();
+
+	// GhostPiece
+	GhostPiece = World->SpawnActor<AGhostPiece>(GhostPieceClass);
+	check(GhostPiece != nullptr);
+	GhostPiece->AttachToBoard(Board);
 }
 
 void ATetrisPlayManager::StartGenerationPhase()
@@ -55,7 +63,12 @@ void ATetrisPlayManager::StartGenerationPhase()
 
 	SetPhase(EPhase::Generation);
 	ATetrimino* const NewTetriminoInPlay = PopTetriminoFromNextQueue();
+
 	SetTetriminoInPlay(NewTetriminoInPlay);
+
+	// Set GhostPiece
+	TetriminoInPlay->SetGhostPiece(GhostPiece);
+	GhostPiece->SetRelativeLocationByMatrixLocation(Board->GetFinalFallingMatrixLocation(TetriminoInPlay));
 
 	StartFallingPhase();
 }
@@ -161,18 +174,17 @@ void ATetrisPlayManager::MoveTetriminoTo(const FVector2D& Direction)
 		return;
 	}
 
-	const FIntPoint MovementIntVector2D = GetMovementIntVector2D(Direction);
-	const bool bIsSoftDropOrNormalFall = (Direction == ATetrimino::MoveDirectionDown);
-	const bool bIsMovementPossible = Board->IsMovementPossible(TetriminoInPlay, MovementIntVector2D);
+	const FIntPoint MovementIntPoint = ATetriminoBase::GetMatrixMovementIntPointByDirection(Direction);
+	const bool bIsMovementPossible = Board->IsMovementPossible(TetriminoInPlay, MovementIntPoint);
 	if (bIsMovementPossible)
 	{
-		TetriminoInPlay->MoveBy(MovementIntVector2D);
+		TetriminoInPlay->MoveBy(MovementIntPoint);
 
-		const bool bIsOnSurface = !Board->IsMovementPossible(TetriminoInPlay, MovementIntVector2D);
+		const bool bIsOnSurface = !Board->IsMovementPossible(TetriminoInPlay, MovementIntPoint);
+		const bool bIsSoftDropOrNormalFall = (Direction == ATetrimino::MoveDirectionDown);
 		const bool bIsLockPhaseReached = bIsSoftDropOrNormalFall && bIsOnSurface;
 		if (bIsLockPhaseReached)
 		{
-			UE_LOG(LogTemp, Display, TEXT("LockDown Timer is set."));
 			SetLockDownTimer();
 		}
 	}
@@ -189,7 +201,7 @@ void ATetrisPlayManager::MoveTetrimino()
 
 void ATetrisPlayManager::MoveTetriminoDown()
 {
-	MoveTetriminoTo(ATetrimino::MoveDirectionDown);
+	MoveTetriminoTo(ATetriminoBase::MoveDirectionDown);
 }
 
 void ATetrisPlayManager::RunSuperRotationSystem(const ETetriminoRotationDirection RotationDirection)
@@ -264,6 +276,7 @@ void ATetrisPlayManager::SetNormalFallTimer()
 
 void ATetrisPlayManager::SetLockDownTimer()
 {
+	UE_LOG(LogTemp, Display, TEXT("LockDown Timer is set."));
 	GetWorldTimerManager().SetTimer(LockDownTimerHandle, this, &ATetrisPlayManager::LockDown, LockDownTimerInitialDelay, bIsLockDownTimerLoop);
 }
 
@@ -334,11 +347,4 @@ void ATetrisPlayManager::PlayLockDownEffect(const TArray<UMino*>& MinoArray)
 {
 	// TODO: LockDown Effect 추가
 	// 파라미터 수정될 여지 있음
-}
-
-FIntPoint ATetrisPlayManager::GetMovementIntVector2D(const FVector2D& Direction)
-{
-	static constexpr float OneSpace = 1.0f;
-	const FVector2D MovementVector2D = OneSpace * Direction;
-	return FIntPoint(static_cast<int32>(MovementVector2D.X), static_cast<int32>(MovementVector2D.Y));
 }

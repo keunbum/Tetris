@@ -1,4 +1,4 @@
-// Copyright KeunBeom Ryu. All Rights Reserved.
+// Copyright © 2024 Ryu KeunBeom. All Rights Reserved.
 
 #pragma once
 
@@ -15,7 +15,7 @@ class UMino;
 
 /**
  * @class ABoard
- * @brief Represents the game board in the Tetris game.
+ * @brief Represents the game board in the Tetris.
  */
 UCLASS()
 class MULTIPLAYERTETRIS_API ABoard : public AActor
@@ -33,6 +33,10 @@ public:
 	USceneComponent* GetNextQueueRoot() const { return NextQueueRoot; }
 
 	void AddMinos(const ATetrimino* Tetrimino);
+	/**
+	 * Returns the final falling location of the Tetrimino in the matrix.
+	 */
+	FIntPoint GetFinalFallingMatrixLocation(const ATetrimino* Tetrimino) const;
 
 private:
 	void InitializeBackground();
@@ -41,7 +45,7 @@ private:
 	UMino* GetMinoByMatrixLocation(const FIntPoint& MatrixLocation) const;
 	void SetMinoByMatrixLocation(UMino* const Mino, const FIntPoint& MatrixLocation);
 	bool IsMatrixLocationEmpty(const FIntPoint& MatrixLocation) const;
-	bool IsMinoLocationsPossible(const FIntPoint& TetriminoMatrixLocation, const TArray<FIntPoint>& MinoLocalMatrixLocations) const;
+	bool IsMinoLocationsPossible(const TArray<FIntPoint>& MinoLocalMatrixLocations, const FIntPoint& TetriminoMatrixLocation) const;
 
 public:
 	static constexpr int32 TotalHeight = 40;
