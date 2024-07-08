@@ -312,6 +312,7 @@ void ATetrisPlayManager::ClearTimers(const TArray<FTimerHandle*>& TimerHandles)
 
 void ATetrisPlayManager::ClearUserInputTimers()
 {
+	// HardDropTimerHandle is an exception because it fires almost immediately.
 	static const TArray<FTimerHandle*> UserInputTimerHandles =
 	{
 		&AutoRepeatMovementTimerHandle,
