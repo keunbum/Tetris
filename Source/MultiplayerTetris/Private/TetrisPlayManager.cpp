@@ -210,7 +210,7 @@ void ATetrisPlayManager::MoveTetriminoDown()
 	MoveTetriminoTo(ATetriminoBase::MoveDirectionDown);
 }
 
-void ATetrisPlayManager::InternalDoHardDrop()
+void ATetrisPlayManager::HardDrop()
 {
 	MoveTetriminoToFinalFallingMatrixLocation();
 	ForcedLockDown();
