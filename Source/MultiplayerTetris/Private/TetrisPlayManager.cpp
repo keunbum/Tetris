@@ -180,7 +180,7 @@ void ATetrisPlayManager::StartFallingPhase()
 	}
 }
 
-void ATetrisPlayManager::StartLockPhase(const float LockDownDelay)
+void ATetrisPlayManager::StartLockPhase(const float LockDownFirstDelay)
 {
 	UE_LOG(LogTemp, Display, TEXT("Start Lock Phase."));
 
