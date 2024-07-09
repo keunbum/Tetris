@@ -87,6 +87,9 @@ private:
 	UPROPERTY()
 	TObjectPtr<USceneComponent> NextQueueRoot;
 
+	UPROPERTY()
+	TObjectPtr<USceneComponent> HoldQueueRoot;
+
 	UPROPERTY(VisibleAnywhere)
 	TArray<TObjectPtr<UMino>> MinoMatrix;
 };
