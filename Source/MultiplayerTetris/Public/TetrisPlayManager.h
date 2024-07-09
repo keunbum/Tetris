@@ -195,13 +195,13 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	ETetriminoShape TestSpawnShape = ETetriminoShape::None;
 
-	/** User Input Timers */
-	FTimerHandle NormalFallTimerHandle;
-	FTimerHandle SoftDropTimerHandle;
+	/** TetriminoInPlay Logic Timers */
 	FTimerHandle AutoRepeatMovementTimerHandle;
+	FTimerHandle NormalFallTimerHandle;
+	FTimerHandle LockDownTimerHandle;
+	FTimerHandle SoftDropTimerHandle;
 	FTimerHandle HardDropTimerHandle;
 
-	/** Game Logic Timers */
-	FTimerHandle LockDownTimerHandle;
+	/** Phase Timers */
 	FTimerHandle GenerationPhaseTimerHandle;
 };
