@@ -57,6 +57,7 @@ private:
 	void OnHardDropStarted(const FInputActionValue& ActionValue);
 	void OnRotateClockwiseStarted(const FInputActionValue& ActionValue);
 	void OnRotateCounterClockwiseStarted(const FInputActionValue& ActionValue);
+	void OnHoldStarted(const FInputActionValue& ActionValue);
 
 	static const FVector2D& GetDirectionByKeyFlag(const EKeyFlags KeyFlag);
 

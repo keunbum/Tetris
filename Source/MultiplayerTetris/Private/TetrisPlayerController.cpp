@@ -138,6 +138,12 @@ void ATetrisPlayerController::OnRotateCounterClockwiseStarted(const FInputAction
 	GameMode->GetTetrisPlayManager()->DoRotation(ETetriminoRotationDirection::CounterClockwise);
 }
 
+void ATetrisPlayerController::OnHoldStarted(const FInputActionValue& ActionValue)
+{
+	UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayerController::OnHoldStarted()"));
+	GameMode->GetTetrisPlayManager()->HoldTetriminoInPlay();
+}
+
 const FVector2D& ATetrisPlayerController::GetDirectionByKeyFlag(const EKeyFlags KeyFlag)
 {
 	static const TMap<EKeyFlags, FVector2D> Map =
