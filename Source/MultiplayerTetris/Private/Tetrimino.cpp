@@ -49,11 +49,11 @@ void ATetrimino::SetBoard(ABoard* const InBoard)
 	Board = InBoard;
 	if (Board)
 	{
-		AttachToComponentByMatrixLocation(Board->GetMatrixRoot(), GetInitialMatrixLocation());
+		AttachToMatrix(Board->GetMatrixRoot());
 	}
 	else
 	{
-		RootComponent->DetachFromComponent(FDetachmentTransformRules::KeepRelativeTransform);
+		DetachFromMatrix();
 	}
 }
 
