@@ -17,5 +17,5 @@ class MULTIPLAYERTETRIS_API AGhostPiece : public ATetriminoBase
 	GENERATED_BODY()
 
 public:
-	void AttachToBoard(ABoard* const Board);
+	void AttachToMatrix(USceneComponent* const MatrixRoot);
 };

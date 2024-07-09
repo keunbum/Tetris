@@ -67,7 +67,7 @@ void ATetrisPlayManager::Initialize()
 	// GhostPiece
 	GhostPiece = World->SpawnActor<AGhostPiece>(GhostPieceClass);
 	check(GhostPiece != nullptr);
-	GhostPiece->AttachToBoard(Board);
+	GhostPiece->AttachToMatrix(Board->GetMatrixRoot());
 }
 
 void ATetrisPlayManager::StartGenerationPhase()
