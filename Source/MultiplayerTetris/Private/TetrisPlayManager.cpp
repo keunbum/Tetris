@@ -59,6 +59,11 @@ void ATetrisPlayManager::Initialize()
 	check(NextQueue != nullptr);
 	InitializeNextQueue();
 
+	// HoldQueue
+	HoldQueue = World->SpawnActor<ATetriminoQueue>(ATetriminoQueue::StaticClass());
+	check(HoldQueue != nullptr);
+	InitializeHoldQueue();
+
 	// GhostPiece
 	GhostPiece = World->SpawnActor<AGhostPiece>(GhostPieceClass);
 	check(GhostPiece != nullptr);
