@@ -49,6 +49,7 @@ public:
 	void ReArrangeTetriminoLocations();
 
 	int32 Num() const { return TetriminoArray.Num(); }
+	bool IsEmpty() const { return TetriminoArray.IsEmpty(); }
 
 private:
 	static FVector GetTetriminoLocalLocationByIndex(const int32 Index);
