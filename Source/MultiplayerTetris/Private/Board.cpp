@@ -21,7 +21,7 @@ ABoard::ABoard()
 	// 음수/양수 순서대로 FVector(우/좌, 아래/위, 생략)
 	NextQueueRelativeLocation = FVector(UMino::UnitLength * -12.f, UMino::UnitLength * -15.f, 0.f);
 	// TODO: 정확한 수치는 나중에 조정
-	HoldQueueRelativeLocation = FVector(UMino::UnitLength * 2.f, UMino::UnitLength * 4.f, 0.f);
+	HoldQueueRelativeLocation = FVector(UMino::UnitLength * 4.f, UMino::UnitLength * -15.f, 0.f);
 
 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
 	check(RootComponent != nullptr);
