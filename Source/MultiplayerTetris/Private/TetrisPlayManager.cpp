@@ -396,14 +396,17 @@ void ATetrisPlayManager::ClearUserInputTimers()
 
 void ATetrisPlayManager::SetTetriminoInPlay(ATetrimino* const InTetriminoInPlay)
 {
-	TetriminoInPlay = InTetriminoInPlay;
-	if (TetriminoInPlay)
+	if (InTetriminoInPlay)
 	{
-		TetriminoInPlay->SetBoard(Board);
-
-		// Set GhostPiece
-		TetriminoInPlay->SetGhostPiece(GhostPiece);
+		InTetriminoInPlay->SetBoard(Board);
+		InTetriminoInPlay->SetGhostPiece(GhostPiece);
 	}
+	else
+	{
+		TetriminoInPlay->SetGhostPiece(nullptr);
+		TetriminoInPlay->SetBoard(nullptr);
+	}
+	TetriminoInPlay = InTetriminoInPlay;
 }
 
 ATetrimino* ATetrisPlayManager::PopTetriminoFromNextQueue()
