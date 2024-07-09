@@ -31,6 +31,7 @@ public:
 
 	USceneComponent* GetMatrixRoot() const { return MatrixRoot; }
 	USceneComponent* GetNextQueueRoot() const { return NextQueueRoot; }
+	USceneComponent* GetHoldQueueRoot() const { return HoldQueueRoot; }
 
 	void AddMinos(const ATetrimino* Tetrimino);
 	/**
