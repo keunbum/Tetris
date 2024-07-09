@@ -151,6 +151,9 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	bool bIsGhostPieceOn;
 
+	UPROPERTY(EditDefaultsOnly)
+	bool bIsHoldQueueOn;
+
 	UPROPERTY(VisibleAnywhere)
 	float NormalFallSpeed;
 
