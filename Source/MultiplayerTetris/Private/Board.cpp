@@ -36,7 +36,6 @@ ABoard::ABoard()
 
 	/** NextQueueRoot */
 	NextQueueRoot = CreateAndSetupSceneComponent(TEXT("NextQueueRoot"), RootComponent);
-	// Set NextQueueRoot's relative location
 	NextQueueRoot->SetRelativeLocation(NextQueueRelativeLocation);
 }
 
