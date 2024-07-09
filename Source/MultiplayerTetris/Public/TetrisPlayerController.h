@@ -99,6 +99,9 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	TObjectPtr<UInputAction> RotateCounterClockwiseAction;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	TObjectPtr<UInputAction> HoldAction;
+
 	UPROPERTY()
 	TObjectPtr<ATetrisGameModeBase> GameMode;
 };
