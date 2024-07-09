@@ -99,12 +99,12 @@ private:
 
 	void ClearTimer(FTimerHandle& InOutTimerHandle);
 	void ClearTimers(const TArray<FTimerHandle*>& TimerHandles);
-	void ClearUserInputTimers();
 
 	/** Tetrimino */
 	ATetrimino* PopTetriminoFromNextQueue();
 	void SpawnAndPushTetriminoToNextQueue();
 	ATetrimino* SpawnNextTetrimino() const;
+	void ClearTetriminoInPlayLogicTimers();
 
 	/** Basic Member Variable Methods */
 	void SetPhase(const EPhase NewPhase) { Phase = NewPhase; }
