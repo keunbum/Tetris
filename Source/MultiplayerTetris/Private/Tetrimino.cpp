@@ -62,3 +62,8 @@ void ATetrimino::AttachToMatrix(USceneComponent* const MatrixRoot)
 	check(MatrixRoot != nullptr);
 	AttachToComponentByMatrixLocation(MatrixRoot, GetInitialMatrixLocation());
 }
+
+void ATetrimino::DetachFromMatrix()
+{
+	RootComponent->DetachFromComponent(FDetachmentTransformRules::KeepRelativeTransform);
+}

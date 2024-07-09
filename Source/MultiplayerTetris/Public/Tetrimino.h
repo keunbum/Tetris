@@ -30,6 +30,7 @@ public:
 
 private:
 	void AttachToMatrix(USceneComponent* const MatrixRoot);
+	void DetachFromMatrix();
 
 public:
 	static constexpr ETetriminoFacing DefaultFacing = ETetriminoFacing::North;
