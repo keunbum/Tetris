@@ -57,7 +57,7 @@ public:
 
 	void StartGenerationPhase();
 
-	// Event Handlers
+	/** Event Handlers */
 	void StartMovement(const FVector2D& InMovementDirection);
 	void EndMovement();
 	void StartSoftDrop();
@@ -67,15 +67,15 @@ public:
 	void HoldTetriminoInPlay();
 
 private:
-	// Initialization
+	/**  Initialization */
 	void InitializeNextQueue();
 	void InitializeHoldQueue();
 
-	// Phase Flow
+	/** Phase Flow */
 	void StartFallingPhase();
 	void StartLockPhase(const float LockDownFirstDelay);
 
-	// User Input
+	/** User Input */
 	void MoveTetriminoTo(const FVector2D& Direction);
 	void MoveTetrimino();
 	void MoveTetriminoDown();
@@ -98,45 +98,45 @@ private:
 	void ClearTimers(const TArray<FTimerHandle*>& TimerHandles);
 	void ClearUserInputTimers();
 
-	// Tetrimino
+	/** Tetrimino */
 	ATetrimino* PopTetriminoFromNextQueue();
 	void SpawnAndPushTetriminoToNextQueue();
 	ATetrimino* SpawnNextTetrimino() const;
 
-	// Basic Member Variables
+	/** Basic Member Variable Methods */
 	void SetPhase(const EPhase NewPhase) { Phase = NewPhase; }
 	void SetIsTetriminoInPlayManipulable(const bool bInIsTetriminoInPlayManipulable) { bIsTetriminoInPlayManipulable = bInIsTetriminoInPlayManipulable; }
 	bool IsTetriminoInPlayManipulable() const { return bIsTetriminoInPlayManipulable; }
 	void SetTetriminoMovementDirection(const FVector2D& NewTetriminoMovementDirection) { TetriminoMovementDirection = NewTetriminoMovementDirection; }
 	void SetTetriminoInPlay(ATetrimino* const InTetriminoInPlay);
 
-	// Effect
+	/** Effect */
 	void PlayLockDownEffect(const TArray<UMino*>& MinoArray);
 	
 private:
-	// Normal Fall
+	/** Normal Fall */
 	static constexpr bool bIsNormalFallTimerLoop = true;
 	static constexpr float NormalFallTimerInitialDelay = 0.0f;
 
-	// Auto Repeat Movement
+	/** Auto Repeat Movement */
 	static constexpr bool bIsAutoRepeatMovementLoop = true;
 	static constexpr float AutoRepeatMovementInitialDelay = 0.3f;
 	static constexpr float AutoRepeatMovementInterval = 0.05f; // Adjust this value as needed
 
-	// Soft Drop
+	/** Soft Drop */
 	static constexpr bool bSoftDropTimerLoop = true;
 	static constexpr float SoftDropTimerInitialDelay = 0.0f;
 
-	// Hard Drop
+	/** Hard Drop */
 	static constexpr bool bIsHardDropTimerLoop = false;
 	static constexpr float HardDropTimerInitialDelay = 0.0001f;
 	static constexpr float LockDownDelayOfHardDrop = 0.0f;
 
-	// LockDown
+	/** LockDown */
 	static constexpr bool bIsLockDownTimerLoop = false;
 	static constexpr float LockDownTimerInitialDelayOfNormalFallOrSoftDrop = 0.5f;
 
-	// GenerationPhase
+	/** GenerationPhase */
 	static constexpr bool bIsGenerationPhaseTimerLoop = false;
 	static constexpr float GenerationPhaseInitialDelay = 0.2f;
 
@@ -192,13 +192,13 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	ETetriminoShape TestSpawnShape = ETetriminoShape::None;
 
-	// User Input Timers
+	/** User Input Timers */
 	FTimerHandle NormalFallTimerHandle;
 	FTimerHandle SoftDropTimerHandle;
 	FTimerHandle AutoRepeatMovementTimerHandle;
 	FTimerHandle HardDropTimerHandle;
 
-	// Game Logic Timers
+	/** Game Logic Timers */
 	FTimerHandle LockDownTimerHandle;
 	FTimerHandle GenerationPhaseTimerHandle;
 };
