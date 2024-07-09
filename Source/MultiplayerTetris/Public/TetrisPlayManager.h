@@ -64,6 +64,7 @@ public:
 	void EndSoftDrop();
 	void DoHardDrop();
 	void DoRotation(const ETetriminoRotationDirection RotationDirection);
+	void HoldTetriminoInPlay();
 
 private:
 	// Initialization

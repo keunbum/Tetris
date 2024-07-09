@@ -156,6 +156,11 @@ void ATetrisPlayManager::DoRotation(const ETetriminoRotationDirection RotationDi
 	RunSuperRotationSystem(RotationDirection);
 }
 
+void ATetrisPlayManager::HoldTetriminoInPlay()
+{
+	// TODO: TetriminoInPlay를 Hold하는 기능 구현하기.
+}
+
 void ATetrisPlayManager::InitializeNextQueue()
 {
 	NextQueue->Initialize(GameMode->NextQueueSize, Board->GetNextQueueRoot());
