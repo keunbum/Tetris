@@ -28,6 +28,9 @@ public:
 
 	void SetBoard(ABoard* const InBoard);
 
+private:
+	void AttachToMatrix(USceneComponent* const MatrixRoot);
+
 public:
 	static constexpr ETetriminoFacing DefaultFacing = ETetriminoFacing::North;
 
