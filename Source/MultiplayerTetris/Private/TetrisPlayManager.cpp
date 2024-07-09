@@ -307,8 +307,9 @@ void ATetrisPlayManager::LockDown()
 	Board->AddMinos(TetriminoInPlay);
 
 	// Remove TetriminoInPlay
-	TetriminoInPlay->Destroy();
-	TetriminoInPlay = nullptr;
+	ATetrimino* const OldTetriminoInPlay = TetriminoInPlay;
+	SetTetriminoInPlay(nullptr);
+	OldTetriminoInPlay->Destroy();
 
 	// Switch to Generation Phase.
 	GetWorldTimerManager().SetTimer(GenerationPhaseTimerHandle, this, &ATetrisPlayManager::StartGenerationPhase, GenerationPhaseInitialDelay, bIsGenerationPhaseTimerLoop);
