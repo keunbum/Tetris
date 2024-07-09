@@ -180,6 +180,9 @@ private:
 	TObjectPtr<ATetriminoQueue> NextQueue;
 
 	UPROPERTY(VisibleAnywhere)
+	TObjectPtr<ATetriminoQueue> HoldQueue;
+
+	UPROPERTY(VisibleAnywhere)
 	FVector2D TetriminoMovementDirection;
 
 	UPROPERTY()
