@@ -79,9 +79,10 @@ private:
 	void MoveTetriminoTo(const FVector2D& Direction);
 	void MoveTetrimino();
 	void MoveTetriminoDown();
-	void HardDrop();
 	// Move the Tetrimino to FinalFallingMatrixLocation.
 	void MoveTetriminoToFinalFallingMatrixLocation();
+
+	void HardDrop();
 
 	void RunSuperRotationSystem(const ETetriminoRotationDirection RotationDirection);
 
