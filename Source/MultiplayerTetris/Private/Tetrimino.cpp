@@ -51,4 +51,8 @@ void ATetrimino::SetBoard(ABoard* const InBoard)
 	{
 		AttachToComponentByMatrixLocation(Board->GetMatrixRoot(), GetInitialMatrixLocation());
 	}
+	else
+	{
+		RootComponent->DetachFromComponent(FDetachmentTransformRules::KeepRelativeTransform);
+	}
 }
