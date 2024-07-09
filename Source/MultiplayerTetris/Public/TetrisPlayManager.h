@@ -84,6 +84,8 @@ private:
 
 	void HardDrop();
 
+	bool IsHoldingTetriminoInPlayAvailable() const;
+
 	void RunSuperRotationSystem(const ETetriminoRotationDirection RotationDirection);
 
 	void LockDown();
