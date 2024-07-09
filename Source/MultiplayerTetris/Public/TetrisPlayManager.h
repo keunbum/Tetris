@@ -99,11 +99,6 @@ private:
 
 	void ClearTimer(FTimerHandle& InOutTimerHandle);
 	void ClearTimers(const TArray<FTimerHandle*>& TimerHandles);
-
-	/** Tetrimino */
-	ATetrimino* PopTetriminoFromNextQueue();
-	void SpawnAndPushTetriminoToNextQueue();
-	ATetrimino* SpawnNextTetrimino() const;
 	void ClearTetriminoInPlayLogicTimers();
 
 	/** Basic Member Variable Methods */
@@ -112,6 +107,11 @@ private:
 	bool IsTetriminoInPlayManipulable() const { return bIsTetriminoInPlayManipulable; }
 	void SetTetriminoMovementDirection(const FVector2D& NewTetriminoMovementDirection) { TetriminoMovementDirection = NewTetriminoMovementDirection; }
 	void SetTetriminoInPlay(ATetrimino* const InTetriminoInPlay);
+
+	/** Tetrimino */
+	ATetrimino* PopTetriminoFromNextQueue();
+	void SpawnAndPushTetriminoToNextQueue();
+	ATetrimino* SpawnNextTetrimino() const;
 
 	/** Effect */
 	void PlayLockDownEffect(const TArray<UMino*>& MinoArray);
