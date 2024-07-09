@@ -79,10 +79,6 @@ void ATetrisPlayManager::StartGenerationPhase()
 
 	SetTetriminoInPlay(NewTetriminoInPlay);
 
-	// Set GhostPiece
-	TetriminoInPlay->SetGhostPiece(GhostPiece);
-	GhostPiece->SetRelativeLocationByMatrixLocation(Board->GetFinalFallingMatrixLocation(TetriminoInPlay));
-
 	StartFallingPhase();
 }
 
@@ -394,6 +390,10 @@ void ATetrisPlayManager::SetTetriminoInPlay(ATetrimino* const NewTetriminoInPlay
 	check(NewTetriminoInPlay != nullptr);
 	NewTetriminoInPlay->AttachToBoard(Board);
 	TetriminoInPlay = NewTetriminoInPlay;
+
+	// Set GhostPiece
+	TetriminoInPlay->SetGhostPiece(GhostPiece);
+	GhostPiece->SetRelativeLocationByMatrixLocation(Board->GetFinalFallingMatrixLocation(TetriminoInPlay));
 }
 
 ATetrimino* ATetrisPlayManager::PopTetriminoFromNextQueue()
