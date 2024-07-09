@@ -160,6 +160,40 @@ void ATetrisPlayManager::DoRotation(const ETetriminoRotationDirection RotationDi
 void ATetrisPlayManager::HoldTetriminoInPlay()
 {
 	// TODO: TetriminoInPlay를 Hold하는 기능 구현하기.
+	if (!IsTetriminoInPlayManipulable())
+	{
+		UE_LOG(LogTemp, Display, TEXT("Tetrimino is not manipulable."));
+		return;
+	}
+
+	if (!IsHoldingTetriminoInPlayAvailable())
+	{
+		UE_LOG(LogTemp, Display, TEXT("Holding Tetrimino is not available."));
+		return;
+	}
+
+	SetIsTetriminoInPlayManipulable(false);
+
+	ATetrimino* const OldTetriminoInPlay = TetriminoInPlay;
+	SetTetriminoInPlay(nullptr);
+
+	ATetrimino* const TetriminoInHoldQueue = HoldQueue->Dequeue();
+	const bool bWasHoldQueueEmpty = (TetriminoInHoldQueue == nullptr);
+
+	HoldQueue->Enqueue(OldTetriminoInPlay);
+	OldTetriminoInPlay->RotateByFacing(ATetrimino::DefaultFacing);
+
+	HoldQueue->ReArrangeTetriminoLocations();
+
+	if (bWasHoldQueueEmpty)
+	{
+		StartGenerationPhase();
+	}
+	else
+	{
+		SetTetriminoInPlay(TetriminoInHoldQueue);
+		StartFallingPhase();
+	}
 }
 
 void ATetrisPlayManager::InitializeNextQueue()
