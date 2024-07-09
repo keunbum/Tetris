@@ -394,7 +394,6 @@ void ATetrisPlayManager::SetTetriminoInPlay(ATetrimino* const NewTetriminoInPlay
 
 	// Set GhostPiece
 	TetriminoInPlay->SetGhostPiece(GhostPiece);
-	GhostPiece->SetRelativeLocationByMatrixLocation(Board->GetFinalFallingMatrixLocation(TetriminoInPlay));
 }
 
 ATetrimino* ATetrisPlayManager::PopTetriminoFromNextQueue()
