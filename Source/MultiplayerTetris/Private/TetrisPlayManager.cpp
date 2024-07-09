@@ -389,8 +389,8 @@ void ATetrisPlayManager::ClearUserInputTimers()
 void ATetrisPlayManager::SetTetriminoInPlay(ATetrimino* const NewTetriminoInPlay)
 {
 	check(NewTetriminoInPlay != nullptr);
-	NewTetriminoInPlay->AttachToBoard(Board);
 	TetriminoInPlay = NewTetriminoInPlay;
+	TetriminoInPlay->AttachToBoard(Board);
 
 	// Set GhostPiece
 	TetriminoInPlay->SetGhostPiece(GhostPiece);
