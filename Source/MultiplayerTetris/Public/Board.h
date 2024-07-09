@@ -76,6 +76,9 @@ private:
 	FVector NextQueueRelativeLocation;
 
 	UPROPERTY(EditDefaultsOnly)
+	FVector HoldQueueRelativeLocation;
+
+	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UMino> MinoClass;
 
 	UPROPERTY()
