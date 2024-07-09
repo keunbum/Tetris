@@ -158,3 +158,11 @@ bool ABoard::IsMinoLocationsPossible(const TArray<FIntPoint>& MinoLocalMatrixLoc
 		}
 	);
 }
+
+USceneComponent* ABoard::CreateAndSetupSceneComponent(const FString& Name, USceneComponent* const Parent)
+{
+	USceneComponent* const SceneComponent = CreateDefaultSubobject<USceneComponent>(*Name);
+	check(SceneComponent != nullptr);
+	SceneComponent->SetupAttachment(Parent);
+	return SceneComponent;
+}

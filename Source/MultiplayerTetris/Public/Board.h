@@ -47,6 +47,8 @@ private:
 	bool IsMatrixLocationEmpty(const FIntPoint& MatrixLocation) const;
 	bool IsMinoLocationsPossible(const TArray<FIntPoint>& MinoLocalMatrixLocations, const FIntPoint& TetriminoMatrixLocation) const;
 
+	USceneComponent* CreateAndSetupSceneComponent(const FString& Name, USceneComponent* const Parent);
+
 public:
 	static constexpr int32 TotalHeight = 40;
 	static constexpr int32 TotalWidth = 10;
