@@ -13,9 +13,11 @@ ATetrimino::ATetrimino()
 
 void ATetrimino::SetGhostPiece(AGhostPiece* const InGhostPiece)
 {
-	check(InGhostPiece != nullptr);
 	GhostPiece = InGhostPiece;
-	GhostPiece->Initialize(Shape, Facing);
+	if (GhostPiece)
+	{
+		GhostPiece->Initialize(Shape, Facing);
+	}
 }
 
 void ATetrimino::MoveBy(const FIntPoint& IntPoint2D)
