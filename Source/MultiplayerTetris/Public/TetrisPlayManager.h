@@ -108,7 +108,7 @@ private:
 	void SetIsTetriminoInPlayManipulable(const bool bInIsTetriminoInPlayManipulable) { bIsTetriminoInPlayManipulable = bInIsTetriminoInPlayManipulable; }
 	bool IsTetriminoInPlayManipulable() const { return bIsTetriminoInPlayManipulable; }
 	void SetTetriminoMovementDirection(const FVector2D& NewTetriminoMovementDirection) { TetriminoMovementDirection = NewTetriminoMovementDirection; }
-	void SetTetriminoInPlay(ATetrimino* const NewTetriminoInPlay);
+	void SetTetriminoInPlay(ATetrimino* const InTetriminoInPlay);
 
 	// Effect
 	void PlayLockDownEffect(const TArray<UMino*>& MinoArray);

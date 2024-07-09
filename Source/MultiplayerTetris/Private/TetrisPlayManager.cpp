@@ -386,9 +386,9 @@ void ATetrisPlayManager::ClearUserInputTimers()
 	ClearTimers(UserInputTimerHandles);
 }
 
-void ATetrisPlayManager::SetTetriminoInPlay(ATetrimino* const NewTetriminoInPlay)
+void ATetrisPlayManager::SetTetriminoInPlay(ATetrimino* const InTetriminoInPlay)
 {
-	TetriminoInPlay = NewTetriminoInPlay;
+	TetriminoInPlay = InTetriminoInPlay;
 	if (TetriminoInPlay)
 	{
 		TetriminoInPlay->SetBoard(Board);
