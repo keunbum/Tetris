@@ -171,6 +171,11 @@ void ATetrisPlayManager::InitializeNextQueue()
 	NextQueue->ReArrangeTetriminoLocations();
 }
 
+void ATetrisPlayManager::InitializeHoldQueue()
+{
+	// TODO: HoldQueue 초기화 구현하기.
+}
+
 void ATetrisPlayManager::StartFallingPhase()
 {
 	UE_LOG(LogTemp, Display, TEXT("Start Falling Phase."));

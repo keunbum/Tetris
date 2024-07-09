@@ -69,6 +69,7 @@ public:
 private:
 	// Initialization
 	void InitializeNextQueue();
+	void InitializeHoldQueue();
 
 	// Phase Flow
 	void StartFallingPhase();
