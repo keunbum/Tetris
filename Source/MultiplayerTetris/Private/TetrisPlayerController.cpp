@@ -79,6 +79,9 @@ void ATetrisPlayerController::BindGamePlayInput()
 		EnhancedInputComponent->BindAction(RotateClockwiseAction, ETriggerEvent::Started, this, &ATetrisPlayerController::OnRotateClockwiseStarted);
 		// RotateCounterClockwise
 		EnhancedInputComponent->BindAction(RotateCounterClockwiseAction, ETriggerEvent::Started, this, &ATetrisPlayerController::OnRotateCounterClockwiseStarted);
+
+		// Hold
+		EnhancedInputComponent->BindAction(HoldAction, ETriggerEvent::Started, this, &ATetrisPlayerController::OnHoldStarted);
 	}
 }
 
