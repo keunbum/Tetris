@@ -25,14 +25,17 @@ ABoard::ABoard()
 
 	MinoClass = UMino::StaticClass();
 
+	// MatrixRoot
 	MatrixRoot = CreateDefaultSubobject<USceneComponent>(TEXT("MatrixRoot"));
 	check(MatrixRoot != nullptr);
 	MatrixRoot->SetupAttachment(RootComponent);
 
+	// BackgroundRoot
 	BackgroundRoot = CreateDefaultSubobject<USceneComponent>(TEXT("BackgroundRoot"));
 	check(BackgroundRoot != nullptr);
 	BackgroundRoot->SetupAttachment(RootComponent);
 
+	// NextQueueRoot
 	NextQueueRoot = CreateDefaultSubobject<USceneComponent>(TEXT("NextQueueRoot"));
 	check(NextQueueRoot != nullptr);
 	NextQueueRoot->SetupAttachment(RootComponent);
