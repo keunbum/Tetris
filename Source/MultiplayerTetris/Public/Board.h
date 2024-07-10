@@ -55,6 +55,7 @@ public:
 	static constexpr int32 TotalWidth = 10;
 	/** [TotalBeginRow, TotalEndRow) */
 	static constexpr int32 TotalBeginRow = 0;
+	/** [TotalBeginRow, TotalEndRow) */
 	static constexpr int32 TotalEndRow = TotalBeginRow + TotalHeight;
 
 	static constexpr int32 VisibleHeight = 20;
