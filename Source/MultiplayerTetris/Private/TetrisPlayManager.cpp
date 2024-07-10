@@ -175,7 +175,7 @@ void ATetrisPlayManager::HoldTetriminoInPlay()
 
 	SetIsTetriminoInPlayManipulable(false);
 
-	// 기존 TetriminoInPlay를 때어내기
+	// 기존 TetriminoInPlay를 떼어 내기
 	ATetrimino* const OldTetriminoInPlay = TetriminoInPlay;
 	SetTetriminoInPlay(nullptr);
 
