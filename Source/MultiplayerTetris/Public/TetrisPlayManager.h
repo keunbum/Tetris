@@ -72,8 +72,14 @@ private:
 	void InitializeHoldQueue();
 
 	/** Phase Flow */
+	void StartGenerationPhaseWithDelay(const float Delay);
 	void StartFallingPhase();
 	void StartLockPhase(const float LockDownFirstDelay);
+	void StartPatternPhase();
+	void StartIteratePhase();
+	void StartAnimatePhase();
+	void StartEliminatePhase();
+	void StartCompletionPhase();
 
 	/** User Input */
 	void MoveTetriminoTo(const FVector2D& Direction);
@@ -88,9 +94,14 @@ private:
 
 	void RunSuperRotationSystem(const ETetriminoRotationDirection RotationDirection);
 
+	/** Main Logic */
 	void LockDown();
 	void ForcedLockDown();
 
+	/** Sub Logic */
+	void CheckLineClearPattern();
+
+	/** Timers */
 	void SetAutoRepeatMovementTimer();
 	void SetSoftDropTimer();
 	void SetHardDropTimer();
@@ -108,7 +119,7 @@ private:
 	void SetTetriminoMovementDirection(const FVector2D& NewTetriminoMovementDirection) { TetriminoMovementDirection = NewTetriminoMovementDirection; }
 	void SetTetriminoInPlay(ATetrimino* const InTetriminoInPlay);
 
-	/** Tetrimino */
+	/** Tetrimino Generation */
 	ATetrimino* PopTetriminoFromNextQueue();
 	void SpawnAndPushTetriminoToNextQueue();
 	ATetrimino* SpawnNextTetrimino() const;
@@ -186,11 +197,14 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<ATetriminoQueue> HoldQueue;
 
+	UPROPERTY()
+	TObjectPtr<UTetriminoGenerator> TetriminoGenerator;
+
 	UPROPERTY(VisibleAnywhere)
 	FVector2D TetriminoMovementDirection;
 
-	UPROPERTY()
-	TObjectPtr<UTetriminoGenerator> TetriminoGenerator;
+	UPROPERTY(VisibleInstanceOnly)
+	TArray<int32> HitList; // List of rows to be cleared
 
 	UPROPERTY(EditDefaultsOnly)
 	ETetriminoShape TestSpawnShape = ETetriminoShape::None;

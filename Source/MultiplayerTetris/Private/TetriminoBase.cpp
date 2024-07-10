@@ -338,9 +338,9 @@ ATetriminoBase::ATetriminoBase()
 	check(RootComponent != nullptr);
 }
 
-const TArray<FIntPoint>& ATetriminoBase::GetMinoMatrixLocalLocations() const
+const TArray<FIntPoint>& ATetriminoBase::GetMinoTetriminoLocalLocations() const
 {
-	return ATetriminoBase::GetMinoMatrixLocalLocationsByTetriminoShapeAndFacing(Shape, Facing);
+	return ATetriminoBase::GetMinoTetriminoLocalLocationsByTetriminoShapeAndFacing(Shape, Facing);
 }
 
 const TArray<FIntPoint>& ATetriminoBase::GetSRSRotationPointOffsets(const ETetriminoRotationDirection RotationDirection) const
@@ -380,14 +380,14 @@ void ATetriminoBase::Initialize(const ETetriminoShape NewTetriminoShape, const E
 	InitializeMinoArray();
 }
 
-void ATetriminoBase::UpdateMinoMatrixLocalLocations()
+void ATetriminoBase::UpdateMinoTetriminoLocalLocations()
 {
-	const TArray<FIntPoint>& MinoMatrixLocalLocations = GetMinoMatrixLocalLocations();
+	const TArray<FIntPoint>& MinoTetriminoLocalLocations = GetMinoTetriminoLocalLocations();
 	for (int32 MinoIndex = 0; MinoIndex < MinoNum; ++MinoIndex)
 	{
 		UMino* const Mino = MinoArray[MinoIndex];
-		const FIntPoint& NewMinoMatrixLocalLocation = MinoMatrixLocalLocations[MinoIndex];
-		Mino->SetRelativeLocationByMatrixLocation(NewMinoMatrixLocalLocation);
+		const FIntPoint& NewMinoTetriminoLocalLocation = MinoTetriminoLocalLocations[MinoIndex];
+		Mino->SetRelativeLocationByMatrixLocation(NewMinoTetriminoLocalLocation);
 	}
 }
 
@@ -402,7 +402,7 @@ void ATetriminoBase::DetachMinos()
 void ATetriminoBase::RotateByFacing(const ETetriminoFacing NewFacing)
 {
 	SetFacing(NewFacing);
-	UpdateMinoMatrixLocalLocations();
+	UpdateMinoTetriminoLocalLocations();
 }
 
 void ATetriminoBase::DebugPrintState() const
@@ -428,10 +428,10 @@ ETetriminoShape ATetriminoBase::GetTetriminoShapeRandom()
 	return TetriminoShape;
 }
 
-const TArray<FIntPoint>& ATetriminoBase::GetMinoMatrixLocalLocationsByTetriminoShapeAndFacing(const ETetriminoShape Shape, const ETetriminoFacing Facing)
+const TArray<FIntPoint>& ATetriminoBase::GetMinoTetriminoLocalLocationsByTetriminoShapeAndFacing(const ETetriminoShape Shape, const ETetriminoFacing Facing)
 {
 	const FTetriminoShapeInfo& TetriminoShapeInfo = ATetriminoBase::GetTetriminoShapeInfoByShape(Shape);
-	return TetriminoShapeInfo.MinoMatrixLocalLocationsByFacing[Facing];
+	return TetriminoShapeInfo.MinoTetriminoLocalLocationsByFacing[Facing];
 }
 
 FIntPoint ATetriminoBase::GetMatrixMovementIntPointByDirection(const FVector2D& Direction)
@@ -443,18 +443,18 @@ FIntPoint ATetriminoBase::GetMatrixMovementIntPointByDirection(const FVector2D& 
 
 void ATetriminoBase::InitializeMinoArray()
 {
-	const TArray<FIntPoint>& MinoMatrixLocalLocations = GetMinoMatrixLocalLocations();
-	check(MinoMatrixLocalLocations.Num() == MinoNum);
+	const TArray<FIntPoint>& MinoTetriminoLocalLocations = GetMinoTetriminoLocalLocations();
+	check(MinoTetriminoLocalLocations.Num() == MinoNum);
 	const FMinoInfo MinoInfo = GetMinoInfo();
 
 	DestroyMinos();
 	MinoArray.Empty(MinoNum);
 
-	for (const FIntPoint& MinoMatrixLocalLocation : MinoMatrixLocalLocations)
+	for (const FIntPoint& MinoTetriminoLocalLocation : MinoTetriminoLocalLocations)
 	{
 		UMino* const Mino = UMino::CreateMino(this, MinoInfo);
 		check(Mino != nullptr);
-		Mino->AttachToWithMatrixLocation(RootComponent, MinoMatrixLocalLocation);
+		Mino->AttachToWithMatrixLocation(RootComponent, MinoTetriminoLocalLocation);
 		MinoArray.Add(Mino);
 	}
 }

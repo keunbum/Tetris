@@ -220,6 +220,11 @@ void ATetrisPlayManager::InitializeHoldQueue()
 	check(HoldQueue->IsEmpty());
 }
 
+void ATetrisPlayManager::StartGenerationPhaseWithDelay(const float Delay)
+{
+	GetWorldTimerManager().SetTimer(GenerationPhaseTimerHandle, this, &ATetrisPlayManager::StartGenerationPhase, Delay, bIsGenerationPhaseTimerLoop);
+}
+
 void ATetrisPlayManager::StartFallingPhase()
 {
 	UE_LOG(LogTemp, Display, TEXT("Start Falling Phase."));
@@ -253,6 +258,71 @@ void ATetrisPlayManager::StartLockPhase(const float LockDownFirstDelay)
 	{
 		SetLockDownTimer(LockDownFirstDelay);
 	}
+}
+
+void ATetrisPlayManager::StartPatternPhase()
+{
+	UE_LOG(LogTemp, Display, TEXT("Start Pattern Phase."));
+
+	SetPhase(EPhase::Pattern);
+
+	/** Main Logic */
+	CheckLineClearPattern();
+
+	/** Phase Transition*/
+	StartIteratePhase();
+}
+
+void ATetrisPlayManager::StartIteratePhase()
+{
+	UE_LOG(LogTemp, Display, TEXT("Start Iterate Phase."));
+
+	SetPhase(EPhase::Iterate);
+
+	/** Main Logic */
+
+	/** Phase Transition*/
+	StartAnimatePhase();
+}
+
+void ATetrisPlayManager::StartAnimatePhase()
+{
+	UE_LOG(LogTemp, Display, TEXT("Start Animate Phase."));
+
+	SetPhase(EPhase::Animate);
+
+	/** Main Logic */
+
+	/** Phase Transition*/
+	StartEliminatePhase();
+}
+
+void ATetrisPlayManager::StartEliminatePhase()
+{
+	UE_LOG(LogTemp, Display, TEXT("Start Eliminate Phase."));
+
+	SetPhase(EPhase::Elimate);
+
+	/** Main Logic */
+	Board->ClearRows(HitList);
+
+	/** Phase Transition*/
+	StartCompletionPhase();
+}
+
+void ATetrisPlayManager::StartCompletionPhase()
+{
+	UE_LOG(LogTemp, Display, TEXT("Start Completion Phase."));
+
+	SetPhase(EPhase::Completion);
+
+	/** Main Logic */
+
+	/** Reset Variables */
+	HitList.Empty();
+
+	/** Phase Transition*/
+	StartGenerationPhaseWithDelay(GenerationPhaseInitialDelay);
 }
 
 void ATetrisPlayManager::MoveTetriminoTo(const FVector2D& Direction)
@@ -352,8 +422,8 @@ void ATetrisPlayManager::LockDown()
 
 	bIsTetriminoInPlayLockedDownFromLastHold = true;
 
-	// Switch to Generation Phase.
-	GetWorldTimerManager().SetTimer(GenerationPhaseTimerHandle, this, &ATetrisPlayManager::StartGenerationPhase, GenerationPhaseInitialDelay, bIsGenerationPhaseTimerLoop);
+	// Switch to Pattern Phase.
+	StartPatternPhase();
 }
 
 void ATetrisPlayManager::ForcedLockDown()
@@ -368,6 +438,22 @@ void ATetrisPlayManager::ForcedLockDown()
 	check(!GetWorldTimerManager().IsTimerActive(GenerationPhaseTimerHandle));
 
 	StartLockPhase(LockDownDelayOfHardDrop);
+}
+
+void ATetrisPlayManager::CheckLineClearPattern()
+{
+	// 모든 대상 행에 대해 LineClearPattern을 체크해서 HitList에 추가한다.
+	// RowIndex 범위 아마 Visible이 맞을 거임. 스카이라인 위에서 라인 클리어 패턴이 발견될 일 없음. 그전에 게임 오버로 끝났어야 함.
+	// TODO: 근데 가이드라인을 정독한 게 아니므로, 틀릴 수도 있음.
+	check(HitList.IsEmpty());
+	for (int32 RowIndex = ABoard::VisibleBeginRow; RowIndex < ABoard::VisibleEndRow; ++RowIndex)
+	{
+		const bool bIsLineClearPattern = Board->IsRowFull(RowIndex);
+		if (bIsLineClearPattern)
+		{
+			HitList.Add(RowIndex);
+		}
+	}
 }
 
 void ATetrisPlayManager::SetAutoRepeatMovementTimer()
