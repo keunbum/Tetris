@@ -228,7 +228,7 @@ void ABoard::MoveRow(const int32 TargetRow, const int32 MoveDistance)
 		{
 			UMino* const Mino = GetMinoByMatrixLocation(TargetMatrixLocation);
 			const FIntPoint NewMatrixLocation(/* NewRow */ TargetRow + MoveDistance, TargetCol);
-			MoveMino(Mino, TargetMatrixLocation, NewMatrixLocation);
+			MoveMino(Mino, /* OldMatrixLocation */ TargetMatrixLocation, NewMatrixLocation);
 		}
 	}
 }
