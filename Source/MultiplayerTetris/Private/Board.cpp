@@ -95,6 +95,20 @@ void ABoard::AddMinos(const ATetrimino* Tetrimino)
 	}
 }
 
+void ABoard::MoveRow(const int32 TargetRow, const int32 MoveDistance)
+{
+	for (int32 TargetCol = VisibleBeginCol; TargetCol < VisibleEndCol; ++TargetCol)
+	{
+		const FIntPoint TargetMatrixLocation(TargetRow, TargetCol);
+		if (!IsMatrixLocationEmpty(TargetMatrixLocation))
+		{
+			UMino* const Mino = GetMinoByMatrixLocation(TargetMatrixLocation);
+			const FIntPoint NewMatrixLocation(/* NewRow */ TargetRow + MoveDistance, TargetCol);
+			MoveMino(Mino, NewMatrixLocation, TargetMatrixLocation);
+		}
+	}
+}
+
 void ABoard::ClearRows(const TArray<int32>& TargetRows)
 {
 	// Clear Rows

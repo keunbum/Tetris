@@ -40,6 +40,7 @@ public:
 
 	/** Non-const Methods */
 	void AddMinos(const ATetrimino* Tetrimino);
+	void MoveRow(const int32 TargetRow, const int32 MoveDistance);
 	void ClearRows(const TArray<int32>& TargetRows);
 
 	/** Const Methods */
