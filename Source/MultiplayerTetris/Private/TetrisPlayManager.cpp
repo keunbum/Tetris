@@ -195,6 +195,8 @@ void ATetrisPlayManager::HoldTetriminoInPlay()
 		SetTetriminoInPlay(TetriminoInHoldQueue);
 		StartFallingPhase();
 	}
+
+	bHasLockDownAtLeastOnceSinceLastHold = false;
 }
 
 void ATetrisPlayManager::InitializeNextQueue()
@@ -345,6 +347,8 @@ void ATetrisPlayManager::LockDown()
 	ATetrimino* const OldTetriminoInPlay = TetriminoInPlay;
 	SetTetriminoInPlay(nullptr);
 	OldTetriminoInPlay->Destroy();
+
+	bHasLockDownAtLeastOnceSinceLastHold = true;
 
 	// Switch to Generation Phase.
 	GetWorldTimerManager().SetTimer(GenerationPhaseTimerHandle, this, &ATetrisPlayManager::StartGenerationPhase, GenerationPhaseInitialDelay, bIsGenerationPhaseTimerLoop);
