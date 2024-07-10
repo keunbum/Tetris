@@ -197,11 +197,11 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<ATetriminoQueue> HoldQueue;
 
-	UPROPERTY(VisibleAnywhere)
-	FVector2D TetriminoMovementDirection;
-
 	UPROPERTY()
 	TObjectPtr<UTetriminoGenerator> TetriminoGenerator;
+
+	UPROPERTY(VisibleAnywhere)
+	FVector2D TetriminoMovementDirection;
 
 	UPROPERTY(EditDefaultsOnly)
 	ETetriminoShape TestSpawnShape = ETetriminoShape::None;
