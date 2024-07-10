@@ -40,6 +40,7 @@ public:
 
 	/** Non-const Methods */
 	void AddMinos(const ATetrimino* Tetrimino);
+	void AddMino(UMino* const Mino, const FIntPoint& MinoMatrixLocation);
 	void ClearRows(const TArray<int32>& TargetRows);
 
 	/** Const Methods */

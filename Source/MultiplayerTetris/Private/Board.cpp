@@ -91,11 +91,16 @@ void ABoard::AddMinos(const ATetrimino* Tetrimino)
 		const FIntPoint& MinoMatrixLocalLocation = MinoMatrixLocalLocations[MinoIndex];
 		const FIntPoint MinoMatrixLocation = TetriminoMatrixLocation + MinoMatrixLocalLocation;
 		UMino* const Mino = MinoArray[MinoIndex];
-		// Change ownership of the component to the board
-		Mino->Rename(nullptr, this);
-		Mino->AttachToWithMatrixLocation(MatrixRoot, MinoMatrixLocation);
-		SetMinoByMatrixLocation(Mino, MinoMatrixLocation);
+		AddMino(Mino, MinoMatrixLocation);
 	}
+}
+
+void ABoard::AddMino(UMino* const Mino, const FIntPoint& MinoMatrixLocation)
+{
+	// Change ownership of the component to the board
+	Mino->Rename(nullptr, this);
+	Mino->AttachToWithMatrixLocation(MatrixRoot, MinoMatrixLocation);
+	SetMinoByMatrixLocation(Mino, MinoMatrixLocation);
 }
 
 void ABoard::ClearRows(const TArray<int32>& TargetRows)
