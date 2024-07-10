@@ -53,7 +53,7 @@ private:
 public:
 	static constexpr int32 TotalHeight = 40;
 	static constexpr int32 TotalWidth = 10;
-	/** [TotalBeginRow, TotalHeight) */
+	/** [TotalBeginRow, TotalEndRow) */
 	static constexpr int32 TotalBeginRow = 0;
 	static constexpr int32 TotalEndRow = TotalBeginRow + TotalHeight;
 
