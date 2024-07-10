@@ -214,7 +214,7 @@ void ABoard::ClearRow(const int32 TargetRow)
 	{
 		const FIntPoint TargetMatrixLocation(TargetRow, TargetCol);
 		UMino* const Mino = GetMinoByMatrixLocation(TargetMatrixLocation);
-		check(Mino != nullptr);
+		check(IsValid(Mino));
 		RemoveMino(Mino, TargetMatrixLocation);
 	}
 }
