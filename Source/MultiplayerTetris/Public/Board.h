@@ -31,6 +31,7 @@ public:
 	/** Check Methods */
 	bool IsMovementPossible(const ATetrimino* Tetrimino, const FIntPoint& MovementIntPoint2D) const;
 	bool IsRotationPossible(const ATetrimino* Tetrimino, const ETetriminoRotationDirection RotationDirection, const FIntPoint& RotationPointOffset) const;
+	bool IsRowFull(const int32 Row) const;
 
 	/** Get Methods */
 	USceneComponent* GetMatrixRoot() const { return MatrixRoot; }

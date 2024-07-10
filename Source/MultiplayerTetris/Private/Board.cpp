@@ -66,6 +66,19 @@ bool ABoard::IsRotationPossible(const ATetrimino* Tetrimino, const ETetriminoRot
 	return IsMinoLocationsPossible(NewMinoLocalMatrixLocations, NewTetriminoMatrixLocation);
 }
 
+bool ABoard::IsRowFull(const int32 Row) const
+{
+	for (int32 Col = VisibleBeginCol; Col < VisibleEndCol; ++Col)
+	{
+		const FIntPoint TargetMatrixLocation(Row, Col);
+		if (IsMatrixLocationEmpty(TargetMatrixLocation))
+		{
+			return false;
+		}
+	}
+	return true;
+}
+
 void ABoard::AddMinos(const ATetrimino* Tetrimino)
 {
 	check(Tetrimino != nullptr);
