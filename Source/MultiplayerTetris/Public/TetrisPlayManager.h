@@ -94,9 +94,14 @@ private:
 
 	void RunSuperRotationSystem(const ETetriminoRotationDirection RotationDirection);
 
+	/** Main Logic */
 	void LockDown();
 	void ForcedLockDown();
 
+	/** Sub Logic */
+
+
+	/** Timers */
 	void SetAutoRepeatMovementTimer();
 	void SetSoftDropTimer();
 	void SetHardDropTimer();
@@ -114,7 +119,7 @@ private:
 	void SetTetriminoMovementDirection(const FVector2D& NewTetriminoMovementDirection) { TetriminoMovementDirection = NewTetriminoMovementDirection; }
 	void SetTetriminoInPlay(ATetrimino* const InTetriminoInPlay);
 
-	/** Tetrimino */
+	/** Tetrimino Generation */
 	ATetrimino* PopTetriminoFromNextQueue();
 	void SpawnAndPushTetriminoToNextQueue();
 	ATetrimino* SpawnNextTetrimino() const;
