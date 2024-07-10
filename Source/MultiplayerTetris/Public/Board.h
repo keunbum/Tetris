@@ -24,19 +24,24 @@ class MULTIPLAYERTETRIS_API ABoard : public AActor
 	
 public:
 	ABoard();
+
+	/** Initializes */
 	void Initialize();
 
+	/** Check Logics */
 	bool IsMovementPossible(const ATetrimino* Tetrimino, const FIntPoint& MovementIntPoint2D) const;
 	bool IsRotationPossible(const ATetrimino* Tetrimino, const ETetriminoRotationDirection RotationDirection, const FIntPoint& RotationPointOffset) const;
 
+	/** Get Methods */
 	USceneComponent* GetMatrixRoot() const { return MatrixRoot; }
 	USceneComponent* GetNextQueueRoot() const { return NextQueueRoot; }
 	USceneComponent* GetHoldQueueRoot() const { return HoldQueueRoot; }
 
+	/** Non-const Logics */
 	void AddMinos(const ATetrimino* Tetrimino);
-	/**
-	 * Returns the final falling location of the Tetrimino in the matrix.
-	 */
+
+	/** Const Logics */
+	// Returns the final falling location of the Tetrimino in the matrix.
 	FIntPoint GetFinalFallingMatrixLocation(const ATetrimino* Tetrimino) const;
 
 private:
