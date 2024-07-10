@@ -298,10 +298,8 @@ void ATetrisPlayManager::HardDrop()
 
 bool ATetrisPlayManager::IsHoldingTetriminoInPlayAvailable() const
 {
-	// TODO: 가이드라인 요구 사항에 맞게 구현하기.
-	// 홀드 큐가 비어 있거나, 마지막 홀드로부터 적어도 한번 LockDown이 수행되었다면 가능하다.
-	// 우선은 return true;로 둔다.
-	return true;
+	// 홀드 큐가 비어 있거나, 마지막 홀드로부터 LockDown이 수행된 적이 있다면 가능하다.
+	return HoldQueue->IsEmpty() || bIsLockDownPerformedFromLastHold;
 }
 
 void ATetrisPlayManager::MoveTetriminoToFinalFallingMatrixLocation()
