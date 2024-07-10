@@ -223,12 +223,12 @@ void ABoard::MoveRow(const int32 TargetRow, const int32 MoveDistance)
 {
 	for (int32 TargetCol = VisibleBeginCol; TargetCol < VisibleEndCol; ++TargetCol)
 	{
-		const FIntPoint TargetMatrixLocation(TargetRow, TargetCol);
-		if (!IsMatrixLocationEmpty(TargetMatrixLocation))
+		const FIntPoint MinoMatrixLocation(TargetRow, TargetCol);
+		if (!IsMatrixLocationEmpty(MinoMatrixLocation))
 		{
-			UMino* const Mino = GetMinoByMatrixLocation(TargetMatrixLocation);
-			const FIntPoint NewMatrixLocation(/* NewRow */ TargetRow + MoveDistance, TargetCol);
-			MoveMino(Mino, /* OldMatrixLocation */ TargetMatrixLocation, NewMatrixLocation);
+			UMino* const Mino = GetMinoByMatrixLocation(MinoMatrixLocation);
+			const FIntPoint NewMinoMatrixLocation(/* NewRow */ TargetRow + MoveDistance, TargetCol);
+			MoveMino(Mino, /* OldMatrixLocation */ MinoMatrixLocation, NewMinoMatrixLocation);
 		}
 	}
 }
