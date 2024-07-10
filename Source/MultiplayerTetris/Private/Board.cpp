@@ -116,6 +116,21 @@ void ABoard::ClearRows(const TArray<int32>& TargetRows)
 	{
 		ClearRow(TargetRow);
 	}
+
+	// Move Rows
+	for (int32 Index = TargetRows.Num() - 1; Index >= 0; --Index)
+	{
+		static constexpr int32 LastEndRow = TotalBeginRow - 1;
+		const int32 EmptyRow = TargetRows[Index];
+		// [BeginRow, EndRow)
+		const int32 BeginRow = EmptyRow - 1;
+		const int32 EndRow = (Index - 1 >= 0 ? TargetRows[Index - 1] : LastEndRow);
+		for (int32 Row = BeginRow; Row > EndRow; --Row)
+		{
+			const int32 MoveDistance = TargetRows.Num() - Index;
+			MoveRow(Row, MoveDistance);
+		}
+	}
 }
 
 FIntPoint ABoard::GetFinalFallingMatrixLocation(const ATetrimino* Tetrimino) const
