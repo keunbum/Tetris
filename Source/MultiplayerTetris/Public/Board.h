@@ -40,7 +40,6 @@ public:
 
 	/** Non-const Methods */
 	void AddMinos(const ATetrimino* Tetrimino);
-	void MoveRow(const int32 TargetRow, const int32 MoveDistance);
 	void ClearRows(const TArray<int32>& TargetRows);
 
 	/** Const Methods */
@@ -65,6 +64,7 @@ private:
 	USceneComponent* CreateAndSetupSceneComponent(const FName& ComponentName, USceneComponent* const Parent);
 	void AddMino(UMino* const Mino, const FIntPoint& MinoMatrixLocation);
 	void ClearRow(const int32 TargetRow);
+	void MoveRow(const int32 TargetRow, const int32 MoveDistance);
 	void RemoveMino(UMino* const Mino, const FIntPoint& TargetMatrixLocation);
 	void MoveMino(UMino* const Mino, const FIntPoint& NewMatrixLocation, const FIntPoint& TargetMatrixLocation);
 
