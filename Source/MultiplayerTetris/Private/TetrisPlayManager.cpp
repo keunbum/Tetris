@@ -220,6 +220,11 @@ void ATetrisPlayManager::InitializeHoldQueue()
 	check(HoldQueue->IsEmpty());
 }
 
+void ATetrisPlayManager::StartGenerationPhaseWithDelay(const float Delay)
+{
+	GetWorldTimerManager().SetTimer(GenerationPhaseTimerHandle, this, &ATetrisPlayManager::StartGenerationPhase, Delay, bIsGenerationPhaseTimerLoop);
+}
+
 void ATetrisPlayManager::StartFallingPhase()
 {
 	UE_LOG(LogTemp, Display, TEXT("Start Falling Phase."));

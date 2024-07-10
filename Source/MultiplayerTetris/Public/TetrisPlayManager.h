@@ -72,6 +72,7 @@ private:
 	void InitializeHoldQueue();
 
 	/** Phase Flow */
+	void StartGenerationPhaseWithDelay(const float Delay);
 	void StartFallingPhase();
 	void StartLockPhase(const float LockDownFirstDelay);
 
