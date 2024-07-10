@@ -358,7 +358,7 @@ void ATetrisPlayManager::LockDown()
 	bIsTetriminoInPlayLockedDownFromLastHold = true;
 
 	// Switch to Generation Phase.
-	GetWorldTimerManager().SetTimer(GenerationPhaseTimerHandle, this, &ATetrisPlayManager::StartGenerationPhase, GenerationPhaseInitialDelay, bIsGenerationPhaseTimerLoop);
+	StartGenerationPhaseWithDelay(GenerationPhaseInitialDelay);
 }
 
 void ATetrisPlayManager::ForcedLockDown()
