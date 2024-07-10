@@ -159,6 +159,10 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	bool bIsHoldQueueOn;
 
+	// Has LockDown been performed at least once since the last hold?
+	UPROPERTY()
+	bool bHasLockDownAtLeastOnceSinceLastHold;
+
 	UPROPERTY(VisibleAnywhere)
 	float NormalFallSpeed;
 
