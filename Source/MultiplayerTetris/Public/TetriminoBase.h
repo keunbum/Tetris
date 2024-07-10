@@ -88,7 +88,7 @@ public:
 	void SetRelativeLocationByMatrixLocation(const FIntPoint& NewMatrixLocation);
 
 	void Initialize(const ETetriminoShape NewTetriminoShape, const ETetriminoFacing NewTetriminoFacing);
-	void UpdateMinoMatrixLocalLocations();
+	void UpdateMinoTetriminoLocalLocations();
 	void DetachMinos();
 	void RotateByFacing(const ETetriminoFacing NewFacing);
 
