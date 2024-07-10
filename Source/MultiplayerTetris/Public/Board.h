@@ -65,7 +65,7 @@ private:
 	void AddMino(UMino* const Mino, const FIntPoint& MinoMatrixLocation);
 	void ClearRow(const int32 TargetRow);
 	void MoveRow(const int32 TargetRow, const int32 MoveDistance);
-	void RemoveMino(UMino* const Mino, const FIntPoint& TargetMatrixLocation);
+	void RemoveMino(UMino* const Mino, const FIntPoint& MinoMatrixLocation);
 	void MoveMino(UMino* const Mino, const FIntPoint& OldMatrixLocation, const FIntPoint& NewMatrixLocation);
 
 public:

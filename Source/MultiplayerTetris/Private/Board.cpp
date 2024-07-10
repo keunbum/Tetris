@@ -233,11 +233,11 @@ void ABoard::MoveRow(const int32 TargetRow, const int32 MoveDistance)
 	}
 }
 
-void ABoard::RemoveMino(UMino* const Mino, const FIntPoint& TargetMatrixLocation)
+void ABoard::RemoveMino(UMino* const Mino, const FIntPoint& MinoMatrixLocation)
 {
 	Mino->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
 	Mino->DestroyComponent();
-	SetMinoByMatrixLocation(nullptr, TargetMatrixLocation);
+	SetMinoByMatrixLocation(nullptr, MinoMatrixLocation);
 }
 
 void ABoard::MoveMino(UMino* const Mino, const FIntPoint& OldMatrixLocation, const FIntPoint& NewMatrixLocation)
