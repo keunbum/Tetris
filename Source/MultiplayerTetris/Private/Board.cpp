@@ -95,14 +95,6 @@ void ABoard::AddMinos(const ATetrimino* Tetrimino)
 	}
 }
 
-void ABoard::AddMino(UMino* const Mino, const FIntPoint& MinoMatrixLocation)
-{
-	// Change ownership of the component to the board
-	Mino->Rename(nullptr, this);
-	Mino->AttachToWithMatrixLocation(MatrixRoot, MinoMatrixLocation);
-	SetMinoByMatrixLocation(Mino, MinoMatrixLocation);
-}
-
 void ABoard::ClearRows(const TArray<int32>& TargetRows)
 {
 	// Clear Rows
@@ -199,4 +191,12 @@ USceneComponent* ABoard::CreateAndSetupSceneComponent(const FName& ComponentName
 	check(SceneComponent != nullptr);
 	SceneComponent->SetupAttachment(Parent);
 	return SceneComponent;
+}
+
+void ABoard::AddMino(UMino* const Mino, const FIntPoint& MinoMatrixLocation)
+{
+	// Change ownership of the component to the board
+	Mino->Rename(nullptr, this);
+	Mino->AttachToWithMatrixLocation(MatrixRoot, MinoMatrixLocation);
+	SetMinoByMatrixLocation(Mino, MinoMatrixLocation);
 }
