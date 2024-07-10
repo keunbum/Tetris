@@ -435,6 +435,22 @@ void ATetrisPlayManager::ForcedLockDown()
 	StartLockPhase(LockDownDelayOfHardDrop);
 }
 
+void ATetrisPlayManager::CheckLineClearPattern()
+{
+	// 모든 대상 행에 대해 LineClearPattern을 체크해서 HitList에 추가한다.
+	// RowIndex 범위 아마 Visible이 맞을 거임. 스카이라인 위에서 라인 클리어 패턴이 발견될 일 없음. 그전에 게임 오버로 끝났어야 함.
+	// (근데 가이드라인을 정독한 게 아니므로, 틀릴 수도 있음.)
+	check(HitList.IsEmpty());
+	for (int32 RowIndex = ABoard::VisibleBeginRow; RowIndex < ABoard::VisibleEndRow; ++RowIndex)
+	{
+		const bool bIsLineClearPattern = Board->IsRowFull(RowIndex);
+		if (bIsLineClearPattern)
+		{
+			HitList.Add(RowIndex);
+		}
+	}
+}
+
 void ATetrisPlayManager::SetAutoRepeatMovementTimer()
 {
 	GetWorldTimerManager().SetTimer(AutoRepeatMovementTimerHandle, this, &ATetrisPlayManager::MoveTetrimino, AutoRepeatMovementInterval, bIsAutoRepeatMovementLoop, AutoRepeatMovementInitialDelay);

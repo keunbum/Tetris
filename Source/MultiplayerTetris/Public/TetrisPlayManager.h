@@ -99,7 +99,7 @@ private:
 	void ForcedLockDown();
 
 	/** Sub Logic */
-
+	void CheckLineClearPattern();
 
 	/** Timers */
 	void SetAutoRepeatMovementTimer();
