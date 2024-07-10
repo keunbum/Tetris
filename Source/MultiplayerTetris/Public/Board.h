@@ -45,14 +45,20 @@ public:
 	FIntPoint GetFinalFallingMatrixLocation(const ATetrimino* Tetrimino) const;
 
 private:
+	/** Initializes */
 	void InitializeBackground();
 	void InitializeMinoMatrix();
-	int32 GetMatrixIndexByMatrixLocation(const FIntPoint& MatrixLocation) const;
-	UMino* GetMinoByMatrixLocation(const FIntPoint& MatrixLocation) const;
-	void SetMinoByMatrixLocation(UMino* const Mino, const FIntPoint& MatrixLocation);
+
+	/** Check Methods */
 	bool IsMatrixLocationEmpty(const FIntPoint& MatrixLocation) const;
 	bool IsMinoLocationsPossible(const TArray<FIntPoint>& MinoLocalMatrixLocations, const FIntPoint& TetriminoMatrixLocation) const;
 
+	/** Get/Set Methods */
+	int32 GetMatrixIndexByMatrixLocation(const FIntPoint& MatrixLocation) const;
+	UMino* GetMinoByMatrixLocation(const FIntPoint& MatrixLocation) const;
+	void SetMinoByMatrixLocation(UMino* const Mino, const FIntPoint& MatrixLocation);
+
+	/** Non-const Methods */
 	USceneComponent* CreateAndSetupSceneComponent(const FName& ComponentName, USceneComponent* const Parent);
 
 public:
