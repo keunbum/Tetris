@@ -212,10 +212,10 @@ void ABoard::ClearRow(const int32 TargetRow)
 {
 	for (int32 TargetCol = VisibleBeginCol; TargetCol < VisibleEndCol; ++TargetCol)
 	{
-		const FIntPoint TargetMatrixLocation(TargetRow, TargetCol);
-		UMino* const Mino = GetMinoByMatrixLocation(TargetMatrixLocation);
+		const FIntPoint MinoMatrixLocation(TargetRow, TargetCol);
+		UMino* const Mino = GetMinoByMatrixLocation(MinoMatrixLocation);
 		check(IsValid(Mino));
-		RemoveMino(Mino, TargetMatrixLocation);
+		RemoveMino(Mino, MinoMatrixLocation);
 	}
 }
 
