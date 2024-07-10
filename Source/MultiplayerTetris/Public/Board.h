@@ -66,7 +66,7 @@ private:
 	void ClearRow(const int32 TargetRow);
 	void MoveRow(const int32 TargetRow, const int32 MoveDistance);
 	void RemoveMino(UMino* const Mino, const FIntPoint& TargetMatrixLocation);
-	void MoveMino(UMino* const Mino, const FIntPoint& NewMatrixLocation, const FIntPoint& TargetMatrixLocation);
+	void MoveMino(UMino* const Mino, const FIntPoint& OldMatrixLocation, const FIntPoint& NewMatrixLocation);
 
 public:
 	static constexpr int32 TotalHeight = 40;

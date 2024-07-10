@@ -228,7 +228,7 @@ void ABoard::MoveRow(const int32 TargetRow, const int32 MoveDistance)
 		{
 			UMino* const Mino = GetMinoByMatrixLocation(TargetMatrixLocation);
 			const FIntPoint NewMatrixLocation(/* NewRow */ TargetRow + MoveDistance, TargetCol);
-			MoveMino(Mino, NewMatrixLocation, TargetMatrixLocation);
+			MoveMino(Mino, TargetMatrixLocation, NewMatrixLocation);
 		}
 	}
 }
@@ -240,9 +240,9 @@ void ABoard::RemoveMino(UMino* const Mino, const FIntPoint& TargetMatrixLocation
 	SetMinoByMatrixLocation(nullptr, TargetMatrixLocation);
 }
 
-void ABoard::MoveMino(UMino* const Mino, const FIntPoint& NewMatrixLocation, const FIntPoint& TargetMatrixLocation)
+void ABoard::MoveMino(UMino* const Mino, const FIntPoint& OldMatrixLocation, const FIntPoint& NewMatrixLocation)
 {
 	Mino->SetRelativeLocationByMatrixLocation(NewMatrixLocation);
 	SetMinoByMatrixLocation(Mino, NewMatrixLocation);
-	SetMinoByMatrixLocation(nullptr, TargetMatrixLocation);
+	SetMinoByMatrixLocation(nullptr, OldMatrixLocation);
 }
