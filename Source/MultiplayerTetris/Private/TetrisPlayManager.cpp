@@ -174,12 +174,15 @@ void ATetrisPlayManager::HoldTetriminoInPlay()
 
 	SetIsTetriminoInPlayManipulable(false);
 
+	// 기존 TetriminoInPlay를 때어내기
 	ATetrimino* const OldTetriminoInPlay = TetriminoInPlay;
 	SetTetriminoInPlay(nullptr);
 
+	// HoldQueue에서 테트리미노 가져오기 (비어 있으면 nullptr)
 	ATetrimino* const TetriminoInHoldQueue = HoldQueue->Dequeue();
 	const bool bWasHoldQueueEmpty = (TetriminoInHoldQueue == nullptr);
 
+	// HoldQueue에 기존 TetriminoInPlay 넣기
 	HoldQueue->Enqueue(OldTetriminoInPlay);
 	OldTetriminoInPlay->RotateByFacing(ATetrimino::DefaultFacing);
 
@@ -187,10 +190,12 @@ void ATetrisPlayManager::HoldTetriminoInPlay()
 
 	if (bWasHoldQueueEmpty)
 	{
+		// 비어 있었다면 새로 꺼내고
 		StartGenerationPhase();
 	}
 	else
 	{
+		// 비어 있지 않았다면 HoldQueue에 있던 테트리미노를 TetriminoInPlay로 설정한다
 		SetTetriminoInPlay(TetriminoInHoldQueue);
 		StartFallingPhase();
 	}
