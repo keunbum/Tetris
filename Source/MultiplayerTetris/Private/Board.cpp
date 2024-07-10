@@ -210,3 +210,10 @@ void ABoard::RemoveMino(UMino* const Mino, const FIntPoint& TargetMatrixLocation
 	Mino->DestroyComponent();
 	SetMinoByMatrixLocation(nullptr, TargetMatrixLocation);
 }
+
+void ABoard::MoveMino(UMino* const Mino, const FIntPoint& NewMatrixLocation, const FIntPoint& TargetMatrixLocation)
+{
+	Mino->SetRelativeLocationByMatrixLocation(NewMatrixLocation);
+	SetMinoByMatrixLocation(Mino, NewMatrixLocation);
+	SetMinoByMatrixLocation(nullptr, TargetMatrixLocation);
+}
