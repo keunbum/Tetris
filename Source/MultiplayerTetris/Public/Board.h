@@ -78,6 +78,8 @@ public:
 	/** [VisibleBeginCol, VisibleEndCol) */
 	static constexpr int32 VisibleEndCol = VisibleBeginCol + VisibleWidth;
 
+	static constexpr int32 SkyLine = VisibleBeginRow;
+
 	static constexpr int32 TetriminoDefaultSpawnLocationX = ABoard::VisibleBeginRow - 1;
 	static constexpr int32 TetriminoDefaultSpawnLocationY = ABoard::VisibleBeginCol + 3;
 
