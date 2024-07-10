@@ -338,9 +338,9 @@ ATetriminoBase::ATetriminoBase()
 	check(RootComponent != nullptr);
 }
 
-const TArray<FIntPoint>& ATetriminoBase::GetMinoMatrixLocalLocations() const
+const TArray<FIntPoint>& ATetriminoBase::GetMinoTetriminoLocalLocations() const
 {
-	return ATetriminoBase::GetMinoMatrixLocalLocationsByTetriminoShapeAndFacing(Shape, Facing);
+	return ATetriminoBase::GetMinoTetriminoLocalLocationsByTetriminoShapeAndFacing(Shape, Facing);
 }
 
 const TArray<FIntPoint>& ATetriminoBase::GetSRSRotationPointOffsets(const ETetriminoRotationDirection RotationDirection) const
@@ -382,7 +382,7 @@ void ATetriminoBase::Initialize(const ETetriminoShape NewTetriminoShape, const E
 
 void ATetriminoBase::UpdateMinoMatrixLocalLocations()
 {
-	const TArray<FIntPoint>& MinoMatrixLocalLocations = GetMinoMatrixLocalLocations();
+	const TArray<FIntPoint>& MinoMatrixLocalLocations = GetMinoTetriminoLocalLocations();
 	for (int32 MinoIndex = 0; MinoIndex < MinoNum; ++MinoIndex)
 	{
 		UMino* const Mino = MinoArray[MinoIndex];
@@ -428,10 +428,10 @@ ETetriminoShape ATetriminoBase::GetTetriminoShapeRandom()
 	return TetriminoShape;
 }
 
-const TArray<FIntPoint>& ATetriminoBase::GetMinoMatrixLocalLocationsByTetriminoShapeAndFacing(const ETetriminoShape Shape, const ETetriminoFacing Facing)
+const TArray<FIntPoint>& ATetriminoBase::GetMinoTetriminoLocalLocationsByTetriminoShapeAndFacing(const ETetriminoShape Shape, const ETetriminoFacing Facing)
 {
 	const FTetriminoShapeInfo& TetriminoShapeInfo = ATetriminoBase::GetTetriminoShapeInfoByShape(Shape);
-	return TetriminoShapeInfo.MinoMatrixLocalLocationsByFacing[Facing];
+	return TetriminoShapeInfo.MinoTetriminoLocalLocationsByFacing[Facing];
 }
 
 FIntPoint ATetriminoBase::GetMatrixMovementIntPointByDirection(const FVector2D& Direction)
@@ -443,7 +443,7 @@ FIntPoint ATetriminoBase::GetMatrixMovementIntPointByDirection(const FVector2D& 
 
 void ATetriminoBase::InitializeMinoArray()
 {
-	const TArray<FIntPoint>& MinoMatrixLocalLocations = GetMinoMatrixLocalLocations();
+	const TArray<FIntPoint>& MinoMatrixLocalLocations = GetMinoTetriminoLocalLocations();
 	check(MinoMatrixLocalLocations.Num() == MinoNum);
 	const FMinoInfo MinoInfo = GetMinoInfo();
 

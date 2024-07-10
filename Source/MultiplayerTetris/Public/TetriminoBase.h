@@ -54,7 +54,7 @@ enum class ETetriminoRotationDirection : int8
 
 struct FTetriminoShapeInfo
 {
-	TMap<ETetriminoFacing, TArray<FIntPoint>> MinoMatrixLocalLocationsByFacing;
+	TMap<ETetriminoFacing, TArray<FIntPoint>> MinoTetriminoLocalLocationsByFacing;
 	FString MaterialPath;
 	FLinearColor Color;
 	FIntPoint InitialMatrixLocation;
@@ -75,7 +75,7 @@ public:
 	const FMinoInfo GetMinoInfo() const;
 	const FTetriminoShapeInfo& GetTetriminoShapeInfo() const;
 	const FIntPoint& GetInitialMatrixLocation() const;
-	const TArray<FIntPoint>& GetMinoMatrixLocalLocations() const;
+	const TArray<FIntPoint>& GetMinoTetriminoLocalLocations() const;
 	const TArray<FIntPoint>& GetSRSRotationPointOffsets(const ETetriminoRotationDirection RotationDirection) const;
 
 	const ETetriminoShape& GetShape() const { return Shape; }
@@ -96,7 +96,7 @@ public:
 
 	// static method
 	static ETetriminoShape GetTetriminoShapeRandom();
-	static const TArray<FIntPoint>& GetMinoMatrixLocalLocationsByTetriminoShapeAndFacing(const ETetriminoShape Shape, const ETetriminoFacing Facing);
+	static const TArray<FIntPoint>& GetMinoTetriminoLocalLocationsByTetriminoShapeAndFacing(const ETetriminoShape Shape, const ETetriminoFacing Facing);
 	static FIntPoint GetMatrixMovementIntPointByDirection(const FVector2D& Direction);
 
 protected:
