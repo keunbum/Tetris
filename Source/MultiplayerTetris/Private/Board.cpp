@@ -102,7 +102,7 @@ void ABoard::InitializeBackground()
 {
 	for (int32 Row = TotalBeginRow; Row < TotalEndRow; ++Row)
 	{
-		const FMinoInfo& MinoInfo = (Row == (TotalHeight - VisibleHeight) ? SpecialMinoInfo : BackgroundMinoInfo);
+		const FMinoInfo& MinoInfo = (Row == SkyLine ? SpecialMinoInfo : BackgroundMinoInfo);
 		for (int32 Col = TotalBeginCol; Col < TotalEndCol; ++Col)
 		{
 			const FIntPoint MinoMatrixLocation(Row, Col);
