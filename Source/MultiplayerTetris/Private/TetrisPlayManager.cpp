@@ -304,7 +304,6 @@ void ATetrisPlayManager::StartEliminatePhase()
 	SetPhase(EPhase::Elimate);
 
 	/** Main Logic */
-	// HitList에 있는 대상 Row들을 제거하고, 위에 있는 Row들을 아래로 내린다.
 	Board->ClearRows(HitList);
 
 	/** Phase Transition*/

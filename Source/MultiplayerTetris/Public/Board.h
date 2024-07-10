@@ -40,6 +40,7 @@ public:
 
 	/** Non-const Methods */
 	void AddMinos(const ATetrimino* Tetrimino);
+	// HitList에 있는 Row를 제거하고, 위에 있는 Row를 아래로 내린다.
 	void ClearRows(const TArray<int32>& TargetRows);
 
 	/** Const Methods */
