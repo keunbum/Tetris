@@ -28,7 +28,7 @@ public:
 	/** Initializes */
 	void Initialize();
 
-	/** Check Logics */
+	/** Check Methods */
 	bool IsMovementPossible(const ATetrimino* Tetrimino, const FIntPoint& MovementIntPoint2D) const;
 	bool IsRotationPossible(const ATetrimino* Tetrimino, const ETetriminoRotationDirection RotationDirection, const FIntPoint& RotationPointOffset) const;
 
@@ -37,10 +37,10 @@ public:
 	USceneComponent* GetNextQueueRoot() const { return NextQueueRoot; }
 	USceneComponent* GetHoldQueueRoot() const { return HoldQueueRoot; }
 
-	/** Non-const Logics */
+	/** Non-const Methods */
 	void AddMinos(const ATetrimino* Tetrimino);
 
-	/** Const Logics */
+	/** Const Methods */
 	// Returns the final falling location of the Tetrimino in the matrix.
 	FIntPoint GetFinalFallingMatrixLocation(const ATetrimino* Tetrimino) const;
 
