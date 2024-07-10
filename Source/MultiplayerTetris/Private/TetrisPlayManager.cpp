@@ -216,7 +216,6 @@ void ATetrisPlayManager::InitializeNextQueue()
 
 void ATetrisPlayManager::InitializeHoldQueue()
 {
-	// TODO: HoldQueue 초기화 구현하기.
 	HoldQueue->Initialize(GameMode->HoldQueueSize, Board->GetHoldQueueRoot());
 	check(HoldQueue->IsEmpty());
 }
