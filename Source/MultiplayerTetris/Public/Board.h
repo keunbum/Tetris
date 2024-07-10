@@ -64,6 +64,7 @@ private:
 	USceneComponent* CreateAndSetupSceneComponent(const FName& ComponentName, USceneComponent* const Parent);
 	void AddMino(UMino* const Mino, const FIntPoint& MinoMatrixLocation);
 	void ClearRow(const int32 TargetRow);
+	void RemoveMino(UMino* const Mino, const FIntPoint& TargetMatrixLocation);
 
 public:
 	static constexpr int32 TotalHeight = 40;

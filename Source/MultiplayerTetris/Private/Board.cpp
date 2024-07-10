@@ -200,8 +200,13 @@ void ABoard::ClearRow(const int32 TargetRow)
 		const FIntPoint TargetMatrixLocation(TargetRow, TargetCol);
 		UMino* const Mino = GetMinoByMatrixLocation(TargetMatrixLocation);
 		check(Mino != nullptr);
-		Mino->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
-		Mino->DestroyComponent();
-		SetMinoByMatrixLocation(nullptr, TargetMatrixLocation);
+		RemoveMino(Mino, TargetMatrixLocation);
 	}
+}
+
+void ABoard::RemoveMino(UMino* const Mino, const FIntPoint& TargetMatrixLocation)
+{
+	Mino->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
+	Mino->DestroyComponent();
+	SetMinoByMatrixLocation(nullptr, TargetMatrixLocation);
 }
