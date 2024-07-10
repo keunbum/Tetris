@@ -156,10 +156,6 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	bool bIsGhostPieceOn;
 
-	UPROPERTY(EditDefaultsOnly)
-	bool bIsHoldQueueOn;
-
-	// Has LockDown been performed from the last hold?
 	UPROPERTY()
 	bool bIsLockDownPerformedFromLastHold;
 
