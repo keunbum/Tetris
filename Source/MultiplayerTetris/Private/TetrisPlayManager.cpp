@@ -159,7 +159,6 @@ void ATetrisPlayManager::DoRotation(const ETetriminoRotationDirection RotationDi
 
 void ATetrisPlayManager::HoldTetriminoInPlay()
 {
-	// TODO: TetriminoInPlay를 Hold하는 기능 구현하기.
 	if (!IsTetriminoInPlayManipulable())
 	{
 		UE_LOG(LogTemp, Display, TEXT("Tetrimino is not manipulable."));
