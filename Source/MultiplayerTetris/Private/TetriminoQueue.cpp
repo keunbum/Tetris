@@ -1,4 +1,4 @@
-﻿// Copyright © 2024 Ryu KeunBeom. All Rights Reserved.
+// Copyright © 2024 Ryu KeunBeom. All Rights Reserved.
 
 
 #include "TetriminoQueue.h"
@@ -37,6 +37,10 @@ ATetrimino* ATetriminoQueue::Dequeue()
 
 	ATetrimino* const NextTetrimino = TetriminoArray[0];
 	TetriminoArray.RemoveAt(0);
+
+	// Detach the Tetrimino from the queue's root component
+	NextTetrimino->DetachFromActor(FDetachmentTransformRules::KeepRelativeTransform);
+
 	return NextTetrimino;
 }
 

@@ -31,6 +31,7 @@ public:
 
 	USceneComponent* GetMatrixRoot() const { return MatrixRoot; }
 	USceneComponent* GetNextQueueRoot() const { return NextQueueRoot; }
+	USceneComponent* GetHoldQueueRoot() const { return HoldQueueRoot; }
 
 	void AddMinos(const ATetrimino* Tetrimino);
 	/**
@@ -46,6 +47,8 @@ private:
 	void SetMinoByMatrixLocation(UMino* const Mino, const FIntPoint& MatrixLocation);
 	bool IsMatrixLocationEmpty(const FIntPoint& MatrixLocation) const;
 	bool IsMinoLocationsPossible(const TArray<FIntPoint>& MinoLocalMatrixLocations, const FIntPoint& TetriminoMatrixLocation) const;
+
+	USceneComponent* CreateAndSetupSceneComponent(const FName& ComponentName, USceneComponent* const Parent);
 
 public:
 	static constexpr int32 TotalHeight = 40;
@@ -76,6 +79,9 @@ private:
 	FVector NextQueueRelativeLocation;
 
 	UPROPERTY(EditDefaultsOnly)
+	FVector HoldQueueRelativeLocation;
+
+	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UMino> MinoClass;
 
 	UPROPERTY()
@@ -86,6 +92,9 @@ private:
 
 	UPROPERTY()
 	TObjectPtr<USceneComponent> NextQueueRoot;
+
+	UPROPERTY()
+	TObjectPtr<USceneComponent> HoldQueueRoot;
 
 	UPROPERTY(VisibleAnywhere)
 	TArray<TObjectPtr<UMino>> MinoMatrix;
