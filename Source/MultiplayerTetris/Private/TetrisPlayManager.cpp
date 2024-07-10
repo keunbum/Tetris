@@ -17,7 +17,7 @@ ATetrisPlayManager::ATetrisPlayManager()
 	, LockDownOption(ELockDownOption::ExtendedPlacement)
 	, bIsTetriminoInPlayManipulable(false)
 	, bIsGhostPieceOn(true)
-	, bIsLockDownPerformedFromLastHold(false)
+	, bIsTetriminoInPlayLockedDownFromLastHold(false)
 	, NormalFallSpeed(-1.0f)
 	, TetriminoClass(ATetrimino::StaticClass())
 	, TetriminoInPlay(nullptr)
@@ -195,7 +195,7 @@ void ATetrisPlayManager::HoldTetriminoInPlay()
 		StartFallingPhase();
 	}
 
-	bIsLockDownPerformedFromLastHold = false;
+	bIsTetriminoInPlayLockedDownFromLastHold = false;
 }
 
 void ATetrisPlayManager::InitializeNextQueue()
@@ -298,7 +298,7 @@ void ATetrisPlayManager::HardDrop()
 bool ATetrisPlayManager::IsHoldingTetriminoInPlayAvailable() const
 {
 	// 홀드 큐가 비어 있거나, 마지막 홀드로부터 LockDown이 수행된 적이 있다면 가능하다.
-	return HoldQueue->IsEmpty() || bIsLockDownPerformedFromLastHold;
+	return HoldQueue->IsEmpty() || bIsTetriminoInPlayLockedDownFromLastHold;
 }
 
 void ATetrisPlayManager::MoveTetriminoToFinalFallingMatrixLocation()
@@ -345,7 +345,7 @@ void ATetrisPlayManager::LockDown()
 	SetTetriminoInPlay(nullptr);
 	OldTetriminoInPlay->Destroy();
 
-	bIsLockDownPerformedFromLastHold = true;
+	bIsTetriminoInPlayLockedDownFromLastHold = true;
 
 	// Switch to Generation Phase.
 	GetWorldTimerManager().SetTimer(GenerationPhaseTimerHandle, this, &ATetrisPlayManager::StartGenerationPhase, GenerationPhaseInitialDelay, bIsGenerationPhaseTimerLoop);

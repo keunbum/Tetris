@@ -157,7 +157,7 @@ private:
 	bool bIsGhostPieceOn;
 
 	UPROPERTY()
-	bool bIsLockDownPerformedFromLastHold;
+	bool bIsTetriminoInPlayLockedDownFromLastHold;
 
 	UPROPERTY(VisibleAnywhere)
 	float NormalFallSpeed;
