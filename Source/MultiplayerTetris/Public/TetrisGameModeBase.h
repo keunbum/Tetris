@@ -51,6 +51,7 @@ public:
 
 	// Queue
 	static constexpr int32 NextQueueSize = 5;
+	static constexpr int32 HoldQueueSize = 1;
 
 private:
 	static constexpr int32 PlayerIndex = 0;

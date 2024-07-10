@@ -26,7 +26,11 @@ public:
 	void MoveBy(const FIntPoint& IntVector2D);
 	void RotateTo(const ETetriminoRotationDirection RotationDirection);
 
-	void AttachToBoard(ABoard* const InBoard);
+	void SetBoard(ABoard* const InBoard);
+
+private:
+	void AttachToMatrix(USceneComponent* const MatrixRoot);
+	void DetachFromMatrix();
 
 public:
 	static constexpr ETetriminoFacing DefaultFacing = ETetriminoFacing::North;

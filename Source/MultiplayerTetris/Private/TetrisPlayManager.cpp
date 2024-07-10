@@ -17,6 +17,7 @@ ATetrisPlayManager::ATetrisPlayManager()
 	, LockDownOption(ELockDownOption::ExtendedPlacement)
 	, bIsTetriminoInPlayManipulable(false)
 	, bIsGhostPieceOn(true)
+	, bIsTetriminoInPlayLockedDownFromLastHold(false)
 	, NormalFallSpeed(-1.0f)
 	, TetriminoClass(ATetrimino::StaticClass())
 	, TetriminoInPlay(nullptr)
@@ -30,9 +31,11 @@ void ATetrisPlayManager::Initialize()
 {
 	UE_LOG(LogTemp, Display, TEXT("TetrisPlayManager is initialized."));
 
+	/** Clear Logic ---------------------------------------------------------------------------------------- */
 	// UMino
 	UMino::ClearMaterialCache();
 
+	/** Main Logic ---------------------------------------------------------------------------------------- */
 	// World
 	UWorld* const World = GetWorld();
 	check(World != nullptr);
@@ -58,10 +61,15 @@ void ATetrisPlayManager::Initialize()
 	check(NextQueue != nullptr);
 	InitializeNextQueue();
 
+	// HoldQueue
+	HoldQueue = World->SpawnActor<ATetriminoQueue>(ATetriminoQueue::StaticClass());
+	check(HoldQueue != nullptr);
+	InitializeHoldQueue();
+
 	// GhostPiece
 	GhostPiece = World->SpawnActor<AGhostPiece>(GhostPieceClass);
 	check(GhostPiece != nullptr);
-	GhostPiece->AttachToBoard(Board);
+	GhostPiece->AttachToMatrix(Board->GetMatrixRoot());
 }
 
 void ATetrisPlayManager::StartGenerationPhase()
@@ -72,10 +80,6 @@ void ATetrisPlayManager::StartGenerationPhase()
 	ATetrimino* const NewTetriminoInPlay = PopTetriminoFromNextQueue();
 
 	SetTetriminoInPlay(NewTetriminoInPlay);
-
-	// Set GhostPiece
-	TetriminoInPlay->SetGhostPiece(GhostPiece);
-	GhostPiece->SetRelativeLocationByMatrixLocation(Board->GetFinalFallingMatrixLocation(TetriminoInPlay));
 
 	StartFallingPhase();
 }
@@ -155,6 +159,51 @@ void ATetrisPlayManager::DoRotation(const ETetriminoRotationDirection RotationDi
 	RunSuperRotationSystem(RotationDirection);
 }
 
+void ATetrisPlayManager::HoldTetriminoInPlay()
+{
+	if (!IsTetriminoInPlayManipulable())
+	{
+		UE_LOG(LogTemp, Display, TEXT("Tetrimino is not manipulable."));
+		return;
+	}
+
+	if (!IsHoldingTetriminoInPlayAvailable())
+	{
+		UE_LOG(LogTemp, Display, TEXT("Holding Tetrimino is not available."));
+		return;
+	}
+
+	SetIsTetriminoInPlayManipulable(false);
+
+	// 기존 TetriminoInPlay를 떼어 내기
+	ATetrimino* const OldTetriminoInPlay = TetriminoInPlay;
+	SetTetriminoInPlay(nullptr);
+
+	// HoldQueue에서 테트리미노 가져오기 (비어 있으면 nullptr)
+	ATetrimino* const TetriminoInHoldQueue = HoldQueue->Dequeue();
+	const bool bWasHoldQueueEmpty = (TetriminoInHoldQueue == nullptr);
+
+	// HoldQueue에 기존 TetriminoInPlay 넣기
+	HoldQueue->Enqueue(OldTetriminoInPlay);
+	OldTetriminoInPlay->RotateByFacing(ATetrimino::DefaultFacing);
+
+	HoldQueue->ReArrangeTetriminoLocations();
+
+	if (bWasHoldQueueEmpty)
+	{
+		// 비어 있었다면 새로 꺼내고
+		StartGenerationPhase();
+	}
+	else
+	{
+		// 비어 있지 않았다면 HoldQueue에 있던 테트리미노를 TetriminoInPlay로 설정한다
+		SetTetriminoInPlay(TetriminoInHoldQueue);
+		StartFallingPhase();
+	}
+
+	bIsTetriminoInPlayLockedDownFromLastHold = false;
+}
+
 void ATetrisPlayManager::InitializeNextQueue()
 {
 	NextQueue->Initialize(GameMode->NextQueueSize, Board->GetNextQueueRoot());
@@ -163,6 +212,12 @@ void ATetrisPlayManager::InitializeNextQueue()
 		SpawnAndPushTetriminoToNextQueue();
 	}
 	NextQueue->ReArrangeTetriminoLocations();
+}
+
+void ATetrisPlayManager::InitializeHoldQueue()
+{
+	HoldQueue->Initialize(GameMode->HoldQueueSize, Board->GetHoldQueueRoot());
+	check(HoldQueue->IsEmpty());
 }
 
 void ATetrisPlayManager::StartFallingPhase()
@@ -245,6 +300,12 @@ void ATetrisPlayManager::HardDrop()
 	ForcedLockDown();
 }
 
+bool ATetrisPlayManager::IsHoldingTetriminoInPlayAvailable() const
+{
+	// 홀드 큐가 비어 있거나, 마지막 홀드로부터 LockDown이 수행된 적이 있다면 가능하다.
+	return HoldQueue->IsEmpty() || bIsTetriminoInPlayLockedDownFromLastHold;
+}
+
 void ATetrisPlayManager::MoveTetriminoToFinalFallingMatrixLocation()
 {
 	const FIntPoint FinalFallingMatrixLocation = GhostPiece->GetMatrixLocation();
@@ -280,16 +341,16 @@ void ATetrisPlayManager::LockDown()
 
 	PlayLockDownEffect(TetriminoInPlay->GetMinoArray());
 
-	// Disable all user input timers
-	ClearUserInputTimers();
-
 	// Transfer of TetriminoInPlay's Minos to Board
 	TetriminoInPlay->DetachMinos();
 	Board->AddMinos(TetriminoInPlay);
 
 	// Remove TetriminoInPlay
-	TetriminoInPlay->Destroy();
-	TetriminoInPlay = nullptr;
+	ATetrimino* const OldTetriminoInPlay = TetriminoInPlay;
+	SetTetriminoInPlay(nullptr);
+	OldTetriminoInPlay->Destroy();
+
+	bIsTetriminoInPlayLockedDownFromLastHold = true;
 
 	// Switch to Generation Phase.
 	GetWorldTimerManager().SetTimer(GenerationPhaseTimerHandle, this, &ATetrisPlayManager::StartGenerationPhase, GenerationPhaseInitialDelay, bIsGenerationPhaseTimerLoop);
@@ -356,27 +417,33 @@ void ATetrisPlayManager::ClearTimers(const TArray<FTimerHandle*>& TimerHandles)
 	}
 }
 
-void ATetrisPlayManager::ClearUserInputTimers()
+void ATetrisPlayManager::ClearTetriminoInPlayLogicTimers()
 {
-	// 하드 드롭은 초기 딜레이가 있긴 하지만, 다른 타이머들에 비하면 그 즉시라고 봐야 함.
-	// 즉 다른 연산이 끼어들 가능성이 없기 때문에, ClearUserInputTimers()에서는 따로 처리하지 않음.
-	// TODO: 사용자가 일시 정지를 누르면 어떡하냐고 생각할 수도 있는데,
-	// 그 경우엔 하드 드롭 딜레이가 끝난 후에 일시 정지를 걸거나, 하드 드롭 딜레이 보다 더 많은 딜레이를 주고 일시 정지를 걸면 됨.
-	// 아무튼 버그는 아니기 때문에 일단 이렇게 처리한다.
-	static const TArray<FTimerHandle*> UserInputTimerHandles =
+	static const TArray<FTimerHandle*> TimerHandlesToClear =
 	{
 		&AutoRepeatMovementTimerHandle,
+		&NormalFallTimerHandle,
+		&LockDownTimerHandle,
 		&SoftDropTimerHandle,
-		&NormalFallTimerHandle
+		&HardDropTimerHandle,
 	};
-	ClearTimers(UserInputTimerHandles);
+	ClearTimers(TimerHandlesToClear);
 }
 
-void ATetrisPlayManager::SetTetriminoInPlay(ATetrimino* const NewTetriminoInPlay)
+void ATetrisPlayManager::SetTetriminoInPlay(ATetrimino* const InTetriminoInPlay)
 {
-	check(NewTetriminoInPlay != nullptr);
-	NewTetriminoInPlay->AttachToBoard(Board);
-	TetriminoInPlay = NewTetriminoInPlay;
+	if (InTetriminoInPlay)
+	{
+		InTetriminoInPlay->SetBoard(Board);
+		InTetriminoInPlay->SetGhostPiece(GhostPiece);
+	}
+	else
+	{
+		TetriminoInPlay->SetGhostPiece(nullptr);
+		TetriminoInPlay->SetBoard(nullptr);
+		ClearTetriminoInPlayLogicTimers();
+	}
+	TetriminoInPlay = InTetriminoInPlay;
 }
 
 ATetrimino* ATetrisPlayManager::PopTetriminoFromNextQueue()

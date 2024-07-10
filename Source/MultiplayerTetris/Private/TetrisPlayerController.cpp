@@ -79,6 +79,9 @@ void ATetrisPlayerController::BindGamePlayInput()
 		EnhancedInputComponent->BindAction(RotateClockwiseAction, ETriggerEvent::Started, this, &ATetrisPlayerController::OnRotateClockwiseStarted);
 		// RotateCounterClockwise
 		EnhancedInputComponent->BindAction(RotateCounterClockwiseAction, ETriggerEvent::Started, this, &ATetrisPlayerController::OnRotateCounterClockwiseStarted);
+
+		// Hold
+		EnhancedInputComponent->BindAction(HoldAction, ETriggerEvent::Started, this, &ATetrisPlayerController::OnHoldStarted);
 	}
 }
 
@@ -136,6 +139,12 @@ void ATetrisPlayerController::OnRotateCounterClockwiseStarted(const FInputAction
 {
 	UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayerController::RotateCounterClockwise()"));
 	GameMode->GetTetrisPlayManager()->DoRotation(ETetriminoRotationDirection::CounterClockwise);
+}
+
+void ATetrisPlayerController::OnHoldStarted(const FInputActionValue& ActionValue)
+{
+	UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayerController::OnHoldStarted()"));
+	GameMode->GetTetrisPlayManager()->HoldTetriminoInPlay();
 }
 
 const FVector2D& ATetrisPlayerController::GetDirectionByKeyFlag(const EKeyFlags KeyFlag)

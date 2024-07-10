@@ -18,26 +18,28 @@ ABoard::ABoard()
 {
 	PrimaryActorTick.bCanEverTick = false;
 
+	// 음수/양수 순서대로 FVector(우/좌, 아래/위, 생략)
 	NextQueueRelativeLocation = FVector(UMino::UnitLength * -12.f, UMino::UnitLength * -15.f, 0.f);
+	HoldQueueRelativeLocation = FVector(UMino::UnitLength * 4.f, UMino::UnitLength * -15.f, 0.f);
 
 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
 	check(RootComponent != nullptr);
 
 	MinoClass = UMino::StaticClass();
 
-	MatrixRoot = CreateDefaultSubobject<USceneComponent>(TEXT("MatrixRoot"));
-	check(MatrixRoot != nullptr);
-	MatrixRoot->SetupAttachment(RootComponent);
+	/** MatrixRoot */
+	MatrixRoot = CreateAndSetupSceneComponent(TEXT("MatrixRoot"), RootComponent);
 
-	BackgroundRoot = CreateDefaultSubobject<USceneComponent>(TEXT("BackgroundRoot"));
-	check(BackgroundRoot != nullptr);
-	BackgroundRoot->SetupAttachment(RootComponent);
+	/** BackgroundRoot */
+	BackgroundRoot = CreateAndSetupSceneComponent(TEXT("BackgroundRoot"), RootComponent);
 
-	NextQueueRoot = CreateDefaultSubobject<USceneComponent>(TEXT("NextQueueRoot"));
-	check(NextQueueRoot != nullptr);
-	NextQueueRoot->SetupAttachment(RootComponent);
-	// Set NextQueueRoot's relative location
+	/** NextQueueRoot */
+	NextQueueRoot = CreateAndSetupSceneComponent(TEXT("NextQueueRoot"), RootComponent);
 	NextQueueRoot->SetRelativeLocation(NextQueueRelativeLocation);
+
+	/** HoldQueueRoot */
+	HoldQueueRoot = CreateAndSetupSceneComponent(TEXT("HoldQueueRoot"), RootComponent);
+	HoldQueueRoot->SetRelativeLocation(HoldQueueRelativeLocation);
 }
 
 void ABoard::Initialize()
@@ -154,4 +156,12 @@ bool ABoard::IsMinoLocationsPossible(const TArray<FIntPoint>& MinoLocalMatrixLoc
 			&& (IsMatrixLocationEmpty(NewMinoLocalMatrixLocation));
 		}
 	);
+}
+
+USceneComponent* ABoard::CreateAndSetupSceneComponent(const FName& ComponentName, USceneComponent* const Parent)
+{
+	USceneComponent* const SceneComponent = CreateDefaultSubobject<USceneComponent>(ComponentName);
+	check(SceneComponent != nullptr);
+	SceneComponent->SetupAttachment(Parent);
+	return SceneComponent;
 }

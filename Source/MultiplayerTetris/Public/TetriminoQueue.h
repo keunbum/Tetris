@@ -1,4 +1,4 @@
-﻿// Copyright © 2024 Ryu KeunBeom. All Rights Reserved.
+// Copyright © 2024 Ryu KeunBeom. All Rights Reserved.
 
 #pragma once
 
@@ -47,6 +47,9 @@ public:
 	ATetrimino* Dequeue();
 
 	void ReArrangeTetriminoLocations();
+
+	int32 Num() const { return TetriminoArray.Num(); }
+	bool IsEmpty() const { return TetriminoArray.IsEmpty(); }
 
 private:
 	static FVector GetTetriminoLocalLocationByIndex(const int32 Index);

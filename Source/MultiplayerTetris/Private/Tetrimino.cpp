@@ -13,9 +13,13 @@ ATetrimino::ATetrimino()
 
 void ATetrimino::SetGhostPiece(AGhostPiece* const InGhostPiece)
 {
-	check(InGhostPiece != nullptr);
 	GhostPiece = InGhostPiece;
-	GhostPiece->Initialize(Shape, Facing);
+	if (GhostPiece)
+	{
+		GhostPiece->Initialize(Shape, Facing);
+		check(Board != nullptr);
+		GhostPiece->SetRelativeLocationByMatrixLocation(Board->GetFinalFallingMatrixLocation(this));
+	}
 }
 
 void ATetrimino::MoveBy(const FIntPoint& IntPoint2D)
@@ -40,9 +44,26 @@ void ATetrimino::RotateTo(const ETetriminoRotationDirection RotationDirection)
 	}
 }
 
-void ATetrimino::AttachToBoard(ABoard* const InBoard)
+void ATetrimino::SetBoard(ABoard* const InBoard)
 {
-	check(InBoard != nullptr);
 	Board = InBoard;
-	AttachToComponentByMatrixLocation(Board->GetMatrixRoot(), GetInitialMatrixLocation());
+	if (Board)
+	{
+		AttachToMatrix(Board->GetMatrixRoot());
+	}
+	else
+	{
+		DetachFromMatrix();
+	}
+}
+
+void ATetrimino::AttachToMatrix(USceneComponent* const MatrixRoot)
+{
+	check(MatrixRoot != nullptr);
+	AttachToComponentByMatrixLocation(MatrixRoot, GetInitialMatrixLocation());
+}
+
+void ATetrimino::DetachFromMatrix()
+{
+	RootComponent->DetachFromComponent(FDetachmentTransformRules::KeepRelativeTransform);
 }
