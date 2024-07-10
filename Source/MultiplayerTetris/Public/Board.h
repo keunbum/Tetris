@@ -40,6 +40,7 @@ public:
 
 	/** Non-const Methods */
 	void AddMinos(const ATetrimino* Tetrimino);
+	void ClearRows(const TArray<int32>& TargetRows);
 
 	/** Const Methods */
 	// Returns the final falling location of the Tetrimino in the matrix.

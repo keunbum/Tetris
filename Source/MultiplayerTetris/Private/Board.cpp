@@ -98,6 +98,23 @@ void ABoard::AddMinos(const ATetrimino* Tetrimino)
 	}
 }
 
+void ABoard::ClearRows(const TArray<int32>& TargetRows)
+{
+	// Clear Rows
+	for (const int32 TargetRow : TargetRows)
+	{
+		for (int32 TargetCol = VisibleBeginCol; TargetCol < VisibleEndCol; ++TargetCol)
+		{
+			const FIntPoint TargetMatrixLocation(TargetRow, TargetCol);
+			UMino* const Mino = GetMinoByMatrixLocation(TargetMatrixLocation);
+			check(Mino != nullptr);
+			Mino->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
+			Mino->DestroyComponent();
+			SetMinoByMatrixLocation(nullptr, TargetMatrixLocation);
+		}
+	}
+}
+
 FIntPoint ABoard::GetFinalFallingMatrixLocation(const ATetrimino* Tetrimino) const
 {
 	check(Tetrimino != nullptr);
