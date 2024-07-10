@@ -75,6 +75,11 @@ private:
 	void StartGenerationPhaseWithDelay(const float Delay);
 	void StartFallingPhase();
 	void StartLockPhase(const float LockDownFirstDelay);
+	void StartPatternPhase();
+	void StartIteratePhase();
+	void StartAnimatePhase();
+	void StartEliminatePhase();
+	void StartCompletionPhase();
 
 	/** User Input */
 	void MoveTetriminoTo(const FVector2D& Direction);

@@ -260,6 +260,66 @@ void ATetrisPlayManager::StartLockPhase(const float LockDownFirstDelay)
 	}
 }
 
+void ATetrisPlayManager::StartPatternPhase()
+{
+	UE_LOG(LogTemp, Display, TEXT("Start Pattern Phase."));
+
+	SetPhase(EPhase::Pattern);
+
+	/** Main Logic */
+
+	/** Phase Transition*/
+	StartIteratePhase();
+}
+
+void ATetrisPlayManager::StartIteratePhase()
+{
+	UE_LOG(LogTemp, Display, TEXT("Start Iterate Phase."));
+
+	SetPhase(EPhase::Iterate);
+
+	/** Main Logic */
+
+	/** Phase Transition*/
+	StartAnimatePhase();
+}
+
+void ATetrisPlayManager::StartAnimatePhase()
+{
+	UE_LOG(LogTemp, Display, TEXT("Start Animate Phase."));
+
+	SetPhase(EPhase::Animate);
+
+	/** Main Logic */
+
+	/** Phase Transition*/
+	StartEliminatePhase();
+}
+
+void ATetrisPlayManager::StartEliminatePhase()
+{
+	UE_LOG(LogTemp, Display, TEXT("Start Eliminate Phase."));
+
+	SetPhase(EPhase::Elimate);
+
+	/** Main Logic */
+
+	/** Phase Transition*/
+	StartCompletionPhase();
+}
+
+void ATetrisPlayManager::StartCompletionPhase()
+{
+	UE_LOG(LogTemp, Display, TEXT("Start Completion Phase."));
+
+	SetPhase(EPhase::Completion);
+
+	/** Main Logic */
+
+	/** Phase Transition*/
+	StartGenerationPhaseWithDelay(GenerationPhaseInitialDelay);
+}
+
 void ATetrisPlayManager::MoveTetriminoTo(const FVector2D& Direction)
 {
 	if (!TetriminoInPlay)
@@ -357,8 +417,8 @@ void ATetrisPlayManager::LockDown()
 
 	bIsTetriminoInPlayLockedDownFromLastHold = true;
 
-	// Switch to Generation Phase.
-	StartGenerationPhaseWithDelay(GenerationPhaseInitialDelay);
+	// Switch to Pattern Phase.
+	StartPatternPhase();
 }
 
 void ATetrisPlayManager::ForcedLockDown()
