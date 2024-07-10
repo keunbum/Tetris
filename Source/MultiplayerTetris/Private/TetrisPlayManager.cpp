@@ -267,6 +267,7 @@ void ATetrisPlayManager::StartPatternPhase()
 	SetPhase(EPhase::Pattern);
 
 	/** Main Logic */
+	CheckLineClearPattern();
 
 	/** Phase Transition*/
 	StartIteratePhase();
@@ -303,6 +304,8 @@ void ATetrisPlayManager::StartEliminatePhase()
 	SetPhase(EPhase::Elimate);
 
 	/** Main Logic */
+	// HitList에 있는 대상 Row들을 제거하고, 위에 있는 Row들을 아래로 내린다.
+	Board->ClearRows(HitList);
 
 	/** Phase Transition*/
 	StartCompletionPhase();
@@ -315,6 +318,9 @@ void ATetrisPlayManager::StartCompletionPhase()
 	SetPhase(EPhase::Completion);
 
 	/** Main Logic */
+
+	/** Reset Variables */
+	HitList.Empty();
 
 	/** Phase Transition*/
 	StartGenerationPhaseWithDelay(GenerationPhaseInitialDelay);
