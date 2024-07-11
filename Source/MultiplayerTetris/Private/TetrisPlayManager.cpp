@@ -81,6 +81,9 @@ void ATetrisPlayManager::StartGenerationPhase()
 
 	SetTetriminoInPlay(NewTetriminoInPlay);
 
+	// TetriminoInPlay drops one row if no existing Block is in its path.
+	MoveTetriminoDown();
+
 	StartFallingPhase();
 }
 
