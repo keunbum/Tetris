@@ -20,7 +20,13 @@ public:
 	int32 GetGameLevel() const { return GameLevel; }
 	void SetGameLevel(const int32 NewGameLevel) { GameLevel = NewGameLevel; }
 
+	int32 GetScore() const { return Score; }
+	void AddScore(const int32 AddedScore) { Score += AddedScore; }
+
 protected:
 	UPROPERTY(VisibleAnywhere, Category = "Player State")
 	int32 GameLevel;
+
+	UPROPERTY(VisibleAnywhere, Category = "Player State")
+	int32 Score;
 };
