@@ -13,5 +13,7 @@ UCLASS()
 class MULTIPLAYERTETRIS_API ATetrisPlayerStateBase : public APlayerState
 {
 	GENERATED_BODY()
-	
+
+public:
+	ATetrisPlayerStateBase();
 };

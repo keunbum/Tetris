@@ -2,3 +2,8 @@
 
 #include "TetrisPlayerStateBase.h"
 
+#include "TetrisGameModeBase.h"
+
+ATetrisPlayerStateBase::ATetrisPlayerStateBase()
+{
+}
