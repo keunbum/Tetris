@@ -5,5 +5,6 @@
 #include "TetrisGameModeBase.h"
 
 ATetrisPlayerStateBase::ATetrisPlayerStateBase()
+	: GameLevel(ATetrisGameModeBase::DefaultGameLevel)
 {
 }
