@@ -33,6 +33,7 @@ void ATetrisGameModeBase::BeginPlay()
 
 void ATetrisGameModeBase::Initialize()
 {
+	/** Create */
 	UWorld* const World = GetWorld();
 	check(World != nullptr);
 
@@ -43,6 +44,7 @@ void ATetrisGameModeBase::Initialize()
 	TetrisPlayerController = Cast<ATetrisPlayerController>(UGameplayStatics::GetPlayerController(World, PlayerIndex));
 	check(TetrisPlayerController != nullptr);
 
+	/** Call Initialize methods */
 	TetrisPlayManager->Initialize();
 	TetrisPlayerController->Initialize();
 }
