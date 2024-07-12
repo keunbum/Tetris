@@ -2,3 +2,13 @@
 
 #include "TetrisSinglePlayGameModeBase.h"
 
+#include "TetrisPlayManager.h"
+
+void ATetrisSinglePlayGameModeBase::LevelUp()
+{
+	Super::LevelUp();
+
+	const float NewNormalFallSpeed = GetNormalFallSpeed();
+	TetrisPlayManager->SetNormalFallSpeed(NewNormalFallSpeed);
+}
+
