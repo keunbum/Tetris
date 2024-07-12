@@ -9,6 +9,7 @@
 
 class ATetrisPlayManager;
 class ATetrisPlayerController;
+class ATetrisPlayerStateBase;
 class UUserWidget;
 
 /**
@@ -75,6 +76,9 @@ protected:
 
 	UPROPERTY()
 	TObjectPtr<ATetrisPlayerController> TetrisPlayerController;
+
+	UPROPERTY()
+	TObjectPtr<ATetrisPlayerStateBase> TetrisPlayerState;
 
 	//UPROPERTY()
 	//// Widgets
