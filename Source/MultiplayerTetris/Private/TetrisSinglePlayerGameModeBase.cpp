@@ -1,10 +1,10 @@
 // Copyright © 2024 Ryu KeunBeom. All Rights Reserved.
 
-#include "TetrisSinglePlayGameModeBase.h"
+#include "TetrisSinglePlayerGameModeBase.h"
 
 #include "TetrisPlayManager.h"
 
-void ATetrisSinglePlayGameModeBase::LevelUp()
+void ATetrisSinglePlayerGameModeBase::LevelUp()
 {
 	Super::LevelUp();
 

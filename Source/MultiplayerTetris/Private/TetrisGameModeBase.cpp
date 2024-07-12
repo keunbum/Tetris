@@ -58,4 +58,3 @@ float ATetrisGameModeBase::CalculateNormalFallSpeed(const int32 Level)
 	const float B = static_cast<float>(Level - 1);
 	return FMath::Pow(A, B);
 }
-
