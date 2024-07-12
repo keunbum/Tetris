@@ -52,9 +52,9 @@ void ATetrisGameModeBase::StartGamePlay()
 	TetrisPlayManager->StartGenerationPhase();
 }
 
-float ATetrisGameModeBase::CalculateNormalFallSpeed(const int32 Level)
+float ATetrisGameModeBase::CalculateNormalFallSpeed(const int32 GameLevel)
 {
-	const float A = 0.8f - ((Level - 1) * 0.007f);
-	const float B = static_cast<float>(Level - 1);
+	const float A = 0.8f - ((GameLevel - 1) * 0.007f);
+	const float B = static_cast<float>(GameLevel - 1);
 	return FMath::Pow(A, B);
 }

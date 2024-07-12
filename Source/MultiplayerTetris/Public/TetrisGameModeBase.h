@@ -41,7 +41,7 @@ private:
 	void Initialize();
 	void StartGamePlay();
 
-	static float CalculateNormalFallSpeed(const int32 Level);
+	static float CalculateNormalFallSpeed(const int32 GameLevel);
 
 	//void ShowWidget(TSubclassOf<UUserWidget> WidgetClass);
 
