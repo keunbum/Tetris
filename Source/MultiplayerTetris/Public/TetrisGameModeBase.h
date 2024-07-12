@@ -23,8 +23,8 @@ public:
 	ATetrisGameModeBase();
 
 	int32 GetCurrentLevel() const { return CurrentLevel; }
-	void LevelUp();
-
+	virtual void LevelUp();
+	
 	/**
 	* Here, speed means the seconds it takes to move one line.
 	*/

@@ -21,9 +21,6 @@ ATetrisGameModeBase::ATetrisGameModeBase()
 void ATetrisGameModeBase::LevelUp()
 {
 	CurrentLevel += 1;
-
-	const float NewFallSpeed = GetNormalFallSpeed();
-	TetrisPlayManager->SetNormalFallSpeed(NewFallSpeed);
 }
 
 void ATetrisGameModeBase::BeginPlay()
