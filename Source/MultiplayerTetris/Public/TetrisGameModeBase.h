@@ -61,12 +61,15 @@ private:
 	static constexpr float SoftDropMultiplier = 20.0f;
 
 protected:
+	/** primitive */
 	UPROPERTY(VisibleAnywhere)
 	int32 CurrentLevel;
 
+	/** Classes */
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<ATetrisPlayManager> TetrisPlayManagerClass;
 
+	/** Objects */
 	UPROPERTY()
 	TObjectPtr<ATetrisPlayManager> TetrisPlayManager;
 
