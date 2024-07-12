@@ -31,8 +31,5 @@ protected:
 	int32 GameLevel;
 
 	UPROPERTY(VisibleAnywhere, Category = "Player State")
-	int32 Score;
-
-	UPROPERTY(VisibleAnywhere, Category = "Player State")
 	int32 LineCount;
 };
