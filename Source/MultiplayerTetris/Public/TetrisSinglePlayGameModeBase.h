@@ -4,13 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "TetrisGameModeBase.h"
-#include "TetrisSinglePlayGameMode.generated.h"
+#include "TetrisSinglePlayGameModeBase.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class MULTIPLAYERTETRIS_API ATetrisSinglePlayGameMode : public ATetrisGameModeBase
+class MULTIPLAYERTETRIS_API ATetrisSinglePlayGameModeBase : public ATetrisGameModeBase
 {
 	GENERATED_BODY()
 	
