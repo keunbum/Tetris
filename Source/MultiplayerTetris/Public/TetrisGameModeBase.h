@@ -54,6 +54,7 @@ public:
 	static constexpr int32 HoldQueueSize = 1;
 	static constexpr int32 DefaultGameLevel = 1;
 	static constexpr int32 DefaultScore = 0;
+	static constexpr int32 DefaultLineCount = 0;
 
 private:
 	static constexpr int32 PlayerIndex = 0;

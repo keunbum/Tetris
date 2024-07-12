@@ -7,5 +7,6 @@
 ATetrisPlayerStateBase::ATetrisPlayerStateBase()
 	: GameLevel(ATetrisGameModeBase::DefaultGameLevel)
 	, Score(ATetrisGameModeBase::DefaultScore)
+	, LineCount(ATetrisGameModeBase::DefaultLineCount)
 {
 }

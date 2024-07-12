@@ -23,10 +23,16 @@ public:
 	int32 GetScore() const { return Score; }
 	void AddScore(const int32 AddedScore) { Score += AddedScore; }
 
+	int32 GetLineCount() const { return LineCount; }
+	void AddLineCount(const int32 AddedLineCount) { LineCount += AddedLineCount; }
+
 protected:
 	UPROPERTY(VisibleAnywhere, Category = "Player State")
 	int32 GameLevel;
 
 	UPROPERTY(VisibleAnywhere, Category = "Player State")
 	int32 Score;
+
+	UPROPERTY(VisibleAnywhere, Category = "Player State")
+	int32 LineCount;
 };
