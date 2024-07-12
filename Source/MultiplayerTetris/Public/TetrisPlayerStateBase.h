@@ -20,7 +20,6 @@ public:
 	int32 GetGameLevel() const { return GameLevel; }
 	void SetGameLevel(const int32 NewGameLevel) { GameLevel = NewGameLevel; }
 
-
 protected:
 	UPROPERTY(VisibleAnywhere, Category = "Player State")
 	int32 GameLevel;
