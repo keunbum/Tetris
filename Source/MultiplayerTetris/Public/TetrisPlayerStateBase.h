@@ -22,13 +22,14 @@ public:
 
 	void AddScore(const int32 AddedScore) { SetScore(GetScore() + AddedScore); }
 
-	int32 GetLineCount() const { return LineCount; }
-	void AddLineCount(const int32 AddedLineCount) { LineCount += AddedLineCount; }
+	int32 GetLineClearCount() const { return LineClearCount; }
+	void SetLineClearCount(const int32 NewLineClearCount) { LineClearCount = NewLineClearCount; }
+	void AddLineClearCount(const int32 AddedLineClearCount) { SetLineClearCount(GetLineClearCount() + AddedLineClearCount); }
 
 private:
 	UPROPERTY(VisibleAnywhere, Category = "Player State")
 	int32 GameLevel;
 
 	UPROPERTY(VisibleAnywhere, Category = "Player State")
-	int32 LineCount;
+	int32 LineClearCount;
 };
