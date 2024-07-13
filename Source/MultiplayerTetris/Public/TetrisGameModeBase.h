@@ -45,6 +45,8 @@ public:
 	ATetrisPlayManager* GetTetrisPlayManager() const { return TetrisPlayManager; }
 	ATetrisPlayerController* GetTetrisPlayerController() const { return TetrisPlayerController; }
 
+	void UpdateGamePlay(const FTetrisGamePlayInfo& UpdateInfo);
+
 	virtual void PostLogin(APlayerController* const NewPlayer) override;
 
 protected:
