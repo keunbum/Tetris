@@ -23,7 +23,6 @@ class MULTIPLAYERTETRIS_API ATetrisGameModeBase : public AGameModeBase
 public:
 	ATetrisGameModeBase();
 
-	int32 GetCurrentLevel() const { return CurrentLevel; }
 	/**
 	* Here, speed means the seconds it takes to move one line.
 	*/
@@ -64,8 +63,6 @@ private:
 
 protected:
 	/** primitive */
-	UPROPERTY(VisibleAnywhere)
-	int32 CurrentLevel;
 
 	/** Classes */
 	UPROPERTY(EditDefaultsOnly)

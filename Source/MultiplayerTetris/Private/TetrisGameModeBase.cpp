@@ -14,8 +14,7 @@
 #include "TetrisPlayerStateBase.h"
 
 ATetrisGameModeBase::ATetrisGameModeBase()
-	: CurrentLevel(DefaultGameLevel)
-	, TetrisPlayManagerClass(nullptr)
+	: TetrisPlayManagerClass(nullptr)
 {
 	PlayerStateClass = ATetrisPlayerStateBase::StaticClass();
 }
