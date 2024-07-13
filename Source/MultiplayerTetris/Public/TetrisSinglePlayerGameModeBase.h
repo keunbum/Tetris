@@ -15,5 +15,4 @@ class MULTIPLAYERTETRIS_API ATetrisSinglePlayerGameModeBase : public ATetrisGame
 	GENERATED_BODY()
 	
 public:
-	virtual void LevelUp() override;
 };

@@ -27,6 +27,10 @@ float ATetrisGameModeBase::GetNormalFallSpeed() const
 void ATetrisGameModeBase::UpdateGamePlay(const FTetrisGamePlayInfo& UpdateInfo)
 {
 	TetrisPlayerState->UpdateState(UpdateInfo);
+
+	const float NewNormalFallSpeed = GetNormalFallSpeed();
+	TetrisPlayManager->SetNormalFallSpeed(NewNormalFallSpeed);
+
 }
 
 void ATetrisGameModeBase::PostLogin(APlayerController* const NewPlayer)
