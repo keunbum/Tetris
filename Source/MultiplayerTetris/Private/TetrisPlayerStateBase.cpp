@@ -14,6 +14,7 @@ ATetrisPlayerStateBase::ATetrisPlayerStateBase()
 void ATetrisPlayerStateBase::LevelUp()
 {
 	AddGameLevel(1);
+	UE_LOG(LogTemp, Warning, TEXT("Level Up! Current Level: %d"), GetGameLevel());
 
 	SetLineClearCount(ATetrisGameModeBase::DefaultLineCount);
 }
