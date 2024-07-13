@@ -40,7 +40,6 @@ public:
 	* Here, speed means the seconds it takes to move one line.
 	*/
 	float GetNormalFallSpeed() const;
-	float GetSoftDropSpeed() const { return GetNormalFallSpeed() / SoftDropMultiplier; }
 
 	ATetrisPlayManager* GetTetrisPlayManager() const { return TetrisPlayManager; }
 	ATetrisPlayerController* GetTetrisPlayerController() const { return TetrisPlayerController; }
@@ -48,6 +47,9 @@ public:
 	void UpdateGamePlay(const FTetrisGamePlayInfo& UpdateInfo);
 
 	virtual void PostLogin(APlayerController* const NewPlayer) override;
+
+	/** statics methods */
+	static float GetSoftDropSpeed(const float NormalFallSpeed) { return NormalFallSpeed / SoftDropMultiplier; }
 
 protected:
 	virtual void BeginPlay() override;
