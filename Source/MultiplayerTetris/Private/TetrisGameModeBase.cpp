@@ -25,6 +25,14 @@ void ATetrisGameModeBase::LevelUp()
 	CurrentLevel += 1;
 }
 
+void ATetrisGameModeBase::PostLogin(APlayerController* const NewPlayer)
+{
+	Super::PostLogin(NewPlayer);
+
+	TetrisPlayerState = Cast<ATetrisPlayerStateBase>(NewPlayer->PlayerState);
+	check(TetrisPlayerState != nullptr);
+	// TODO: Initialize TetrisPlayerState (필요하다면)
+}
 
 void ATetrisGameModeBase::BeginPlay()
 {
