@@ -14,6 +14,7 @@ ATetrisPlayerStateBase::ATetrisPlayerStateBase()
 void ATetrisPlayerStateBase::UpdateState(const FTetrisGamePlayInfo& UpdateInfo)
 {
 	AddLineClearCount(UpdateInfo.HitList.Num());
+	AddTotalLineClearCount(UpdateInfo.HitList.Num());
 
 	UE_LOG(LogTemp, Warning, TEXT("Total Cleared LineClearCount: %d"), GetLineClearCount());
 }
