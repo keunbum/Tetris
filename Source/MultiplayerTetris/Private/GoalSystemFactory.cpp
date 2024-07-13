@@ -2,10 +2,3 @@
 
 #include "GoalSystemFactory.h"
 
-GoalSystemFactory::GoalSystemFactory()
-{
-}
-
-GoalSystemFactory::~GoalSystemFactory()
-{
-}

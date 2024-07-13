@@ -10,6 +10,6 @@
 class MULTIPLAYERTETRIS_API GoalSystemFactory
 {
 public:
-	GoalSystemFactory();
-	~GoalSystemFactory();
+	// 생성자 호출 방지
+	GoalSystemFactory() = delete;
 };
