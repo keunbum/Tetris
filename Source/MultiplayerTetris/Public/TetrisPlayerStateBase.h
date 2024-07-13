@@ -4,6 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerState.h"
+
+#include "TetrisGameModeBase.h"
+
 #include "TetrisPlayerStateBase.generated.h"
 
 /**
@@ -25,6 +28,8 @@ public:
 	int32 GetLineClearCount() const { return LineClearCount; }
 	void SetLineClearCount(const int32 NewLineClearCount) { LineClearCount = NewLineClearCount; }
 	void AddLineClearCount(const int32 AddedLineClearCount) { SetLineClearCount(GetLineClearCount() + AddedLineClearCount); }
+
+	void UpdateState(const FTetrisGamePlayInfo& UpdateInfo);
 
 private:
 	UPROPERTY(VisibleAnywhere, Category = "Player State")

@@ -10,3 +10,10 @@ ATetrisPlayerStateBase::ATetrisPlayerStateBase()
 {
 	SetScore(ATetrisGameModeBase::DefaultScore);
 }
+
+void ATetrisPlayerStateBase::UpdateState(const FTetrisGamePlayInfo& UpdateInfo)
+{
+	AddLineClearCount(UpdateInfo.HitList.Num());
+
+	UE_LOG(LogTemp, Warning, TEXT("Total Cleared LineClearCount: %d"), GetLineClearCount());
+}
