@@ -50,11 +50,6 @@ void ATetrisGameModeBase::BeginPlay()
 	StartGamePlay();
 }
 
-void ATetrisGameModeBase::LevelUp()
-{
-	// TODO: Implement LevelUp
-}
-
 void ATetrisGameModeBase::Initialize()
 {
 	/** Create */
