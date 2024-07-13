@@ -205,7 +205,7 @@ private:
 	FVector2D TetriminoMovementDirection;
 
 	UPROPERTY(VisibleInstanceOnly)
-	FTetrisGamePlayUpdateInfo GamePlayUpdateInfo;
+	FTetrisGamePlayInfo GamePlayInfo;
 
 	UPROPERTY(EditDefaultsOnly)
 	ETetriminoShape TestSpawnShape = ETetriminoShape::None;

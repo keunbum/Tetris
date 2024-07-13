@@ -13,7 +13,7 @@ class ATetrisPlayerStateBase;
 class UUserWidget;
 
 USTRUCT()
-struct FTetrisGamePlayUpdateInfo
+struct FTetrisGamePlayInfo
 {
 	GENERATED_BODY()
 

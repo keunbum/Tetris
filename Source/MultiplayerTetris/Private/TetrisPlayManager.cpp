@@ -270,7 +270,7 @@ void ATetrisPlayManager::StartPatternPhase()
 	SetPhase(EPhase::Pattern);
 
 	/** Main Logic */
-	CheckLineClearPattern(GamePlayUpdateInfo.HitList);
+	CheckLineClearPattern(GamePlayInfo.HitList);
 
 	/** Phase Transition*/
 	StartIteratePhase();
@@ -307,7 +307,7 @@ void ATetrisPlayManager::StartEliminatePhase()
 	SetPhase(EPhase::Elimate);
 
 	/** Main Logic */
-	Board->ClearRows(GamePlayUpdateInfo.HitList);
+	Board->ClearRows(GamePlayInfo.HitList);
 
 	/** Phase Transition*/
 	StartCompletionPhase();
@@ -322,7 +322,7 @@ void ATetrisPlayManager::StartCompletionPhase()
 	/** Main Logic */
 
 	/** Reset Variables */
-	GamePlayUpdateInfo.Reset();
+	GamePlayInfo.Reset();
 
 	/** Phase Transition*/
 	StartGenerationPhaseWithDelay(GenerationPhaseInitialDelay);
