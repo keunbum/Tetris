@@ -320,6 +320,7 @@ void ATetrisPlayManager::StartCompletionPhase()
 	SetPhase(EPhase::Completion);
 
 	/** Main Logic */
+	GameMode->UpdateGamePlay(GamePlayInfo);
 
 	/** Reset Variables */
 	GamePlayInfo.Reset();
