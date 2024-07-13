@@ -13,6 +13,8 @@
 #include "TetrisPlayerController.h"
 #include "TetrisPlayerStateBase.h"
 #include "GoalSystemFactory.h"
+#include "GoalSystemInterface.h"
+
 
 ATetrisGameModeBase::ATetrisGameModeBase()
 	: TetrisPlayManagerClass(nullptr)
@@ -29,9 +31,19 @@ void ATetrisGameModeBase::UpdateGamePlay(const FTetrisGamePlayInfo& UpdateInfo)
 {
 	TetrisPlayerState->UpdateState(UpdateInfo);
 
-	const float NewNormalFallSpeed = GetNormalFallSpeed();
-	TetrisPlayManager->SetNormalFallSpeed(NewNormalFallSpeed);
+	check(GoalSystem);
+	const bool bIsLevelUpCondition = GoalSystem->IsLevelUpCondition(*TetrisPlayerState);
+	if (bIsLevelUpCondition)
+	{
+		TetrisPlayerState->LevelUp();
 
+		const float OldNormalFallSpeed = TetrisPlayManager->GetNormalFallSpeed();
+		const float NewNormalFallSpeed = GetCurrentLevelNormalFallSpeed();
+		check(OldNormalFallSpeed != NewNormalFallSpeed); // If this is not true, the level up system is not working properly.
+		TetrisPlayManager->SetNormalFallSpeed(NewNormalFallSpeed);
+		const int32 NewGameLevel = TetrisPlayerState->GetGameLevel();
+		UE_LOG(LogTemp, Warning, TEXT("Level Up! New Level: %d, New NormalFallSpeed: %f"), NewGameLevel, NewNormalFallSpeed);
+	}
 }
 
 void ATetrisGameModeBase::PostLogin(APlayerController* const NewPlayer)
