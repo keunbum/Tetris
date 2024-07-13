@@ -54,6 +54,7 @@ public:
 	void Initialize();
 
 	const FVector2D& GetTetriminoMovementDirection() const { return TetriminoMovementDirection; }
+	float GetNormalFallSpeed() const { return NormalFallSpeed; }
 	void SetNormalFallSpeed(const float NewNormalFallSpeed) { NormalFallSpeed = NewNormalFallSpeed; }
 
 	void StartGenerationPhase();
