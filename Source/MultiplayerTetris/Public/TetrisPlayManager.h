@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 
 #include "TetriminoBase.h"
+#include "TetrisGameModeBase.h"
 
 #include "TetrisPlayManager.generated.h"
 
@@ -204,7 +205,7 @@ private:
 	FVector2D TetriminoMovementDirection;
 
 	UPROPERTY(VisibleInstanceOnly)
-	TArray<int32> HitList; // List of rows to be cleared
+	FTetrisGamePlayUpdateInfo GamePlayUpdateInfo;
 
 	UPROPERTY(EditDefaultsOnly)
 	ETetriminoShape TestSpawnShape = ETetriminoShape::None;

@@ -12,6 +12,19 @@ class ATetrisPlayerController;
 class ATetrisPlayerStateBase;
 class UUserWidget;
 
+USTRUCT()
+struct FTetrisGamePlayUpdateInfo
+{
+	GENERATED_BODY()
+
+	TArray<int32> HitList; // List of rows to be cleared
+
+	void Reset()
+	{
+		HitList.Empty();
+	}
+};
+
 /**
  * 
  */
