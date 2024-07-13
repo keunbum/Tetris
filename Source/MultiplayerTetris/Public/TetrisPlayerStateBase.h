@@ -24,6 +24,7 @@ public:
 
 	int32 GetGameLevel() const { return GameLevel; }
 	void SetGameLevel(const int32 NewGameLevel) { GameLevel = NewGameLevel; }
+	void AddGameLevel(const int32 AddedGameLevel) { SetGameLevel(GetGameLevel() + AddedGameLevel); }
 
 	int32 GetLineClearCount() const { return LineClearCount; }
 	void SetLineClearCount(const int32 NewLineClearCount) { LineClearCount = NewLineClearCount; }
