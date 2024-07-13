@@ -25,7 +25,7 @@ public:
 	int32 GetLineCount() const { return LineCount; }
 	void AddLineCount(const int32 AddedLineCount) { LineCount += AddedLineCount; }
 
-protected:
+private:
 	UPROPERTY(VisibleAnywhere, Category = "Player State")
 	int32 GameLevel;
 
