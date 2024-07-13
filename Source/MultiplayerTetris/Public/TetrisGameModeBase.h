@@ -5,11 +5,14 @@
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
 
+#include "GoalSystemFactory.h"
+
 #include "TetrisGameModeBase.generated.h"
 
 class ATetrisPlayManager;
 class ATetrisPlayerController;
 class ATetrisPlayerStateBase;
+class IGoalSystemInterface;
 class UUserWidget;
 
 USTRUCT()
@@ -78,6 +81,8 @@ private:
 
 protected:
 	/** primitive */
+	UPROPERTY(EditDefaultsOnly)
+	EGoalSystemType GoalSystemType = EGoalSystemType::Fixed;
 
 	/** Classes */
 	UPROPERTY(EditDefaultsOnly)
@@ -92,6 +97,10 @@ protected:
 
 	UPROPERTY()
 	TObjectPtr<ATetrisPlayerStateBase> TetrisPlayerState;
+
+	// Declare Interface variable
+	UPROPERTY()
+	TScriptInterface<IGoalSystemInterface> GoalSystem;
 
 	//UPROPERTY()
 	//// Widgets

@@ -12,6 +12,7 @@
 #include "Board.h"
 #include "TetrisPlayerController.h"
 #include "TetrisPlayerStateBase.h"
+#include "GoalSystemFactory.h"
 
 ATetrisGameModeBase::ATetrisGameModeBase()
 	: TetrisPlayManagerClass(nullptr)
@@ -62,6 +63,16 @@ void ATetrisGameModeBase::Initialize()
 
 	TetrisPlayerController = Cast<ATetrisPlayerController>(UGameplayStatics::GetPlayerController(World, PlayerIndex));
 	check(TetrisPlayerController != nullptr);
+
+	/** Create GoalSystem */
+	if (IGoalSystemInterface* const GoalSystemInterface = GoalSystemFactory::CreateGoalSystem(GoalSystemType, this))
+	{
+		if (UObject* const GoalSystemObject = Cast<UObject>(GoalSystemInterface))
+		{
+			GoalSystem.SetInterface(GoalSystemInterface);
+			GoalSystem.SetObject(GoalSystemObject);
+		}
+	}
 
 	/** Call Initialize methods */
 	TetrisPlayManager->Initialize();
