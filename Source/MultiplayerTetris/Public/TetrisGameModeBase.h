@@ -27,7 +27,7 @@ public:
 	/**
 	* Here, speed means the seconds it takes to move one line.
 	*/
-	float GetNormalFallSpeed() const { return ATetrisGameModeBase::CalculateNormalFallSpeed(CurrentLevel); }
+	float GetNormalFallSpeed() const;
 	float GetSoftDropSpeed() const { return GetNormalFallSpeed() / SoftDropMultiplier; }
 
 	ATetrisPlayManager* GetTetrisPlayManager() const { return TetrisPlayManager; }

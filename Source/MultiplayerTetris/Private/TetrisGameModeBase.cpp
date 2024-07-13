@@ -20,6 +20,11 @@ ATetrisGameModeBase::ATetrisGameModeBase()
 	PlayerStateClass = ATetrisPlayerStateBase::StaticClass();
 }
 
+float ATetrisGameModeBase::GetNormalFallSpeed() const
+{
+	return ATetrisGameModeBase::CalculateNormalFallSpeed(TetrisPlayerState->GetGameLevel());
+}
+
 void ATetrisGameModeBase::PostLogin(APlayerController* const NewPlayer)
 {
 	Super::PostLogin(NewPlayer);
