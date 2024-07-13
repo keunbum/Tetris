@@ -11,17 +11,20 @@
 #include "TetrisPlayManager.h"
 #include "Board.h"
 #include "TetrisPlayerController.h"
+#include "TetrisPlayerStateBase.h"
 
 ATetrisGameModeBase::ATetrisGameModeBase()
 	: CurrentLevel(DefaultGameLevel)
 	, TetrisPlayManagerClass(nullptr)
 {
+	PlayerStateClass = ATetrisPlayerStateBase::StaticClass();
 }
 
 void ATetrisGameModeBase::LevelUp()
 {
 	CurrentLevel += 1;
 }
+
 
 void ATetrisGameModeBase::BeginPlay()
 {
