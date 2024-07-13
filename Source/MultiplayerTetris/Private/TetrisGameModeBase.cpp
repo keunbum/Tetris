@@ -19,7 +19,7 @@ ATetrisGameModeBase::ATetrisGameModeBase()
 	PlayerStateClass = ATetrisPlayerStateBase::StaticClass();
 }
 
-float ATetrisGameModeBase::GetNormalFallSpeed() const
+float ATetrisGameModeBase::GetCurrentLevelNormalFallSpeed() const
 {
 	return ATetrisGameModeBase::CalculateNormalFallSpeed(TetrisPlayerState->GetGameLevel());
 }

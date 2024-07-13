@@ -39,8 +39,7 @@ public:
 	/**
 	* Here, speed means the seconds it takes to move one line.
 	*/
-	float GetNormalFallSpeed() const;
-
+	float GetCurrentLevelNormalFallSpeed() const;
 	ATetrisPlayManager* GetTetrisPlayManager() const { return TetrisPlayManager; }
 	ATetrisPlayerController* GetTetrisPlayerController() const { return TetrisPlayerController; }
 
