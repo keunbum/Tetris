@@ -44,7 +44,7 @@ void ATetrisPlayManager::Initialize()
 	GameMode = World->GetAuthGameMode<ATetrisGameModeBase>();
 
 	// Set Basic members
-	SetNormalFallSpeed(GameMode->GetNormalFallSpeed());
+	SetNormalFallSpeed(GameMode->GetCurrentLevelNormalFallSpeed());
 	SetTetriminoMovementDirection(FVector2D::ZeroVector);
 
 	// Board
