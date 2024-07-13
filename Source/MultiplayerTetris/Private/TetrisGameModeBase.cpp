@@ -20,11 +20,6 @@ ATetrisGameModeBase::ATetrisGameModeBase()
 	PlayerStateClass = ATetrisPlayerStateBase::StaticClass();
 }
 
-void ATetrisGameModeBase::LevelUp()
-{
-	CurrentLevel += 1;
-}
-
 void ATetrisGameModeBase::PostLogin(APlayerController* const NewPlayer)
 {
 	Super::PostLogin(NewPlayer);
@@ -40,6 +35,11 @@ void ATetrisGameModeBase::BeginPlay()
 
 	Initialize();
 	StartGamePlay();
+}
+
+void ATetrisGameModeBase::LevelUp()
+{
+	// TODO: Implement LevelUp
 }
 
 void ATetrisGameModeBase::Initialize()
