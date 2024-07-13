@@ -17,4 +17,9 @@ class MULTIPLAYERTETRIS_API UFixedGoalSystem : public UObject, public IGoalSyste
 {
 	GENERATED_BODY()
 	
+public:
+	virtual bool IsLevelUpCondition(const ATetrisPlayerStateBase& TetrisPlayerStateBase) const override;
+
+private:
+	static constexpr int32 LevelUpLineCountGoal = 10;
 };
