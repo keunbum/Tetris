@@ -11,6 +11,13 @@ ATetrisPlayerStateBase::ATetrisPlayerStateBase()
 	SetScore(ATetrisGameModeBase::DefaultScore);
 }
 
+void ATetrisPlayerStateBase::LevelUp()
+{
+	AddGameLevel(1);
+
+	SetLineClearCount(ATetrisGameModeBase::DefaultLineCount);
+}
+
 void ATetrisPlayerStateBase::UpdateState(const FTetrisGamePlayInfo& UpdateInfo)
 {
 	AddLineClearCount(UpdateInfo.HitList.Num());
