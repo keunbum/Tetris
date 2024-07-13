@@ -20,10 +20,11 @@ class MULTIPLAYERTETRIS_API ATetrisPlayerStateBase : public APlayerState
 public:
 	ATetrisPlayerStateBase();
 
+	void AddScore(const int32 AddedScore) { SetScore(GetScore() + AddedScore); }
+
 	int32 GetGameLevel() const { return GameLevel; }
 	void SetGameLevel(const int32 NewGameLevel) { GameLevel = NewGameLevel; }
-
-	void AddScore(const int32 AddedScore) { SetScore(GetScore() + AddedScore); }
+	void LevelUp();
 
 	int32 GetLineClearCount() const { return LineClearCount; }
 	void SetLineClearCount(const int32 NewLineClearCount) { LineClearCount = NewLineClearCount; }
