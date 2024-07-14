@@ -17,7 +17,8 @@
 
 
 ATetrisGameModeBase::ATetrisGameModeBase()
-	: TetrisPlayManagerClass(nullptr)
+	: GoalSystemType(EGoalSystemType::None)
+	, TetrisPlayManagerClass(nullptr)
 {
 	PlayerStateClass = ATetrisPlayerStateBase::StaticClass();
 }
@@ -69,6 +70,8 @@ void ATetrisGameModeBase::Initialize()
 	/** Create */
 	UWorld* const World = GetWorld();
 	check(World != nullptr);
+
+	SetGoalSystemType(EGoalSystemType::Fixed);
 
 	check(TetrisPlayManagerClass != nullptr);
 	TetrisPlayManager = World->SpawnActor<ATetrisPlayManager>(TetrisPlayManagerClass);

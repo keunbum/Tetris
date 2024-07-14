@@ -84,7 +84,7 @@ private:
 protected:
 	/** primitive */
 	UPROPERTY(EditDefaultsOnly)
-	EGoalSystemType GoalSystemType = EGoalSystemType::Fixed;
+	EGoalSystemType GoalSystemType;
 
 	/** Classes */
 	UPROPERTY(EditDefaultsOnly)
