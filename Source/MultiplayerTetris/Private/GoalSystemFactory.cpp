@@ -6,6 +6,7 @@
 
 #include "GoalSystemInterface.h"
 #include "FixedGoalSystem.h"
+#include "VariableGoalSystem.h"
 
 IGoalSystemInterface* GoalSystemFactory::CreateGoalSystem(const EGoalSystemType GoalSystemType, UObject* const Outer)
 {
@@ -13,6 +14,8 @@ IGoalSystemInterface* GoalSystemFactory::CreateGoalSystem(const EGoalSystemType 
 	{
 	case EGoalSystemType::Fixed:
 		return NewObject<UFixedGoalSystem>(Outer);
+	case EGoalSystemType::Variable:
+		return NewObject<UVariableGoalSystem>(Outer);
 	default:
 		return nullptr;
 	}
