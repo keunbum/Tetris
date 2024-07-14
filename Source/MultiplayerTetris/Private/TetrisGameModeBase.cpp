@@ -71,7 +71,7 @@ void ATetrisGameModeBase::Initialize()
 	UWorld* const World = GetWorld();
 	check(World != nullptr);
 
-	SetGoalSystemType(EGoalSystemType::Fixed);
+	SetGoalSystemType(EGoalSystemType::Variable);
 
 	check(TetrisPlayManagerClass != nullptr);
 	TetrisPlayManager = World->SpawnActor<ATetrisPlayManager>(TetrisPlayManagerClass);
