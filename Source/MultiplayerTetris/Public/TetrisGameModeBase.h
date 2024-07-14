@@ -56,6 +56,8 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
+	void SetGoalSystemType(const EGoalSystemType NewGoalSystemType) { GoalSystemType = NewGoalSystemType; }
+
 private:
 	void Initialize();
 	void StartGamePlay();
