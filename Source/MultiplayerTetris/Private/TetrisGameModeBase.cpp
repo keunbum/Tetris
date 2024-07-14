@@ -35,7 +35,8 @@ void ATetrisGameModeBase::UpdateGamePlay(const FTetrisGamePlayInfo& UpdateInfo)
 	const bool bIsLevelUpCondition = GoalSystem->IsLevelUpCondition(*TetrisPlayerState);
 	if (bIsLevelUpCondition)
 	{
-		TetrisPlayerState->LevelUp();
+		const int32 LevelUpLineCountGoal = GoalSystem->GetLevelUpLineCountGoal(TetrisPlayerState->GetGameLevel());
+		TetrisPlayerState->LevelUp(LevelUpLineCountGoal);
 
 		const float OldNormalFallSpeed = TetrisPlayManager->GetNormalFallSpeed();
 		const float NewNormalFallSpeed = GetCurrentLevelNormalFallSpeed();
