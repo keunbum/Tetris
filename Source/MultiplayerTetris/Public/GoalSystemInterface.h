@@ -23,5 +23,6 @@ class MULTIPLAYERTETRIS_API IGoalSystemInterface
 	GENERATED_BODY()
 
 public:
-	virtual bool IsLevelUpCondition(const ATetrisPlayerStateBase& TetrisPlayerStateBase) const = 0;
+	bool IsLevelUpCondition(const ATetrisPlayerStateBase& TetrisPlayerStateBase) const;
+	virtual int32 GetLevelUpLineCountGoal(const int32 GameLevel) const = 0;
 };

@@ -17,4 +17,9 @@ class MULTIPLAYERTETRIS_API UVariableGoalSystem : public UObject, public IGoalSy
 {
 	GENERATED_BODY()
 	
+public:
+	virtual int32 GetLevelUpLineCountGoal(const int32 GameLevel) const override { return GameLevel * LevelUpLineCountGoalMultiplier; }
+
+private:
+	static constexpr int32 LevelUpLineCountGoalMultiplier = 5;
 };
