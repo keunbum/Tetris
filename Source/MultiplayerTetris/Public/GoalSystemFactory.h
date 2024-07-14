@@ -10,7 +10,9 @@ class IGoalSystemInterface;
 UENUM()
 enum class EGoalSystemType : uint8
 {
+	None,
 	Fixed,
+	Variable,
 };
 
 /**
