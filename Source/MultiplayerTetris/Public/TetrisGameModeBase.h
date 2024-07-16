@@ -91,6 +91,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<ATetrisPlayManager> TetrisPlayManagerClass;
 
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UUserWidget> HUDWidgetClass = nullptr;
+
 	/** Objects */
 	UPROPERTY()
 	TObjectPtr<ATetrisPlayManager> TetrisPlayManager;
@@ -101,15 +104,12 @@ protected:
 	UPROPERTY()
 	TObjectPtr<ATetrisPlayerStateBase> TetrisPlayerState;
 
+	UPROPERTY(VisibleInstanceOnly)
+	TObjectPtr<UUserWidget> HUDWidget;
+
 	// Declare Interface variable
 	UPROPERTY()
 	TScriptInterface<IGoalSystemInterface> GoalSystem;
-
-	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<UUserWidget> HUDWidgetClass = nullptr;
-
-	UPROPERTY(VisibleInstanceOnly)
-	TObjectPtr<UUserWidget> HUDWidget;
 
 	//UPROPERTY()
 	//// Widgets
