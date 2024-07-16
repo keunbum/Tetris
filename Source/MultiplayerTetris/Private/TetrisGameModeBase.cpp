@@ -74,13 +74,16 @@ void ATetrisGameModeBase::Initialize()
 
 	SetGoalSystemType(EGoalSystemType::Variable);
 
+	// TetrisPlayManager
 	check(TetrisPlayManagerClass != nullptr);
 	TetrisPlayManager = World->SpawnActor<ATetrisPlayManager>(TetrisPlayManagerClass);
 	check(TetrisPlayManager != nullptr);
 
+	// TetrisPlayerController
 	TetrisPlayerController = Cast<ATetrisPlayerController>(UGameplayStatics::GetPlayerController(World, PlayerIndex));
 	check(TetrisPlayerController != nullptr);
 
+	// GoalSystem
 	if (IGoalSystemInterface* const GoalSystemInterface = GoalSystemFactory::CreateGoalSystem(GoalSystemType, this))
 	{
 		if (UObject* const GoalSystemObject = Cast<UObject>(GoalSystemInterface))
