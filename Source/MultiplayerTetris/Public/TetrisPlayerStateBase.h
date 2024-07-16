@@ -9,6 +9,8 @@
 
 #include "TetrisPlayerStateBase.generated.h"
 
+class UUserWidget;
+
 /**
  * 
  */
@@ -46,4 +48,7 @@ private:
 
 	UPROPERTY(VisibleAnywhere, Category = "Player State")
 	int32 TotalLineClearCount;
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UUserWidget> HUDSingleClass = nullptr;
 };
