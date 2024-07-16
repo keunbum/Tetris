@@ -20,7 +20,7 @@ ATetrisGameModeBase::ATetrisGameModeBase()
 	: GoalSystemType(EGoalSystemType::None)
 	, TetrisPlayManagerClass(nullptr)
 {
-	PlayerStateClass = ATetrisPlayerStateBase::StaticClass();
+	PlayerStateClass = nullptr;
 }
 
 float ATetrisGameModeBase::GetCurrentLevelNormalFallSpeed() const
