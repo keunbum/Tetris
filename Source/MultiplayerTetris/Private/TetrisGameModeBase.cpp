@@ -93,6 +93,17 @@ void ATetrisGameModeBase::Initialize()
 		}
 	}
 
+	// HUDWidget
+	if (HUDWidgetClass)
+	{
+		HUDWidget = CreateWidget<UUserWidget>(World, HUDWidgetClass);
+		if (HUDWidget)
+		{
+			HUDWidget->AddToViewport();
+		}
+	}
+
+
 	/** Call Initialize methods */
 	TetrisPlayManager->Initialize();
 	TetrisPlayerController->Initialize();
