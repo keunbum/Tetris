@@ -72,7 +72,7 @@ void ATetrisGameModeBase::Initialize()
 	UWorld* const World = GetWorld();
 	check(World != nullptr);
 
-	SetGoalSystemType(EGoalSystemType::Variable);
+	check(GoalSystemType != EGoalSystemType::None);
 
 	// TetrisPlayManager
 	check(TetrisPlayManagerClass != nullptr);
