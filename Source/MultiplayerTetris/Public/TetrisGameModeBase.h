@@ -105,7 +105,7 @@ protected:
 	TScriptInterface<IGoalSystemInterface> GoalSystem;
 
 	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<UUserWidget> HUDSingleClass = nullptr;
+	TSubclassOf<UUserWidget> HUDWidgetClass = nullptr;
 
 	//UPROPERTY()
 	//// Widgets
