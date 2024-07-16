@@ -20,6 +20,7 @@ ATetrisGameModeBase::ATetrisGameModeBase()
 	: GoalSystemType(EGoalSystemType::None)
 	, TetrisPlayManagerClass(nullptr)
 {
+	// Unreal Editor에서 PlayerStateClass를 설정할 수 있도록 함
 	PlayerStateClass = nullptr;
 }
 
