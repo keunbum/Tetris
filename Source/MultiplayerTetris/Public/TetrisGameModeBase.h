@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
+#include "Blueprint/UserWidget.h"
 
 #include "GoalSystemFactory.h"
 
@@ -106,6 +107,9 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UUserWidget> HUDWidgetClass = nullptr;
+
+	UPROPERTY(VisibleInstanceOnly)
+	TObjectPtr<UUserWidget> HUDWidget;
 
 	//UPROPERTY()
 	//// Widgets
