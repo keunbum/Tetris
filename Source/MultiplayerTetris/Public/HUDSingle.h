@@ -17,7 +17,6 @@ class MULTIPLAYERTETRIS_API UHUDSingle : public UUserWidget
 	GENERATED_BODY()
 	
 public:
-	UFUNCTION(BlueprintImplementableEvent, Category = "HUD")
 	void UpdateLevelDisplay(const int32 NewLevel);
 
 protected:
