@@ -13,7 +13,7 @@ class ATetrisPlayManager;
 class ATetrisPlayerController;
 class ATetrisPlayerStateBase;
 class IGoalSystemInterface;
-class UUserWidget;
+class UHUDSingle;
 
 USTRUCT()
 struct FTetrisGamePlayInfo
@@ -92,7 +92,7 @@ protected:
 	TSubclassOf<ATetrisPlayManager> TetrisPlayManagerClass;
 
 	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<UUserWidget> HUDWidgetClass = nullptr;
+	TSubclassOf<UHUDSingle> HUDWidgetClass = nullptr;
 
 	/** Objects */
 	UPROPERTY()
@@ -105,7 +105,7 @@ protected:
 	TObjectPtr<ATetrisPlayerStateBase> TetrisPlayerState;
 
 	UPROPERTY(VisibleInstanceOnly)
-	TObjectPtr<UUserWidget> HUDWidget;
+	TObjectPtr<UHUDSingle> HUDWidget;
 
 	// Declare Interface variable
 	UPROPERTY()

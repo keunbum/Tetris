@@ -15,6 +15,7 @@
 #include "TetrisPlayerStateBase.h"
 #include "GoalSystemFactory.h"
 #include "GoalSystemInterface.h"
+#include "HUDSingle.h"
 
 
 ATetrisGameModeBase::ATetrisGameModeBase()
@@ -102,7 +103,7 @@ void ATetrisGameModeBase::Initialize()
 	// HUDWidget
 	if (HUDWidgetClass)
 	{
-		HUDWidget = CreateWidget<UUserWidget>(World, HUDWidgetClass);
+		HUDWidget = CreateWidget<UHUDSingle>(World, HUDWidgetClass);
 		if (HUDWidget)
 		{
 			HUDWidget->AddToViewport();
