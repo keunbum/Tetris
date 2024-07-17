@@ -71,6 +71,10 @@ void ATetrisGameModeBase::LevelUp()
 	TetrisPlayManager->SetNormalFallSpeed(NewNormalFallSpeed);
 	const int32 NewGameLevel = TetrisPlayerState->GetGameLevel();
 	UE_LOG(LogTemp, Warning, TEXT("Level Up! New Level: %d, New NormalFallSpeed: %f"), NewGameLevel, NewNormalFallSpeed);
+
+	// Update HUD
+	check(HUDWidget != nullptr);
+	HUDWidget->UpdateLevelDisplay(NewGameLevel);
 }
 
 void ATetrisGameModeBase::Initialize()
@@ -107,6 +111,7 @@ void ATetrisGameModeBase::Initialize()
 		if (HUDWidget)
 		{
 			HUDWidget->AddToViewport();
+			HUDWidget->UpdateLevelDisplay(TetrisPlayerState->GetGameLevel());
 		}
 	}
 
