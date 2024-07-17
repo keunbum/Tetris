@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
-#include "Blueprint/UserWidget.h"
 
 #include "GoalSystemFactory.h"
 

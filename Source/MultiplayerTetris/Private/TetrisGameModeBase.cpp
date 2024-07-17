@@ -6,6 +6,7 @@
 #include "GameFramework/PlayerStart.h"
 #include "Kismet/GameplayStatics.h"
 #include "UObject/ConstructorHelpers.h"
+#include "Blueprint/UserWidget.h"
 
 #include "TetriminoBase.h"
 #include "TetrisPlayManager.h"
