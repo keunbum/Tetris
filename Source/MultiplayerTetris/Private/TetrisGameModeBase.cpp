@@ -38,15 +38,7 @@ void ATetrisGameModeBase::UpdateGamePlay(const FTetrisGamePlayInfo& UpdateInfo)
 	const bool bIsLevelUpCondition = GoalSystem->IsLevelUpCondition(*TetrisPlayerState);
 	if (bIsLevelUpCondition)
 	{
-		const int32 LevelUpLineCountGoal = GoalSystem->GetLevelUpLineCountGoal(TetrisPlayerState->GetGameLevel());
-		TetrisPlayerState->LevelUp(LevelUpLineCountGoal);
-
-		const float OldNormalFallSpeed = TetrisPlayManager->GetNormalFallSpeed();
-		const float NewNormalFallSpeed = GetCurrentLevelNormalFallSpeed();
-		check(OldNormalFallSpeed != NewNormalFallSpeed); // If this is not true, the level up system is not working properly.
-		TetrisPlayManager->SetNormalFallSpeed(NewNormalFallSpeed);
-		const int32 NewGameLevel = TetrisPlayerState->GetGameLevel();
-		UE_LOG(LogTemp, Warning, TEXT("Level Up! New Level: %d, New NormalFallSpeed: %f"), NewGameLevel, NewNormalFallSpeed);
+		LevelUp();
 	}
 }
 
@@ -65,6 +57,19 @@ void ATetrisGameModeBase::BeginPlay()
 
 	Initialize();
 	StartGamePlay();
+}
+
+void ATetrisGameModeBase::LevelUp()
+{
+	const int32 LevelUpLineCountGoal = GoalSystem->GetLevelUpLineCountGoal(TetrisPlayerState->GetGameLevel());
+	TetrisPlayerState->LevelUp(LevelUpLineCountGoal);
+
+	const float OldNormalFallSpeed = TetrisPlayManager->GetNormalFallSpeed();
+	const float NewNormalFallSpeed = GetCurrentLevelNormalFallSpeed();
+	check(OldNormalFallSpeed != NewNormalFallSpeed); // If this is not true, the level up system is not working properly.
+	TetrisPlayManager->SetNormalFallSpeed(NewNormalFallSpeed);
+	const int32 NewGameLevel = TetrisPlayerState->GetGameLevel();
+	UE_LOG(LogTemp, Warning, TEXT("Level Up! New Level: %d, New NormalFallSpeed: %f"), NewGameLevel, NewNormalFallSpeed);
 }
 
 void ATetrisGameModeBase::Initialize()
