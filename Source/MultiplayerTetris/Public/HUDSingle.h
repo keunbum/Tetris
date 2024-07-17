@@ -6,6 +6,8 @@
 #include "Blueprint/UserWidget.h"
 #include "HUDSingle.generated.h"
 
+class UTextBlock;
+
 /**
  * 
  */
@@ -17,4 +19,8 @@ class MULTIPLAYERTETRIS_API UHUDSingle : public UUserWidget
 public:
 	UFUNCTION(BlueprintImplementableEvent, Category = "HUD")
 	void UpdateLevelDisplay(const int32 NewLevel);
+
+protected:
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	TObjectPtr<UTextBlock> LevelText;
 };
