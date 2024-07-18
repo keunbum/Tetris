@@ -6,12 +6,18 @@
 
 #include "TetrisPlayerStateBase.h"
 
-void UHUDSingle::UpdateDisplay(const ATetrisPlayerStateBase* PlayerState)
+void UHUDSingle::InitializeHUD(ATetrisPlayerStateBase* const NewPlayerState)
 {
-	if (PlayerState)
-	{
-		UpdateLevelDisplay(PlayerState->GetGameLevel());
-	}
+	check(NewPlayerState != nullptr);
+	PlayerState = NewPlayerState;
+
+	UpdateDisplay();
+	AddToViewport();
+}
+
+void UHUDSingle::UpdateDisplay()
+{
+	UpdateLevelDisplay(PlayerState->GetGameLevel());
 }
 
 void UHUDSingle::UpdateLevelDisplay(const int32 NewLevel)
