@@ -7,6 +7,7 @@
 #include "HUDSingle.generated.h"
 
 class UTextBlock;
+class ATetrisPlayerStateBase;
 
 /**
  * 
@@ -17,6 +18,9 @@ class MULTIPLAYERTETRIS_API UHUDSingle : public UUserWidget
 	GENERATED_BODY()
 	
 public:
+	void UpdateDisplay(ATetrisPlayerStateBase* const PlayerState);
+
+private:
 	void UpdateLevelDisplay(const int32 NewLevel);
 
 protected:

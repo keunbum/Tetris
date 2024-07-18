@@ -4,6 +4,16 @@
 
 #include "Components/TextBlock.h"
 
+#include "TetrisPlayerStateBase.h"
+
+void UHUDSingle::UpdateDisplay(ATetrisPlayerStateBase* const PlayerState)
+{
+	if (PlayerState)
+	{
+		UpdateLevelDisplay(PlayerState->GetGameLevel());
+	}
+}
+
 void UHUDSingle::UpdateLevelDisplay(const int32 NewLevel)
 {
 	check(LevelText != nullptr);
