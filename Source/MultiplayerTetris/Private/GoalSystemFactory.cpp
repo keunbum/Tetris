@@ -2,11 +2,11 @@
 
 #include "GoalSystemFactory.h"
 
-#include "UObject/NoExportTypes.h"
-
 #include "GoalSystemInterface.h"
 #include "FixedGoalSystem.h"
 #include "VariableGoalSystem.h"
+
+#include "UObject/NoExportTypes.h"
 
 IGoalSystemInterface* GoalSystemFactory::CreateGoalSystemInterface(const EGoalSystemType GoalSystemType, UObject* const Outer)
 {
