@@ -20,6 +20,6 @@ public:
 	void UpdateLevelDisplay(const int32 NewLevel);
 
 protected:
-	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UTextBlock> LevelText;
 };
