@@ -1,4 +1,4 @@
-﻿// Copyright © 2024 Ryu KeunBeom. All Rights Reserved.
+﻿// Copyright Ryu KeunBeom. All Rights Reserved.
 
 
 #include "TetriminoGenerator.h"
