@@ -39,6 +39,8 @@ class MULTIPLAYERTETRIS_API ATetrisGameModeBase : public AGameModeBase
 public:
 	ATetrisGameModeBase();
 
+	virtual void PostLogin(APlayerController* const NewPlayer) override;
+
 	/**
 	* Here, speed means the seconds it takes to move one line.
 	*/
@@ -47,8 +49,6 @@ public:
 	ATetrisPlayerController* GetTetrisPlayerController() const { return TetrisPlayerController; }
 
 	void UpdateGamePlay(const FTetrisGamePlayInfo& UpdateInfo);
-
-	virtual void PostLogin(APlayerController* const NewPlayer) override;
 
 	/** statics methods */
 	static float GetSoftDropSpeed(const float NormalFallSpeed) { return NormalFallSpeed / SoftDropMultiplier; }

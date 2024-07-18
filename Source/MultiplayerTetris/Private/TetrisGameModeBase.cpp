@@ -26,6 +26,15 @@ ATetrisGameModeBase::ATetrisGameModeBase()
 	PlayerStateClass = nullptr;
 }
 
+void ATetrisGameModeBase::PostLogin(APlayerController* const NewPlayer)
+{
+	Super::PostLogin(NewPlayer);
+
+	TetrisPlayerState = Cast<ATetrisPlayerStateBase>(NewPlayer->PlayerState);
+	check(TetrisPlayerState != nullptr);
+	// Initialize TetrisPlayerState (필요하다면)
+}
+
 float ATetrisGameModeBase::GetCurrentLevelNormalFallSpeed() const
 {
 	return ATetrisGameModeBase::CalculateNormalFallSpeed(TetrisPlayerState->GetGameLevel());
@@ -41,15 +50,6 @@ void ATetrisGameModeBase::UpdateGamePlay(const FTetrisGamePlayInfo& UpdateInfo)
 	{
 		LevelUp();
 	}
-}
-
-void ATetrisGameModeBase::PostLogin(APlayerController* const NewPlayer)
-{
-	Super::PostLogin(NewPlayer);
-
-	TetrisPlayerState = Cast<ATetrisPlayerStateBase>(NewPlayer->PlayerState);
-	check(TetrisPlayerState != nullptr);
-	// Initialize TetrisPlayerState (필요하다면)
 }
 
 void ATetrisGameModeBase::BeginPlay()
