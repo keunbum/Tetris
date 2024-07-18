@@ -7,5 +7,6 @@
 void UHUDSingle::UpdateLevelDisplay(const int32 NewLevel)
 {
 	check(LevelText != nullptr);
-	LevelText->SetText(FText::FromString(FString::Printf(TEXT("Level: %2d"), NewLevel)));
+	const FString LevelString = FString::Printf(TEXT("%-15s %10d"), TEXT("Level"), NewLevel);
+	LevelText->SetText(FText::FromString(LevelString));
 }
