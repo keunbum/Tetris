@@ -1,4 +1,4 @@
-// Copyright © 2024 Ryu KeunBeom. All Rights Reserved.
+// Copyright Ryu KeunBeom. All Rights Reserved.
 
 #include "TetrisPlayManager.h"
 
@@ -44,7 +44,7 @@ void ATetrisPlayManager::Initialize()
 	GameMode = World->GetAuthGameMode<ATetrisGameModeBase>();
 
 	// Set Basic members
-	SetNormalFallSpeed(GameMode->GetNormalFallSpeed());
+	SetNormalFallSpeed(GameMode->GetCurrentLevelNormalFallSpeed());
 	SetTetriminoMovementDirection(FVector2D::ZeroVector);
 
 	// Board
@@ -270,7 +270,7 @@ void ATetrisPlayManager::StartPatternPhase()
 	SetPhase(EPhase::Pattern);
 
 	/** Main Logic */
-	CheckLineClearPattern();
+	CheckLineClearPattern(GamePlayInfo.HitList);
 
 	/** Phase Transition*/
 	StartIteratePhase();
@@ -307,7 +307,7 @@ void ATetrisPlayManager::StartEliminatePhase()
 	SetPhase(EPhase::Elimate);
 
 	/** Main Logic */
-	Board->ClearRows(HitList);
+	Board->ClearRows(GamePlayInfo.HitList);
 
 	/** Phase Transition*/
 	StartCompletionPhase();
@@ -320,9 +320,10 @@ void ATetrisPlayManager::StartCompletionPhase()
 	SetPhase(EPhase::Completion);
 
 	/** Main Logic */
+	GameMode->UpdateGamePlay(GamePlayInfo);
 
 	/** Reset Variables */
-	HitList.Empty();
+	GamePlayInfo.Reset();
 
 	/** Phase Transition*/
 	StartGenerationPhaseWithDelay(GenerationPhaseInitialDelay);
@@ -443,18 +444,18 @@ void ATetrisPlayManager::ForcedLockDown()
 	StartLockPhase(LockDownDelayOfHardDrop);
 }
 
-void ATetrisPlayManager::CheckLineClearPattern()
+void ATetrisPlayManager::CheckLineClearPattern(TArray<int32>& OutHitList)
 {
 	// 모든 대상 행에 대해 LineClearPattern을 체크해서 HitList에 추가한다.
 	// RowIndex 범위 아마 Visible이 맞을 거임. 스카이라인 위에서 라인 클리어 패턴이 발견될 일 없음. 그전에 게임 오버로 끝났어야 함.
 	// TODO: 근데 가이드라인을 정독한 게 아니므로, 틀릴 수도 있음.
-	check(HitList.IsEmpty());
+	check(OutHitList.IsEmpty());
 	for (int32 RowIndex = ABoard::VisibleBeginRow; RowIndex < ABoard::VisibleEndRow; ++RowIndex)
 	{
 		const bool bIsLineClearPattern = Board->IsRowFull(RowIndex);
 		if (bIsLineClearPattern)
 		{
-			HitList.Add(RowIndex);
+			OutHitList.Add(RowIndex);
 		}
 	}
 }
@@ -466,7 +467,8 @@ void ATetrisPlayManager::SetAutoRepeatMovementTimer()
 
 void ATetrisPlayManager::SetSoftDropTimer()
 {
-	GetWorldTimerManager().SetTimer(SoftDropTimerHandle, this, &ATetrisPlayManager::MoveTetriminoDown, GameMode->GetSoftDropSpeed(), bSoftDropTimerLoop, SoftDropTimerInitialDelay);
+	const float SoftDropSpeed = ATetrisGameModeBase::GetSoftDropSpeed(NormalFallSpeed);
+	GetWorldTimerManager().SetTimer(SoftDropTimerHandle, this, &ATetrisPlayManager::MoveTetriminoDown, SoftDropSpeed, bSoftDropTimerLoop, SoftDropTimerInitialDelay);
 }
 
 void ATetrisPlayManager::SetHardDropTimer()

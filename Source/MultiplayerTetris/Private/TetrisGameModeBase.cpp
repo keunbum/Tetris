@@ -6,24 +6,49 @@
 #include "GameFramework/PlayerStart.h"
 #include "Kismet/GameplayStatics.h"
 #include "UObject/ConstructorHelpers.h"
+#include "Blueprint/UserWidget.h"
 
 #include "TetriminoBase.h"
 #include "TetrisPlayManager.h"
 #include "Board.h"
 #include "TetrisPlayerController.h"
+#include "TetrisPlayerStateBase.h"
+#include "GoalSystemFactory.h"
+#include "GoalSystemInterface.h"
+#include "HUDSingle.h"
+
 
 ATetrisGameModeBase::ATetrisGameModeBase()
-	: CurrentLevel(DefaultGameLevel)
-	, TetrisPlayManagerClass(nullptr)
+	: GoalSystemType(EGoalSystemType::None)
 {
+	// Unreal Editor에서 PlayerStateClass를 설정할 수 있도록 함
+	PlayerStateClass = nullptr;
 }
 
-void ATetrisGameModeBase::LevelUp()
+void ATetrisGameModeBase::PostLogin(APlayerController* const NewPlayer)
 {
-	CurrentLevel += 1;
+	Super::PostLogin(NewPlayer);
 
-	const float NewFallSpeed = GetNormalFallSpeed();
-	TetrisPlayManager->SetNormalFallSpeed(NewFallSpeed);
+	TetrisPlayerState = Cast<ATetrisPlayerStateBase>(NewPlayer->PlayerState);
+	check(TetrisPlayerState != nullptr);
+	// Initialize TetrisPlayerState (필요하다면)
+}
+
+float ATetrisGameModeBase::GetCurrentLevelNormalFallSpeed() const
+{
+	return ATetrisGameModeBase::CalculateNormalFallSpeed(TetrisPlayerState->GetGameLevel());
+}
+
+void ATetrisGameModeBase::UpdateGamePlay(const FTetrisGamePlayInfo& UpdateInfo)
+{
+	TetrisPlayerState->UpdateState(UpdateInfo);
+
+	check(GoalSystem.GetObject() != nullptr);
+	const bool bIsLevelUpCondition = GoalSystem->IsLevelUpCondition(*TetrisPlayerState);
+	if (bIsLevelUpCondition)
+	{
+		LevelUp();
+	}
 }
 
 void ATetrisGameModeBase::BeginPlay()
@@ -34,20 +59,56 @@ void ATetrisGameModeBase::BeginPlay()
 	StartGamePlay();
 }
 
+void ATetrisGameModeBase::LevelUp()
+{
+	const int32 LevelUpLineCountGoal = GoalSystem->GetLevelUpLineCountGoal(TetrisPlayerState->GetGameLevel());
+	TetrisPlayerState->LevelUp(LevelUpLineCountGoal);
+
+	const float OldNormalFallSpeed = TetrisPlayManager->GetNormalFallSpeed();
+	const float NewNormalFallSpeed = GetCurrentLevelNormalFallSpeed();
+	check(OldNormalFallSpeed != NewNormalFallSpeed); // If this is not true, the level up system is not working properly.
+	TetrisPlayManager->SetNormalFallSpeed(NewNormalFallSpeed);
+	UE_LOG(LogTemp, Warning, TEXT("Level Up! New NormalFallSpeed: %f"), NewNormalFallSpeed);
+
+	// Update HUD
+	HUDWidget->UpdateDisplay(TetrisPlayerState);
+}
+
 void ATetrisGameModeBase::Initialize()
 {
+	/** Create */
 	UWorld* const World = GetWorld();
 	check(World != nullptr);
 
+	// TetrisPlayManager
 	check(TetrisPlayManagerClass != nullptr);
 	TetrisPlayManager = World->SpawnActor<ATetrisPlayManager>(TetrisPlayManagerClass);
 	check(TetrisPlayManager != nullptr);
 
+	// TetrisPlayerController
 	TetrisPlayerController = Cast<ATetrisPlayerController>(UGameplayStatics::GetPlayerController(World, PlayerIndex));
 	check(TetrisPlayerController != nullptr);
 
+	// GoalSystem
+	check(GoalSystemType != EGoalSystemType::None);
+	if (IGoalSystemInterface* const GoalSystemInterface = GoalSystemFactory::CreateGoalSystemInterface(GoalSystemType, this))
+	{
+		if (UObject* const GoalSystemObject = Cast<UObject>(GoalSystemInterface))
+		{
+			GoalSystem.SetInterface(GoalSystemInterface);
+			GoalSystem.SetObject(GoalSystemObject);
+		}
+	}
+
+	// HUDWidget
+	check(HUDWidgetClass != nullptr);
+	HUDWidget = CreateWidget<UHUDSingle>(World, HUDWidgetClass);
+	check(HUDWidget != nullptr);
+
+	/** Call Initialize methods */
 	TetrisPlayManager->Initialize();
 	TetrisPlayerController->Initialize();
+	HUDWidget->InitializeHUD(TetrisPlayerState);
 }
 
 void ATetrisGameModeBase::StartGamePlay()
@@ -55,10 +116,9 @@ void ATetrisGameModeBase::StartGamePlay()
 	TetrisPlayManager->StartGenerationPhase();
 }
 
-float ATetrisGameModeBase::CalculateNormalFallSpeed(const int32 Level)
+float ATetrisGameModeBase::CalculateNormalFallSpeed(const int32 GameLevel)
 {
-	const float A = 0.8f - ((Level - 1) * 0.007f);
-	const float B = static_cast<float>(Level - 1);
+	const float A = 0.8f - ((GameLevel - 1) * 0.007f);
+	const float B = static_cast<float>(GameLevel - 1);
 	return FMath::Pow(A, B);
 }
-
