@@ -9,6 +9,8 @@
 
 #include "TetrisPlayerStateBase.generated.h"
 
+class IGoalSystemInterface;
+
 /**
  * 
  */
@@ -19,6 +21,8 @@ class MULTIPLAYERTETRIS_API ATetrisPlayerStateBase : public APlayerState
 
 public:
 	ATetrisPlayerStateBase();
+
+	void Initialize(const IGoalSystemInterface* GoalSystem);
 
 	void AddScore(const int32 Value) { SetScore(GetScore() + Value); }
 

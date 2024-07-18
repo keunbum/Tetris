@@ -3,12 +3,20 @@
 #include "TetrisPlayerStateBase.h"
 
 #include "TetrisGameModeBase.h"
+#include "GoalSystemInterface.h"
 
 ATetrisPlayerStateBase::ATetrisPlayerStateBase()
 	: GameLevel(ATetrisGameModeBase::DefaultGameLevel)
 	, LineClearCount(ATetrisGameModeBase::DefaultLineCount)
 {
 	SetScore(ATetrisGameModeBase::DefaultScore);
+}
+
+void ATetrisPlayerStateBase::Initialize(const IGoalSystemInterface* GoalSystem)
+{
+	const int32 InitialGoalLineClear = GoalSystem->GetLevelUpLineCountGoal(GetGameLevel());
+	SetGoalLineClear(InitialGoalLineClear);
+	UE_LOG(LogTemp, Warning, TEXT("Initial GoalLineClear: %d"), GetGoalLineClear());
 }
 
 void ATetrisPlayerStateBase::LevelUp(const int32 LevelUpLineCountGoal)
