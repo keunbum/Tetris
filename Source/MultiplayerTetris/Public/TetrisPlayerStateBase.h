@@ -35,6 +35,9 @@ public:
 	void SetTotalLineClearCount(const int32 NewTotalLineClearCount) { TotalLineClearCount = NewTotalLineClearCount; }
 	void AddTotalLineClearCount(const int32 Value) { SetTotalLineClearCount(GetTotalLineClearCount() + Value); }
 
+	int32 GetGoalLineClear() const { return GoalLineClear; }
+	void SetGoalLineClear(const int32 NewGoalLineClear) { GoalLineClear = NewGoalLineClear; }
+
 	void UpdateState(const FTetrisGamePlayInfo& PlayInfo);
 
 private:
@@ -46,4 +49,7 @@ private:
 
 	UPROPERTY(VisibleAnywhere, Category = "Player State")
 	int32 TotalLineClearCount;
+
+	UPROPERTY(VisibleAnywhere, Category = "Player State")
+	int32 GoalLineClear;
 };
