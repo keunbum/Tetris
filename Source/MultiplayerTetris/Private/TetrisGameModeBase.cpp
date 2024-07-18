@@ -102,15 +102,11 @@ void ATetrisGameModeBase::Initialize()
 	}
 
 	// HUDWidget
-	if (HUDWidgetClass)
-	{
-		HUDWidget = CreateWidget<UHUDSingle>(World, HUDWidgetClass);
-		if (HUDWidget)
-		{
-			HUDWidget->AddToViewport();
-			HUDWidget->UpdateDisplay(TetrisPlayerState);
-		}
-	}
+	check(HUDWidgetClass != nullptr);
+	HUDWidget = CreateWidget<UHUDSingle>(World, HUDWidgetClass);
+	check(HUDWidget != nullptr);
+	HUDWidget->UpdateDisplay(TetrisPlayerState);
+	HUDWidget->AddToViewport();
 
 
 	/** Call Initialize methods */
