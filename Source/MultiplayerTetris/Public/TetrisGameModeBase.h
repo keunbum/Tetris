@@ -109,7 +109,7 @@ protected:
 	UPROPERTY(VisibleInstanceOnly)
 	TObjectPtr<UHUDSingle> HUDWidget;
 
-	// Declare Interface variable
+	/** Interfaces */
 	UPROPERTY()
 	TScriptInterface<IGoalSystemInterface> GoalSystem;
 
