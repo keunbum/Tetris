@@ -49,6 +49,8 @@ void ATetrisGameModeBase::UpdateGamePlay(const FTetrisGamePlayInfo& UpdateInfo)
 		LevelUp();
 	}
 
+	TetrisPlayerState->DebugPrint();
+
 	// Update HUD
 	HUDWidget->UpdateDisplay(TetrisPlayerState);
 }
