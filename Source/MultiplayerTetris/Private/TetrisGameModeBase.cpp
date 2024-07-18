@@ -31,7 +31,6 @@ void ATetrisGameModeBase::PostLogin(APlayerController* const NewPlayer)
 
 	TetrisPlayerState = Cast<ATetrisPlayerStateBase>(NewPlayer->PlayerState);
 	check(TetrisPlayerState != nullptr);
-	// Initialize TetrisPlayerState (필요하다면)
 }
 
 float ATetrisGameModeBase::GetCurrentLevelNormalFallSpeed() const
@@ -108,6 +107,7 @@ void ATetrisGameModeBase::Initialize()
 	/** Call Initialize methods */
 	TetrisPlayManager->Initialize();
 	TetrisPlayerController->Initialize();
+	TetrisPlayerState->Initialize(GoalSystem.GetInterface());
 	HUDWidget->InitializeHUD(TetrisPlayerState);
 }
 
