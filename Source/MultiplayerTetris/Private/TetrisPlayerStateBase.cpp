@@ -17,7 +17,7 @@ void ATetrisPlayerStateBase::LevelUp(const int32 LevelUpLineCountGoal)
 
 	AddLineClearCount(-LevelUpLineCountGoal);
 	AddTotalLineClearCount(LevelUpLineCountGoal);
-	UE_LOG(LogTemp, Warning, TEXT("Total Cleared LineClearCount: %d"), GetTotalLineClearCount());
+	UE_LOG(LogTemp, Warning, TEXT("Total LineClearCount: %d"), GetTotalLineClearCount());
 }
 
 void ATetrisPlayerStateBase::UpdateState(const FTetrisGamePlayInfo& UpdateInfo)
