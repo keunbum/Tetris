@@ -1,4 +1,4 @@
-// Copyright © 2024 Ryu KeunBeom. All Rights Reserved.
+// Copyright Ryu KeunBeom. All Rights Reserved.
 
 #include "TetrisPlayerController.h"
 
@@ -11,7 +11,7 @@
 #include "Kismet/GameplayStatics.h"
 
 #include "TetriminoBase.h"
-#include "TetrisGameModeBase.h"
+#include "TetrisSinglePlayerGameModeBase.h"
 #include "TetrisPlayManager.h"
 
 void ATetrisPlayerController::Initialize()
@@ -19,7 +19,7 @@ void ATetrisPlayerController::Initialize()
 	InitializeCamera();
 	InitializeInput();
 
-	GameMode = GetWorld()->GetAuthGameMode<ATetrisGameModeBase>();
+	GameMode = GetWorld()->GetAuthGameMode<ATetrisSinglePlayerGameModeBase>();
 	check(GameMode != nullptr);
 
 	KeyPressingFlags = EKeyFlags::None;

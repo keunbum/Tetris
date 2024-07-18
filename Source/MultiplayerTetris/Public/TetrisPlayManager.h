@@ -1,4 +1,4 @@
-// Copyright © 2024 Ryu KeunBeom. All Rights Reserved.
+// Copyright Ryu KeunBeom. All Rights Reserved.
 
 #pragma once
 
@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 
 #include "TetriminoBase.h"
+#include "TetrisGameModeBase.h"
 
 #include "TetrisPlayManager.generated.h"
 
@@ -53,6 +54,7 @@ public:
 	void Initialize();
 
 	const FVector2D& GetTetriminoMovementDirection() const { return TetriminoMovementDirection; }
+	float GetNormalFallSpeed() const { return NormalFallSpeed; }
 	void SetNormalFallSpeed(const float NewNormalFallSpeed) { NormalFallSpeed = NewNormalFallSpeed; }
 
 	void StartGenerationPhase();
@@ -99,7 +101,7 @@ private:
 	void ForcedLockDown();
 
 	/** Sub Logic */
-	void CheckLineClearPattern();
+	void CheckLineClearPattern(TArray<int32>& OutHitList);
 
 	/** Timers */
 	void SetAutoRepeatMovementTimer();
@@ -204,7 +206,7 @@ private:
 	FVector2D TetriminoMovementDirection;
 
 	UPROPERTY(VisibleInstanceOnly)
-	TArray<int32> HitList; // List of rows to be cleared
+	FTetrisGamePlayInfo GamePlayInfo;
 
 	UPROPERTY(EditDefaultsOnly)
 	ETetriminoShape TestSpawnShape = ETetriminoShape::None;
