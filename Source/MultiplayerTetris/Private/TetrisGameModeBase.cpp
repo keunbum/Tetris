@@ -49,6 +49,9 @@ void ATetrisGameModeBase::UpdateGamePlay(const FTetrisGamePlayInfo& UpdateInfo)
 	{
 		LevelUp();
 	}
+
+	// Update HUD
+	HUDWidget->UpdateDisplay(TetrisPlayerState);
 }
 
 void ATetrisGameModeBase::BeginPlay()
@@ -69,9 +72,6 @@ void ATetrisGameModeBase::LevelUp()
 	check(OldNormalFallSpeed != NewNormalFallSpeed); // If this is not true, the level up system is not working properly.
 	TetrisPlayManager->SetNormalFallSpeed(NewNormalFallSpeed);
 	UE_LOG(LogTemp, Warning, TEXT("Level Up! New NormalFallSpeed: %f"), NewNormalFallSpeed);
-
-	// Update HUD
-	HUDWidget->UpdateDisplay(TetrisPlayerState);
 }
 
 void ATetrisGameModeBase::Initialize()
