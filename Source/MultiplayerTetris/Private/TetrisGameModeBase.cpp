@@ -71,7 +71,7 @@ void ATetrisGameModeBase::LevelUp()
 	UE_LOG(LogTemp, Warning, TEXT("Level Up! New NormalFallSpeed: %f"), NewNormalFallSpeed);
 
 	// Update HUD
-	HUDWidget->UpdateDisplay();
+	HUDWidget->UpdateDisplay(TetrisPlayerState);
 }
 
 void ATetrisGameModeBase::Initialize()
