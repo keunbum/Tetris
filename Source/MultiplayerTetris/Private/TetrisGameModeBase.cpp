@@ -65,8 +65,7 @@ void ATetrisGameModeBase::BeginPlay()
 
 void ATetrisGameModeBase::LevelUp()
 {
-	const int32 LevelUpLineCountGoal = GoalSystem->GetLevelUpLineCountGoal(TetrisPlayerState->GetGameLevel());
-	TetrisPlayerState->LevelUp(LevelUpLineCountGoal);
+	TetrisPlayerState->LevelUp(GoalSystem.GetInterface());
 
 	const float OldNormalFallSpeed = TetrisPlayManager->GetNormalFallSpeed();
 	const float NewNormalFallSpeed = GetCurrentLevelNormalFallSpeed();
