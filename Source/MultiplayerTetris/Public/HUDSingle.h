@@ -26,4 +26,7 @@ private:
 protected:
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UTextBlock> LevelText;
+
+	UPROPERTY()
+	TObjectPtr<ATetrisPlayerStateBase> PlayerState;
 };
