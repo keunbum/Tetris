@@ -71,8 +71,7 @@ void ATetrisGameModeBase::LevelUp()
 	UE_LOG(LogTemp, Warning, TEXT("Level Up! New NormalFallSpeed: %f"), NewNormalFallSpeed);
 
 	// Update HUD
-	check(HUDWidget != nullptr);
-	HUDWidget->UpdateDisplay(TetrisPlayerState);
+	HUDWidget->UpdateDisplay();
 }
 
 void ATetrisGameModeBase::Initialize()
@@ -105,13 +104,11 @@ void ATetrisGameModeBase::Initialize()
 	check(HUDWidgetClass != nullptr);
 	HUDWidget = CreateWidget<UHUDSingle>(World, HUDWidgetClass);
 	check(HUDWidget != nullptr);
-	HUDWidget->UpdateDisplay(TetrisPlayerState);
-	HUDWidget->AddToViewport();
-
 
 	/** Call Initialize methods */
 	TetrisPlayManager->Initialize();
 	TetrisPlayerController->Initialize();
+	HUDWidget->InitializeHUD(TetrisPlayerState);
 }
 
 void ATetrisGameModeBase::StartGamePlay()
