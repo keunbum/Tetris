@@ -89,7 +89,7 @@ protected:
 
 	/** Classes */
 	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<ATetrisPlayManager> TetrisPlayManagerClass;
+	TSubclassOf<ATetrisPlayManager> TetrisPlayManagerClass = nullptr;
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UHUDSingle> HUDWidgetClass = nullptr;
