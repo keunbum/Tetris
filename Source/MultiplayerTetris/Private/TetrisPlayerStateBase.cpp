@@ -18,12 +18,18 @@ void ATetrisPlayerStateBase::Initialize(const IGoalSystemInterface* GoalSystem)
 	SetGoalLineClear(InitialGoalLineClear);
 }
 
-void ATetrisPlayerStateBase::LevelUp(const int32 LevelUpLineCountGoal)
+void ATetrisPlayerStateBase::LevelUp(const IGoalSystemInterface* GoalSystem)
 {
 	AddGameLevel(1);
 
-	AddLineClearCount(-LevelUpLineCountGoal);
-	AddTotalLineClearCount(LevelUpLineCountGoal);
+	AddTotalLineClearCount(GetLineClearCount());
+	SetLineClearCount(0);
+
+	const int32 OldGoalLineClear = GetGoalLineClear(); // may be negative
+	const int32 NewLevelUpLineCountGoal = GoalSystem->GetLevelUpLineCountGoal(GetGameLevel());
+	const int32 NewGoalLineClear = OldGoalLineClear + NewLevelUpLineCountGoal;
+	check(NewGoalLineClear > 0);
+	SetGoalLineClear(NewGoalLineClear);
 }
 
 void ATetrisPlayerStateBase::UpdateState(const FTetrisGamePlayInfo& PlayInfo)

@@ -29,7 +29,7 @@ public:
 	int32 GetGameLevel() const { return GameLevel; }
 	void SetGameLevel(const int32 NewGameLevel) { GameLevel = NewGameLevel; }
 	void AddGameLevel(const int32 Value) { SetGameLevel(GetGameLevel() + Value); }
-	void LevelUp(const int32 LevelUpLineCountGoal);
+	void LevelUp(const IGoalSystemInterface* GoalSystem);
 
 	int32 GetLineClearCount() const { return LineClearCount; }
 	void SetLineClearCount(const int32 NewLineClearCount) { LineClearCount = NewLineClearCount; }
