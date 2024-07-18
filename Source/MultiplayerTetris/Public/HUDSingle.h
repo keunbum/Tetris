@@ -18,9 +18,9 @@ class MULTIPLAYERTETRIS_API UHUDSingle : public UUserWidget
 	GENERATED_BODY()
 	
 public:
-	void InitializeHUD(ATetrisPlayerStateBase* const NewPlayerState);
+	void InitializeHUD(const ATetrisPlayerStateBase* PlayerState);
 
-	void UpdateDisplay();
+	void UpdateDisplay(const ATetrisPlayerStateBase* PlayerState);
 
 private:
 	void UpdateLevelDisplay(const int32 NewLevel);
@@ -28,7 +28,4 @@ private:
 protected:
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UTextBlock> LevelText;
-
-	UPROPERTY()
-	TObjectPtr<ATetrisPlayerStateBase> PlayerState;
 };
