@@ -73,8 +73,7 @@ void ATetrisGameModeBase::LevelUp()
 
 	// Update HUD
 	check(HUDWidget != nullptr);
-	const int32 NewGameLevel = TetrisPlayerState->GetGameLevel();
-	HUDWidget->UpdateLevelDisplay(NewGameLevel);
+	HUDWidget->UpdateDisplay(TetrisPlayerState);
 }
 
 void ATetrisGameModeBase::Initialize()
@@ -110,7 +109,7 @@ void ATetrisGameModeBase::Initialize()
 		if (HUDWidget)
 		{
 			HUDWidget->AddToViewport();
-			HUDWidget->UpdateLevelDisplay(TetrisPlayerState->GetGameLevel());
+			HUDWidget->UpdateDisplay(TetrisPlayerState);
 		}
 	}
 
