@@ -49,7 +49,7 @@ void ATetrisGameModeBase::PostLogin(APlayerController* const NewPlayer)
 
 	TetrisPlayerState = Cast<ATetrisPlayerStateBase>(NewPlayer->PlayerState);
 	check(TetrisPlayerState != nullptr);
-	// TODO: Initialize TetrisPlayerState (필요하다면)
+	// Initialize TetrisPlayerState (필요하다면)
 }
 
 void ATetrisGameModeBase::BeginPlay()
