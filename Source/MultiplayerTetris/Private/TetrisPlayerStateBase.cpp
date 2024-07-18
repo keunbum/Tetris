@@ -28,7 +28,8 @@ void ATetrisPlayerStateBase::LevelUp(const int32 LevelUpLineCountGoal)
 
 void ATetrisPlayerStateBase::UpdateState(const FTetrisGamePlayInfo& PlayInfo)
 {
-	const int32 LineCleared = PlayInfo.HitList.Num();
-	AddLineClearCount(LineCleared);
-	UE_LOG(LogTemp, Warning, TEXT("LineClearCount: %d"), GetLineClearCount());
+	const int32 ClearedLineCount = PlayInfo.HitList.Num();
+	UE_LOG(LogTemp, Warning, TEXT("ClearedLineCount: %d"), ClearedLineCount);
+	AddLineClearCount(ClearedLineCount);
+	SubtractGoalLineClear(ClearedLineCount);
 }
