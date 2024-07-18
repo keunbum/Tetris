@@ -35,7 +35,7 @@ void ATetrisGameModeBase::UpdateGamePlay(const FTetrisGamePlayInfo& UpdateInfo)
 {
 	TetrisPlayerState->UpdateState(UpdateInfo);
 
-	check(GoalSystem);
+	check(GoalSystem.GetObject() != nullptr);
 	const bool bIsLevelUpCondition = GoalSystem->IsLevelUpCondition(*TetrisPlayerState);
 	if (bIsLevelUpCondition)
 	{
