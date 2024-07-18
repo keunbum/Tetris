@@ -44,6 +44,7 @@ public:
 	void SubtractGoalLineClear(const int32 Value) { SetGoalLineClear(GetGoalLineClear() - Value); }
 
 	void UpdateState(const FTetrisGamePlayInfo& PlayInfo);
+	void DebugPrint() const;
 
 private:
 	UPROPERTY(VisibleAnywhere, Category = "Player State")

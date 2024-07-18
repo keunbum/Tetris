@@ -39,3 +39,11 @@ void ATetrisPlayerStateBase::UpdateState(const FTetrisGamePlayInfo& PlayInfo)
 	AddLineClearCount(ClearedLineCount);
 	SubtractGoalLineClear(ClearedLineCount);
 }
+
+void ATetrisPlayerStateBase::DebugPrint() const
+{
+	UE_LOG(LogTemp, Warning, TEXT("GameLevel: %d"), GetGameLevel());
+	UE_LOG(LogTemp, Warning, TEXT("LineClearCount: %d"), GetLineClearCount());
+	UE_LOG(LogTemp, Warning, TEXT("TotalLineClearCount: %d"), GetTotalLineClearCount());
+	UE_LOG(LogTemp, Warning, TEXT("GoalLineClear: %d"), GetGoalLineClear());
+}
