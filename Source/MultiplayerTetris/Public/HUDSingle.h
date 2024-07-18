@@ -18,7 +18,7 @@ class MULTIPLAYERTETRIS_API UHUDSingle : public UUserWidget
 	GENERATED_BODY()
 	
 public:
-	void UpdateDisplay(ATetrisPlayerStateBase* const PlayerState);
+	void UpdateDisplay(const ATetrisPlayerStateBase* PlayerState);
 
 private:
 	void UpdateLevelDisplay(const int32 NewLevel);

@@ -6,7 +6,7 @@
 
 #include "TetrisPlayerStateBase.h"
 
-void UHUDSingle::UpdateDisplay(ATetrisPlayerStateBase* const PlayerState)
+void UHUDSingle::UpdateDisplay(const ATetrisPlayerStateBase* PlayerState)
 {
 	if (PlayerState)
 	{
