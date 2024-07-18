@@ -24,5 +24,5 @@ public:
 	// 생성자 호출 방지
 	GoalSystemFactory() = delete;
 
-	static IGoalSystemInterface* CreateGoalSystem(const EGoalSystemType GoalSystemType, UObject* const Outer);
+	static IGoalSystemInterface* CreateGoalSystemInterface(const EGoalSystemType GoalSystemType, UObject* const Outer);
 };

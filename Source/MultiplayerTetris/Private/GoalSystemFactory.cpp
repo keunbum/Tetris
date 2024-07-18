@@ -8,7 +8,7 @@
 #include "FixedGoalSystem.h"
 #include "VariableGoalSystem.h"
 
-IGoalSystemInterface* GoalSystemFactory::CreateGoalSystem(const EGoalSystemType GoalSystemType, UObject* const Outer)
+IGoalSystemInterface* GoalSystemFactory::CreateGoalSystemInterface(const EGoalSystemType GoalSystemType, UObject* const Outer)
 {
 	switch (GoalSystemType)
 	{

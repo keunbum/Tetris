@@ -95,7 +95,7 @@ void ATetrisGameModeBase::Initialize()
 	check(TetrisPlayerController != nullptr);
 
 	// GoalSystem
-	if (IGoalSystemInterface* const GoalSystemInterface = GoalSystemFactory::CreateGoalSystem(GoalSystemType, this))
+	if (IGoalSystemInterface* const GoalSystemInterface = GoalSystemFactory::CreateGoalSystemInterface(GoalSystemType, this))
 	{
 		if (UObject* const GoalSystemObject = Cast<UObject>(GoalSystemInterface))
 		{
