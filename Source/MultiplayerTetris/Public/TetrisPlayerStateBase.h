@@ -24,21 +24,26 @@ public:
 
 	void Initialize(const IGoalSystemInterface* GoalSystem);
 
+	// Score
 	void AddScore(const int32 Value) { SetScore(GetScore() + Value); }
 
+	// GameLevel
 	int32 GetGameLevel() const { return GameLevel; }
 	void SetGameLevel(const int32 NewGameLevel) { GameLevel = NewGameLevel; }
 	void AddGameLevel(const int32 Value) { SetGameLevel(GetGameLevel() + Value); }
 	void LevelUp(const IGoalSystemInterface* GoalSystem);
 
+	// LineClearCount
 	int32 GetLineClearCount() const { return LineClearCount; }
 	void SetLineClearCount(const int32 NewLineClearCount) { LineClearCount = NewLineClearCount; }
 	void AddLineClearCount(const int32 Value) { SetLineClearCount(GetLineClearCount() + Value); }
 
+	// TotalLineClearCount
 	int32 GetTotalLineClearCount() const { return TotalLineClearCount; }
 	void SetTotalLineClearCount(const int32 NewTotalLineClearCount) { TotalLineClearCount = NewTotalLineClearCount; }
 	void AddTotalLineClearCount(const int32 Value) { SetTotalLineClearCount(GetTotalLineClearCount() + Value); }
 
+	// GoalLineClear
 	int32 GetGoalLineClear() const { return GoalLineClear; }
 	void SetGoalLineClear(const int32 NewGoalLineClear) { GoalLineClear = NewGoalLineClear; }
 	void SubtractGoalLineClear(const int32 Value) { SetGoalLineClear(GetGoalLineClear() - Value); }
