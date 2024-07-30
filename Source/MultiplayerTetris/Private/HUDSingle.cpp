@@ -15,6 +15,7 @@ void UHUDSingle::InitializeHUD(const ATetrisPlayerStateBase* PlayerState)
 void UHUDSingle::UpdateDisplay(const ATetrisPlayerStateBase* PlayerState)
 {
 	UpdateLevelDisplay(PlayerState->GetGameLevel());
+	UpdateGoalDisplay(PlayerState->GetGoalLineClear());
 }
 
 void UHUDSingle::UpdateLevelDisplay(const int32 NewLevel)
