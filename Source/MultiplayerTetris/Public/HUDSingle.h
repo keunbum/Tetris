@@ -24,6 +24,7 @@ public:
 
 private:
 	void UpdateLevelDisplay(const int32 NewLevel);
+	void UpdateGoalDisplay(const int32 NewGoal);
 
 protected:
 	UPROPERTY(meta = (BindWidget))
