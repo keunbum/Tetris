@@ -3,6 +3,7 @@
 #include "TetrisPlayerStateBase.h"
 
 #include "TetrisGameModeBase.h"
+#include "GoalSystemInterface.h"
 
 ATetrisPlayerStateBase::ATetrisPlayerStateBase()
 	: GameLevel(ATetrisGameModeBase::DefaultGameLevel)
@@ -11,17 +12,38 @@ ATetrisPlayerStateBase::ATetrisPlayerStateBase()
 	SetScore(ATetrisGameModeBase::DefaultScore);
 }
 
-void ATetrisPlayerStateBase::LevelUp(const int32 LevelUpLineCountGoal)
+void ATetrisPlayerStateBase::Initialize(const IGoalSystemInterface* GoalSystem)
+{
+	const int32 InitialGoalLineClear = GoalSystem->GetLevelUpLineCountGoal(GetGameLevel());
+	SetGoalLineClear(InitialGoalLineClear);
+	DebugPrint();
+}
+
+void ATetrisPlayerStateBase::LevelUp(const IGoalSystemInterface* GoalSystem)
 {
 	AddGameLevel(1);
 
-	AddLineClearCount(-LevelUpLineCountGoal);
-	AddTotalLineClearCount(LevelUpLineCountGoal);
-	UE_LOG(LogTemp, Warning, TEXT("Total LineClearCount: %d"), GetTotalLineClearCount());
+	AddTotalLineClearCount(GetLineClearCount());
+	SetLineClearCount(0);
+
+	const int32 OldGoalLineClear = GetGoalLineClear(); // may be negative
+	const int32 NewLevelUpLineCountGoal = GoalSystem->GetLevelUpLineCountGoal(GetGameLevel());
+	const int32 NewGoalLineClear = OldGoalLineClear + NewLevelUpLineCountGoal;
+	check(NewGoalLineClear > 0);
+	SetGoalLineClear(NewGoalLineClear);
 }
 
 void ATetrisPlayerStateBase::UpdateState(const FTetrisGamePlayInfo& PlayInfo)
 {
-	AddLineClearCount(PlayInfo.HitList.Num());
+	const int32 ClearedLineCount = PlayInfo.HitList.Num();
+	AddLineClearCount(ClearedLineCount);
+	SubtractGoalLineClear(ClearedLineCount);
+}
+
+void ATetrisPlayerStateBase::DebugPrint() const
+{
+	UE_LOG(LogTemp, Warning, TEXT("GameLevel: %d"), GetGameLevel());
 	UE_LOG(LogTemp, Warning, TEXT("LineClearCount: %d"), GetLineClearCount());
+	UE_LOG(LogTemp, Warning, TEXT("TotalLineClearCount: %d"), GetTotalLineClearCount());
+	UE_LOG(LogTemp, Warning, TEXT("GoalLineClear: %d"), GetGoalLineClear());
 }

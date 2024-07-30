@@ -31,7 +31,6 @@ void ATetrisGameModeBase::PostLogin(APlayerController* const NewPlayer)
 
 	TetrisPlayerState = Cast<ATetrisPlayerStateBase>(NewPlayer->PlayerState);
 	check(TetrisPlayerState != nullptr);
-	// Initialize TetrisPlayerState (필요하다면)
 }
 
 float ATetrisGameModeBase::GetCurrentLevelNormalFallSpeed() const
@@ -49,6 +48,9 @@ void ATetrisGameModeBase::UpdateGamePlay(const FTetrisGamePlayInfo& UpdateInfo)
 	{
 		LevelUp();
 	}
+
+	// Update HUD
+	HUDWidget->UpdateDisplay(TetrisPlayerState);
 }
 
 void ATetrisGameModeBase::BeginPlay()
@@ -61,17 +63,13 @@ void ATetrisGameModeBase::BeginPlay()
 
 void ATetrisGameModeBase::LevelUp()
 {
-	const int32 LevelUpLineCountGoal = GoalSystem->GetLevelUpLineCountGoal(TetrisPlayerState->GetGameLevel());
-	TetrisPlayerState->LevelUp(LevelUpLineCountGoal);
+	TetrisPlayerState->LevelUp(GoalSystem.GetInterface());
 
 	const float OldNormalFallSpeed = TetrisPlayManager->GetNormalFallSpeed();
 	const float NewNormalFallSpeed = GetCurrentLevelNormalFallSpeed();
 	check(OldNormalFallSpeed != NewNormalFallSpeed); // If this is not true, the level up system is not working properly.
 	TetrisPlayManager->SetNormalFallSpeed(NewNormalFallSpeed);
 	UE_LOG(LogTemp, Warning, TEXT("Level Up! New NormalFallSpeed: %f"), NewNormalFallSpeed);
-
-	// Update HUD
-	HUDWidget->UpdateDisplay(TetrisPlayerState);
 }
 
 void ATetrisGameModeBase::Initialize()
@@ -108,6 +106,7 @@ void ATetrisGameModeBase::Initialize()
 	/** Call Initialize methods */
 	TetrisPlayManager->Initialize();
 	TetrisPlayerController->Initialize();
+	TetrisPlayerState->Initialize(GoalSystem.GetInterface());
 	HUDWidget->InitializeHUD(TetrisPlayerState);
 }
 
