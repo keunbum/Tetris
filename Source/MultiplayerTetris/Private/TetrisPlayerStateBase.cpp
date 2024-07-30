@@ -36,7 +36,6 @@ void ATetrisPlayerStateBase::LevelUp(const IGoalSystemInterface* GoalSystem)
 void ATetrisPlayerStateBase::UpdateState(const FTetrisGamePlayInfo& PlayInfo)
 {
 	const int32 ClearedLineCount = PlayInfo.HitList.Num();
-	UE_LOG(LogTemp, Warning, TEXT("ClearedLineCount: %d"), ClearedLineCount);
 	AddLineClearCount(ClearedLineCount);
 	SubtractGoalLineClear(ClearedLineCount);
 }
