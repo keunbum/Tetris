@@ -28,4 +28,7 @@ private:
 protected:
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UTextBlock> LevelText;
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UTextBlock> GoalText;
 };
