@@ -33,6 +33,11 @@ void ATetrisGameModeBase::PostLogin(APlayerController* const NewPlayer)
 	check(TetrisPlayerState != nullptr);
 }
 
+float ATetrisGameModeBase::GetElapsedTime() const
+{
+	return UGameplayStatics::GetTimeSeconds(GetWorld()) - GameStartTime;
+}
+
 float ATetrisGameModeBase::GetCurrentLevelNormalFallSpeed() const
 {
 	return ATetrisGameModeBase::CalculateNormalFallSpeed(TetrisPlayerState->GetGameLevel());
@@ -111,6 +116,7 @@ void ATetrisGameModeBase::Initialize()
 
 void ATetrisGameModeBase::StartGamePlay()
 {
+	GameStartTime = UGameplayStatics::GetTimeSeconds(GetWorld());
 	TetrisPlayManager->StartGenerationPhase();
 }
 
