@@ -41,7 +41,7 @@ void UHUDSingle::UpdateGoalDisplay(const int32 NewGoal)
 void UHUDSingle::UpdateTimeDisplay(const float NewTime)
 {
 	check(TimeText != nullptr);
-	const FString ElapsedTimeString = GetElapsedTimeFormatted(NewTime);
+	const FString ElapsedTimeString = UHUDBase::GetFormattedTimeString(NewTime);
 	const FString TimeString = FString::Printf(TEXT("%-10s %10s"), TEXT("Time"), *ElapsedTimeString);
 	TimeText->SetText(FText::FromString(TimeString));
 }

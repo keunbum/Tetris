@@ -2,7 +2,7 @@
 
 #include "HUDBase.h"
 
-FString UHUDBase::GetFormattedTime(const float TimeInSeconds)
+FString UHUDBase::GetFormattedTimeString(const float TimeInSeconds)
 {
 	// Convert to MM:SS.s
 	const int32 TotalSeconds = FMath::FloorToInt(TimeInSeconds);
