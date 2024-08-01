@@ -33,3 +33,11 @@ void UHUDSingle::UpdateGoalDisplay(const int32 NewGoal)
 	const FString GoalString = FString::Printf(TEXT("%-15s %10d"), TEXT("Goal"), NewGoal);
 	GoalText->SetText(FText::FromString(GoalString));
 }
+
+void UHUDSingle::UpdateTimeDisplay(const float NewTime)
+{
+	check(TimeText != nullptr);
+	const FString ElapsedTimeString = GetElapsedTimeFormatted(NewTime);
+	const FString TimeString = FString::Printf(TEXT("%-10s %10s"), TEXT("Time"), *ElapsedTimeString);
+	TimeText->SetText(FText::FromString(TimeString));
+}

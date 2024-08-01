@@ -44,6 +44,7 @@ public:
 private:
 	void UpdateLevelDisplay(const int32 NewLevel);
 	void UpdateGoalDisplay(const int32 NewGoal);
+	void UpdateTimeDisplay(const float NewTime);
 
 protected:
 	UPROPERTY(meta = (BindWidget))
@@ -51,6 +52,9 @@ protected:
 
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UTextBlock> GoalText;
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UTextBlock> TimeText;
 
 	UPROPERTY()
 	TObjectPtr<ATetrisGameModeBase> TetrisGameMode;
