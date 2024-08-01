@@ -14,7 +14,7 @@ void UHUDSingle::InitializeHUD(const FHUDSingleUpdateDisplayParams& DisplayParam
 	check(TetrisGameMode != nullptr);
 	AddToViewport();
 
-	// 타이머 설정: 0.05초마다 OnUpdateTime 호출
+	// 경과 시간 업데이트 타이머 시작
 	GetWorld()->GetTimerManager().SetTimer(UpdateTimeTimerHandle, this, &UHUDSingle::OnUpdateTime, UHUDBase::TimeDisplayUpdateInterval, /* InbLoop */ true, /* InFirstDelay */ 0.0f);
 }
 
