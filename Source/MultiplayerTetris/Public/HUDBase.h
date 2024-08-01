@@ -16,5 +16,10 @@ UCLASS()
 class MULTIPLAYERTETRIS_API UHUDBase : public UUserWidget
 {
 	GENERATED_BODY()
-	
+
+public:
+	FString GetElapsedTimeFormatted(const float ElapsedTime) const { return UHUDBase::GetFormattedTime(ElapsedTime); }
+
+	/** static methods */
+	static FString GetFormattedTime(const float TimeInSeconds);
 };
