@@ -25,4 +25,8 @@ public:
 
 public:
 	static constexpr float TimeDisplayUpdateInterval = 0.1f;
+
+protected:
+	UPROPERTY()
+	TObjectPtr<ATetrisGameModeBase> TetrisGameMode;
 };

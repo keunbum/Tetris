@@ -56,8 +56,5 @@ protected:
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UTextBlock> TimeText;
 
-	UPROPERTY()
-	TObjectPtr<ATetrisGameModeBase> TetrisGameMode;
-
 	FTimerHandle UpdateTimeTimerHandle;
 };
