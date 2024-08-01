@@ -46,6 +46,8 @@ private:
 	void UpdateGoalDisplay(const int32 NewGoal);
 	void UpdateTimeDisplay(const float NewTime);
 
+	void OnUpdateTime();
+
 protected:
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UTextBlock> LevelText;

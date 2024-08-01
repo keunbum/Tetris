@@ -41,3 +41,8 @@ void UHUDSingle::UpdateTimeDisplay(const float NewTime)
 	const FString TimeString = FString::Printf(TEXT("%-10s %10s"), TEXT("Time"), *ElapsedTimeString);
 	TimeText->SetText(FText::FromString(TimeString));
 }
+
+void UHUDSingle::OnUpdateTime()
+{
+	UpdateTimeDisplay(TetrisGameMode->GetElapsedTime());
+}
