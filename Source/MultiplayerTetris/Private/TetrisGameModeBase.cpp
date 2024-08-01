@@ -74,7 +74,6 @@ void ATetrisGameModeBase::LevelUp()
 
 void ATetrisGameModeBase::Initialize()
 {
-	/** Create */
 	UWorld* const World = GetWorld();
 	check(World != nullptr);
 
