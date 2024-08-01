@@ -55,8 +55,7 @@ void ATetrisGameModeBase::UpdateGamePlay(const FTetrisGamePlayInfo& UpdateInfo)
 	}
 
 	// Update HUD
-	const FHUDSingleUpdateDisplayParams DisplayParams(TetrisPlayerState->GetGameLevel(), TetrisPlayerState->GetGoalLineClear());
-	HUDWidget->UpdateDisplay(DisplayParams);
+	HUDWidget->UpdateDisplay(TetrisPlayerState->GetHUDSingleUpdateDisplayParams());
 }
 
 void ATetrisGameModeBase::BeginPlay()
@@ -113,8 +112,7 @@ void ATetrisGameModeBase::Initialize()
 	TetrisPlayerController->Initialize();
 	TetrisPlayerState->Initialize(GoalSystem.GetInterface());
 
-	const FHUDSingleUpdateDisplayParams DisplayParams(TetrisPlayerState->GetGameLevel(), TetrisPlayerState->GetGoalLineClear());
-	HUDWidget->InitializeHUD(DisplayParams, this);
+	HUDWidget->InitializeHUD(TetrisPlayerState->GetHUDSingleUpdateDisplayParams(), this);
 }
 
 void ATetrisGameModeBase::StartGamePlay()
