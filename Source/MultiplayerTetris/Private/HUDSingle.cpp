@@ -8,6 +8,7 @@
 
 void UHUDSingle::InitializeHUD(const ATetrisPlayerStateBase* PlayerState)
 {
+	check(PlayerState != nullptr);
 	UpdateDisplay(PlayerState);
 	AddToViewport();
 }
