@@ -6,6 +6,26 @@
 #include "HUDBase.h"
 #include "HUDSingle.generated.h"
 
+USTRUCT()
+struct FHUDSingleUpdateDisplayParams
+{
+	GENERATED_USTRUCT_BODY()
+
+	FHUDSingleUpdateDisplayParams()
+		: FHUDSingleUpdateDisplayParams(0, 0)
+	{
+	}
+
+	FHUDSingleUpdateDisplayParams(const int32 InLevel, const int32 InGoal)
+		: Level(InLevel)
+		, Goal(InGoal)
+	{
+	}
+
+	int32 Level;
+	int32 Goal;
+};
+
 /**
  * 
  */
