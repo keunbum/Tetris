@@ -4,19 +4,20 @@
 
 #include "Components/TextBlock.h"
 
-#include "TetrisPlayerStateBase.h"
+#include "TetrisGameModeBase.h"
 
-void UHUDSingle::InitializeHUD(const ATetrisPlayerStateBase* PlayerState)
+void UHUDSingle::InitializeHUD(const FHUDSingleUpdateDisplayParams& DisplayParams, ATetrisGameModeBase* const InTetrisGameMode)
 {
-	check(PlayerState != nullptr);
-	UpdateDisplay(PlayerState);
+	UpdateDisplay(DisplayParams);
+	TetrisGameMode = InTetrisGameMode;
+	check(TetrisGameMode != nullptr);
 	AddToViewport();
 }
 
-void UHUDSingle::UpdateDisplay(const ATetrisPlayerStateBase* PlayerState)
+void UHUDSingle::UpdateDisplay(const FHUDSingleUpdateDisplayParams& DisplayParams)
 {
-	UpdateLevelDisplay(PlayerState->GetGameLevel());
-	UpdateGoalDisplay(PlayerState->GetGoalLineClear());
+	UpdateLevelDisplay(DisplayParams.Level);
+	UpdateGoalDisplay(DisplayParams.Goal);
 }
 
 void UHUDSingle::UpdateLevelDisplay(const int32 NewLevel)

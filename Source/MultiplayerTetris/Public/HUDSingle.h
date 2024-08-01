@@ -26,6 +26,8 @@ struct FHUDSingleUpdateDisplayParams
 	int32 Goal;
 };
 
+class ATetrisGameModeBase;
+
 /**
  * 
  */
@@ -35,9 +37,9 @@ class MULTIPLAYERTETRIS_API UHUDSingle : public UHUDBase
 	GENERATED_BODY()
 	
 public:
-	void InitializeHUD(const ATetrisPlayerStateBase* PlayerState);
+	void InitializeHUD(const FHUDSingleUpdateDisplayParams& DisplayParams, ATetrisGameModeBase* const InTetrisGameMode);
 
-	void UpdateDisplay(const ATetrisPlayerStateBase* PlayerState);
+	void UpdateDisplay(const FHUDSingleUpdateDisplayParams& DisplayParams);
 
 private:
 	void UpdateLevelDisplay(const int32 NewLevel);
@@ -49,4 +51,7 @@ protected:
 
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UTextBlock> GoalText;
+
+	UPROPERTY()
+	TObjectPtr<ATetrisGameModeBase> TetrisGameMode;
 };
