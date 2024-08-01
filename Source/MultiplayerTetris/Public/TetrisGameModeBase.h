@@ -41,9 +41,7 @@ public:
 
 	virtual void PostLogin(APlayerController* const NewPlayer) override;
 
-	/**
-	* Here, speed means the seconds it takes to move one line.
-	*/
+	// Here, speed means the seconds it takes to move one line.
 	float GetCurrentLevelNormalFallSpeed() const;
 	ATetrisPlayManager* GetTetrisPlayManager() const { return TetrisPlayManager; }
 	ATetrisPlayerController* GetTetrisPlayerController() const { return TetrisPlayerController; }
