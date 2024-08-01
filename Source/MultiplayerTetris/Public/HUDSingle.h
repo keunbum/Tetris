@@ -3,17 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Blueprint/UserWidget.h"
+#include "HUDBase.h"
 #include "HUDSingle.generated.h"
-
-class UTextBlock;
-class ATetrisPlayerStateBase;
 
 /**
  * 
  */
 UCLASS()
-class MULTIPLAYERTETRIS_API UHUDSingle : public UUserWidget
+class MULTIPLAYERTETRIS_API UHUDSingle : public UHUDBase
 {
 	GENERATED_BODY()
 	

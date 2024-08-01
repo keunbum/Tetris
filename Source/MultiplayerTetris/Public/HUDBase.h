@@ -6,6 +6,9 @@
 #include "Blueprint/UserWidget.h"
 #include "HUDBase.generated.h"
 
+class UTextBlock;
+class ATetrisPlayerStateBase;
+
 /**
  * 
  */
