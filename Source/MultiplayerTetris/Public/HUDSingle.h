@@ -60,4 +60,6 @@ protected:
 
 	UPROPERTY()
 	TObjectPtr<ATetrisGameModeBase> TetrisGameMode;
+
+	FTimerHandle UpdateTimeTimerHandle;
 };

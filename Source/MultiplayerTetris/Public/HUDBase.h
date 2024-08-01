@@ -22,4 +22,7 @@ public:
 
 	/** static methods */
 	static FString GetFormattedTime(const float TimeInSeconds);
+
+public:
+	static constexpr float TimeDisplayUpdateInterval = 0.1f;
 };

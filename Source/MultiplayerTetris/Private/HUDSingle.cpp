@@ -3,6 +3,7 @@
 #include "HUDSingle.h"
 
 #include "Components/TextBlock.h"
+#include "Engine/World.h"
 
 #include "TetrisGameModeBase.h"
 
@@ -12,6 +13,9 @@ void UHUDSingle::InitializeHUD(const FHUDSingleUpdateDisplayParams& DisplayParam
 	TetrisGameMode = InTetrisGameMode;
 	check(TetrisGameMode != nullptr);
 	AddToViewport();
+
+	// 타이머 설정: 0.05초마다 OnUpdateTime 호출
+	GetWorld()->GetTimerManager().SetTimer(UpdateTimeTimerHandle, this, &UHUDSingle::OnUpdateTime, UHUDBase::TimeDisplayUpdateInterval, /* InbLoop */ true, /* InFirstDelay */ 0.0f);
 }
 
 void UHUDSingle::UpdateDisplay(const FHUDSingleUpdateDisplayParams& DisplayParams)
