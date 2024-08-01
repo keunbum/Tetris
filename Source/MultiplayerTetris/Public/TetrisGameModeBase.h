@@ -41,9 +41,8 @@ public:
 
 	virtual void PostLogin(APlayerController* const NewPlayer) override;
 
-	/**
-	* Here, speed means the seconds it takes to move one line.
-	*/
+	float GetElapsedTime() const;
+	// Here, speed means the seconds it takes to move one line.
 	float GetCurrentLevelNormalFallSpeed() const;
 	ATetrisPlayManager* GetTetrisPlayManager() const { return TetrisPlayManager; }
 	ATetrisPlayerController* GetTetrisPlayerController() const { return TetrisPlayerController; }
@@ -63,6 +62,7 @@ private:
 	void Initialize();
 	void StartGamePlay();
 
+	/** static methods */
 	static float CalculateNormalFallSpeed(const int32 GameLevel);
 
 	//void ShowWidget(TSubclassOf<UUserWidget> WidgetClass);
@@ -88,6 +88,9 @@ protected:
 	/** primitive */
 	UPROPERTY(EditDefaultsOnly)
 	EGoalSystemType GoalSystemType;
+
+	UPROPERTY(VisibleInstanceOnly)
+	float GameStartTime; // seconds
 
 	/** Classes */
 	UPROPERTY(EditDefaultsOnly)

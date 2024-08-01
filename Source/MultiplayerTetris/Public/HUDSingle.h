@@ -3,28 +3,48 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Blueprint/UserWidget.h"
+#include "HUDBase.h"
 #include "HUDSingle.generated.h"
 
-class UTextBlock;
-class ATetrisPlayerStateBase;
+USTRUCT()
+struct FHUDSingleUpdateDisplayParams
+{
+	GENERATED_USTRUCT_BODY()
+
+	FHUDSingleUpdateDisplayParams()
+		: FHUDSingleUpdateDisplayParams(0, 0)
+	{
+	}
+
+	FHUDSingleUpdateDisplayParams(const int32 InLevel, const int32 InGoal)
+		: Level(InLevel)
+		, Goal(InGoal)
+	{
+	}
+
+	int32 Level;
+	int32 Goal;
+};
 
 /**
  * 
  */
 UCLASS()
-class MULTIPLAYERTETRIS_API UHUDSingle : public UUserWidget
+class MULTIPLAYERTETRIS_API UHUDSingle : public UHUDBase
 {
 	GENERATED_BODY()
 	
 public:
-	void InitializeHUD(const ATetrisPlayerStateBase* PlayerState);
+	void InitializeHUD(const FHUDSingleUpdateDisplayParams& DisplayParams, ATetrisGameModeBase* const InTetrisGameMode);
 
-	void UpdateDisplay(const ATetrisPlayerStateBase* PlayerState);
+	void UpdateDisplay(const FHUDSingleUpdateDisplayParams& DisplayParams);
 
 private:
 	void UpdateLevelDisplay(const int32 NewLevel);
 	void UpdateGoalDisplay(const int32 NewGoal);
+	void UpdateTimeDisplay(const float NewTime);
+
+	void OnUpdateTime();
 
 protected:
 	UPROPERTY(meta = (BindWidget))
@@ -32,4 +52,9 @@ protected:
 
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UTextBlock> GoalText;
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UTextBlock> TimeText;
+
+	FTimerHandle UpdateTimeTimerHandle;
 };

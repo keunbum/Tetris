@@ -33,6 +33,11 @@ void ATetrisGameModeBase::PostLogin(APlayerController* const NewPlayer)
 	check(TetrisPlayerState != nullptr);
 }
 
+float ATetrisGameModeBase::GetElapsedTime() const
+{
+	return UGameplayStatics::GetTimeSeconds(GetWorld()) - GameStartTime;
+}
+
 float ATetrisGameModeBase::GetCurrentLevelNormalFallSpeed() const
 {
 	return ATetrisGameModeBase::CalculateNormalFallSpeed(TetrisPlayerState->GetGameLevel());
@@ -50,7 +55,7 @@ void ATetrisGameModeBase::UpdateGamePlay(const FTetrisGamePlayInfo& UpdateInfo)
 	}
 
 	// Update HUD
-	HUDWidget->UpdateDisplay(TetrisPlayerState);
+	HUDWidget->UpdateDisplay(TetrisPlayerState->GetHUDSingleUpdateDisplayParams());
 }
 
 void ATetrisGameModeBase::BeginPlay()
@@ -74,7 +79,6 @@ void ATetrisGameModeBase::LevelUp()
 
 void ATetrisGameModeBase::Initialize()
 {
-	/** Create */
 	UWorld* const World = GetWorld();
 	check(World != nullptr);
 
@@ -107,11 +111,13 @@ void ATetrisGameModeBase::Initialize()
 	TetrisPlayManager->Initialize();
 	TetrisPlayerController->Initialize();
 	TetrisPlayerState->Initialize(GoalSystem.GetInterface());
-	HUDWidget->InitializeHUD(TetrisPlayerState);
+
+	HUDWidget->InitializeHUD(TetrisPlayerState->GetHUDSingleUpdateDisplayParams(), this);
 }
 
 void ATetrisGameModeBase::StartGamePlay()
 {
+	GameStartTime = UGameplayStatics::GetTimeSeconds(GetWorld());
 	TetrisPlayManager->StartGenerationPhase();
 }
 

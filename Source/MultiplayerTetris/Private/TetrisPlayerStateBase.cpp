@@ -4,6 +4,7 @@
 
 #include "TetrisGameModeBase.h"
 #include "GoalSystemInterface.h"
+#include "HUDSingle.h"
 
 ATetrisPlayerStateBase::ATetrisPlayerStateBase()
 	: GameLevel(ATetrisGameModeBase::DefaultGameLevel)
@@ -31,6 +32,11 @@ void ATetrisPlayerStateBase::LevelUp(const IGoalSystemInterface* GoalSystem)
 	const int32 NewGoalLineClear = OldGoalLineClear + NewLevelUpLineCountGoal;
 	check(NewGoalLineClear > 0);
 	SetGoalLineClear(NewGoalLineClear);
+}
+
+FHUDSingleUpdateDisplayParams ATetrisPlayerStateBase::GetHUDSingleUpdateDisplayParams() const
+{
+	return FHUDSingleUpdateDisplayParams(GetGameLevel(), GetGoalLineClear());
 }
 
 void ATetrisPlayerStateBase::UpdateState(const FTetrisGamePlayInfo& PlayInfo)

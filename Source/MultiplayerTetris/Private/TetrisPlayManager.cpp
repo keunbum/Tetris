@@ -74,7 +74,7 @@ void ATetrisPlayManager::Initialize()
 
 void ATetrisPlayManager::StartGenerationPhase()
 {
-	UE_LOG(LogTemp, Display, TEXT("Start Generation Phase."));
+	//UE_LOG(LogTemp, Display, TEXT("Start Generation Phase."));
 
 	SetPhase(EPhase::Generation);
 	ATetrimino* const NewTetriminoInPlay = PopTetriminoFromNextQueue();
@@ -230,7 +230,7 @@ void ATetrisPlayManager::StartGenerationPhaseWithDelay(const float Delay)
 
 void ATetrisPlayManager::StartFallingPhase()
 {
-	UE_LOG(LogTemp, Display, TEXT("Start Falling Phase."));
+	//UE_LOG(LogTemp, Display, TEXT("Start Falling Phase."));
 
 	SetPhase(EPhase::Falling);
 	SetIsTetriminoInPlayManipulable(true);
@@ -247,7 +247,7 @@ void ATetrisPlayManager::StartFallingPhase()
 
 void ATetrisPlayManager::StartLockPhase(const float LockDownFirstDelay)
 {
-	UE_LOG(LogTemp, Display, TEXT("Start Lock Phase."));
+	//UE_LOG(LogTemp, Display, TEXT("Start Lock Phase."));
 
 	SetPhase(EPhase::Lock);
 
@@ -265,7 +265,7 @@ void ATetrisPlayManager::StartLockPhase(const float LockDownFirstDelay)
 
 void ATetrisPlayManager::StartPatternPhase()
 {
-	UE_LOG(LogTemp, Display, TEXT("Start Pattern Phase."));
+	//UE_LOG(LogTemp, Display, TEXT("Start Pattern Phase."));
 
 	SetPhase(EPhase::Pattern);
 
@@ -278,7 +278,7 @@ void ATetrisPlayManager::StartPatternPhase()
 
 void ATetrisPlayManager::StartIteratePhase()
 {
-	UE_LOG(LogTemp, Display, TEXT("Start Iterate Phase."));
+	//UE_LOG(LogTemp, Display, TEXT("Start Iterate Phase."));
 
 	SetPhase(EPhase::Iterate);
 
@@ -290,7 +290,7 @@ void ATetrisPlayManager::StartIteratePhase()
 
 void ATetrisPlayManager::StartAnimatePhase()
 {
-	UE_LOG(LogTemp, Display, TEXT("Start Animate Phase."));
+	//UE_LOG(LogTemp, Display, TEXT("Start Animate Phase."));
 
 	SetPhase(EPhase::Animate);
 
@@ -302,7 +302,7 @@ void ATetrisPlayManager::StartAnimatePhase()
 
 void ATetrisPlayManager::StartEliminatePhase()
 {
-	UE_LOG(LogTemp, Display, TEXT("Start Eliminate Phase."));
+	//UE_LOG(LogTemp, Display, TEXT("Start Eliminate Phase."));
 
 	SetPhase(EPhase::Elimate);
 
@@ -315,7 +315,7 @@ void ATetrisPlayManager::StartEliminatePhase()
 
 void ATetrisPlayManager::StartCompletionPhase()
 {
-	UE_LOG(LogTemp, Display, TEXT("Start Completion Phase."));
+	//UE_LOG(LogTemp, Display, TEXT("Start Completion Phase."));
 
 	SetPhase(EPhase::Completion);
 
