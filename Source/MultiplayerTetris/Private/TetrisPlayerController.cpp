@@ -87,63 +87,63 @@ void ATetrisPlayerController::BindGamePlayInput()
 
 void ATetrisPlayerController::OnMoveLeftStarted(const FInputActionValue& ActionValue)
 {
-	UE_LOG(LogTemp, Display, TEXT("ATetrisPlayerController::OnMoveLeftStarted()"));
+	//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayerController::OnMoveLeftStarted()"));
 	StartTetriminoMovement(EKeyFlags::Left);
 }
 
 void ATetrisPlayerController::OnMoveLeftCompleted(const FInputActionValue& ActionValue)
 {
-	UE_LOG(LogTemp, Display, TEXT("ATetrisPlayerController::OnMoveLeftCompleted()"));
+	//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayerController::OnMoveLeftCompleted()"));
 	EndTetriminoMovement(EKeyFlags::Left);
 }
 
 void ATetrisPlayerController::OnMoveRightStarted(const FInputActionValue& ActionValue)
 {
-	UE_LOG(LogTemp, Display, TEXT("ATetrisPlayerController::OnMoveRightStarted()"));
+	//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayerController::OnMoveRightStarted()"));
 	StartTetriminoMovement(EKeyFlags::Right);
 }
 
 void ATetrisPlayerController::OnMoveRightCompleted(const FInputActionValue& ActionValue)
 {
-	UE_LOG(LogTemp, Display, TEXT("ATetrisPlayerController::OnMoveRightCompleted()"));
+	//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayerController::OnMoveRightCompleted()"));
 	EndTetriminoMovement(EKeyFlags::Right);
 }
 
 void ATetrisPlayerController::OnSoftDropStarted(const FInputActionValue& ActionValue)
 {
-	UE_LOG(LogTemp, Display, TEXT("ATetrisPlayerController::OnSoftDropStarted()"));
+	//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayerController::OnSoftDropStarted()"));
 	EnumAddFlags(KeyPressingFlags, EKeyFlags::SoftDrop);
 	GameMode->GetTetrisPlayManager()->StartSoftDrop();
 }
 
 void ATetrisPlayerController::OnSoftDropCompleted(const FInputActionValue& ActionValue)
 {
-	UE_LOG(LogTemp, Display, TEXT("ATetrisPlayerController::OnSoftDropCompleted()"));
+	//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayerController::OnSoftDropCompleted()"));
 	EnumRemoveFlags(KeyPressingFlags, EKeyFlags::SoftDrop);
 	GameMode->GetTetrisPlayManager()->EndSoftDrop();
 }
 
 void ATetrisPlayerController::OnHardDropStarted(const FInputActionValue& ActionValue)
 {
-	UE_LOG(LogTemp, Display, TEXT("ATetrisPlayerController::OnHardDropStarted()"));
+	//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayerController::OnHardDropStarted()"));
 	GameMode->GetTetrisPlayManager()->DoHardDrop();
 }
 
 void ATetrisPlayerController::OnRotateClockwiseStarted(const FInputActionValue& ActionValue)
 {
-	UE_LOG(LogTemp, Display, TEXT("ATetrisPlayerController::RotateClockwise()"));
+	//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayerController::RotateClockwise()"));
 	GameMode->GetTetrisPlayManager()->DoRotation(ETetriminoRotationDirection::Clockwise);
 }
 
 void ATetrisPlayerController::OnRotateCounterClockwiseStarted(const FInputActionValue& ActionValue)
 {
-	UE_LOG(LogTemp, Display, TEXT("ATetrisPlayerController::RotateCounterClockwise()"));
+	//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayerController::RotateCounterClockwise()"));
 	GameMode->GetTetrisPlayManager()->DoRotation(ETetriminoRotationDirection::CounterClockwise);
 }
 
 void ATetrisPlayerController::OnHoldStarted(const FInputActionValue& ActionValue)
 {
-	UE_LOG(LogTemp, Display, TEXT("ATetrisPlayerController::OnHoldStarted()"));
+	//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayerController::OnHoldStarted()"));
 	GameMode->GetTetrisPlayManager()->HoldTetriminoInPlay();
 }
 
