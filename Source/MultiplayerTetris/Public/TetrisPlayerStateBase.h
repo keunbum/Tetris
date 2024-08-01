@@ -10,6 +10,7 @@
 #include "TetrisPlayerStateBase.generated.h"
 
 class IGoalSystemInterface;
+struct FHUDSingleUpdateDisplayParams;
 
 /**
  * 
@@ -47,6 +48,8 @@ public:
 	int32 GetGoalLineClear() const { return GoalLineClear; }
 	void SetGoalLineClear(const int32 NewGoalLineClear) { GoalLineClear = NewGoalLineClear; }
 	void SubtractGoalLineClear(const int32 Value) { SetGoalLineClear(GetGoalLineClear() - Value); }
+
+	FHUDSingleUpdateDisplayParams GetHUDSingleUpdateDisplayParams() const;
 
 	void UpdateState(const FTetrisGamePlayInfo& PlayInfo);
 	void DebugPrint() const;
