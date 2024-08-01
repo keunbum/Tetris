@@ -26,8 +26,6 @@ struct FHUDSingleUpdateDisplayParams
 	int32 Goal;
 };
 
-class ATetrisGameModeBase;
-
 /**
  * 
  */

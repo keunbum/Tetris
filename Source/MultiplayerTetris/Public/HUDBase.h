@@ -7,7 +7,7 @@
 #include "HUDBase.generated.h"
 
 class UTextBlock;
-class ATetrisPlayerStateBase;
+class ATetrisGameModeBase;
 
 /**
  * 
