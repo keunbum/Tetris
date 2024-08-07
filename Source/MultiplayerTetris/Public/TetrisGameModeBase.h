@@ -71,6 +71,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Tetrimino")
 	bool bNormalFallOff = false;
 
+	/** Player */
+	static constexpr int32 PlayerIndex = 0;
+
 	/** Queue */
 	static constexpr int32 NextQueueSize = 5;
 	static constexpr int32 HoldQueueSize = 1;
@@ -81,7 +84,6 @@ public:
 	static constexpr int32 DefaultLineCount = 0;
 
 private:
-	static constexpr int32 PlayerIndex = 0;
 	static constexpr float SoftDropMultiplier = 20.0f;
 
 protected:
