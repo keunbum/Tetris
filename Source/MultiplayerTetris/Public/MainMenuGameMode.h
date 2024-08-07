@@ -14,4 +14,6 @@ class MULTIPLAYERTETRIS_API AMainMenuGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
 	
+protected:
+	virtual void BeginPlay() override;
 };
