@@ -7,5 +7,13 @@
 void UMainMenu::NativeConstruct()
 {
 	Super::NativeConstruct();
+
+	check(StartGameButton != nullptr);
+	check(ExitGameButton != nullptr);
+
+	MenuButtons = { StartGameButton, ExitGameButton };
+
+	//UMenuButton* const InitialFocusedButton = MenuButtons[0];
+	//InitialFocusedButton->SetKeyboardFocus();
 }
 
