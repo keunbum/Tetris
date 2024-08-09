@@ -13,6 +13,9 @@ UCLASS()
 class MULTIPLAYERTETRIS_API UMainMenu : public UUserWidget
 {
 	GENERATED_BODY()
+
+protected:
+	virtual void NativeConstruct() override;
 	
 private:
 	UPROPERTY(meta = (BindWidget))
