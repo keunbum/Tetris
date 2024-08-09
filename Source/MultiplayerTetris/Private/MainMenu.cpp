@@ -24,6 +24,7 @@ void UMainMenu::NativeConstruct()
 FReply UMainMenu::NativeOnPreviewKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent)
 {
 	UE_LOG(LogTemp, Warning, TEXT("UMainMenu::NativeOnPreviewKeyDown() - Key: %s"), *InKeyEvent.GetKey().ToString());
+
 	const bool bNoButtonFocused = (FocusedButtonIndex == -1);
 	if (bNoButtonFocused)
 	{
