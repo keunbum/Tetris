@@ -13,7 +13,7 @@ void UMainMenu::NativeConstruct()
 
 	MenuButtons = { StartGameButton, ExitGameButton };
 
-	//UMenuButton* const InitialFocusedButton = MenuButtons[0];
-	//InitialFocusedButton->SetKeyboardFocus();
+	UMenuButton* const InitialFocusedButton = MenuButtons[0];
+	InitialFocusedButton->SetKeyboardFocus();
 }
 
