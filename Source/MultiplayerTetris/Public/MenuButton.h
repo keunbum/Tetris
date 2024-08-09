@@ -13,5 +13,7 @@ UCLASS()
 class MULTIPLAYERTETRIS_API UMenuButton : public UButtonBase
 {
 	GENERATED_BODY()
-	
+
+public:
+	UMenuButton();
 };
