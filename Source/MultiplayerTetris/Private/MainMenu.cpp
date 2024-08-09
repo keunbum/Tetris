@@ -37,3 +37,10 @@ void UMainMenu::NativeConstruct()
 
 	UE_LOG(LogTemp, Warning, TEXT("MainMenu::NativeConstruct() - Initialized"));
 }
+
+FReply UMainMenu::NativeOnKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent)
+{
+	const FReply Reply = Super::NativeOnKeyDown(InGeometry, InKeyEvent);
+	UE_LOG(LogTemp, Display, TEXT("MainMenu::NativeOnKeyDown() - Key: %s"), *InKeyEvent.GetKey().ToString());
+	return Reply;
+}
