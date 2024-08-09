@@ -18,8 +18,6 @@ class MULTIPLAYERTETRIS_API UMainMenu : public UUserWidget
 
 protected:
 	virtual void NativeConstruct() override;
-
-	virtual FReply NativeOnKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent) override;
 	
 private:
 	UPROPERTY(meta = (BindWidget))
