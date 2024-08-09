@@ -14,4 +14,10 @@ class MULTIPLAYERTETRIS_API UMainMenu : public UUserWidget
 {
 	GENERATED_BODY()
 	
+private:
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UMenuButton> StartGameButton;
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UMenuButton> ExitGameButton;
 };
