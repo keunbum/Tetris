@@ -27,4 +27,7 @@ private:
 
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UMenuButton> ExitGameButton;
+
+	UPROPERTY()
+	TArray<TObjectPtr<UMenuButton>> MenuButtons;
 };
