@@ -22,8 +22,8 @@ protected:
 
 	void SetInitialFocus();
 	void SetInitialMenuButtonFocus();
-	void SetMenuButtonFocus(const int32 NewFocusedButtonIndex);
 	void MoveMenuButtonFocus(const int32 Delta);
+	void SetMenuButtonFocus(const int32 NewFocusedButtonIndex);
 
 protected:
 	static constexpr int32 InvalidButtonIndex = -1;
