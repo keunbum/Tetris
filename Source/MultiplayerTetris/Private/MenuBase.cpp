@@ -58,7 +58,7 @@ void UMenuBase::SetDefaultMenuButtonFocus()
 
 bool UMenuBase::GetMenuMoveDirection(const FKey& Key, EMenuMoveDirection& OutMenuMoveDirection)
 {
-	static const TArray<TPair<TFunction<bool(const FKey&)>, EMenuMoveDirection>> MenuMoveDirectionPairs =
+	static const TArray<TPair<TFunction<bool(const FKey&)>, EMenuMoveDirection>> FuncAndDirectionPairs =
 	{
 		{ IsUpKey, EMenuMoveDirection::Up },
 		{ IsDownKey, EMenuMoveDirection::Down },
@@ -66,11 +66,11 @@ bool UMenuBase::GetMenuMoveDirection(const FKey& Key, EMenuMoveDirection& OutMen
 		{ IsRightKey, EMenuMoveDirection::Right }
 	};
 
-	for (const auto& MenuMoveDirectionPair : MenuMoveDirectionPairs)
+	for (const auto& [Func, Direction] : FuncAndDirectionPairs)
 	{
-		if (MenuMoveDirectionPair.Key(Key))
+		if (Func(Key))
 		{
-			OutMenuMoveDirection = MenuMoveDirectionPair.Value;
+			OutMenuMoveDirection = Direction;
 			return true;
 		}
 	}
