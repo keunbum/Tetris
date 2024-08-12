@@ -22,13 +22,11 @@ FReply UMainMenu::NativeOnPreviewKeyDown(const FGeometry& InGeometry, const FKey
 	}
 
 	const FKey Key = InKeyEvent.GetKey();
-	const bool bIsUpKey = UMenuBase::IsUpKey(Key);
-	const bool bIsDownKey = UMenuBase::IsDownKey(Key);
-	const bool bIsMenuMoveKey = bIsUpKey || bIsDownKey;
-	if (bIsMenuMoveKey)
+	const EMenuMoveDirection MenuMoveDirection = UMenuBase::GetMenuMoveDirection(Key);
+	if (IsMenuMoveDirectionValid(MenuMoveDirection))
 	{
-		const int32 Delta = bIsUpKey ? -1 : 1;
-		MoveMenuButtonFocus(Delta);
+		const int32 MoveDelta = GetMenuMoveDelta(MenuMoveDirection);
+		MoveMenuButtonFocus(MoveDelta);
 		return FReply::Handled();
 	}
 
