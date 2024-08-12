@@ -21,7 +21,7 @@ void UMainMenu::NativeConstruct()
 
 FReply UMainMenu::NativeOnPreviewKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent)
 {
-	const bool bNoButtonFocused = (FocusedButtonIndex == -1);
+	const bool bNoButtonFocused = (FocusedButtonIndex == UMainMenu::InvalidButtonIndex);
 	if (bNoButtonFocused)
 	{
 		SetInitialMenuButtonFocus();
@@ -45,7 +45,7 @@ FReply UMainMenu::NativeOnPreviewKeyDown(const FGeometry& InGeometry, const FKey
 void UMainMenu::SetInitialFocus()
 {
 	// 초기에 포커싱된 버튼 없음.
-	FocusedButtonIndex = -1;
+	FocusedButtonIndex = UMainMenu::InvalidButtonIndex;
 	// 위젯 자체에는 포커싱이 걸려야 키보드 입력을 받을 수 있음.
 	SetFocus();
 }
