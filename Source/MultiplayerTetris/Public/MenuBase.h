@@ -26,7 +26,7 @@ public:
 
 protected:
 	void SetMenuButtonFocus(const int32 NewFocusedButtonIndex);
-	void MoveMenuButtonFocus(const int32 Delta);
+	void MoveMenuButtonFocus(const int32 MoveDelta);
 
 protected:
 	static constexpr int32 InvalidButtonIndex = -1;

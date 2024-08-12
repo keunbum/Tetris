@@ -19,8 +19,8 @@ void UMenuBase::SetMenuButtonFocus(const int32 NewFocusedButtonIndex)
 	MenuButtons[FocusedButtonIndex]->SetFocus();
 }
 
-void UMenuBase::MoveMenuButtonFocus(const int32 Delta)
+void UMenuBase::MoveMenuButtonFocus(const int32 MoveDelta)
 {
-	const int32 NewFocusedButtonIndex = (FocusedButtonIndex + Delta + MenuButtons.Num()) % MenuButtons.Num();
+	const int32 NewFocusedButtonIndex = (FocusedButtonIndex + MoveDelta + MenuButtons.Num()) % MenuButtons.Num();
 	SetMenuButtonFocus(NewFocusedButtonIndex);
 }
