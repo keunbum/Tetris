@@ -32,7 +32,4 @@ private:
 
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UMenuButton> ExitGameButton;
-
-	UPROPERTY(VisibleAnywhere)
-	int32 FocusedButtonIndex = 0;
 };

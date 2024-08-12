@@ -23,4 +23,7 @@ protected:
 
 	UPROPERTY()
 	TArray<TObjectPtr<UMenuButton>> MenuButtons;
+
+	UPROPERTY(VisibleAnywhere)
+	int32 FocusedButtonIndex = 0;
 };
