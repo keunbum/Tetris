@@ -41,10 +41,6 @@
 		{
 			"Name": "SteamController",
 			"Enabled": true
-		},
-		{
-			"Name": "RawInput",
-			"Enabled": true
 		}
 	]
 }
