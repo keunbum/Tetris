@@ -52,8 +52,7 @@ void UMainMenu::SetInitialFocus()
 
 void UMainMenu::SetInitialMenuButtonFocus()
 {
-	FocusedButtonIndex = 0;
-	MenuButtons[FocusedButtonIndex]->SetFocus();
+	SetMenuButtonFocus(UMainMenu::InitialFocusedButtonIndex);
 }
 
 void UMainMenu::SetMenuButtonFocus(const int32 NewFocusedButtonIndex)
@@ -64,6 +63,6 @@ void UMainMenu::SetMenuButtonFocus(const int32 NewFocusedButtonIndex)
 
 void UMainMenu::MoveMenuButtonFocus(const int32 Delta)
 {
-	FocusedButtonIndex = (FocusedButtonIndex + Delta + MenuButtons.Num()) % MenuButtons.Num();
-	MenuButtons[FocusedButtonIndex]->SetFocus();
+	const int32 NewFocusedButtonIndex = (FocusedButtonIndex + Delta + MenuButtons.Num()) % MenuButtons.Num();
+	SetMenuButtonFocus(NewFocusedButtonIndex);
 }
