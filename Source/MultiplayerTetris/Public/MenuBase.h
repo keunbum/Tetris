@@ -16,4 +16,6 @@ class MULTIPLAYERTETRIS_API UMenuBase : public UUserWidget
 {
 	GENERATED_BODY()
 	
+protected:
+	static constexpr int32 InvalidButtonIndex = -1;
 };

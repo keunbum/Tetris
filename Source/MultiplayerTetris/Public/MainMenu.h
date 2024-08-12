@@ -24,7 +24,6 @@ protected:
 	void SetMenuButtonFocus(const int32 NewFocusedButtonIndex);
 
 protected:
-	static constexpr int32 InvalidButtonIndex = -1;
 	static constexpr int32 InitialFocusedButtonIndex = 0;
 	
 private:
