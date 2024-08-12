@@ -2,8 +2,6 @@
 
 #include "MainMenu.h"
 
-#include "MenuButton.h"
-
 void UMainMenu::NativeConstruct()
 {
 	Super::NativeConstruct();
@@ -48,16 +46,4 @@ void UMainMenu::SetInitialFocus()
 void UMainMenu::SetInitialMenuButtonFocus()
 {
 	SetMenuButtonFocus(UMainMenu::InitialFocusedButtonIndex);
-}
-
-void UMainMenu::MoveMenuButtonFocus(const int32 Delta)
-{
-	const int32 NewFocusedButtonIndex = (FocusedButtonIndex + Delta + MenuButtons.Num()) % MenuButtons.Num();
-	SetMenuButtonFocus(NewFocusedButtonIndex);
-}
-
-void UMainMenu::SetMenuButtonFocus(const int32 NewFocusedButtonIndex)
-{
-	FocusedButtonIndex = NewFocusedButtonIndex;
-	MenuButtons[FocusedButtonIndex]->SetFocus();
 }

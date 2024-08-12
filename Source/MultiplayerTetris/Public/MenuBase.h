@@ -21,6 +21,10 @@ public:
 
 	bool IsNoButtonFocused() const { return FocusedButtonIndex == InvalidButtonIndex; }
 protected:
+	void SetMenuButtonFocus(const int32 NewFocusedButtonIndex);
+	void MoveMenuButtonFocus(const int32 Delta);
+
+protected:
 	static constexpr int32 InvalidButtonIndex = -1;
 
 	UPROPERTY()
