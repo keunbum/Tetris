@@ -23,9 +23,9 @@ FReply UMenuBase::NativeOnPreviewKeyDown(const FGeometry& InGeometry, const FKey
 
 	const FKey Key = InKeyEvent.GetKey();
 	const EMenuMoveDirection MenuMoveDirection = UMenuBase::GetMenuMoveDirection(Key);
-	if (IsMenuMoveDirectionValid(MenuMoveDirection))
+	if (UMenuBase::IsMenuMoveDirectionValid(MenuMoveDirection))
 	{
-		const int32 MoveDelta = GetMenuMoveDelta(MenuMoveDirection);
+		const int32 MoveDelta = UMenuBase::GetMenuMoveDelta(MenuMoveDirection);
 		MoveMenuButtonFocus(MoveDelta);
 		return FReply::Handled();
 	}
