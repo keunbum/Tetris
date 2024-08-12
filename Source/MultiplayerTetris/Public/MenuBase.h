@@ -36,7 +36,7 @@ public:
     virtual void SetInitialFocus();
 
 	void InitializeMenuButtons(const TArray<UMenuButton*>& InMenuButtons);
-	void SetInitialMenuButtonFocus();
+	void SetDefaultMenuButtonFocus();
 
 	bool IsNoButtonFocused() const { return FocusedButtonIndex == InvalidButtonIndex; }
 
@@ -60,7 +60,7 @@ protected:
 	static constexpr int32 InvalidButtonIndex = -1;
 
 	UPROPERTY()
-	int32 InitialFocusedButtonIndex;
+	int32 DefaultFocusedButtonIndex;
 
 	UPROPERTY()
 	TArray<TObjectPtr<UMenuButton>> MenuButtons;

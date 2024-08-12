@@ -10,14 +10,14 @@ void UMenuBase::NativeConstruct()
 
 	SetInitialFocus();
 
-	InitialFocusedButtonIndex = 0;
+	DefaultFocusedButtonIndex = 0;
 }
 
 FReply UMenuBase::NativeOnPreviewKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent)
 {
 	if (IsNoButtonFocused())
 	{
-		SetInitialMenuButtonFocus();
+		SetDefaultMenuButtonFocus();
 		return FReply::Handled();
 	}
 
@@ -52,9 +52,9 @@ void UMenuBase::InitializeMenuButtons(const TArray<UMenuButton*>& InMenuButtons)
 	}
 }
 
-void UMenuBase::SetInitialMenuButtonFocus()
+void UMenuBase::SetDefaultMenuButtonFocus()
 {
-	SetMenuButtonFocus(InitialFocusedButtonIndex);
+	SetMenuButtonFocus(DefaultFocusedButtonIndex);
 }
 
 EMenuMoveDirection UMenuBase::GetMenuMoveDirection(const FKey& Key)
