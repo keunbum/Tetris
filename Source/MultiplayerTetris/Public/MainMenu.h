@@ -17,8 +17,6 @@ class MULTIPLAYERTETRIS_API UMainMenu : public UMenuBase
 protected:
 	virtual void NativeConstruct() override;
 
-	void SetInitialFocus();
-
 private:
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UMenuButton> StartGameButton;
