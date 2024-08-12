@@ -4,6 +4,26 @@
 
 #include "MenuButton.h"
 
+FReply UMenuBase::NativeOnPreviewKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent)
+{
+	if (IsNoButtonFocused())
+	{
+		SetInitialMenuButtonFocus();
+		return FReply::Handled();
+	}
+
+	const FKey Key = InKeyEvent.GetKey();
+	const EMenuMoveDirection MenuMoveDirection = UMenuBase::GetMenuMoveDirection(Key);
+	if (IsMenuMoveDirectionValid(MenuMoveDirection))
+	{
+		const int32 MoveDelta = GetMenuMoveDelta(MenuMoveDirection);
+		MoveMenuButtonFocus(MoveDelta);
+		return FReply::Handled();
+	}
+
+	return Super::NativeOnPreviewKeyDown(InGeometry, InKeyEvent);
+}
+
 void UMenuBase::InitializeMenuButtons(const TArray<UMenuButton*>& InMenuButtons)
 {
 	MenuButtons = InMenuButtons;
@@ -11,6 +31,11 @@ void UMenuBase::InitializeMenuButtons(const TArray<UMenuButton*>& InMenuButtons)
 	{
 		check(MenuButton != nullptr);
 	}
+}
+
+void UMenuBase::SetInitialMenuButtonFocus()
+{
+	SetMenuButtonFocus(InitialFocusedButtonIndex);
 }
 
 EMenuMoveDirection UMenuBase::GetMenuMoveDirection(const FKey& Key)

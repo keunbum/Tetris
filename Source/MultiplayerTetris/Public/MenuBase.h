@@ -29,7 +29,10 @@ class MULTIPLAYERTETRIS_API UMenuBase : public UUserWidget
 	GENERATED_BODY()
 
 public:
+	virtual FReply NativeOnPreviewKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent) override;
+
 	void InitializeMenuButtons(const TArray<UMenuButton*>& InMenuButtons);
+	void SetInitialMenuButtonFocus();
 
 	bool IsNoButtonFocused() const { return FocusedButtonIndex == InvalidButtonIndex; }
 

@@ -16,10 +16,8 @@ class MULTIPLAYERTETRIS_API UMainMenu : public UMenuBase
 
 protected:
 	virtual void NativeConstruct() override;
-	virtual FReply NativeOnPreviewKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent) override;
 
 	void SetInitialFocus();
-	void SetInitialMenuButtonFocus();
 
 private:
 	UPROPERTY(meta = (BindWidget))
