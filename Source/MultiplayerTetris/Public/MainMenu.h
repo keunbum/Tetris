@@ -22,6 +22,7 @@ protected:
 
 	void SetInitialFocus();
 	void SetInitialMenuButtonFocus();
+	void SetMenuButtonFocus(const int32 NewFocusedButtonIndex);
 	void MoveMenuButtonFocus(const int32 Delta);
 	
 private:
