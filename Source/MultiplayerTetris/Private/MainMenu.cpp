@@ -8,11 +8,7 @@ void UMainMenu::NativeConstruct()
 {
 	Super::NativeConstruct();
 
-	MenuButtons = { StartGameButton, ExitGameButton };
-	for (const UMenuButton* MenuButton : MenuButtons)
-	{
-		check(MenuButton != nullptr);
-	}
+	InitializeMenuButtons({ StartGameButton, ExitGameButton });
 
 	// 이 위젯 자체는 포커싱되어야 함.
 	bIsFocusable = true;
