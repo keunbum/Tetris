@@ -8,8 +8,20 @@
 
 class UMenuButton;
 
+UENUM()
+enum class EMenuMoveDirection : uint8
+{
+	None = 0,
+	Up = 1 << 0,
+	Down = 1 << 1,
+	Left = 1 << 2,
+	Right = 1 << 3,
+};
+
+ENUM_CLASS_FLAGS(EMenuMoveDirection); 
+
 /**
- * 
+ *
  */
 UCLASS()
 class MULTIPLAYERTETRIS_API UMenuBase : public UUserWidget
