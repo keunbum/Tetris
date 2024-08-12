@@ -47,6 +47,9 @@ protected:
 	static constexpr int32 InvalidButtonIndex = -1;
 
 	UPROPERTY()
+	int32 InitialFocusedButtonIndex;
+
+	UPROPERTY()
 	TArray<TObjectPtr<UMenuButton>> MenuButtons;
 
 	UPROPERTY(VisibleAnywhere)

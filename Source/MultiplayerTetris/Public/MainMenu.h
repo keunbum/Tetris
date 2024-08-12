@@ -21,9 +21,6 @@ protected:
 	void SetInitialFocus();
 	void SetInitialMenuButtonFocus();
 
-protected:
-	static constexpr int32 InitialFocusedButtonIndex = 0;
-	
 private:
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UMenuButton> StartGameButton;

@@ -9,6 +9,7 @@ void UMainMenu::NativeConstruct()
 	InitializeMenuButtons({ StartGameButton, ExitGameButton });
 
 	// 이 위젯 자체는 포커싱되어야 함.
+	InitialFocusedButtonIndex = 0;
 	bIsFocusable = true;
 	SetInitialFocus();
 }
