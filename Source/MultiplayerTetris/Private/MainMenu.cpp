@@ -7,6 +7,4 @@ void UMainMenu::NativeConstruct()
 	Super::NativeConstruct();
 
 	InitializeMenuButtons({ StartGameButton, ExitGameButton });
-
-	InitialFocusedButtonIndex = 0;
 }
