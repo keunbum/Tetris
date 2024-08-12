@@ -40,6 +40,7 @@ public:
 
 	bool IsNoButtonFocused() const { return FocusedButtonIndex == InvalidButtonIndex; }
 
+	/** static methods */
 	static EMenuMoveDirection GetMenuMoveDirection(const FKey& Key);
 	static bool IsMenuMoveDirectionValid(const EMenuMoveDirection MenuMoveDirection) { return MenuMoveDirection != EMenuMoveDirection::None; }
 	static int32 GetMenuMoveDelta(const EMenuMoveDirection MenuMoveDirection) { return ((static_cast<int32>(MenuMoveDirection) & 1) == 0) ? -1 : 1; }
@@ -49,6 +50,7 @@ protected:
 	void MoveMenuButtonFocus(const int32 MoveDelta);
 
 private:
+	/** static methods */
 	static bool IsUpKey(const FKey& Key) { return (Key == EKeys::Up || Key == EKeys::Gamepad_DPad_Up || Key == EKeys::Gamepad_LeftStick_Up); }
 	static bool IsDownKey(const FKey& Key) { return (Key == EKeys::Down || Key == EKeys::Gamepad_DPad_Down || Key == EKeys::Gamepad_LeftStick_Down); }
 	static bool IsLeftKey(const FKey& Key) { return (Key == EKeys::Left || Key == EKeys::Gamepad_DPad_Left || Key == EKeys::Gamepad_LeftStick_Left); }
