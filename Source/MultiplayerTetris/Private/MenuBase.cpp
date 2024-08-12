@@ -37,9 +37,8 @@ void UMenuBase::SetInitialFocus()
 {
 	// 초기에 포커싱된 버튼 없음.
 	FocusedButtonIndex = UMenuBase::InvalidButtonIndex;
-	// 이 위젯 자체는 포커싱되어야 함.
-	bIsFocusable = true;
 	// 위젯 자체에는 포커싱이 걸려야 키보드 입력을 받을 수 있음.
+	bIsFocusable = true;
 	SetFocus();
 }
 
