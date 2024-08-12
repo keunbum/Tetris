@@ -59,19 +59,19 @@ void UMenuBase::SetInitialMenuButtonFocus()
 
 EMenuMoveDirection UMenuBase::GetMenuMoveDirection(const FKey& Key)
 {
-	if (Key == EKeys::Up || Key == EKeys::Gamepad_DPad_Up || Key == EKeys::Gamepad_LeftStick_Up)
+	if (UMenuBase::IsUpKey(Key))
 	{
 		return EMenuMoveDirection::Up;
 	}
-	if (Key == EKeys::Down || Key == EKeys::Gamepad_DPad_Down || Key == EKeys::Gamepad_LeftStick_Down)
+	if (UMenuBase::IsDownKey(Key))
 	{
 		return EMenuMoveDirection::Down;
 	}
-	if (Key == EKeys::Left || Key == EKeys::Gamepad_DPad_Left || Key == EKeys::Gamepad_LeftStick_Left)
+	if (UMenuBase::IsLeftKey(Key))
 	{
 		return EMenuMoveDirection::Left;
 	}
-	if (Key == EKeys::Right || Key == EKeys::Gamepad_DPad_Right || Key == EKeys::Gamepad_LeftStick_Right)
+	if (UMenuBase::IsRightKey(Key))
 	{
 		return EMenuMoveDirection::Right;
 	}
