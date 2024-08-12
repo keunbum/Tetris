@@ -9,7 +9,7 @@ void UMainMenu::NativeConstruct()
 	Super::NativeConstruct();
 
 	MenuButtons = { StartGameButton, ExitGameButton };
-	for (UMenuButton* const MenuButton : MenuButtons)
+	for (const UMenuButton* MenuButton : MenuButtons)
 	{
 		check(MenuButton != nullptr);
 	}
