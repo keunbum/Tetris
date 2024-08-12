@@ -4,6 +4,13 @@
 
 #include "MenuButton.h"
 
+void UMenuBase::NativeConstruct()
+{
+	Super::NativeConstruct();
+
+	SetInitialFocus();
+}
+
 FReply UMenuBase::NativeOnPreviewKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent)
 {
 	if (IsNoButtonFocused())

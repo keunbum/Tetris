@@ -29,6 +29,7 @@ class MULTIPLAYERTETRIS_API UMenuBase : public UUserWidget
 	GENERATED_BODY()
 
 public:
+	virtual void NativeConstruct() override;
 	virtual FReply NativeOnPreviewKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent) override;
 
 	/** UMenuBase */
