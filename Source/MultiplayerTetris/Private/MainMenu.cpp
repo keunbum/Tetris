@@ -22,8 +22,8 @@ FReply UMainMenu::NativeOnPreviewKeyDown(const FGeometry& InGeometry, const FKey
 	}
 
 	const FKey Key = InKeyEvent.GetKey();
-	const bool bIsUpKey = (Key == EKeys::Up || Key == EKeys::Gamepad_DPad_Up || Key == EKeys::Gamepad_LeftStick_Up);
-	const bool bIsDownKey = (Key == EKeys::Down || Key == EKeys::Gamepad_DPad_Down || Key == EKeys::Gamepad_LeftStick_Down);
+	const bool bIsUpKey = UMenuBase::IsUpKey(Key);
+	const bool bIsDownKey = UMenuBase::IsDownKey(Key);
 	const bool bIsMenuMoveKey = bIsUpKey || bIsDownKey;
 	if (bIsMenuMoveKey)
 	{
