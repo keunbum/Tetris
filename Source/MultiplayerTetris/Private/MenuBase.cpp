@@ -22,8 +22,8 @@ FReply UMenuBase::NativeOnPreviewKeyDown(const FGeometry& InGeometry, const FKey
 	}
 
 	const FKey Key = InKeyEvent.GetKey();
-	const EMenuMoveDirection MenuMoveDirection = UMenuBase::GetMenuMoveDirection(Key);
-	if (UMenuBase::IsMenuMoveDirectionValid(MenuMoveDirection))
+	if (EMenuMoveDirection MenuMoveDirection = EMenuMoveDirection::None;
+		UMenuBase::GetMenuMoveDirection(Key, MenuMoveDirection))
 	{
 		const int32 MoveDelta = UMenuBase::GetMenuMoveDelta(MenuMoveDirection);
 		MoveMenuButtonFocus(MoveDelta);
@@ -56,26 +56,26 @@ void UMenuBase::SetDefaultMenuButtonFocus()
 	UpdateMenuButtonFocus(DefaultFocusedButtonIndex);
 }
 
-EMenuMoveDirection UMenuBase::GetMenuMoveDirection(const FKey& Key)
+bool UMenuBase::GetMenuMoveDirection(const FKey& Key, EMenuMoveDirection& OutMenuMoveDirection)
 {
-	if (UMenuBase::IsUpKey(Key))
+	static const TArray<TPair<TFunction<bool(const FKey&)>, EMenuMoveDirection>> MenuMoveDirectionPairs =
 	{
-		return EMenuMoveDirection::Up;
-	}
-	if (UMenuBase::IsDownKey(Key))
+		{ IsUpKey, EMenuMoveDirection::Up },
+		{ IsDownKey, EMenuMoveDirection::Down },
+		{ IsLeftKey, EMenuMoveDirection::Left },
+		{ IsRightKey, EMenuMoveDirection::Right }
+	};
+
+	for (const auto& MenuMoveDirectionPair : MenuMoveDirectionPairs)
 	{
-		return EMenuMoveDirection::Down;
-	}
-	if (UMenuBase::IsLeftKey(Key))
-	{
-		return EMenuMoveDirection::Left;
-	}
-	if (UMenuBase::IsRightKey(Key))
-	{
-		return EMenuMoveDirection::Right;
+		if (MenuMoveDirectionPair.Key(Key))
+		{
+			OutMenuMoveDirection = MenuMoveDirectionPair.Value;
+			return true;
+		}
 	}
 
-	return EMenuMoveDirection::None;
+	return false;
 }
 
 void UMenuBase::UpdateMenuButtonFocus(const int32 NewFocusedButtonIndex)
