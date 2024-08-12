@@ -17,8 +17,7 @@ void UMainMenu::NativeConstruct()
 
 FReply UMainMenu::NativeOnPreviewKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent)
 {
-	const bool bNoButtonFocused = (FocusedButtonIndex == UMenuBase::InvalidButtonIndex);
-	if (bNoButtonFocused)
+	if (IsNoButtonFocused())
 	{
 		SetInitialMenuButtonFocus();
 		return FReply::Handled();

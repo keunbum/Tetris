@@ -18,6 +18,8 @@ class MULTIPLAYERTETRIS_API UMenuBase : public UUserWidget
 
 public:
 	void InitializeMenuButtons(const TArray<UMenuButton*>& InMenuButtons);
+
+	bool IsNoButtonFocused() const { return FocusedButtonIndex == InvalidButtonIndex; }
 protected:
 	static constexpr int32 InvalidButtonIndex = -1;
 
