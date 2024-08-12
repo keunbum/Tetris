@@ -46,7 +46,7 @@ public:
 	static int32 GetMenuMoveDelta(const EMenuMoveDirection MenuMoveDirection) { return ((static_cast<int32>(MenuMoveDirection) & 1) == 0) ? -1 : 1; }
 
 protected:
-	void SetMenuButtonFocus(const int32 NewFocusedButtonIndex);
+	void UpdateMenuButtonFocus(const int32 NewFocusedButtonIndex);
 	void MoveMenuButtonFocus(const int32 MoveDelta);
 
 private:

@@ -54,7 +54,7 @@ void UMenuBase::InitializeMenuButtons(const TArray<UMenuButton*>& InMenuButtons)
 
 void UMenuBase::SetDefaultMenuButtonFocus()
 {
-	SetMenuButtonFocus(DefaultFocusedButtonIndex);
+	UpdateMenuButtonFocus(DefaultFocusedButtonIndex);
 }
 
 EMenuMoveDirection UMenuBase::GetMenuMoveDirection(const FKey& Key)
@@ -79,7 +79,7 @@ EMenuMoveDirection UMenuBase::GetMenuMoveDirection(const FKey& Key)
 	return EMenuMoveDirection::None;
 }
 
-void UMenuBase::SetMenuButtonFocus(const int32 NewFocusedButtonIndex)
+void UMenuBase::UpdateMenuButtonFocus(const int32 NewFocusedButtonIndex)
 {
 	FocusedButtonIndex = NewFocusedButtonIndex;
 	MenuButtons[FocusedButtonIndex]->SetFocus();
@@ -88,5 +88,5 @@ void UMenuBase::SetMenuButtonFocus(const int32 NewFocusedButtonIndex)
 void UMenuBase::MoveMenuButtonFocus(const int32 MoveDelta)
 {
 	const int32 NewFocusedButtonIndex = (FocusedButtonIndex + MoveDelta + MenuButtons.Num()) % MenuButtons.Num();
-	SetMenuButtonFocus(NewFocusedButtonIndex);
+	UpdateMenuButtonFocus(NewFocusedButtonIndex);
 }
