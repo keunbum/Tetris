@@ -20,6 +20,7 @@ protected:
 	virtual void NativeConstruct() override;
 	virtual FReply NativeOnPreviewKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent) override;
 
+	void SetInitialFocus();
 	void SetInitialMenuButtonFocus();
 	void MoveMenuButtonFocus(const int32 Delta);
 	

@@ -14,11 +14,9 @@ void UMainMenu::NativeConstruct()
 		check(MenuButton != nullptr);
 	}
 
-	// 초기에 포커싱된 버튼 없음.
-	FocusedButtonIndex = -1;
-	// 이 위젯 자체는 포커싱되어야 사용자 입력에 대응할 수 있음.
+	// 이 위젯 자체는 포커싱되어야 함.
 	bIsFocusable = true;
-	SetFocus();
+	SetInitialFocus();
 }
 
 FReply UMainMenu::NativeOnPreviewKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent)
@@ -44,6 +42,14 @@ FReply UMainMenu::NativeOnPreviewKeyDown(const FGeometry& InGeometry, const FKey
 	}
 
 	return Super::NativeOnPreviewKeyDown(InGeometry, InKeyEvent);
+}
+
+void UMainMenu::SetInitialFocus()
+{
+	// 초기에 포커싱된 버튼 없음.
+	FocusedButtonIndex = -1;
+	// 위젯 자체에는 포커싱이 걸려야 키보드 입력을 받을 수 있음.
+	SetFocus();
 }
 
 void UMainMenu::SetInitialMenuButtonFocus()
