@@ -24,6 +24,10 @@ protected:
 	void SetInitialMenuButtonFocus();
 	void SetMenuButtonFocus(const int32 NewFocusedButtonIndex);
 	void MoveMenuButtonFocus(const int32 Delta);
+
+protected:
+	static constexpr int32 InvalidButtonIndex = -1;
+	static constexpr int32 InitialFocusedButtonIndex = 0;
 	
 private:
 	UPROPERTY(meta = (BindWidget))
