@@ -3,16 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Blueprint/UserWidget.h"
+#include "MenuBase.h"
 #include "MainMenu.generated.h"
-
-class UMenuButton;
 
 /**
  * 
  */
 UCLASS()
-class MULTIPLAYERTETRIS_API UMainMenu : public UUserWidget
+class MULTIPLAYERTETRIS_API UMainMenu : public UMenuBase
 {
 	GENERATED_BODY()
 

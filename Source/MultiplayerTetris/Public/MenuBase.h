@@ -6,6 +6,8 @@
 #include "Blueprint/UserWidget.h"
 #include "MenuBase.generated.h"
 
+class UMenuButton;
+
 /**
  * 
  */
