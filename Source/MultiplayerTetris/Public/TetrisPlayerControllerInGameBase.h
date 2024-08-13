@@ -64,6 +64,10 @@ private:
 	void StartTetriminoMovement(const EKeyFlags KeyPressed);
 	void EndTetriminoMovement(const EKeyFlags KeyReleased);
 
+protected:
+	UPROPERTY()
+	TObjectPtr<ATetrisGameModeBase> GameMode;
+
 private:
 	static constexpr int32 MappingContextDefaultPriority = 0;
 
@@ -101,7 +105,4 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	TObjectPtr<UInputAction> HoldAction;
-
-	UPROPERTY()
-	TObjectPtr<ATetrisGameModeBase> GameMode;
 };
