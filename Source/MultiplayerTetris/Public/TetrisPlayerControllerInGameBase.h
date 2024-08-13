@@ -39,7 +39,7 @@ public:
 	bool IsKeyPressed(const EKeyFlags KeyFlag) const { return EnumHasAnyFlags(KeyPressingFlags, KeyFlag); }
 	bool IsSoftDropKeyPressed() const { return IsKeyPressed(EKeyFlags::SoftDrop); }
 
-private:
+protected:
 	void InitializeCamera();
 	void InitializeInput();
 
