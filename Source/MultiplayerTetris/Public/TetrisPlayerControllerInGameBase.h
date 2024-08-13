@@ -43,7 +43,7 @@ protected:
 	void InitializeCamera();
 	void InitializeInput();
 
-	void BindGamePlayInput();
+	virtual void BindGamePlayInput(UEnhancedInputComponent* const EnhancedInputComponent) override;
 
 	// 입력 콜백 함수
 	void OnMoveLeftStarted(const FInputActionValue& ActionValue);
