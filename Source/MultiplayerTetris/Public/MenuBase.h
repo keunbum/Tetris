@@ -18,7 +18,7 @@ enum class EMenuMoveDirection : uint8
 	Right = 1 << 3,
 };
 
-ENUM_CLASS_FLAGS(EMenuMoveDirection); 
+ENUM_CLASS_FLAGS(EMenuMoveDirection);
 
 /**
  *
@@ -30,7 +30,7 @@ class MULTIPLAYERTETRIS_API UMenuBase : public UUserWidget
 
 public:
 	/** UMenuBase */
-    virtual void SetInitialFocus();
+	virtual void SetInitialFocus();
 
 	void InitializeMenuButtons(const TArray<UMenuButton*>& InMenuButtons);
 	void SetDefaultMenuButtonFocus();
