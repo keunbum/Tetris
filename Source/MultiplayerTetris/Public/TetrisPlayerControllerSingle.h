@@ -15,6 +15,9 @@ class MULTIPLAYERTETRIS_API ATetrisPlayerControllerSingle : public ATetrisPlayer
 {
 	GENERATED_BODY()
 
+protected:
+	virtual void BindInputActions(UEnhancedInputComponent* const EnhancedInputComponent) override;
+
 private:
 	// Input callback methods
 	void OnTogglePause(const FInputActionValue& ActionValue);

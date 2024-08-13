@@ -2,6 +2,15 @@
 
 #include "TetrisPlayerControllerSingle.h"
 
+#include "EnhancedInputComponent.h"
+#include "InputTriggers.h"
+
+void ATetrisPlayerControllerSingle::BindInputActions(UEnhancedInputComponent* const EnhancedInputComponent)
+{
+	Super::BindInputActions(EnhancedInputComponent);
+
+}
+
 void ATetrisPlayerControllerSingle::OnTogglePause(const FInputActionValue& ActionValue)
 {
 	UE_LOG(LogTemp, Display, TEXT("ATetrisPlayerControllerSingle::OnTogglePause()"));
