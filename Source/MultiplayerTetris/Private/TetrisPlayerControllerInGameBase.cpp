@@ -6,8 +6,7 @@
 #include "Camera/CameraComponent.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
-#include "InputAction.h"
-#include "InputMappingContext.h"
+#include "InputTriggers.h"
 #include "Kismet/GameplayStatics.h"
 
 #include "TetriminoBase.h"
