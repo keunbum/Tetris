@@ -19,4 +19,8 @@ private:
 	// Input callback methods
 	void OnTogglePause(const FInputActionValue& ActionValue);
 
+private:
+	// Input Actions
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	TObjectPtr<UInputAction> TogglePauseAction;
 };
