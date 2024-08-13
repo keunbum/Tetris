@@ -62,27 +62,50 @@ void ATetrisPlayerControllerInGameBase::BindInputActions(UEnhancedInputComponent
 {
 	Super::BindInputActions(EnhancedInputComponent);
 
-	// MoveLeft
-	EnhancedInputComponent->BindAction(MoveLeftAction, ETriggerEvent::Started, this, &ATetrisPlayerControllerInGameBase::OnMoveLeftStarted);
-	EnhancedInputComponent->BindAction(MoveLeftAction, ETriggerEvent::Completed, this, &ATetrisPlayerControllerInGameBase::OnMoveLeftCompleted);
-	// MoveRight
-	EnhancedInputComponent->BindAction(MoveRightAction, ETriggerEvent::Started, this, &ATetrisPlayerControllerInGameBase::OnMoveRightStarted);
-	EnhancedInputComponent->BindAction(MoveRightAction, ETriggerEvent::Completed, this, &ATetrisPlayerControllerInGameBase::OnMoveRightCompleted);
+    // MoveLeft
+    if (MoveLeftAction)
+    {
+        EnhancedInputComponent->BindAction(MoveLeftAction, ETriggerEvent::Started, this, &ATetrisPlayerControllerInGameBase::OnMoveLeftStarted);
+        EnhancedInputComponent->BindAction(MoveLeftAction, ETriggerEvent::Completed, this, &ATetrisPlayerControllerInGameBase::OnMoveLeftCompleted);
+    }
 
-	// Soft Drop
-	EnhancedInputComponent->BindAction(SoftDropAction, ETriggerEvent::Started, this, &ATetrisPlayerControllerInGameBase::OnSoftDropStarted);
-	EnhancedInputComponent->BindAction(SoftDropAction, ETriggerEvent::Completed, this, &ATetrisPlayerControllerInGameBase::OnSoftDropCompleted);
+    // MoveRight
+    if (MoveRightAction)
+    {
+        EnhancedInputComponent->BindAction(MoveRightAction, ETriggerEvent::Started, this, &ATetrisPlayerControllerInGameBase::OnMoveRightStarted);
+        EnhancedInputComponent->BindAction(MoveRightAction, ETriggerEvent::Completed, this, &ATetrisPlayerControllerInGameBase::OnMoveRightCompleted);
+    }
 
-	// Hard Drop
-	EnhancedInputComponent->BindAction(HardDropAction, ETriggerEvent::Started, this, &ATetrisPlayerControllerInGameBase::OnHardDropStarted);
+    // Soft Drop
+    if (SoftDropAction)
+    {
+        EnhancedInputComponent->BindAction(SoftDropAction, ETriggerEvent::Started, this, &ATetrisPlayerControllerInGameBase::OnSoftDropStarted);
+        EnhancedInputComponent->BindAction(SoftDropAction, ETriggerEvent::Completed, this, &ATetrisPlayerControllerInGameBase::OnSoftDropCompleted);
+    }
 
-	// RotateClockwise
-	EnhancedInputComponent->BindAction(RotateClockwiseAction, ETriggerEvent::Started, this, &ATetrisPlayerControllerInGameBase::OnRotateClockwiseStarted);
-	// RotateCounterClockwise
-	EnhancedInputComponent->BindAction(RotateCounterClockwiseAction, ETriggerEvent::Started, this, &ATetrisPlayerControllerInGameBase::OnRotateCounterClockwiseStarted);
+    // Hard Drop
+    if (HardDropAction)
+    {
+        EnhancedInputComponent->BindAction(HardDropAction, ETriggerEvent::Started, this, &ATetrisPlayerControllerInGameBase::OnHardDropStarted);
+    }
 
-	// Hold
-	EnhancedInputComponent->BindAction(HoldAction, ETriggerEvent::Started, this, &ATetrisPlayerControllerInGameBase::OnHoldStarted);
+    // RotateClockwise
+    if (RotateClockwiseAction)
+    {
+        EnhancedInputComponent->BindAction(RotateClockwiseAction, ETriggerEvent::Started, this, &ATetrisPlayerControllerInGameBase::OnRotateClockwiseStarted);
+    }
+
+    // RotateCounterClockwise
+    if (RotateCounterClockwiseAction)
+    {
+        EnhancedInputComponent->BindAction(RotateCounterClockwiseAction, ETriggerEvent::Started, this, &ATetrisPlayerControllerInGameBase::OnRotateCounterClockwiseStarted);
+    }
+
+    // Hold
+    if (HoldAction)
+    {
+        EnhancedInputComponent->BindAction(HoldAction, ETriggerEvent::Started, this, &ATetrisPlayerControllerInGameBase::OnHoldStarted);
+    }
 }
 
 void ATetrisPlayerControllerInGameBase::OnMoveLeftStarted(const FInputActionValue& ActionValue)
