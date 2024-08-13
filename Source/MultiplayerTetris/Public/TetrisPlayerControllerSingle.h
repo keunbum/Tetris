@@ -15,4 +15,8 @@ class MULTIPLAYERTETRIS_API ATetrisPlayerControllerSingle : public ATetrisPlayer
 {
 	GENERATED_BODY()
 
+private:
+	// Input callback methods
+	void OnTogglePause(const FInputActionValue& ActionValue);
+
 };
