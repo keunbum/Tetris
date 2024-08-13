@@ -16,7 +16,7 @@ class UGoalSystemInterface : public UInterface
 };
 
 /**
- * 
+ *
  */
 class MULTIPLAYERTETRIS_API IGoalSystemInterface
 {
