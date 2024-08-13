@@ -30,7 +30,7 @@ class MULTIPLAYERTETRIS_API UMenuBase : public UUserWidget
 
 public:
 	/** UMenuBase */
-	virtual void SetInitialFocus();
+	virtual void SetInitialFocus() PURE_VIRTUAL(UMenuBase::SetInitialFocus, );
 
 	void InitializeMenuButtons(const TArray<UMenuButton*>& InMenuButtons);
 	void SetDefaultMenuButtonFocus();
