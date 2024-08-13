@@ -34,7 +34,7 @@ class MULTIPLAYERTETRIS_API ATetrisPlayerControllerInGameBase : public ATetrisPl
 	GENERATED_BODY()
 	
 public:
-	void Initialize();
+	virtual void Initialize();
 
 	bool IsKeyPressed(const EKeyFlags KeyFlag) const { return EnumHasAnyFlags(KeyPressingFlags, KeyFlag); }
 	bool IsSoftDropKeyPressed() const { return IsKeyPressed(EKeyFlags::SoftDrop); }
