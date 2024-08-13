@@ -14,6 +14,9 @@ class MULTIPLAYERTETRIS_API UMainMenu : public UMenuBase
 {
 	GENERATED_BODY()
 
+public:
+	virtual void SetInitialFocus() override;
+
 protected:
 	virtual void NativeConstruct() override;
 
