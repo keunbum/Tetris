@@ -30,7 +30,7 @@ ENUM_CLASS_FLAGS(EKeyFlags)
  * 
  */
 UCLASS()
-class MULTIPLAYERTETRIS_API ATetrisPlayerController : public ATetrisPlayerControllerInGameBase
+class MULTIPLAYERTETRIS_API ATetrisPlayerControllerSingle : public ATetrisPlayerControllerInGameBase
 {
 	GENERATED_BODY()
 

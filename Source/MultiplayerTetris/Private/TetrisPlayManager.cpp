@@ -237,7 +237,7 @@ void ATetrisPlayManager::StartFallingPhase()
 
 	SetNormalFallTimer();
 
-	ATetrisPlayerController* const PlayerController = GameMode->GetTetrisPlayerController();
+	ATetrisPlayerControllerSingle* const PlayerController = GameMode->GetTetrisPlayerController();
 	check(PlayerController != nullptr);
 	if (PlayerController->IsSoftDropKeyPressed())
 	{

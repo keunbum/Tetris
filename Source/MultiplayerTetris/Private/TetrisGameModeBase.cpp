@@ -88,7 +88,7 @@ void ATetrisGameModeBase::Initialize()
 	check(TetrisPlayManager != nullptr);
 
 	// TetrisPlayerController
-	TetrisPlayerController = Cast<ATetrisPlayerController>(UGameplayStatics::GetPlayerController(World, PlayerIndex));
+	TetrisPlayerController = Cast<ATetrisPlayerControllerSingle>(UGameplayStatics::GetPlayerController(World, PlayerIndex));
 	check(TetrisPlayerController != nullptr);
 
 	// GoalSystem

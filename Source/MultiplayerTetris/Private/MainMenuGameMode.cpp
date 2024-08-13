@@ -11,7 +11,7 @@ void AMainMenuGameMode::BeginPlay()
 {
 	Super::BeginPlay();
 
-	if (ATetrisPlayerController* const TetrisPlayerController = Cast<ATetrisPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), ATetrisGameModeBase::PlayerIndex)))
+	if (ATetrisPlayerControllerSingle* const TetrisPlayerController = Cast<ATetrisPlayerControllerSingle>(UGameplayStatics::GetPlayerController(GetWorld(), ATetrisGameModeBase::PlayerIndex)))
 	{
 		TetrisPlayerController->bShowMouseCursor = true;
 	}
