@@ -7,6 +7,8 @@
 #include "InputActionValue.h"
 #include "TetrisPlayerControllerBase.generated.h"
 
+class UEnhancedInputComponent;
+
 /**
  * 
  */
@@ -15,4 +17,6 @@ class MULTIPLAYERTETRIS_API ATetrisPlayerControllerBase : public APlayerControll
 {
 	GENERATED_BODY()
 	
+protected:
+	virtual void BindGamePlayInput(UEnhancedInputComponent* const EnhancedInputComponent) { check(EnhancedInputComponent != nullptr); }
 };
