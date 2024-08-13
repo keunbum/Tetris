@@ -43,6 +43,7 @@ protected:
 	void InitializeCamera();
 	void InitializeInput();
 
+	/** ATetrisPlayerControllerBase */
 	virtual void BindInputActions(UEnhancedInputComponent* const EnhancedInputComponent) override;
 
 	// 입력 콜백 함수
