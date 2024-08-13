@@ -47,7 +47,7 @@ void ATetrisPlayerControllerInGameBase::InitializeCamera()
 void ATetrisPlayerControllerInGameBase::InitializeInput()
 {
 	UEnhancedInputComponent* const EnhancedInputComponent = Cast<UEnhancedInputComponent>(InputComponent);
-	BindGamePlayInput(EnhancedInputComponent);
+	BindInputActions(EnhancedInputComponent);
 
 	if (InGameInputMappingContext)
 	{
@@ -58,9 +58,9 @@ void ATetrisPlayerControllerInGameBase::InitializeInput()
 	}
 }
 
-void ATetrisPlayerControllerInGameBase::BindGamePlayInput(UEnhancedInputComponent* const EnhancedInputComponent)
+void ATetrisPlayerControllerInGameBase::BindInputActions(UEnhancedInputComponent* const EnhancedInputComponent)
 {
-	Super::BindGamePlayInput(EnhancedInputComponent);
+	Super::BindInputActions(EnhancedInputComponent);
 
 	// MoveLeft
 	EnhancedInputComponent->BindAction(MoveLeftAction, ETriggerEvent::Started, this, &ATetrisPlayerControllerInGameBase::OnMoveLeftStarted);

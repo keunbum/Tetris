@@ -18,5 +18,5 @@ class MULTIPLAYERTETRIS_API ATetrisPlayerControllerBase : public APlayerControll
 	GENERATED_BODY()
 	
 protected:
-	virtual void BindGamePlayInput(UEnhancedInputComponent* const EnhancedInputComponent) { check(EnhancedInputComponent != nullptr); }
+	virtual void BindInputActions(UEnhancedInputComponent* const EnhancedInputComponent) { check(EnhancedInputComponent != nullptr); }
 };
