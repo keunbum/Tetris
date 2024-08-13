@@ -4,35 +4,6 @@
 
 #include "MenuButton.h"
 
-void UMenuBase::NativeConstruct()
-{
-	Super::NativeConstruct();
-
-	SetInitialFocus();
-
-	DefaultFocusedButtonIndex = 0;
-}
-
-FReply UMenuBase::NativeOnPreviewKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent)
-{
-	if (IsNoButtonFocused())
-	{
-		SetDefaultMenuButtonFocus();
-		return FReply::Handled();
-	}
-
-	const FKey Key = InKeyEvent.GetKey();
-	if (EMenuMoveDirection MenuMoveDirection = EMenuMoveDirection::None;
-		UMenuBase::GetMenuMoveDirection(Key, MenuMoveDirection))
-	{
-		const int32 MoveDelta = UMenuBase::GetMenuMoveDelta(MenuMoveDirection);
-		MoveMenuButtonFocus(MoveDelta);
-		return FReply::Handled();
-	}
-
-	return Super::NativeOnPreviewKeyDown(InGeometry, InKeyEvent);
-}
-
 void UMenuBase::SetInitialFocus()
 {
 	// 초기에 포커싱된 버튼 없음.
@@ -76,6 +47,35 @@ bool UMenuBase::GetMenuMoveDirection(const FKey& Key, EMenuMoveDirection& OutMen
 	}
 
 	return false;
+}
+
+void UMenuBase::NativeConstruct()
+{
+	Super::NativeConstruct();
+
+	SetInitialFocus();
+
+	DefaultFocusedButtonIndex = 0;
+}
+
+FReply UMenuBase::NativeOnPreviewKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent)
+{
+	if (IsNoButtonFocused())
+	{
+		SetDefaultMenuButtonFocus();
+		return FReply::Handled();
+	}
+
+	const FKey Key = InKeyEvent.GetKey();
+	if (EMenuMoveDirection MenuMoveDirection = EMenuMoveDirection::None;
+		UMenuBase::GetMenuMoveDirection(Key, MenuMoveDirection))
+	{
+		const int32 MoveDelta = UMenuBase::GetMenuMoveDelta(MenuMoveDirection);
+		MoveMenuButtonFocus(MoveDelta);
+		return FReply::Handled();
+	}
+
+	return Super::NativeOnPreviewKeyDown(InGeometry, InKeyEvent);
 }
 
 void UMenuBase::UpdateMenuButtonFocus(const int32 NewFocusedButtonIndex)
