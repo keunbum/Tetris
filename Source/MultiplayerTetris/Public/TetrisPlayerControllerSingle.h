@@ -8,7 +8,7 @@
 
 #include "Mino.h"
 
-#include "TetrisPlayerController.generated.h"
+#include "TetrisPlayerControllerSingle.generated.h"
 
 class UInputMappingContext;
 class UInputAction;

@@ -11,7 +11,7 @@
 #include "TetriminoBase.h"
 #include "TetrisPlayManager.h"
 #include "Board.h"
-#include "TetrisPlayerController.h"
+#include "TetrisPlayerControllerSingle.h"
 #include "TetrisPlayerStateBase.h"
 #include "GoalSystemFactory.h"
 #include "GoalSystemInterface.h"

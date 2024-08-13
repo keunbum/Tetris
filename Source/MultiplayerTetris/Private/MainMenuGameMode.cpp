@@ -4,7 +4,7 @@
 
 #include "Kismet/GameplayStatics.h"
 
-#include "TetrisPlayerController.h"
+#include "TetrisPlayerControllerSingle.h"
 #include "TetrisGameModeBase.h"
 
 void AMainMenuGameMode::BeginPlay()

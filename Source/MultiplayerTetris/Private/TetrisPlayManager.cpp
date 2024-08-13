@@ -8,7 +8,7 @@
 #include "TetrisGameModeBase.h"
 #include "Tetrimino.h"
 #include "GhostPiece.h"
-#include "TetrisPlayerController.h"
+#include "TetrisPlayerControllerSingle.h"
 #include "TetriminoGenerator.h"
 #include "TetriminoQueue.h"
 
