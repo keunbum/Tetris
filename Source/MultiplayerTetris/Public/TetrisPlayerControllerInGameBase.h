@@ -46,6 +46,7 @@ protected:
 	/** ATetrisPlayerControllerBase */
 	virtual void BindInputActions(UEnhancedInputComponent* const EnhancedInputComponent) override;
 
+private:
 	// 입력 콜백 함수
 	void OnMoveLeftStarted(const FInputActionValue& ActionValue);
 	void OnMoveLeftCompleted(const FInputActionValue& ActionValue);
