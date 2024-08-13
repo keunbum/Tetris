@@ -9,6 +9,11 @@ void ATetrisPlayerControllerSingle::BindInputActions(UEnhancedInputComponent* co
 {
 	Super::BindInputActions(EnhancedInputComponent);
 
+	// TogglePause
+	if (TogglePauseAction)
+	{
+		EnhancedInputComponent->BindAction(TogglePauseAction, ETriggerEvent::Started, this, &ATetrisPlayerControllerSingle::OnTogglePause);
+	}
 }
 
 void ATetrisPlayerControllerSingle::OnTogglePause(const FInputActionValue& ActionValue)
