@@ -3,8 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/PlayerController.h"
-#include "InputActionValue.h"
+#include "TetrisPlayerControllerInGameBase.h"
 #include "Misc/EnumClassFlags.h"
 
 #include "Mino.h"
@@ -31,7 +30,7 @@ ENUM_CLASS_FLAGS(EKeyFlags)
  * 
  */
 UCLASS()
-class MULTIPLAYERTETRIS_API ATetrisPlayerController : public APlayerController
+class MULTIPLAYERTETRIS_API ATetrisPlayerController : public ATetrisPlayerControllerInGameBase
 {
 	GENERATED_BODY()
 
