@@ -34,6 +34,7 @@ public:
 
 	void InitializeMenuButtons(const TArray<UMenuButton*>& InMenuButtons);
 	void SetDefaultMenuButtonFocus();
+	void SetWidgetFocusOnly();
 
 	bool IsNoButtonFocused() const { return FocusedButtonIndex == InvalidButtonIndex; }
 
