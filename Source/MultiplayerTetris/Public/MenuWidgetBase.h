@@ -51,6 +51,9 @@ protected:
 	void MoveMenuButtonFocus(const int32 MoveDelta);
 
 private:
+	/** UMenuWidgetBase */
+	virtual void BindMenuButtonEvents() PURE_VIRTUAL(UMenuWidgetBase::BindMenuButtonEvents, );
+
 	/** static methods */
 	static bool IsUpKey(const FKey& Key) { return (Key == EKeys::Up || Key == EKeys::Gamepad_DPad_Up || Key == EKeys::Gamepad_LeftStick_Up); }
 	static bool IsDownKey(const FKey& Key) { return (Key == EKeys::Down || Key == EKeys::Gamepad_DPad_Down || Key == EKeys::Gamepad_LeftStick_Down); }

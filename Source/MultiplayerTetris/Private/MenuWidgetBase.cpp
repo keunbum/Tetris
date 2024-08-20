@@ -11,6 +11,8 @@ void UMenuWidgetBase::SetMenuButtons(const TArray<UMenuButton*>& InMenuButtons)
 	{
 		check(MenuButton != nullptr);
 	}
+
+	BindMenuButtonEvents();
 }
 
 void UMenuWidgetBase::SetDefaultMenuButtonFocus()
