@@ -12,6 +12,13 @@ void UMainMenuWidget::SetInitialFocus()
 	SetWidgetFocusOnly();
 }
 
+void UMainMenuWidget::NativeConstruct()
+{
+	Super::NativeConstruct();
+
+	SetMenuButtons({ StartGameButton, ExitGameButton });
+}
+
 void UMainMenuWidget::OnStartGameClicked()
 {
 	// Open Tetris Level
@@ -22,14 +29,4 @@ void UMainMenuWidget::OnExitGameClicked()
 {
 	// Exit Game
 	UKismetSystemLibrary::QuitGame(GetWorld(), nullptr, EQuitPreference::Quit, false);
-}
-
-void UMainMenuWidget::NativeConstruct()
-{
-	Super::NativeConstruct();
-
-	SetMenuButtons({ StartGameButton, ExitGameButton });
-
-	StartGameButton->OnClicked.AddDynamic(this, &UMainMenuWidget::OnStartGameClicked);
-	ExitGameButton->OnClicked.AddDynamic(this, &UMainMenuWidget::OnExitGameClicked);
 }
