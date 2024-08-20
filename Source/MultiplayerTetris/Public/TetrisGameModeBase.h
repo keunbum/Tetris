@@ -83,6 +83,9 @@ public:
 	static constexpr int32 DefaultScore = 0;
 	static constexpr int32 DefaultLineCount = 0;
 
+	// Level Name
+	static const FName TetrisLevelName;
+
 private:
 	static constexpr float SoftDropMultiplier = 20.0f;
 

@@ -17,6 +17,8 @@
 #include "GoalSystemInterface.h"
 #include "HUDSingle.h"
 
+const FName ATetrisGameModeBase::TetrisLevelName = FName(TEXT("TetrisLevel"));
+
 
 ATetrisGameModeBase::ATetrisGameModeBase()
 	: GoalSystemType(EGoalSystemType::None)
