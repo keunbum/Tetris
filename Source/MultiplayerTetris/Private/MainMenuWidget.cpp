@@ -2,7 +2,7 @@
 
 #include "MainMenuWidget.h"
 
-void UMainMenu::SetInitialFocus()
+void UMainMenuWidget::SetInitialFocus()
 {
 	// 초기에 포커싱된 버튼 없음.
 	FocusedButtonIndex = UMenuWidgetBase::InvalidButtonIndex;
@@ -11,7 +11,7 @@ void UMainMenu::SetInitialFocus()
 	SetFocus();
 }
 
-void UMainMenu::NativeConstruct()
+void UMainMenuWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 

@@ -10,7 +10,7 @@
  * 
  */
 UCLASS()
-class MULTIPLAYERTETRIS_API UMainMenu : public UMenuWidgetBase
+class MULTIPLAYERTETRIS_API UMainMenuWidget : public UMenuWidgetBase
 {
 	GENERATED_BODY()
 
