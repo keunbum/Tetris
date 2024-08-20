@@ -19,6 +19,12 @@ void UMainMenuWidget::NativeConstruct()
 	SetMenuButtons({ StartGameButton, ExitGameButton });
 }
 
+void UMainMenuWidget::BindMenuButtonEvents()
+{
+	StartGameButton->OnClicked.AddDynamic(this, &UMainMenuWidget::OnStartGameClicked);
+	ExitGameButton->OnClicked.AddDynamic(this, &UMainMenuWidget::OnExitGameClicked);
+}
+
 void UMainMenuWidget::OnStartGameClicked()
 {
 	// Open Tetris Level
