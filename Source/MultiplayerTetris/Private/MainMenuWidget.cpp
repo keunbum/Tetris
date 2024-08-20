@@ -26,5 +26,5 @@ void UMainMenuWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 
-	InitializeMenuButtons({ StartGameButton, ExitGameButton });
+	SetMenuButtons({ StartGameButton, ExitGameButton });
 }

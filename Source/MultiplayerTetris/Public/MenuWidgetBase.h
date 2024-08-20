@@ -32,7 +32,7 @@ public:
 	/** UMenuWidgetBase */
 	virtual void SetInitialFocus() PURE_VIRTUAL(UMenuWidgetBase::SetInitialFocus, );
 
-	void InitializeMenuButtons(const TArray<UMenuButton*>& InMenuButtons);
+	void SetMenuButtons(const TArray<UMenuButton*>& InMenuButtons);
 	void SetDefaultMenuButtonFocus();
 	void SetWidgetFocusOnly();
 
