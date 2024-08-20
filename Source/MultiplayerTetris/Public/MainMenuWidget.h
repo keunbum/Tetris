@@ -21,6 +21,10 @@ protected:
 	virtual void NativeConstruct() override;
 
 private:
+	UFUNCTION()
+	void OnStartGameClicked();
+
+private:
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UMenuButton> StartGameButton;
 
