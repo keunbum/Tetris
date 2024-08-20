@@ -5,6 +5,8 @@
 #include "Kismet/GameplayStatics.h"
 
 #include "TetrisGameModeBase.h"
+#include "MenuButton.h"
+
 void UMainMenuWidget::SetInitialFocus()
 {
 	SetWidgetFocusOnly();
@@ -27,4 +29,7 @@ void UMainMenuWidget::NativeConstruct()
 	Super::NativeConstruct();
 
 	SetMenuButtons({ StartGameButton, ExitGameButton });
+
+	StartGameButton->OnClicked.AddDynamic(this, &UMainMenuWidget::OnStartGameClicked);
+	ExitGameButton->OnClicked.AddDynamic(this, &UMainMenuWidget::OnExitGameClicked);
 }
