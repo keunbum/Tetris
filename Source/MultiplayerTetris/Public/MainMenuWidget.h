@@ -21,9 +21,6 @@ protected:
 	virtual void NativeConstruct() override;
 
 private:
-
-	virtual void BindMenuButtonEvents() override;
-
 	UFUNCTION()
 	void OnStartGameClicked();
 	UFUNCTION()

@@ -17,10 +17,7 @@ void UMainMenuWidget::NativeConstruct()
 	Super::NativeConstruct();
 
 	SetMenuButtons({ StartGameButton, ExitGameButton });
-}
 
-void UMainMenuWidget::BindMenuButtonEvents()
-{
 	StartGameButton->OnClicked.AddDynamic(this, &UMainMenuWidget::OnStartGameClicked);
 	ExitGameButton->OnClicked.AddDynamic(this, &UMainMenuWidget::OnExitGameClicked);
 }
