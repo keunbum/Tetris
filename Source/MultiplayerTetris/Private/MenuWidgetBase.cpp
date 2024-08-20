@@ -4,7 +4,7 @@
 
 #include "MenuButton.h"
 
-void UMenuWidgetBase::SetMenuButtons(const TArray<UMenuButton*>& InMenuButtons)
+void UMenuWidgetBase::InitializeMenuButtons(const TArray<UMenuButton*>& InMenuButtons)
 {
 	MenuButtons = InMenuButtons;
 	for (const UMenuButton* MenuButton : MenuButtons)
