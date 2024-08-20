@@ -24,13 +24,13 @@ ENUM_CLASS_FLAGS(EMenuMoveDirection);
  *
  */
 UCLASS()
-class MULTIPLAYERTETRIS_API UMenuBase : public UUserWidget
+class MULTIPLAYERTETRIS_API UMenuWidgetBase : public UUserWidget
 {
 	GENERATED_BODY()
 
 public:
-	/** UMenuBase */
-	virtual void SetInitialFocus() PURE_VIRTUAL(UMenuBase::SetInitialFocus, );
+	/** UMenuWidgetBase */
+	virtual void SetInitialFocus() PURE_VIRTUAL(UMenuWidgetBase::SetInitialFocus, );
 
 	void InitializeMenuButtons(const TArray<UMenuButton*>& InMenuButtons);
 	void SetDefaultMenuButtonFocus();

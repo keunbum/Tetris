@@ -4,7 +4,7 @@
 
 #include "MenuButton.h"
 
-void UMenuBase::InitializeMenuButtons(const TArray<UMenuButton*>& InMenuButtons)
+void UMenuWidgetBase::InitializeMenuButtons(const TArray<UMenuButton*>& InMenuButtons)
 {
 	MenuButtons = InMenuButtons;
 	for (const UMenuButton* MenuButton : MenuButtons)
@@ -13,12 +13,12 @@ void UMenuBase::InitializeMenuButtons(const TArray<UMenuButton*>& InMenuButtons)
 	}
 }
 
-void UMenuBase::SetDefaultMenuButtonFocus()
+void UMenuWidgetBase::SetDefaultMenuButtonFocus()
 {
 	UpdateMenuButtonFocus(DefaultFocusedButtonIndex);
 }
 
-bool UMenuBase::GetMenuMoveDirection(const FKey& Key, EMenuMoveDirection& OutMenuMoveDirection)
+bool UMenuWidgetBase::GetMenuMoveDirection(const FKey& Key, EMenuMoveDirection& OutMenuMoveDirection)
 {
 	static const TArray<TPair<TFunction<bool(const FKey&)>, EMenuMoveDirection>> FuncAndDirectionPairs =
 	{
@@ -40,7 +40,7 @@ bool UMenuBase::GetMenuMoveDirection(const FKey& Key, EMenuMoveDirection& OutMen
 	return false;
 }
 
-void UMenuBase::NativeConstruct()
+void UMenuWidgetBase::NativeConstruct()
 {
 	Super::NativeConstruct();
 
@@ -49,7 +49,7 @@ void UMenuBase::NativeConstruct()
 	DefaultFocusedButtonIndex = 0;
 }
 
-FReply UMenuBase::NativeOnPreviewKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent)
+FReply UMenuWidgetBase::NativeOnPreviewKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent)
 {
 	if (IsNoButtonFocused())
 	{
@@ -59,9 +59,9 @@ FReply UMenuBase::NativeOnPreviewKeyDown(const FGeometry& InGeometry, const FKey
 
 	const FKey Key = InKeyEvent.GetKey();
 	if (EMenuMoveDirection MenuMoveDirection = EMenuMoveDirection::None;
-		UMenuBase::GetMenuMoveDirection(Key, MenuMoveDirection))
+		UMenuWidgetBase::GetMenuMoveDirection(Key, MenuMoveDirection))
 	{
-		const int32 MoveDelta = UMenuBase::GetMenuMoveDelta(MenuMoveDirection);
+		const int32 MoveDelta = UMenuWidgetBase::GetMenuMoveDelta(MenuMoveDirection);
 		MoveMenuButtonFocus(MoveDelta);
 		return FReply::Handled();
 	}
@@ -69,13 +69,13 @@ FReply UMenuBase::NativeOnPreviewKeyDown(const FGeometry& InGeometry, const FKey
 	return Super::NativeOnPreviewKeyDown(InGeometry, InKeyEvent);
 }
 
-void UMenuBase::UpdateMenuButtonFocus(const int32 NewFocusedButtonIndex)
+void UMenuWidgetBase::UpdateMenuButtonFocus(const int32 NewFocusedButtonIndex)
 {
 	FocusedButtonIndex = NewFocusedButtonIndex;
 	MenuButtons[FocusedButtonIndex]->SetFocus();
 }
 
-void UMenuBase::MoveMenuButtonFocus(const int32 MoveDelta)
+void UMenuWidgetBase::MoveMenuButtonFocus(const int32 MoveDelta)
 {
 	const int32 NewFocusedButtonIndex = (FocusedButtonIndex + MoveDelta + MenuButtons.Num()) % MenuButtons.Num();
 	UpdateMenuButtonFocus(NewFocusedButtonIndex);
