@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "MenuWidgetBase.h"
-#include "MainMenu.generated.h"
+#include "MainMenuWidget.generated.h"
 
 /**
  * 
