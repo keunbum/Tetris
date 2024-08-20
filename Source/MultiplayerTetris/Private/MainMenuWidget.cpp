@@ -16,6 +16,12 @@ void UMainMenuWidget::OnStartGameClicked()
 	UGameplayStatics::OpenLevel(GetWorld(), ATetrisGameModeBase::TetrisLevelName);
 }
 
+void UMainMenuWidget::OnExitGameClicked()
+{
+	// Exit Game
+	UKismetSystemLibrary::QuitGame(GetWorld(), nullptr, EQuitPreference::Quit, false);
+}
+
 void UMainMenuWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
