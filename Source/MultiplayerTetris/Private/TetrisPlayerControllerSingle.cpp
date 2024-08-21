@@ -9,9 +9,6 @@
 
 void ATetrisPlayerControllerSingle::SetInputModeGameOnlyAndUnPause()
 {
-	// Hide the mouse cursor
-	bShowMouseCursor = false;
-
 	// Set the input mode to GameOnly
 	const FInputModeGameOnly InputMode;
 	SetInputMode(InputMode);
@@ -35,9 +32,6 @@ void ATetrisPlayerControllerSingle::SetInputModeUIOnlyAndPause()
 		PauseMenuWidget = CreateWidget<UPauseMenuWidget>(this, PauseMenuWidgetClass);
 		check(PauseMenuWidget != nullptr);
 	}
-
-	// Show the mouse cursor
-	bShowMouseCursor = true;
 
 	// Set the input mode to UIOnly
 	const FInputModeUIOnly InputMode;
