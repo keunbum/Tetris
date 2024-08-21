@@ -26,12 +26,12 @@ protected:
 
 private:
 	// Input Events
-	void OnTogglePause(const FInputActionValue& ActionValue);
+	void OnPause(const FInputActionValue& ActionValue);
 
 private:
 	// Input Actions
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
-	TObjectPtr<UInputAction> TogglePauseAction;
+	TObjectPtr<UInputAction> PauseAction;
 
 	/** Widget References */
 	UPROPERTY(meta = (BindWidget))

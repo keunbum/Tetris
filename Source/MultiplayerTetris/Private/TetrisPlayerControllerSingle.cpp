@@ -46,24 +46,15 @@ void ATetrisPlayerControllerSingle::BindInputActions(UEnhancedInputComponent* co
 {
 	Super::BindInputActions(EnhancedInputComponent);
 
-	// TogglePause
-	if (TogglePauseAction)
+	// Pause
+	if (PauseAction)
 	{
-		EnhancedInputComponent->BindAction(TogglePauseAction, ETriggerEvent::Started, this, &ATetrisPlayerControllerSingle::OnTogglePause);
+		EnhancedInputComponent->BindAction(PauseAction, ETriggerEvent::Started, this, &ATetrisPlayerControllerSingle::OnPause);
 	}
 }
 
-void ATetrisPlayerControllerSingle::OnTogglePause(const FInputActionValue& ActionValue)
+void ATetrisPlayerControllerSingle::OnPause(const FInputActionValue& ActionValue)
 {
-	//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayerControllerSingle::OnTogglePause()"));
-	const bool bIsPausing = UGameplayStatics::IsGamePaused(GetWorld());
-	const bool bWillBePaused = !bIsPausing;
-	if (bWillBePaused)
-	{
-		SetInputModeUIOnlyAndPause();
-	}
-	else
-	{
-		SetInputModeGameOnlyAndUnPause();
-	}
+	//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayerControllerSingle::OnPause()"));
+	SetInputModeUIOnlyAndPause();
 }
