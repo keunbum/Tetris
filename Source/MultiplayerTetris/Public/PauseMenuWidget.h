@@ -20,8 +20,10 @@ protected:
 private:
 	UFUNCTION()
 	void OnResumeClicked();
+
 	UFUNCTION()
 	void OnRestartClicked();
+
 	UFUNCTION()
 	void OnExitClicked();
 
