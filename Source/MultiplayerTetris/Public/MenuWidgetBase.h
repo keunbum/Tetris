@@ -49,7 +49,7 @@ protected:
 
 private:
 	/** UMenuWidgetBase */
-	virtual void SetInitialFocus() PURE_VIRTUAL(UMenuWidgetBase::SetInitialFocus, );
+	void SetInitialFocus();
 
 	/** static methods */
 	static bool IsUpKey(const FKey& Key) { return (Key == EKeys::Up || Key == EKeys::Gamepad_DPad_Up || Key == EKeys::Gamepad_LeftStick_Up); }

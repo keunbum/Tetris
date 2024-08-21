@@ -18,9 +18,6 @@ protected:
 	virtual void NativeConstruct() override;
 
 private:
-	/** UMenuWidgetBase */
-	virtual void SetInitialFocus() override;
-
 	UFUNCTION()
 	void OnStartGameClicked();
 	UFUNCTION()

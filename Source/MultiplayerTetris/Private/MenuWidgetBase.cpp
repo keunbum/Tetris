@@ -89,3 +89,8 @@ void UMenuWidgetBase::MoveMenuButtonFocus(const int32 MoveDelta)
 	const int32 NewFocusedButtonIndex = (FocusedButtonIndex + MoveDelta + MenuButtons.Num()) % MenuButtons.Num();
 	UpdateMenuButtonFocus(NewFocusedButtonIndex);
 }
+
+void UMenuWidgetBase::SetInitialFocus()
+{
+	SetWidgetFocusOnly();
+}

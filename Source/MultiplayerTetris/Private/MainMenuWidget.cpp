@@ -17,11 +17,6 @@ void UMainMenuWidget::NativeConstruct()
 	ExitGameButton->OnClicked.AddDynamic(this, &UMainMenuWidget::OnExitGameClicked);
 }
 
-void UMainMenuWidget::SetInitialFocus()
-{
-	SetWidgetFocusOnly();
-}
-
 void UMainMenuWidget::OnStartGameClicked()
 {
 	// Open Tetris Level

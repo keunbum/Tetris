@@ -16,11 +16,7 @@ void UPauseMenuWidget::NativeConstruct()
 	ExitButton->OnClicked.AddDynamic(this, &UPauseMenuWidget::OnExitClicked);
 }
 
-void UPauseMenuWidget::SetInitialFocus()
 {
-	SetDefaultMenuButtonFocus();
-}
-
 }
 
 void UPauseMenuWidget::OnRestartClicked()
