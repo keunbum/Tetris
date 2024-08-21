@@ -16,4 +16,8 @@ class MULTIPLAYERTETRIS_API AMainMenuGameMode : public AGameModeBase
 	
 protected:
 	virtual void BeginPlay() override;
+
+public:
+	// Level Name
+	static const FName MainMenuLevelName;
 };

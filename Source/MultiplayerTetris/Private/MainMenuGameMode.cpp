@@ -7,6 +7,8 @@
 #include "TetrisPlayerControllerSingle.h"
 #include "TetrisGameModeBase.h"
 
+const FName AMainMenuGameMode::MainMenuLevelName(TEXT("MainMenuLevel"));
+
 void AMainMenuGameMode::BeginPlay()
 {
 	Super::BeginPlay();
