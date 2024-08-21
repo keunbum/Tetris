@@ -25,7 +25,7 @@ protected:
 	virtual void BindInputActions(UEnhancedInputComponent* const EnhancedInputComponent) override;
 
 private:
-	// Input callback methods
+	// Input Events
 	void OnTogglePause(const FInputActionValue& ActionValue);
 
 private:
