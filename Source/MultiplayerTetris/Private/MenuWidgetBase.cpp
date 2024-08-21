@@ -49,6 +49,24 @@ bool UMenuWidgetBase::GetMenuMoveDirection(const FKey& Key, EMenuMoveDirection& 
 	return false;
 }
 
+FName UMenuWidgetBase::GetMenuMoveDirectionName(const EMenuMoveDirection MenuMoveDirection)
+{
+	switch (MenuMoveDirection)
+	{
+	case EMenuMoveDirection::Up:
+		return TEXT("Up");
+	case EMenuMoveDirection::Down:
+		return TEXT("Down");
+	case EMenuMoveDirection::Left:
+		return TEXT("Left");
+	case EMenuMoveDirection::Right:
+		return TEXT("Right");
+	default:
+		checkNoEntry();
+		return NAME_None;
+	}
+}
+
 void UMenuWidgetBase::NativeConstruct()
 {
 	Super::NativeConstruct();

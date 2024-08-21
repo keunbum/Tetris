@@ -39,6 +39,7 @@ public:
 	static bool GetMenuMoveDirection(const FKey& Key, EMenuMoveDirection& OutMenuMoveDirection);
 	static bool IsMenuMoveDirectionValid(const EMenuMoveDirection MenuMoveDirection) { return MenuMoveDirection != EMenuMoveDirection::None; }
 	static int32 GetMenuMoveDelta(const EMenuMoveDirection MenuMoveDirection) { return ((static_cast<int32>(MenuMoveDirection) & 1) == 0) ? -1 : 1; }
+	static FName GetMenuMoveDirectionName(const EMenuMoveDirection MenuMoveDirection);
 
 protected:
 	virtual void NativeConstruct() override;
