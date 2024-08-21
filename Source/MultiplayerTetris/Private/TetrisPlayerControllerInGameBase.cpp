@@ -60,9 +60,6 @@ void ATetrisPlayerControllerInGameBase::InitializeInput()
 	const FInputModeGameOnly InputMode;
 	SetInputMode(InputMode);
 
-	// Hide the mouse cursor
-	bShowMouseCursor = false;
-
 	// Set focus to the game viewport
 	FSlateApplication::Get().SetAllUserFocusToGameViewport();
 }
