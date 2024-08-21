@@ -95,13 +95,13 @@ void ATetrisPlayerControllerInGameBase::BindInputActions(UEnhancedInputComponent
         EnhancedInputComponent->BindAction(HardDropAction, ETriggerEvent::Started, this, &ATetrisPlayerControllerInGameBase::OnHardDropStarted);
     }
 
-    // RotateClockwise
+    // Rotate Clockwise
     if (RotateClockwiseAction)
     {
         EnhancedInputComponent->BindAction(RotateClockwiseAction, ETriggerEvent::Started, this, &ATetrisPlayerControllerInGameBase::OnRotateClockwiseStarted);
     }
 
-    // RotateCounterClockwise
+    // Rotate CounterClockwise
     if (RotateCounterClockwiseAction)
     {
         EnhancedInputComponent->BindAction(RotateCounterClockwiseAction, ETriggerEvent::Started, this, &ATetrisPlayerControllerInGameBase::OnRotateCounterClockwiseStarted);
