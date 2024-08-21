@@ -4,6 +4,18 @@
 
 #include "EnhancedInputComponent.h"
 #include "InputTriggers.h"
+#include "Kismet/GameplayStatics.h"
+
+void ATetrisPlayerControllerSingle::SetInputModeGameOnlyAndUnPause()
+{
+	// Set the input mode to GameOnly
+	FInputModeGameOnly InputMode;
+	SetInputMode(InputMode);
+
+	// Unpause the game
+	UGameplayStatics::SetGamePaused(GetWorld(), false);
+}
+
 
 void ATetrisPlayerControllerSingle::BindInputActions(UEnhancedInputComponent* const EnhancedInputComponent)
 {
