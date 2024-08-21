@@ -2,8 +2,11 @@
 
 #include "PauseMenuWidget.h"
 
-#include "MenuButton.h"
+#include "Kismet/GameplayStatics.h"
 
+#include "MenuButton.h"
+#include "TetrisPlayerControllerSingle.h"
+#include "MainMenuGameMode.h"
 
 void UPauseMenuWidget::NativeConstruct()
 {
@@ -18,15 +21,30 @@ void UPauseMenuWidget::NativeConstruct()
 	ExitButton->OnClicked.AddDynamic(this, &UPauseMenuWidget::OnExitClicked);
 }
 
+void UPauseMenuWidget::OnResumeClicked()
 {
+	if (ATetrisPlayerControllerSingle* const PlayerController = Cast<ATetrisPlayerControllerSingle>(GetOwningPlayer()))
+	{
+		// Set Input Mode to GameOnly
+		const FInputModeGameOnly InputMode;
+		PlayerController->SetInputMode(InputMode);
+	}
+
+	RemoveFromParent();
 }
 
 void UPauseMenuWidget::OnRestartClicked()
 {
-
+	// Restart the level
+	if (UWorld* const World = GetWorld())
+	{
+		const FName CurrentLevelName = World->GetFName();
+		UGameplayStatics::OpenLevel(this, CurrentLevelName);
+	}
 }
 
 void UPauseMenuWidget::OnExitClicked()
 {
-
+	// Exit to Main Menu Level
+	UGameplayStatics::OpenLevel(this, AMainMenuGameMode::MainMenuLevelName);
 }
