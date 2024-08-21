@@ -51,4 +51,14 @@ void ATetrisPlayerControllerSingle::BindInputActions(UEnhancedInputComponent* co
 void ATetrisPlayerControllerSingle::OnTogglePause(const FInputActionValue& ActionValue)
 {
 	UE_LOG(LogTemp, Display, TEXT("ATetrisPlayerControllerSingle::OnTogglePause()"));
+	const bool bIsPausing = UGameplayStatics::IsGamePaused(GetWorld());
+	const bool bWillBePaused = !bIsPausing;
+	if (bWillBePaused)
+	{
+		SetInputModeUIOnlyAndPause();
+	}
+	else
+	{
+		SetInputModeGameOnlyAndUnPause();
+	}
 }
