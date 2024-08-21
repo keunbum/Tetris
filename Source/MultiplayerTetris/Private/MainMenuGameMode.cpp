@@ -4,14 +4,16 @@
 
 #include "Kismet/GameplayStatics.h"
 
-#include "TetrisPlayerController.h"
+#include "TetrisPlayerControllerSingle.h"
 #include "TetrisGameModeBase.h"
+
+const FName AMainMenuGameMode::MainMenuLevelName(TEXT("MainMenuLevel"));
 
 void AMainMenuGameMode::BeginPlay()
 {
 	Super::BeginPlay();
 
-	if (ATetrisPlayerController* const TetrisPlayerController = Cast<ATetrisPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), ATetrisGameModeBase::PlayerIndex)))
+	if (ATetrisPlayerControllerSingle* const TetrisPlayerController = Cast<ATetrisPlayerControllerSingle>(UGameplayStatics::GetPlayerController(GetWorld(), ATetrisGameModeBase::PlayerIndex)))
 	{
 		TetrisPlayerController->bShowMouseCursor = true;
 	}

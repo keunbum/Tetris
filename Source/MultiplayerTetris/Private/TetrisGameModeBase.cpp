@@ -11,11 +11,13 @@
 #include "TetriminoBase.h"
 #include "TetrisPlayManager.h"
 #include "Board.h"
-#include "TetrisPlayerController.h"
+#include "TetrisPlayerControllerSingle.h"
 #include "TetrisPlayerStateBase.h"
 #include "GoalSystemFactory.h"
 #include "GoalSystemInterface.h"
 #include "HUDSingle.h"
+
+const FName ATetrisGameModeBase::TetrisLevelName = FName(TEXT("TetrisLevel"));
 
 
 ATetrisGameModeBase::ATetrisGameModeBase()
@@ -88,7 +90,7 @@ void ATetrisGameModeBase::Initialize()
 	check(TetrisPlayManager != nullptr);
 
 	// TetrisPlayerController
-	TetrisPlayerController = Cast<ATetrisPlayerController>(UGameplayStatics::GetPlayerController(World, PlayerIndex));
+	TetrisPlayerController = Cast<ATetrisPlayerControllerSingle>(UGameplayStatics::GetPlayerController(World, PlayerIndex));
 	check(TetrisPlayerController != nullptr);
 
 	// GoalSystem
