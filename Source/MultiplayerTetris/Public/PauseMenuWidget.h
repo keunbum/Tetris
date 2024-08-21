@@ -16,6 +16,7 @@ class MULTIPLAYERTETRIS_API UPauseMenuWidget : public UMenuWidgetBase
 	
 protected:
 	virtual void NativeConstruct() override;
+	virtual FReply NativeOnPreviewKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent) override;
 
 private:
 	UFUNCTION()

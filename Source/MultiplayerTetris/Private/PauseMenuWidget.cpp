@@ -33,6 +33,20 @@ void UPauseMenuWidget::NativeConstruct()
 	}
 }
 
+FReply UPauseMenuWidget::NativeOnPreviewKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent)
+{
+	const FKey Key = InKeyEvent.GetKey();
+
+	if (static const TArray<FKey> ResumeKeys = { EKeys::Q, EKeys::BackSpace };
+		ResumeKeys.Contains(Key))
+	{
+		OnResumeClicked();
+		return FReply::Handled();
+	}
+
+	return Super::NativeOnPreviewKeyDown(InGeometry, InKeyEvent);
+}
+
 void UPauseMenuWidget::OnResumeClicked()
 {
 	if (ATetrisPlayerControllerSingle* const PlayerController = Cast<ATetrisPlayerControllerSingle>(GetOwningPlayer()))
