@@ -19,6 +19,9 @@ void ATetrisPlayerControllerSingle::SetInputModeGameOnlyAndUnPause()
 	// Remove the pause menu widget
 	PauseMenuWidget->RemoveFromParent();
 
+	// Set focus to the game viewport
+	FSlateApplication::Get().SetAllUserFocusToGameViewport();
+
 	// Unpause the game
 	UGameplayStatics::SetGamePaused(GetWorld(), false);
 }
