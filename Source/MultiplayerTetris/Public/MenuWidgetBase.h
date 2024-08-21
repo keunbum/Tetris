@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "MenuBase.generated.h"
+#include "MenuWidgetBase.generated.h"
 
 class UMenuButton;
 
@@ -18,38 +18,39 @@ enum class EMenuMoveDirection : uint8
 	Right = 1 << 3,
 };
 
-ENUM_CLASS_FLAGS(EMenuMoveDirection); 
+ENUM_CLASS_FLAGS(EMenuMoveDirection);
 
 /**
  *
  */
 UCLASS()
-class MULTIPLAYERTETRIS_API UMenuBase : public UUserWidget
+class MULTIPLAYERTETRIS_API UMenuWidgetBase : public UUserWidget
 {
 	GENERATED_BODY()
 
 public:
-	virtual void NativeConstruct() override;
-	virtual FReply NativeOnPreviewKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent) override;
-
-	/** UMenuBase */
-    virtual void SetInitialFocus();
-
-	void InitializeMenuButtons(const TArray<UMenuButton*>& InMenuButtons);
+	void SetMenuButtons(const TArray<UMenuButton*>& InMenuButtons);
 	void SetDefaultMenuButtonFocus();
+	void SetWidgetFocusOnly();
 
 	bool IsNoButtonFocused() const { return FocusedButtonIndex == InvalidButtonIndex; }
 
 	/** static methods */
 	static bool GetMenuMoveDirection(const FKey& Key, EMenuMoveDirection& OutMenuMoveDirection);
 	static bool IsMenuMoveDirectionValid(const EMenuMoveDirection MenuMoveDirection) { return MenuMoveDirection != EMenuMoveDirection::None; }
-	static int32 GetMenuMoveDelta(const EMenuMoveDirection MenuMoveDirection) { return ((static_cast<int32>(MenuMoveDirection) & 1) == 0) ? -1 : 1; }
+	static int32 GetMenuMoveDelta(const EMenuMoveDirection MenuMoveDirection) { return ((static_cast<int32>(MenuMoveDirection) & 1) == 1) ? -1 : 1; }
+	static FName GetMenuMoveDirectionName(const EMenuMoveDirection MenuMoveDirection);
 
 protected:
-	void UpdateMenuButtonFocus(const int32 NewFocusedButtonIndex);
+	virtual void NativeConstruct() override;
+	virtual FReply NativeOnPreviewKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent) override;
+
+	void SetMenuButtonFocusByButtonIndex(const int32 NewFocusedButtonIndex);
 	void MoveMenuButtonFocus(const int32 MoveDelta);
 
 private:
+	void SetInitialFocus();
+
 	/** static methods */
 	static bool IsUpKey(const FKey& Key) { return (Key == EKeys::Up || Key == EKeys::Gamepad_DPad_Up || Key == EKeys::Gamepad_LeftStick_Up); }
 	static bool IsDownKey(const FKey& Key) { return (Key == EKeys::Down || Key == EKeys::Gamepad_DPad_Down || Key == EKeys::Gamepad_LeftStick_Down); }

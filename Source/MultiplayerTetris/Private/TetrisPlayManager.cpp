@@ -8,7 +8,7 @@
 #include "TetrisGameModeBase.h"
 #include "Tetrimino.h"
 #include "GhostPiece.h"
-#include "TetrisPlayerController.h"
+#include "TetrisPlayerControllerSingle.h"
 #include "TetriminoGenerator.h"
 #include "TetriminoQueue.h"
 
@@ -237,7 +237,7 @@ void ATetrisPlayManager::StartFallingPhase()
 
 	SetNormalFallTimer();
 
-	ATetrisPlayerController* const PlayerController = GameMode->GetTetrisPlayerController();
+	ATetrisPlayerControllerSingle* const PlayerController = GameMode->GetTetrisPlayerController();
 	check(PlayerController != nullptr);
 	if (PlayerController->IsSoftDropKeyPressed())
 	{

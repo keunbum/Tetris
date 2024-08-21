@@ -3,13 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/PlayerController.h"
-#include "InputActionValue.h"
+#include "TetrisPlayerControllerBase.h"
 #include "Misc/EnumClassFlags.h"
 
 #include "Mino.h"
-
-#include "TetrisPlayerController.generated.h"
+#include "TetrisPlayerControllerInGameBase.generated.h"
 
 class UInputMappingContext;
 class UInputAction;
@@ -31,22 +29,24 @@ ENUM_CLASS_FLAGS(EKeyFlags)
  * 
  */
 UCLASS()
-class MULTIPLAYERTETRIS_API ATetrisPlayerController : public APlayerController
+class MULTIPLAYERTETRIS_API ATetrisPlayerControllerInGameBase : public ATetrisPlayerControllerBase
 {
 	GENERATED_BODY()
-
+	
 public:
-	void Initialize();
+	virtual void Initialize();
 
 	bool IsKeyPressed(const EKeyFlags KeyFlag) const { return EnumHasAnyFlags(KeyPressingFlags, KeyFlag); }
 	bool IsSoftDropKeyPressed() const { return IsKeyPressed(EKeyFlags::SoftDrop); }
 
-private:
+protected:
 	void InitializeCamera();
 	void InitializeInput();
 
-	void BindGamePlayInput();
+	/** ATetrisPlayerControllerBase */
+	virtual void BindInputActions(UEnhancedInputComponent* const EnhancedInputComponent) override;
 
+private:
 	// 입력 콜백 함수
 	void OnMoveLeftStarted(const FInputActionValue& ActionValue);
 	void OnMoveLeftCompleted(const FInputActionValue& ActionValue);
@@ -63,6 +63,10 @@ private:
 
 	void StartTetriminoMovement(const EKeyFlags KeyPressed);
 	void EndTetriminoMovement(const EKeyFlags KeyReleased);
+
+protected:
+	UPROPERTY()
+	TObjectPtr<ATetrisGameModeBase> GameMode;
 
 private:
 	static constexpr int32 MappingContextDefaultPriority = 0;
@@ -101,7 +105,4 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	TObjectPtr<UInputAction> HoldAction;
-
-	UPROPERTY()
-	TObjectPtr<ATetrisGameModeBase> GameMode;
 };
