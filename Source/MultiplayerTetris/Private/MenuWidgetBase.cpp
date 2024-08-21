@@ -15,7 +15,7 @@ void UMenuWidgetBase::SetMenuButtons(const TArray<UMenuButton*>& InMenuButtons)
 
 void UMenuWidgetBase::SetDefaultMenuButtonFocus()
 {
-	UpdateMenuButtonFocus(DefaultFocusedButtonIndex);
+	SetMenuButtonFocusByButtonIndex(DefaultFocusedButtonIndex);
 }
 
 void UMenuWidgetBase::SetWidgetFocusOnly()
@@ -96,7 +96,7 @@ FReply UMenuWidgetBase::NativeOnPreviewKeyDown(const FGeometry& InGeometry, cons
 	return Super::NativeOnPreviewKeyDown(InGeometry, InKeyEvent);
 }
 
-void UMenuWidgetBase::UpdateMenuButtonFocus(const int32 NewFocusedButtonIndex)
+void UMenuWidgetBase::SetMenuButtonFocusByButtonIndex(const int32 NewFocusedButtonIndex)
 {
 	FocusedButtonIndex = NewFocusedButtonIndex;
 	MenuButtons[FocusedButtonIndex]->SetFocus();
@@ -105,7 +105,7 @@ void UMenuWidgetBase::UpdateMenuButtonFocus(const int32 NewFocusedButtonIndex)
 void UMenuWidgetBase::MoveMenuButtonFocus(const int32 MoveDelta)
 {
 	const int32 NewFocusedButtonIndex = (FocusedButtonIndex + MoveDelta + MenuButtons.Num()) % MenuButtons.Num();
-	UpdateMenuButtonFocus(NewFocusedButtonIndex);
+	SetMenuButtonFocusByButtonIndex(NewFocusedButtonIndex);
 }
 
 void UMenuWidgetBase::SetInitialFocus()

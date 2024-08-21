@@ -45,7 +45,7 @@ protected:
 	virtual void NativeConstruct() override;
 	virtual FReply NativeOnPreviewKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent) override;
 
-	void UpdateMenuButtonFocus(const int32 NewFocusedButtonIndex);
+	void SetMenuButtonFocusByButtonIndex(const int32 NewFocusedButtonIndex);
 	void MoveMenuButtonFocus(const int32 MoveDelta);
 
 private:
