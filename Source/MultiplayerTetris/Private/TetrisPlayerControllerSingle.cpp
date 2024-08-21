@@ -27,7 +27,6 @@ void ATetrisPlayerControllerSingle::SetInputModeUIOnlyAndPause()
 {
 	if (!PauseMenuWidget)
 	{
-		// Create Widget with Widget Blueprint with Name: WB_PauseMenu
 		check(PauseMenuWidgetClass != nullptr);
 		PauseMenuWidget = CreateWidget<UPauseMenuWidget>(this, PauseMenuWidgetClass);
 		check(PauseMenuWidget != nullptr);
@@ -56,7 +55,7 @@ void ATetrisPlayerControllerSingle::BindInputActions(UEnhancedInputComponent* co
 
 void ATetrisPlayerControllerSingle::OnTogglePause(const FInputActionValue& ActionValue)
 {
-	UE_LOG(LogTemp, Display, TEXT("ATetrisPlayerControllerSingle::OnTogglePause()"));
+	//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayerControllerSingle::OnTogglePause()"));
 	const bool bIsPausing = UGameplayStatics::IsGamePaused(GetWorld());
 	const bool bWillBePaused = !bIsPausing;
 	if (bWillBePaused)
