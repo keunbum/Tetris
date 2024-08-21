@@ -7,6 +7,8 @@
 
 #include "TetrisPlayerControllerSingle.generated.h"
 
+class UPauseMenuWidget;
+
 /**
  * 
  */
@@ -26,4 +28,12 @@ private:
 	// Input Actions
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	TObjectPtr<UInputAction> TogglePauseAction;
+
+	/** Widget References */
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UPauseMenuWidget> PauseMenuWidget;
+
+	/** Widget Class Reference */
+	UPROPERTY(EditDefaultsOnly, Category = "UI")
+	TSubclassOf<UPauseMenuWidget> PauseMenuWidgetClass;
 };
