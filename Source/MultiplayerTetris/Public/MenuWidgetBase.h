@@ -29,9 +29,6 @@ class MULTIPLAYERTETRIS_API UMenuWidgetBase : public UUserWidget
 	GENERATED_BODY()
 
 public:
-	/** UMenuWidgetBase */
-	virtual void SetInitialFocus() PURE_VIRTUAL(UMenuWidgetBase::SetInitialFocus, );
-
 	void SetMenuButtons(const TArray<UMenuButton*>& InMenuButtons);
 	void SetDefaultMenuButtonFocus();
 	void SetWidgetFocusOnly();
@@ -51,6 +48,9 @@ protected:
 	void MoveMenuButtonFocus(const int32 MoveDelta);
 
 private:
+	/** UMenuWidgetBase */
+	virtual void SetInitialFocus() PURE_VIRTUAL(UMenuWidgetBase::SetInitialFocus, );
+
 	/** static methods */
 	static bool IsUpKey(const FKey& Key) { return (Key == EKeys::Up || Key == EKeys::Gamepad_DPad_Up || Key == EKeys::Gamepad_LeftStick_Up); }
 	static bool IsDownKey(const FKey& Key) { return (Key == EKeys::Down || Key == EKeys::Gamepad_DPad_Down || Key == EKeys::Gamepad_LeftStick_Down); }

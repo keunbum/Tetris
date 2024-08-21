@@ -4,10 +4,6 @@
 
 #include "MenuButton.h"
 
-void UPauseMenuWidget::SetInitialFocus()
-{
-	SetDefaultMenuButtonFocus();
-}
 
 void UPauseMenuWidget::NativeConstruct()
 {
@@ -20,8 +16,10 @@ void UPauseMenuWidget::NativeConstruct()
 	ExitButton->OnClicked.AddDynamic(this, &UPauseMenuWidget::OnExitClicked);
 }
 
-void UPauseMenuWidget::OnResumeClicked()
+void UPauseMenuWidget::SetInitialFocus()
 {
+	SetDefaultMenuButtonFocus();
+}
 
 }
 

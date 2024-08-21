@@ -14,13 +14,13 @@ class MULTIPLAYERTETRIS_API UMainMenuWidget : public UMenuWidgetBase
 {
 	GENERATED_BODY()
 
-public:
-	virtual void SetInitialFocus() override;
-
 protected:
 	virtual void NativeConstruct() override;
 
 private:
+	/** UMenuWidgetBase */
+	virtual void SetInitialFocus() override;
+
 	UFUNCTION()
 	void OnStartGameClicked();
 	UFUNCTION()

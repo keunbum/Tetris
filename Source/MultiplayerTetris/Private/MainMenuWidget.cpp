@@ -7,11 +7,6 @@
 #include "TetrisGameModeBase.h"
 #include "MenuButton.h"
 
-void UMainMenuWidget::SetInitialFocus()
-{
-	SetWidgetFocusOnly();
-}
-
 void UMainMenuWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
@@ -20,6 +15,11 @@ void UMainMenuWidget::NativeConstruct()
 
 	StartGameButton->OnClicked.AddDynamic(this, &UMainMenuWidget::OnStartGameClicked);
 	ExitGameButton->OnClicked.AddDynamic(this, &UMainMenuWidget::OnExitGameClicked);
+}
+
+void UMainMenuWidget::SetInitialFocus()
+{
+	SetWidgetFocusOnly();
 }
 
 void UMainMenuWidget::OnStartGameClicked()
