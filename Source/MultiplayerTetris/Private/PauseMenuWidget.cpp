@@ -11,6 +11,8 @@ void UPauseMenuWidget::NativeConstruct()
 
 	SetMenuButtons({ ResumeButton, RestartButton, ExitButton });
 
+	SetDefaultMenuButtonFocus();
+
 	ResumeButton->OnClicked.AddDynamic(this, &UPauseMenuWidget::OnResumeClicked);
 	RestartButton->OnClicked.AddDynamic(this, &UPauseMenuWidget::OnRestartClicked);
 	ExitButton->OnClicked.AddDynamic(this, &UPauseMenuWidget::OnExitClicked);
