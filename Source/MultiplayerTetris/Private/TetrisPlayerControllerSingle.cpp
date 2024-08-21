@@ -43,6 +43,7 @@ void ATetrisPlayerControllerSingle::SetInputModeUIOnlyAndPause()
 	const FInputModeUIOnly InputMode;
 	SetInputMode(InputMode);
 
+	check(!PauseMenuWidget->IsInViewport());
 	PauseMenuWidget->AddToViewport();
 
 	UGameplayStatics::SetGamePaused(GetWorld(), true);
