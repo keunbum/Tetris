@@ -25,9 +25,7 @@ void UPauseMenuWidget::OnResumeClicked()
 {
 	if (ATetrisPlayerControllerSingle* const PlayerController = Cast<ATetrisPlayerControllerSingle>(GetOwningPlayer()))
 	{
-		// Set Input Mode to GameOnly
-		const FInputModeGameOnly InputMode;
-		PlayerController->SetInputMode(InputMode);
+		PlayerController->SetInputModeGameOnlyAndUnPause();
 	}
 }
 
