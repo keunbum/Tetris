@@ -49,7 +49,6 @@ protected:
 	void MoveMenuButtonFocus(const int32 MoveDelta);
 
 private:
-	/** UMenuWidgetBase */
 	void SetInitialFocus();
 
 	/** static methods */
