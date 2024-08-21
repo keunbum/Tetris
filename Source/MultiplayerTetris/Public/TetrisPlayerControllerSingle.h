@@ -19,6 +19,7 @@ class MULTIPLAYERTETRIS_API ATetrisPlayerControllerSingle : public ATetrisPlayer
 
 public:
 	void SetInputModeGameOnlyAndUnPause();
+	void SetInputModeUIOnlyAndPause();
 
 protected:
 	virtual void BindInputActions(UEnhancedInputComponent* const EnhancedInputComponent) override;

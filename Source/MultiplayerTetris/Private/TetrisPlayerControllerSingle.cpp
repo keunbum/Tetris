@@ -5,6 +5,7 @@
 #include "EnhancedInputComponent.h"
 #include "InputTriggers.h"
 #include "Kismet/GameplayStatics.h"
+#include "PauseMenuWidget.h"
 
 void ATetrisPlayerControllerSingle::SetInputModeGameOnlyAndUnPause()
 {
@@ -16,6 +17,25 @@ void ATetrisPlayerControllerSingle::SetInputModeGameOnlyAndUnPause()
 	UGameplayStatics::SetGamePaused(GetWorld(), false);
 }
 
+void ATetrisPlayerControllerSingle::SetInputModeUIOnlyAndPause()
+{
+	if (!PauseMenuWidget)
+	{
+		// Create Widget with Widget Blueprint with Name: WB_PauseMenu
+		check(PauseMenuWidgetClass != nullptr);
+		PauseMenuWidget = CreateWidget<UPauseMenuWidget>(this, PauseMenuWidgetClass);
+		check(PauseMenuWidget != nullptr);
+	}
+	bShowMouseCursor = true;
+
+	// Set the input mode to UIOnly
+	const FInputModeUIOnly InputMode;
+	SetInputMode(InputMode);
+
+	PauseMenuWidget->AddToViewport();
+
+	UGameplayStatics::SetGamePaused(GetWorld(), true);
+}
 
 void ATetrisPlayerControllerSingle::BindInputActions(UEnhancedInputComponent* const EnhancedInputComponent)
 {
