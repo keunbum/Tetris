@@ -13,6 +13,9 @@ void ATetrisPlayerControllerSingle::SetInputModeGameOnlyAndUnPause()
 	const FInputModeGameOnly InputMode;
 	SetInputMode(InputMode);
 
+	// Remove the pause menu widget
+	PauseMenuWidget->RemoveFromParent();
+
 	// Unpause the game
 	UGameplayStatics::SetGamePaused(GetWorld(), false);
 }

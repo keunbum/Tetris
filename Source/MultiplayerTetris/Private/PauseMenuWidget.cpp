@@ -29,8 +29,6 @@ void UPauseMenuWidget::OnResumeClicked()
 		const FInputModeGameOnly InputMode;
 		PlayerController->SetInputMode(InputMode);
 	}
-
-	RemoveFromParent();
 }
 
 void UPauseMenuWidget::OnRestartClicked()
