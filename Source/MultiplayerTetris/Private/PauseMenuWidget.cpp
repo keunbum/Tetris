@@ -12,13 +12,25 @@ void UPauseMenuWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 
-	SetMenuButtons({ ResumeButton, RestartButton, ExitButton });
+	if (MenuButtons.IsEmpty())
+	{
+		SetMenuButtons({ ResumeButton, RestartButton, ExitButton });
+	}
 
 	SetDefaultMenuButtonFocus();
 
-	ResumeButton->OnClicked.AddDynamic(this, &UPauseMenuWidget::OnResumeClicked);
-	RestartButton->OnClicked.AddDynamic(this, &UPauseMenuWidget::OnRestartClicked);
-	ExitButton->OnClicked.AddDynamic(this, &UPauseMenuWidget::OnExitClicked);
+	if (!ResumeButton->OnClicked.IsBound())
+	{
+		ResumeButton->OnClicked.AddDynamic(this, &UPauseMenuWidget::OnResumeClicked);
+	}
+	if (!RestartButton->OnClicked.IsBound())
+	{
+		RestartButton->OnClicked.AddDynamic(this, &UPauseMenuWidget::OnRestartClicked);
+	}
+	if (!ExitButton->OnClicked.IsBound())
+	{
+		ExitButton->OnClicked.AddDynamic(this, &UPauseMenuWidget::OnExitClicked);
+	}
 }
 
 void UPauseMenuWidget::OnResumeClicked()
