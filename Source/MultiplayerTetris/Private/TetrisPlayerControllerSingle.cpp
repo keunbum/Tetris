@@ -10,7 +10,7 @@
 void ATetrisPlayerControllerSingle::SetInputModeGameOnlyAndUnPause()
 {
 	// Set the input mode to GameOnly
-	FInputModeGameOnly InputMode;
+	const FInputModeGameOnly InputMode;
 	SetInputMode(InputMode);
 
 	// Unpause the game
