@@ -31,6 +31,11 @@ void UPauseMenuWidget::NativeConstruct()
 	{
 		ExitButton->OnClicked.AddDynamic(this, &UPauseMenuWidget::OnExitClicked);
 	}
+
+	if (!TetrisPlayerController)
+	{
+		TetrisPlayerController = Cast<ATetrisPlayerControllerSingle>(GetOwningPlayer());
+	}
 }
 
 FReply UPauseMenuWidget::NativeOnPreviewKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent)
@@ -49,9 +54,9 @@ FReply UPauseMenuWidget::NativeOnPreviewKeyDown(const FGeometry& InGeometry, con
 
 void UPauseMenuWidget::OnResumeClicked()
 {
-	if (ATetrisPlayerControllerSingle* const PlayerController = Cast<ATetrisPlayerControllerSingle>(GetOwningPlayer()))
+	if (TetrisPlayerController)
 	{
-		PlayerController->SetInputModeGameOnlyAndUnPause();
+		TetrisPlayerController->SetInputModeGameOnlyAndUnPause();
 	}
 }
 
