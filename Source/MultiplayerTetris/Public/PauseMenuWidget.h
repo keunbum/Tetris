@@ -6,6 +6,8 @@
 #include "MenuWidgetBase.h"
 #include "PauseMenuWidget.generated.h"
 
+class ATetrisPlayerControllerSingle;
+
 /**
  * 
  */
@@ -37,4 +39,7 @@ private:
 
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UMenuButton> ExitButton;
+
+	UPROPERTY()
+	TObjectPtr<ATetrisPlayerControllerSingle> TetrisPlayerController;
 };
