@@ -84,6 +84,13 @@ FReply UMenuWidgetBase::NativeOnPreviewKeyDown(const FGeometry& InGeometry, cons
 		return FReply::Handled();
 	}
 
+	// if this widget has no keyboard focus, then set keyboard focus to current button index.
+	if (!MenuButtons[FocusedButtonIndex]->HasKeyboardFocus())
+	{
+		MenuButtons[FocusedButtonIndex]->SetKeyboardFocus();
+		return FReply::Handled();
+	}
+
 	const FKey Key = InKeyEvent.GetKey();
 	if (EMenuMoveDirection MenuMoveDirection = EMenuMoveDirection::None;
 		UMenuWidgetBase::GetMenuMoveDirection(Key, MenuMoveDirection))
