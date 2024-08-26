@@ -15,13 +15,13 @@
 
 void ATetrisPlayerControllerInGameBase::Initialize()
 {
-	InitializeCamera();
-	InitializeInput();
-
 	GameMode = GetWorld()->GetAuthGameMode<ATetrisSinglePlayerGameModeBase>();
 	check(GameMode != nullptr);
 
 	KeyPressingFlags = EKeyFlags::None;
+
+	InitializeCamera();
+	InitializeInput();
 }
 
 void ATetrisPlayerControllerInGameBase::InitializeCamera()
