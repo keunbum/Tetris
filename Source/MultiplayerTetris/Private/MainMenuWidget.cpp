@@ -30,9 +30,6 @@ void UMainMenuWidget::OnStartGameClicked()
 {
 	// Open Tetris Level
 	UGameplayStatics::OpenLevel(GetWorld(), ATetrisGameModeBase::TetrisLevelName);
-
-	// Close Menu
-	RemoveFromParent();
 }
 
 void UMainMenuWidget::OnExitGameClicked()
