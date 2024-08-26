@@ -15,7 +15,9 @@ void AMainMenuGameMode::BeginPlay()
 
 	if (ATetrisPlayerControllerSingle* const TetrisPlayerController = Cast<ATetrisPlayerControllerSingle>(UGameplayStatics::GetPlayerController(GetWorld(), ATetrisGameModeBase::PlayerIndex)))
 	{
-		TetrisPlayerController->bShowMouseCursor = true;
+		// Set the input mode to UIOnly
+		const FInputModeUIOnly InputMode;
+		TetrisPlayerController->SetInputMode(InputMode);
 	}
 	else
 	{
