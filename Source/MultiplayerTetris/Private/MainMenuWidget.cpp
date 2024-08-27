@@ -13,26 +13,26 @@ void UMainMenuWidget::NativeConstruct()
 
 	if (MenuButtons.IsEmpty())
 	{
-		SetMenuButtons({ StartGameButton, ExitGameButton });
+		SetMenuButtons({ StartButton, ExitButton });
 	}
 
-	if (!StartGameButton->OnClicked.IsBound())
+	if (!StartButton->OnClicked.IsBound())
 	{
-		StartGameButton->OnClicked.AddDynamic(this, &UMainMenuWidget::OnStartGameClicked);
+		StartButton->OnClicked.AddDynamic(this, &UMainMenuWidget::OnStartClicked);
 	}
-	if (!ExitGameButton->OnClicked.IsBound())
+	if (!ExitButton->OnClicked.IsBound())
 	{
-		ExitGameButton->OnClicked.AddDynamic(this, &UMainMenuWidget::OnExitGameClicked);
+		ExitButton->OnClicked.AddDynamic(this, &UMainMenuWidget::OnExitClicked);
 	}
 }
 
-void UMainMenuWidget::OnStartGameClicked()
+void UMainMenuWidget::OnStartClicked()
 {
 	// Open Tetris Level
 	UGameplayStatics::OpenLevel(GetWorld(), ATetrisGameModeBase::TetrisLevelName);
 }
 
-void UMainMenuWidget::OnExitGameClicked()
+void UMainMenuWidget::OnExitClicked()
 {
 	// Exit Game
 	UKismetSystemLibrary::QuitGame(GetWorld(), nullptr, EQuitPreference::Quit, false);

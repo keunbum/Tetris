@@ -19,15 +19,15 @@ protected:
 
 private:
 	UFUNCTION()
-	void OnStartGameClicked();
+	void OnStartClicked();
 
 	UFUNCTION()
-	void OnExitGameClicked();
+	void OnExitClicked();
 
 private:
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UMenuButton> StartGameButton;
+	TObjectPtr<UMenuButton> StartButton;
 
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UMenuButton> ExitGameButton;
+	TObjectPtr<UMenuButton> ExitButton;
 };
