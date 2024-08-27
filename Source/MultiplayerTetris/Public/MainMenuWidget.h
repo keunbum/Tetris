@@ -19,10 +19,10 @@ protected:
 
 private:
 	UFUNCTION()
-	void OnStartGameClicked();
+	void OnStartClicked();
 
 	UFUNCTION()
-	void OnExitGameClicked();
+	void OnExitClicked();
 
 private:
 	UPROPERTY(meta = (BindWidget))
