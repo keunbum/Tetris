@@ -26,8 +26,8 @@ private:
 
 private:
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UMenuButton> StartGameButton;
+	TObjectPtr<UMenuButton> StartButton;
 
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UMenuButton> ExitGameButton;
+	TObjectPtr<UMenuButton> ExitButton;
 };

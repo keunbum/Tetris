@@ -13,16 +13,16 @@ void UMainMenuWidget::NativeConstruct()
 
 	if (MenuButtons.IsEmpty())
 	{
-		SetMenuButtons({ StartGameButton, ExitGameButton });
+		SetMenuButtons({ StartButton, ExitButton });
 	}
 
-	if (!StartGameButton->OnClicked.IsBound())
+	if (!StartButton->OnClicked.IsBound())
 	{
-		StartGameButton->OnClicked.AddDynamic(this, &UMainMenuWidget::OnStartGameClicked);
+		StartButton->OnClicked.AddDynamic(this, &UMainMenuWidget::OnStartGameClicked);
 	}
-	if (!ExitGameButton->OnClicked.IsBound())
+	if (!ExitButton->OnClicked.IsBound())
 	{
-		ExitGameButton->OnClicked.AddDynamic(this, &UMainMenuWidget::OnExitGameClicked);
+		ExitButton->OnClicked.AddDynamic(this, &UMainMenuWidget::OnExitGameClicked);
 	}
 }
 
