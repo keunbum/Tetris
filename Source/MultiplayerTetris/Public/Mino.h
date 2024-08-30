@@ -18,13 +18,21 @@ struct FMinoInfo
 	FString MaterialPath;
 	FLinearColor Color;
 	float Opacity;
+	int32 TranslucentSortPriority;
 
-	FMinoInfo() = delete;
+	FMinoInfo()
+		: MaterialPath(TEXT(""))
+		, Color(FLinearColor::White)
+		, Opacity(1.0f)
+		, TranslucentSortPriority(0)
+	{
+	}
 
-	FMinoInfo(const FString& InMaterialPath, const FLinearColor& InColor, const float InOpacity)
+	FMinoInfo(const FString& InMaterialPath, const FLinearColor& InColor, const float InOpacity, const int32 InTranslucentSortPriority)
 		: MaterialPath(InMaterialPath)
 		, Color(InColor)
 		, Opacity(InOpacity)
+		, TranslucentSortPriority(InTranslucentSortPriority)
 	{
 	}
 };
