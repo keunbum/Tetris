@@ -2,8 +2,6 @@
 
 #include "GhostPiece.h"
 
-#include "Board.h"
-
 void AGhostPiece::AttachToMatrix(USceneComponent* const MatrixRoot)
 {
 	check(MatrixRoot != nullptr);
