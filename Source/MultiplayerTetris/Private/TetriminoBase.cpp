@@ -2,10 +2,6 @@
 
 #include "TetriminoBase.h"
 
-#include "Engine/World.h"
-#include "Materials/MaterialInterface.h"
-#include "UObject/ConstructorHelpers.h"
-
 #include "Mino.h"
 #include "Board.h"
 
@@ -349,12 +345,6 @@ const TArray<FIntPoint>& ATetriminoBase::GetSRSRotationPointOffsets(const ETetri
 	return ATetriminoBase::GetSRSRotationPointOffsetsByRotationInfo(RotationInfo);
 }
 
-const FMinoInfo ATetriminoBase::GetMinoInfo() const
-{
-	const FTetriminoShapeInfo& TetriminoShapeInfo = GetTetriminoShapeInfo();
-	return FMinoInfo(TetriminoShapeInfo.MaterialPath, TetriminoShapeInfo.Color);
-}
-
 const FTetriminoShapeInfo& ATetriminoBase::GetTetriminoShapeInfo() const
 {
 	return ATetriminoBase::GetTetriminoShapeInfoByShape(Shape);
@@ -372,10 +362,10 @@ void ATetriminoBase::SetRelativeLocationByMatrixLocation(const FIntPoint& NewMat
 	SetMatrixLocation(NewMatrixLocation);
 }
 
-void ATetriminoBase::Initialize(const ETetriminoShape NewTetriminoShape, const ETetriminoFacing NewTetriminoFacing)
+void ATetriminoBase::Initialize(const FInitializeParams& Params)
 {
-	SetShape(NewTetriminoShape);
-	SetFacing(NewTetriminoFacing);
+	SetShape(Params.Shape);
+	SetFacing(Params.Facing);
 
 	InitializeMinoArray();
 }

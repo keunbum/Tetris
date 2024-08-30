@@ -1,4 +1,4 @@
-﻿// Copyright Ryu KeunBeom. All Rights Reserved.
+// Copyright Ryu KeunBeom. All Rights Reserved.
 
 #pragma once
 
@@ -17,6 +17,21 @@ struct FMinoInfo
 {
 	FString MaterialPath;
 	FLinearColor Color;
+	float Opacity;
+	int32 TranslucentSortPriority;
+
+	FMinoInfo()
+		: FMinoInfo(TEXT(""), FLinearColor::White, 1.0f, 0)
+	{
+	}
+
+	FMinoInfo(const FString& InMaterialPath, const FLinearColor& InColor, const float InOpacity, const int32 InTranslucentSortPriority)
+		: MaterialPath(InMaterialPath)
+		, Color(InColor)
+		, Opacity(InOpacity)
+		, TranslucentSortPriority(InTranslucentSortPriority)
+	{
+	}
 };
 
 /**
@@ -50,6 +65,7 @@ public:
 
 private:
 	static const FName BaseColorParameterName;
+	static const FName OpacityParameterName;
 	static const FString CubeMeshPath;
 	static TMap<FString, UMaterialInstanceDynamic*> MaterialCache; // static cache for material instances
 };

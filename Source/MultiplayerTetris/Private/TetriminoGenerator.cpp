@@ -1,4 +1,4 @@
-﻿// Copyright Ryu KeunBeom. All Rights Reserved.
+// Copyright Ryu KeunBeom. All Rights Reserved.
 
 
 #include "TetriminoGenerator.h"
@@ -31,7 +31,8 @@ ATetrimino* UTetriminoGenerator::SpawnTetriminoByShape(UClass* const TetriminoCl
 {
 	// Spawn the Tetrimino actor in the world
 	ATetrimino* const NewTetrimino = GetWorld()->SpawnActor<ATetrimino>(TetriminoClass);
-	NewTetrimino->Initialize(TetriminoShape, ATetrimino::DefaultFacing);
+	const ATetriminoBase::FInitializeParams InitializeParams(TetriminoShape, ATetrimino::DefaultFacing);
+	NewTetrimino->Initialize(InitializeParams);
 	return NewTetrimino;
 }
 

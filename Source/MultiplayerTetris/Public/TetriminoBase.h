@@ -9,14 +9,11 @@
 #include "Math/MathFwd.h"
 
 #include "EnumClassOperators.h"
+#include "Mino.h"
 
 #include "TetriminoBase.generated.h"
 
-struct FMinoInfo;
-class UMino;
 class ABoard;
-class UMino;
-class UMaterialInterface;
 
 UENUM()
 enum class ETetriminoShape : int8
@@ -72,7 +69,8 @@ class MULTIPLAYERTETRIS_API ATetriminoBase : public AActor
 public:
 	ATetriminoBase();
 
-	const FMinoInfo GetMinoInfo() const;
+	virtual const FMinoInfo GetMinoInfo() const PURE_VIRTUAL(ATetriminoBase::GetMinoInfo, return FMinoInfo(););
+
 	const FTetriminoShapeInfo& GetTetriminoShapeInfo() const;
 	const FIntPoint& GetInitialMatrixLocation() const;
 	const TArray<FIntPoint>& GetMinoTetriminoLocalLocations() const;
@@ -87,7 +85,20 @@ public:
 	void SetFacing(const ETetriminoFacing NewFacing) { Facing = NewFacing; }
 	void SetRelativeLocationByMatrixLocation(const FIntPoint& NewMatrixLocation);
 
-	void Initialize(const ETetriminoShape NewTetriminoShape, const ETetriminoFacing NewTetriminoFacing);
+	struct FInitializeParams
+	{
+		ETetriminoShape Shape;
+		ETetriminoFacing Facing;
+
+		FInitializeParams() = delete;
+
+		FInitializeParams(const ETetriminoShape InShape, const ETetriminoFacing InFacing)
+			: Shape(InShape)
+			, Facing(InFacing)
+		{
+		}
+	};
+	void Initialize(const FInitializeParams& Params);
 	void UpdateMinoTetriminoLocalLocations();
 	void DetachMinos();
 	void RotateByFacing(const ETetriminoFacing NewFacing);
