@@ -17,6 +17,16 @@ struct FMinoInfo
 {
 	FString MaterialPath;
 	FLinearColor Color;
+	float Opacity;
+
+	FMinoInfo() = delete;
+
+	FMinoInfo(const FString& InMaterialPath, const FLinearColor& InColor, const float InOpacity)
+		: MaterialPath(InMaterialPath)
+		, Color(InColor)
+		, Opacity(InOpacity)
+	{
+	}
 };
 
 /**
