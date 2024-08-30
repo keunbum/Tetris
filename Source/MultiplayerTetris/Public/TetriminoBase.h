@@ -72,7 +72,7 @@ class MULTIPLAYERTETRIS_API ATetriminoBase : public AActor
 public:
 	ATetriminoBase();
 
-	const FMinoInfo GetMinoInfo() const;
+	const FMinoInfo GetMinoInfo(const float Opacity) const;
 	const FTetriminoShapeInfo& GetTetriminoShapeInfo() const;
 	const FIntPoint& GetInitialMatrixLocation() const;
 	const TArray<FIntPoint>& GetMinoTetriminoLocalLocations() const;

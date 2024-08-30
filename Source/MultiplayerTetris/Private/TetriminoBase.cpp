@@ -349,10 +349,10 @@ const TArray<FIntPoint>& ATetriminoBase::GetSRSRotationPointOffsets(const ETetri
 	return ATetriminoBase::GetSRSRotationPointOffsetsByRotationInfo(RotationInfo);
 }
 
-const FMinoInfo ATetriminoBase::GetMinoInfo() const
+const FMinoInfo ATetriminoBase::GetMinoInfo(const float Opacity) const
 {
 	const FTetriminoShapeInfo& TetriminoShapeInfo = GetTetriminoShapeInfo();
-	return FMinoInfo(TetriminoShapeInfo.MaterialPath, TetriminoShapeInfo.Color);
+	return FMinoInfo(TetriminoShapeInfo.MaterialPath, TetriminoShapeInfo.Color, Opacity);
 }
 
 const FTetriminoShapeInfo& ATetriminoBase::GetTetriminoShapeInfo() const
