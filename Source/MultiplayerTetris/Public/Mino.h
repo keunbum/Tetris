@@ -44,7 +44,7 @@ public:
 	void SetRelativeLocationByMatrixLocation(const FIntPoint& MatrixLocation, const float Z = 0.0f);
 	void AttachToWithMatrixLocation(USceneComponent* const Parent, const FIntPoint& MatrixLocation, const float Z = 0.0f);
 
-	static UMino* CreateMino(UObject* const InOuter, const FMinoInfo& MinoInfo);
+	static UMino* CreateMino(UObject* const InOuter, const FMinoInfo& MinoInfo, const int32 TranslucentSortPriority = 0);
 	static void ClearMaterialCache();
 	static bool IsMaterialCacheEmpty() { return MaterialCache.Num() == 0; }
 	static FVector GetRelativeLocationByMatrixLocation(const FIntPoint& MatrixLocation, const float Z = 0.0f);
