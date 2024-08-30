@@ -16,7 +16,7 @@ void ATetrimino::SetGhostPiece(AGhostPiece* const InGhostPiece)
 	GhostPiece = InGhostPiece;
 	if (GhostPiece)
 	{
-		ATetriminoBase::FInitializeParams InitializeParams(Shape, Facing, AGhostPiece::Opacity, AGhostPiece::TranslucentSortPriority);
+		const ATetriminoBase::FInitializeParams InitializeParams(Shape, Facing, AGhostPiece::Opacity, AGhostPiece::TranslucentSortPriority);
 		GhostPiece->Initialize(InitializeParams);
 		check(Board != nullptr);
 		GhostPiece->SetRelativeLocationByMatrixLocation(Board->GetFinalFallingMatrixLocation(this));
