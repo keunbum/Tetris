@@ -31,7 +31,7 @@ void UMino::AttachToWithMatrixLocation(USceneComponent* const Parent, const FInt
 	SetRelativeLocationByMatrixLocation(MatrixLocation, Z);
 }
 
-UMino* UMino::CreateMino(UObject* const InOuter, const FMinoInfo& MinoInfo, const int32 TranslucentSortPriority)
+UMino* UMino::CreateMino(UObject* const InOuter, const FMinoInfo& MinoInfo)
 {
 	if (UMino* const Mino = NewObject<UMino>(InOuter))
 	{
@@ -40,7 +40,7 @@ UMino* UMino::CreateMino(UObject* const InOuter, const FMinoInfo& MinoInfo, cons
 		if (ensureMsgf(MaterialInstance != nullptr, TEXT("Failed to create material instance: %s"), *MinoInfo.MaterialPath))
 		{
 			Mino->SetMaterial(ElementIndex, MaterialInstance);
-			Mino->SetTranslucentSortPriority(TranslucentSortPriority);
+			Mino->SetTranslucentSortPriority(MinoInfo.TranslucentSortPriority);
 			Mino->RegisterComponent();
 			return Mino;
 		}
