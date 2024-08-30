@@ -7,7 +7,6 @@
 const FName UMino::BaseColorParameterName = TEXT("BaseColor");
 const FName UMino::OpacityParameterName = TEXT("Opacity");
 const FString UMino::CubeMeshPath = TEXT("/Engine/BasicShapes/Cube.Cube");
-TMap<FString, UMaterialInstanceDynamic*> UMino::MaterialCache;
 
 UMino::UMino()
 {
@@ -48,13 +47,6 @@ UMino* UMino::CreateMino(UObject* const InOuter, const FMinoInfo& MinoInfo)
 	return nullptr;
 }
 
-void UMino::ClearMaterialCache()
-{
-	UE_LOG(LogTemp, Warning, TEXT("Clearing material cache."));
-	MaterialCache.Empty();
-	check(UMino::IsMaterialCacheEmpty());
-}
-
 FVector UMino::GetRelativeLocationByMatrixLocation(const FIntPoint& MatrixLocation, const float Z)
 {
 	const float X = -UnitLength * MatrixLocation.Y;
@@ -64,6 +56,7 @@ FVector UMino::GetRelativeLocationByMatrixLocation(const FIntPoint& MatrixLocati
 
 UMaterialInterface* UMino::GetMaterialByMinoInfo(const FMinoInfo& MinoInfo)
 {
+	check(!MinoInfo.MaterialPath.IsEmpty());
 	UMaterialInterface* const MinoMaterial = Cast<UMaterialInterface>(StaticLoadObject(UMaterialInterface::StaticClass(), nullptr, *MinoInfo.MaterialPath));
 	ensureMsgf(MinoMaterial != nullptr, TEXT("Failed to load material: %s"), *MinoInfo.MaterialPath);
 	return MinoMaterial;
@@ -71,22 +64,12 @@ UMaterialInterface* UMino::GetMaterialByMinoInfo(const FMinoInfo& MinoInfo)
 
 UMaterialInstanceDynamic* UMino::GetMaterialInstanceByMinoInfo(UObject* const InOuter, const FMinoInfo& MinoInfo)
 {
-	check(!MinoInfo.MaterialPath.IsEmpty());
-
-	const FString MaterialKey = MinoInfo.MaterialPath + MinoInfo.Color.ToString() + FString::SanitizeFloat(MinoInfo.Opacity);
-
-	//if (UMaterialInstanceDynamic** const FoundMaterial = MaterialCache.Find(MaterialKey))
-	//{
-	//	return *FoundMaterial;
-	//}
-
 	if (UMaterialInterface* const BaseMaterial = UMino::GetMaterialByMinoInfo(MinoInfo))
 	{
 		if (UMaterialInstanceDynamic* const DynamicMaterialInstance = UMaterialInstanceDynamic::Create(BaseMaterial, InOuter))
 		{
 			DynamicMaterialInstance->SetVectorParameterValue(UMino::BaseColorParameterName, MinoInfo.Color);
 			DynamicMaterialInstance->SetScalarParameterValue(UMino::OpacityParameterName, MinoInfo.Opacity);
-			MaterialCache.Add(MaterialKey, DynamicMaterialInstance);
 			return DynamicMaterialInstance;
 		}
 	}
