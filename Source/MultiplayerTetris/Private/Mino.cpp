@@ -37,10 +37,12 @@ UMino* UMino::CreateMino(UObject* const InOuter, const FMinoInfo& MinoInfo)
 	{
 		static constexpr int32 ElementIndex = 0;
 		UMaterialInstanceDynamic* const MaterialInstance = UMino::GetMaterialInstanceByMinoInfo(InOuter, MinoInfo);
-		ensureMsgf(MaterialInstance != nullptr, TEXT("Failed to create material instance: %s"), *MinoInfo.MaterialPath);
-		Mino->SetMaterial(ElementIndex, MaterialInstance);
-		Mino->RegisterComponent();
-		return Mino;
+		if (ensureMsgf(MaterialInstance != nullptr, TEXT("Failed to create material instance: %s"), *MinoInfo.MaterialPath))
+		{
+			Mino->SetMaterial(ElementIndex, MaterialInstance);
+			Mino->RegisterComponent();
+			return Mino;
+		}
 	}
 	return nullptr;
 }
