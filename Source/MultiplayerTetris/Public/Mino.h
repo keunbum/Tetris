@@ -21,10 +21,7 @@ struct FMinoInfo
 	int32 TranslucentSortPriority;
 
 	FMinoInfo()
-		: MaterialPath(TEXT(""))
-		, Color(FLinearColor::White)
-		, Opacity(1.0f)
-		, TranslucentSortPriority(0)
+		: FMinoInfo(TEXT(""), FLinearColor::White, 1.0f, 0)
 	{
 	}
 
