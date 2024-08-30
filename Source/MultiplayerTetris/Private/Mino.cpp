@@ -80,7 +80,7 @@ UMaterialInstanceDynamic* UMino::GetMaterialInstanceByMinoInfo(UObject* const In
 	{
 		if (UMaterialInstanceDynamic* const DynamicMaterialInstance = UMaterialInstanceDynamic::Create(BaseMaterial, InOuter))
 		{
-			DynamicMaterialInstance->SetVectorParameterValue(BaseColorParameterName, MinoInfo.Color);
+			DynamicMaterialInstance->SetVectorParameterValue(UMino::BaseColorParameterName, MinoInfo.Color);
 			MaterialCache.Add(MaterialKey, DynamicMaterialInstance);
 			return DynamicMaterialInstance;
 		}
