@@ -372,12 +372,12 @@ void ATetriminoBase::SetRelativeLocationByMatrixLocation(const FIntPoint& NewMat
 	SetMatrixLocation(NewMatrixLocation);
 }
 
-void ATetriminoBase::Initialize(const ETetriminoShape NewTetriminoShape, const ETetriminoFacing NewTetriminoFacing)
+void ATetriminoBase::Initialize(const FInitializeParams& Params)
 {
-	SetShape(NewTetriminoShape);
-	SetFacing(NewTetriminoFacing);
+	SetShape(Params.Shape);
+	SetFacing(Params.Facing);
 
-	InitializeMinoArray();
+	InitializeMinoArray(Params.Opacity, Params.TranslucentSortPriority);
 }
 
 void ATetriminoBase::UpdateMinoTetriminoLocalLocations()

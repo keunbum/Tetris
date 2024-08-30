@@ -87,7 +87,24 @@ public:
 	void SetFacing(const ETetriminoFacing NewFacing) { Facing = NewFacing; }
 	void SetRelativeLocationByMatrixLocation(const FIntPoint& NewMatrixLocation);
 
-	void Initialize(const ETetriminoShape NewTetriminoShape, const ETetriminoFacing NewTetriminoFacing);
+	struct FInitializeParams
+	{
+		ETetriminoShape Shape;
+		ETetriminoFacing Facing;
+		float Opacity;
+		int32 TranslucentSortPriority;
+
+		FInitializeParams() = delete;
+
+		FInitializeParams(const ETetriminoShape InShape, const ETetriminoFacing InFacing, const float InOpacity, const int32 InTranslucentSortPriority)
+			: Shape(InShape)
+			, Facing(InFacing)
+			, Opacity(InOpacity)
+			, TranslucentSortPriority(InTranslucentSortPriority)
+		{
+		}
+	};
+	void Initialize(const FInitializeParams& Params);
 	void UpdateMinoTetriminoLocalLocations();
 	void DetachMinos();
 	void RotateByFacing(const ETetriminoFacing NewFacing);
