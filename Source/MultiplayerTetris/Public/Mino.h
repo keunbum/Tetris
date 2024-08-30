@@ -1,4 +1,4 @@
-﻿// Copyright Ryu KeunBeom. All Rights Reserved.
+// Copyright Ryu KeunBeom. All Rights Reserved.
 
 #pragma once
 
