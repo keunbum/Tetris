@@ -18,4 +18,8 @@ class MULTIPLAYERTETRIS_API AGhostPiece : public ATetriminoBase
 
 public:
 	void AttachToMatrix(USceneComponent* const MatrixRoot);
+
+public:
+	static constexpr float Opacity = 0.5f;
+	static constexpr int32 TranslucentSortPriority = 0;
 };
