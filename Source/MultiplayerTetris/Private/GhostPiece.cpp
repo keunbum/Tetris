@@ -2,6 +2,14 @@
 
 #include "GhostPiece.h"
 
+#include "Mino.h"
+
+const FMinoInfo AGhostPiece::GetMinoInfo() const
+{
+	const FTetriminoShapeInfo& ShapeInfo = GetTetriminoShapeInfo();
+	return FMinoInfo(ShapeInfo.MaterialPath, ShapeInfo.Color, AGhostPiece::Opacity, AGhostPiece::TranslucentSortPriority);
+}
+
 void AGhostPiece::AttachToMatrix(USceneComponent* const MatrixRoot)
 {
 	check(MatrixRoot != nullptr);

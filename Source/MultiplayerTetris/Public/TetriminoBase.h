@@ -9,14 +9,11 @@
 #include "Math/MathFwd.h"
 
 #include "EnumClassOperators.h"
+#include "Mino.h"
 
 #include "TetriminoBase.generated.h"
 
-struct FMinoInfo;
-class UMino;
 class ABoard;
-class UMino;
-class UMaterialInterface;
 
 UENUM()
 enum class ETetriminoShape : int8
@@ -72,7 +69,8 @@ class MULTIPLAYERTETRIS_API ATetriminoBase : public AActor
 public:
 	ATetriminoBase();
 
-	const FMinoInfo GetMinoInfo(const float Opacity) const;
+	virtual const FMinoInfo GetMinoInfo() const PURE_VIRTUAL(ATetriminoBase::GetMinoInfo, return FMinoInfo(););
+
 	const FTetriminoShapeInfo& GetTetriminoShapeInfo() const;
 	const FIntPoint& GetInitialMatrixLocation() const;
 	const TArray<FIntPoint>& GetMinoTetriminoLocalLocations() const;
@@ -91,16 +89,12 @@ public:
 	{
 		ETetriminoShape Shape;
 		ETetriminoFacing Facing;
-		float Opacity;
-		int32 TranslucentSortPriority;
 
 		FInitializeParams() = delete;
 
-		FInitializeParams(const ETetriminoShape InShape, const ETetriminoFacing InFacing, const float InOpacity, const int32 InTranslucentSortPriority)
+		FInitializeParams(const ETetriminoShape InShape, const ETetriminoFacing InFacing)
 			: Shape(InShape)
 			, Facing(InFacing)
-			, Opacity(InOpacity)
-			, TranslucentSortPriority(InTranslucentSortPriority)
 		{
 		}
 	};
@@ -119,7 +113,7 @@ public:
 protected:
 	void SetMatrixLocation(const FIntPoint& NewMatrixLocation) { MatrixLocation = NewMatrixLocation; }
 
-	void InitializeMinoArray(const float Opacity, const int32 TranslucentSortPriority);
+	void InitializeMinoArray();
 	void DestroyMinos();
 	void AddRelativeLocationByMatrixLocationOffset(const FIntPoint& MatrixLocationOffset);
 

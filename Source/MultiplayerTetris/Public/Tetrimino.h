@@ -21,6 +21,8 @@ class MULTIPLAYERTETRIS_API ATetrimino : public ATetriminoBase
 public:
 	ATetrimino();
 
+	virtual const FMinoInfo GetMinoInfo() const override;
+
 	void SetGhostPiece(AGhostPiece* const InGhostPiece);
 
 	void MoveBy(const FIntPoint& IntVector2D);
@@ -34,6 +36,8 @@ private:
 
 public:
 	static constexpr ETetriminoFacing DefaultFacing = ETetriminoFacing::North;
+
+private:
 	static constexpr float Opacity = 1.0f;
 	static constexpr int32 TranslucentSortPriority = 1;
 

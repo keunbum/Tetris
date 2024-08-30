@@ -2,10 +2,6 @@
 
 #include "TetriminoBase.h"
 
-#include "Engine/World.h"
-#include "Materials/MaterialInterface.h"
-#include "UObject/ConstructorHelpers.h"
-
 #include "Mino.h"
 #include "Board.h"
 
@@ -349,12 +345,6 @@ const TArray<FIntPoint>& ATetriminoBase::GetSRSRotationPointOffsets(const ETetri
 	return ATetriminoBase::GetSRSRotationPointOffsetsByRotationInfo(RotationInfo);
 }
 
-const FMinoInfo ATetriminoBase::GetMinoInfo(const float Opacity) const
-{
-	const FTetriminoShapeInfo& TetriminoShapeInfo = GetTetriminoShapeInfo();
-	return FMinoInfo(TetriminoShapeInfo.MaterialPath, TetriminoShapeInfo.Color, Opacity);
-}
-
 const FTetriminoShapeInfo& ATetriminoBase::GetTetriminoShapeInfo() const
 {
 	return ATetriminoBase::GetTetriminoShapeInfoByShape(Shape);
@@ -377,7 +367,7 @@ void ATetriminoBase::Initialize(const FInitializeParams& Params)
 	SetShape(Params.Shape);
 	SetFacing(Params.Facing);
 
-	InitializeMinoArray(Params.Opacity, Params.TranslucentSortPriority);
+	InitializeMinoArray();
 }
 
 void ATetriminoBase::UpdateMinoTetriminoLocalLocations()
@@ -441,18 +431,18 @@ FIntPoint ATetriminoBase::GetMatrixMovementIntPointByDirection(const FVector2D& 
 	return FIntPoint(static_cast<int32>(MovementVector2D.X), static_cast<int32>(MovementVector2D.Y));
 }
 
-void ATetriminoBase::InitializeMinoArray(const float Opacity, const int32 TranslucentSortPriority)
+void ATetriminoBase::InitializeMinoArray()
 {
 	const TArray<FIntPoint>& MinoTetriminoLocalLocations = GetMinoTetriminoLocalLocations();
 	check(MinoTetriminoLocalLocations.Num() == MinoNum);
-	const FMinoInfo MinoInfo = GetMinoInfo(Opacity);
+	const FMinoInfo MinoInfo = GetMinoInfo();
 
 	DestroyMinos();
 	MinoArray.Empty(MinoNum);
 
 	for (const FIntPoint& MinoTetriminoLocalLocation : MinoTetriminoLocalLocations)
 	{
-		UMino* const Mino = UMino::CreateMino(this, MinoInfo, TranslucentSortPriority);
+		UMino* const Mino = UMino::CreateMino(this, MinoInfo);
 		check(Mino != nullptr);
 		Mino->AttachToWithMatrixLocation(RootComponent, MinoTetriminoLocalLocation);
 		MinoArray.Add(Mino);

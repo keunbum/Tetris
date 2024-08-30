@@ -4,6 +4,7 @@
 
 #include "GhostPiece.h"
 #include "Board.h"
+#include "Mino.h"
 
 ATetrimino::ATetrimino()
 	: GhostPiece(nullptr)
@@ -11,12 +12,18 @@ ATetrimino::ATetrimino()
 	PrimaryActorTick.bCanEverTick = false;
 }
 
+const FMinoInfo ATetrimino::GetMinoInfo() const
+{
+	const FTetriminoShapeInfo& ShapeInfo = GetTetriminoShapeInfo();
+	return FMinoInfo(ShapeInfo.MaterialPath, ShapeInfo.Color, ATetrimino::Opacity, ATetrimino::TranslucentSortPriority);
+}
+
 void ATetrimino::SetGhostPiece(AGhostPiece* const InGhostPiece)
 {
 	GhostPiece = InGhostPiece;
 	if (GhostPiece)
 	{
-		const ATetriminoBase::FInitializeParams InitializeParams(Shape, Facing, AGhostPiece::Opacity, AGhostPiece::TranslucentSortPriority);
+		const ATetriminoBase::FInitializeParams InitializeParams(Shape, Facing);
 		GhostPiece->Initialize(InitializeParams);
 		check(Board != nullptr);
 		GhostPiece->SetRelativeLocationByMatrixLocation(Board->GetFinalFallingMatrixLocation(this));
