@@ -34,6 +34,8 @@ private:
 
 public:
 	static constexpr ETetriminoFacing DefaultFacing = ETetriminoFacing::North;
+	static constexpr float Opacity = 1.0f;
+	static constexpr int32 TranslucentSortPriority = 1;
 
 private:
 	UPROPERTY(VisibleAnywhere)
