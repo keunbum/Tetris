@@ -441,18 +441,18 @@ FIntPoint ATetriminoBase::GetMatrixMovementIntPointByDirection(const FVector2D& 
 	return FIntPoint(static_cast<int32>(MovementVector2D.X), static_cast<int32>(MovementVector2D.Y));
 }
 
-void ATetriminoBase::InitializeMinoArray()
+void ATetriminoBase::InitializeMinoArray(const float Opacity, const int32 TranslucentSortPriority)
 {
 	const TArray<FIntPoint>& MinoTetriminoLocalLocations = GetMinoTetriminoLocalLocations();
 	check(MinoTetriminoLocalLocations.Num() == MinoNum);
-	const FMinoInfo MinoInfo = GetMinoInfo();
+	const FMinoInfo MinoInfo = GetMinoInfo(Opacity);
 
 	DestroyMinos();
 	MinoArray.Empty(MinoNum);
 
 	for (const FIntPoint& MinoTetriminoLocalLocation : MinoTetriminoLocalLocations)
 	{
-		UMino* const Mino = UMino::CreateMino(this, MinoInfo);
+		UMino* const Mino = UMino::CreateMino(this, MinoInfo, TranslucentSortPriority);
 		check(Mino != nullptr);
 		Mino->AttachToWithMatrixLocation(RootComponent, MinoTetriminoLocalLocation);
 		MinoArray.Add(Mino);

@@ -102,7 +102,7 @@ public:
 protected:
 	void SetMatrixLocation(const FIntPoint& NewMatrixLocation) { MatrixLocation = NewMatrixLocation; }
 
-	void InitializeMinoArray();
+	void InitializeMinoArray(const float Opacity, const int32 TranslucentSortPriority);
 	void DestroyMinos();
 	void AddRelativeLocationByMatrixLocationOffset(const FIntPoint& MatrixLocationOffset);
 
