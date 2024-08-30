@@ -31,11 +31,6 @@ void ATetrisPlayManager::Initialize()
 {
 	UE_LOG(LogTemp, Display, TEXT("TetrisPlayManager is initialized."));
 
-	/** Clear Logic ---------------------------------------------------------------------------------------- */
-	// UMino
-	UMino::ClearMaterialCache();
-
-	/** Main Logic ---------------------------------------------------------------------------------------- */
 	// World
 	UWorld* const World = GetWorld();
 	check(World != nullptr);
