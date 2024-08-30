@@ -5,6 +5,7 @@
 #include "UObject/ConstructorHelpers.h"
 
 const FName UMino::BaseColorParameterName = TEXT("BaseColor");
+const FName UMino::OpacityParameterName = TEXT("Opacity");
 const FString UMino::CubeMeshPath = TEXT("/Engine/BasicShapes/Cube.Cube");
 TMap<FString, UMaterialInstanceDynamic*> UMino::MaterialCache;
 
