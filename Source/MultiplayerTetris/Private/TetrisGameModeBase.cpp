@@ -2,6 +2,30 @@
 
 #include "TetrisGameModeBase.h"
 #include "Kismet/GameplayStatics.h"
+#include "Components/AudioComponent.h"
+#include "Sound/SoundCue.h"
+
+UAudioComponent* ATetrisGameModeBase::CreateAudioComponent(const FName& CuePath) const
+{
+	if (USoundCue* const SoundCue = LoadObject<USoundCue>(nullptr, *CuePath.ToString()))
+	{
+		if (UAudioComponent* const AudioComponent = UGameplayStatics::SpawnSound2D(GetWorld(), SoundCue))
+		{
+			return AudioComponent;
+		}
+		else
+		{
+			UE_LOG(LogTemp, Error, TEXT("ATetrisGameModeBase::CreateAudioComponent() - Failed to spawn AudioComponent"));
+		}
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("ATetrisGameModeBase::CreateAudioComponent() - Failed to load SoundCue"));
+	}
+
+	return nullptr;
+
+}
 
 void ATetrisGameModeBase::BeginPlay()
 {

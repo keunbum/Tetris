@@ -22,8 +22,8 @@ private:
 	virtual void SetInputMode() override;
 	virtual void LoadSetting() override;
 	void LoadSoundSetting();
-	UAudioComponent* CreateAudioComponent(const FName& CuePath) const;
 
+	// static methods
 	static void SetAudioComponentVolume(UAudioComponent* const AudioComponent, const float Volume);
 
 public:

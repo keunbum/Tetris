@@ -18,6 +18,9 @@ class MULTIPLAYERTETRIS_API ATetrisGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
 
+public:
+	UAudioComponent* CreateAudioComponent(const FName& CuePath) const;
+
 protected:
 	virtual void BeginPlay() override;
 
