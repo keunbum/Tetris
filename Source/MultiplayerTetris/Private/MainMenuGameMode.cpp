@@ -41,12 +41,12 @@ void AMainMenuGameMode::LoadSetting()
 
 void AMainMenuGameMode::LoadSoundSetting()
 {
-	BGMComponent = CreateAudioComponent(*BGMCuePath.ToString());
+	BGMComponent = CreateAudioComponent(BGMCuePath);
 }
 
-UAudioComponent* AMainMenuGameMode::CreateAudioComponent(const TCHAR* CuePath) const
+UAudioComponent* AMainMenuGameMode::CreateAudioComponent(const FName& CuePath) const
 {
-	if (USoundCue* const SoundCue = LoadObject<USoundCue>(nullptr, CuePath))
+	if (USoundCue* const SoundCue = LoadObject<USoundCue>(nullptr, *CuePath.ToString()))
 	{
 		if (UAudioComponent* const AudioComponent = UGameplayStatics::SpawnSound2D(GetWorld(), SoundCue))
 		{
