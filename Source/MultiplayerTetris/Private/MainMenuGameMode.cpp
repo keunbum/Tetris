@@ -52,8 +52,10 @@ UAudioComponent* AMainMenuGameMode::CreateAudioComponent(const FName& CuePath) c
 		{
 			return AudioComponent;
 		}
-
-		UE_LOG(LogTemp, Error, TEXT("MainMenuGameMode::CreateAudioComponent() - Failed to spawn AudioComponent"));
+		else
+		{
+			UE_LOG(LogTemp, Error, TEXT("MainMenuGameMode::CreateAudioComponent() - Failed to spawn AudioComponent"));
+		}
 	}
 	else
 	{
