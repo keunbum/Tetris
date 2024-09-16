@@ -2,9 +2,6 @@
 
 #include "MainMenuGameMode.h"
 
-#include "Kismet/GameplayStatics.h"
-#include "Components/AudioComponent.h"
-
 #include "TetrisSaveGameOption.h"
 
 const FName AMainMenuGameMode::MainMenuLevelName(TEXT("MainMenuLevel"));
@@ -29,28 +26,16 @@ void AMainMenuGameMode::SetInputMode()
 
 void AMainMenuGameMode::LoadSetting()
 {
-	TetrisSaveGameOption = UTetrisSaveGameOption::LoadTetrisSaveGame();
-	if (!TetrisSaveGameOption)
-	{
-		return;
-	}
+	Super::LoadSetting();
+}
 
-	LoadSoundSetting();
+bool AMainMenuGameMode::LoadSaveGameInstance()
+{
+	TetrisSaveGameOption = UTetrisSaveGameOption::LoadTetrisSaveGame();
+	return TetrisSaveGameOption != nullptr;
 }
 
 void AMainMenuGameMode::LoadSoundSetting()
 {
 	BGMComponent = ATetrisGameModeBase::CreateAudioComponent(BGMCuePath);
-}
-
-void AMainMenuGameMode::SetAudioComponentVolume(UAudioComponent* const AudioComponent, const float Volume)
-{
-	if (AudioComponent)
-	{
-		AudioComponent->SetVolumeMultiplier(Volume);
-	}
-	else
-	{
-		UE_LOG(LogTemp, Error, TEXT("MainMenuGameMode::SetAudioComponentVolume() - AudioComponent is nullptr"));
-	}
 }

@@ -21,17 +21,21 @@ class MULTIPLAYERTETRIS_API ATetrisGameModeBase : public AGameModeBase
 public:
 	UAudioComponent* CreateAudioComponent(const FName& CuePath) const;
 
+	// static methods
+	static void SetAudioComponentVolume(UAudioComponent* const AudioComponent, const float Volume);
+
 protected:
 	virtual void BeginPlay() override;
 
 	void InternalSetInputMode(const FInputModeDataBase& InputModeData);
 
 	virtual void Initialize();
+	virtual void LoadSetting();
+	virtual bool LoadSaveGameInstance() PURE_VIRTUAL(ATetrisGameModeBase::LoadSaveGameInstance, return false;);
+	virtual void LoadSoundSetting() PURE_VIRTUAL(ATetrisGameModeBase::LoadSoundSetting);
 
-private:
 	// Declare PURE_VIRTUAL functions
 	virtual void SetInputMode() PURE_VIRTUAL(ATetrisGameModeBase::SetInputMode);
-	virtual void LoadSetting() PURE_VIRTUAL(ATetrisGameModeBase::LoadSetting);
 
 public:
 	/** Player */

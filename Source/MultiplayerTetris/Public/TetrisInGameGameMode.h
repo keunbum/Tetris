@@ -62,6 +62,8 @@ private:
 	virtual void Initialize() override;
 	virtual void SetInputMode() override;
 	virtual void LoadSetting() override;
+	virtual bool LoadSaveGameInstance() override;
+	virtual void LoadSoundSetting() override;
 	void StartGamePlay();
 
 	/** static methods */

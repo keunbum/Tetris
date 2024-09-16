@@ -21,10 +21,8 @@ private:
 	virtual void Initialize() override;
 	virtual void SetInputMode() override;
 	virtual void LoadSetting() override;
-	void LoadSoundSetting();
-
-	// static methods
-	static void SetAudioComponentVolume(UAudioComponent* const AudioComponent, const float Volume);
+	virtual bool LoadSaveGameInstance() override;
+	virtual void LoadSoundSetting() override;
 
 public:
 	// Level Name
