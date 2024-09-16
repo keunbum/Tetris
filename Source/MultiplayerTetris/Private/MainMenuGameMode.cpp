@@ -30,10 +30,10 @@ void AMainMenuGameMode::SetInputMode()
 
 void AMainMenuGameMode::LoadSetting()
 {
-	TetrisSaveGame = UTetrisSaveGameOption::LoadTetrisSaveGame();
-	if (!TetrisSaveGame)
+	TetrisSaveGameOption = UTetrisSaveGameOption::LoadTetrisSaveGame();
+	if (!TetrisSaveGameOption)
 	{
-		UE_LOG(LogTemp, Error, TEXT("MainMenuGameMode::LoadSoundSetting() - Failed to load TetrisSaveGame"));
+		UE_LOG(LogTemp, Error, TEXT("MainMenuGameMode::LoadSoundSetting() - Failed to load TetrisSaveGameOption"));
 		return;
 	}
 

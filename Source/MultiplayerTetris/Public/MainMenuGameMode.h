@@ -37,7 +37,7 @@ public:
 
 private:
 	UPROPERTY()
-	TObjectPtr<UTetrisSaveGameOption> TetrisSaveGame;
+	TObjectPtr<UTetrisSaveGameOption> TetrisSaveGameOption;
 
 	UPROPERTY()
 	TObjectPtr<UAudioComponent> BGMComponent;
