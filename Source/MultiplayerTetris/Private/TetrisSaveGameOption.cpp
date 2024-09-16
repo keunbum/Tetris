@@ -7,7 +7,7 @@ const FName UTetrisSaveGameOption::SlotName(TEXT("CommonOptionSaveSlot"));
 
 void UTetrisSaveGameOption::Initialize()
 {
-	MainMenuBGMVolume = 1.0f;
+	BGMVolume = 1.0f;
 }
 
 void UTetrisSaveGameOption::SaveSetting()

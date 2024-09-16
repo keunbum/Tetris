@@ -27,5 +27,5 @@ public:
 
 	/** Save Data */
 	UPROPERTY(VisibleAnywhere, Category = "Audio")
-	float MainMenuBGMVolume;
+	float BGMVolume;
 };
