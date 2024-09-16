@@ -17,13 +17,13 @@ void UTetrisSaveGameOption::SaveSetting()
 
 UTetrisSaveGameOption* UTetrisSaveGameOption::LoadTetrisSaveGame()
 {
-	UTetrisSaveGameOption* SaveGame = Cast<UTetrisSaveGameOption>(UGameplayStatics::LoadGameFromSlot(UTetrisSaveGameOption::SlotName.ToString(), UTetrisSaveGameOption::UserIndex));
-	if (!SaveGame)
+	UTetrisSaveGameOption* SaveGameOption = Cast<UTetrisSaveGameOption>(UGameplayStatics::LoadGameFromSlot(UTetrisSaveGameOption::SlotName.ToString(), UTetrisSaveGameOption::UserIndex));
+	if (!SaveGameOption)
 	{
-		SaveGame = Cast<UTetrisSaveGameOption>(UGameplayStatics::CreateSaveGameObject(UTetrisSaveGameOption::StaticClass()));
-		SaveGame->Initialize();
-		SaveGame->SaveSetting();
+		SaveGameOption = Cast<UTetrisSaveGameOption>(UGameplayStatics::CreateSaveGameObject(UTetrisSaveGameOption::StaticClass()));
+		SaveGameOption->Initialize();
+		SaveGameOption->SaveSetting();
 	}
 
-	return SaveGame;
+	return SaveGameOption;
 }
