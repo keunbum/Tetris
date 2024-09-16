@@ -59,7 +59,9 @@ protected:
 	void LevelUp();
 
 private:
-	void Initialize();
+	virtual void Initialize() override;
+	virtual void SetInputMode() override;
+	virtual void LoadSetting() override;
 	void StartGamePlay();
 
 	/** static methods */
@@ -70,9 +72,6 @@ private:
 public:
 	UPROPERTY(EditDefaultsOnly, Category = "Tetrimino")
 	bool bNormalFallOff = false;
-
-	/** Player */
-	static constexpr int32 PlayerIndex = 0;
 
 	/** Queue */
 	static constexpr int32 NextQueueSize = 5;

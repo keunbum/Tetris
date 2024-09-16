@@ -3,14 +3,10 @@
 #include "TetrisPlayGameModeBase.h"
 
 #include "Engine/World.h"
-#include "GameFramework/PlayerStart.h"
 #include "Kismet/GameplayStatics.h"
-#include "UObject/ConstructorHelpers.h"
 #include "Blueprint/UserWidget.h"
 
-#include "TetriminoBase.h"
 #include "TetrisPlayManager.h"
-#include "Board.h"
 #include "TetrisPlayerControllerSingle.h"
 #include "TetrisPlayerStateBase.h"
 #include "GoalSystemFactory.h"
@@ -64,7 +60,6 @@ void ATetrisPlayGameModeBase::BeginPlay()
 {
 	Super::BeginPlay();
 
-	Initialize();
 	StartGamePlay();
 }
 
@@ -81,6 +76,8 @@ void ATetrisPlayGameModeBase::LevelUp()
 
 void ATetrisPlayGameModeBase::Initialize()
 {
+	Super::Initialize();
+
 	UWorld* const World = GetWorld();
 	check(World != nullptr);
 
@@ -115,6 +112,18 @@ void ATetrisPlayGameModeBase::Initialize()
 	TetrisPlayerState->Initialize(GoalSystem.GetInterface());
 
 	HUDWidget->InitializeHUD(TetrisPlayerState->GetHUDSingleUpdateDisplayParams(), this);
+}
+
+void ATetrisPlayGameModeBase::SetInputMode()
+{
+	// Set the input mode to GameOnly
+	const FInputModeGameOnly InputMode;
+	InternalSetInputMode(InputMode);
+}
+
+void ATetrisPlayGameModeBase::LoadSetting()
+{
+	// TODO:: Implement if needed
 }
 
 void ATetrisPlayGameModeBase::StartGamePlay()

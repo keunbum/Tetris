@@ -25,9 +25,9 @@ public:
 	void ToggleBGM(const bool bIsBGMOn);
 
 private:
-	void Initialize();
-	void SetInputMode();
-	void LoadSetting();
+	virtual void Initialize() override;
+	virtual void SetInputMode() override;
+	virtual void LoadSetting() override;
 	void LoadSoundSetting();
 	UAudioComponent* CreateAudioComponent(const TCHAR* CuePath) const;
 
