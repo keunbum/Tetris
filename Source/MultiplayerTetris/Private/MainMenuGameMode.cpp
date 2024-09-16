@@ -7,7 +7,7 @@
 #include "Sound/SoundCue.h"
 
 #include "TetrisPlayerControllerSingle.h"
-#include "TetrisGameModeBase.h"
+#include "TetrisPlayGameModeBase.h"
 #include "TetrisSaveGame.h"
 
 const FName AMainMenuGameMode::MainMenuLevelName(TEXT("MainMenuLevel"));
@@ -47,7 +47,7 @@ void AMainMenuGameMode::Initialize()
 
 void AMainMenuGameMode::SetInputMode()
 {
-	if (ATetrisPlayerControllerSingle* const TetrisPlayerController = Cast<ATetrisPlayerControllerSingle>(UGameplayStatics::GetPlayerController(GetWorld(), ATetrisGameModeBase::PlayerIndex)))
+	if (ATetrisPlayerControllerSingle* const TetrisPlayerController = Cast<ATetrisPlayerControllerSingle>(UGameplayStatics::GetPlayerController(GetWorld(), ATetrisPlayGameModeBase::PlayerIndex)))
 	{
 		// Set the input mode to UIOnly
 		const FInputModeUIOnly InputMode;

@@ -4,7 +4,7 @@
 
 #include "Kismet/GameplayStatics.h"
 
-#include "TetrisGameModeBase.h"
+#include "TetrisPlayGameModeBase.h"
 #include "MenuButton.h"
 
 void UMainMenuWidget::NativeConstruct()
@@ -29,7 +29,7 @@ void UMainMenuWidget::NativeConstruct()
 void UMainMenuWidget::OnStartClicked()
 {
 	// Open Tetris Level
-	UGameplayStatics::OpenLevel(GetWorld(), ATetrisGameModeBase::TetrisLevelName);
+	UGameplayStatics::OpenLevel(GetWorld(), ATetrisPlayGameModeBase::TetrisLevelName);
 }
 
 void UMainMenuWidget::OnExitClicked()

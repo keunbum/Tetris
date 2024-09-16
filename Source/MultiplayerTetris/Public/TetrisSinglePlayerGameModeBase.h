@@ -3,14 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "TetrisGameModeBase.h"
+#include "TetrisPlayGameModeBase.h"
 #include "TetrisSinglePlayerGameModeBase.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class MULTIPLAYERTETRIS_API ATetrisSinglePlayerGameModeBase : public ATetrisGameModeBase
+class MULTIPLAYERTETRIS_API ATetrisSinglePlayerGameModeBase : public ATetrisPlayGameModeBase
 {
 	GENERATED_BODY()
 	

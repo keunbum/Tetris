@@ -5,9 +5,9 @@
 #include "Components/TextBlock.h"
 #include "Engine/World.h"
 
-#include "TetrisGameModeBase.h"
+#include "TetrisPlayGameModeBase.h"
 
-void UHUDSingle::InitializeHUD(const FHUDSingleUpdateDisplayParams& DisplayParams, ATetrisGameModeBase* const InTetrisGameMode)
+void UHUDSingle::InitializeHUD(const FHUDSingleUpdateDisplayParams& DisplayParams, ATetrisPlayGameModeBase* const InTetrisGameMode)
 {
 	UpdateDisplay(DisplayParams);
 	TetrisGameMode = InTetrisGameMode;
