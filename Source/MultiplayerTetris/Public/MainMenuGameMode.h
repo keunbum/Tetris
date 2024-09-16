@@ -21,9 +21,6 @@ class MULTIPLAYERTETRIS_API AMainMenuGameMode : public ATetrisGameModeBase
 protected:
 	virtual void BeginPlay() override;
 
-public:
-	void ToggleBGM(const bool bIsBGMOn);
-
 private:
 	virtual void Initialize() override;
 	virtual void SetInputMode() override;

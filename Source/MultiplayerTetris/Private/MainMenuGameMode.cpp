@@ -16,25 +16,6 @@ void AMainMenuGameMode::BeginPlay()
 	Super::BeginPlay();
 }
 
-void AMainMenuGameMode::ToggleBGM(const bool bIsBGMOn)
-{
-	if (BGMComponent)
-	{
-		if (bIsBGMOn)
-		{
-			BGMComponent->Play();
-		}
-		else
-		{
-			BGMComponent->Stop();
-		}
-	}
-	else
-	{
-		UE_LOG(LogTemp, Error, TEXT("MainMenuGameMode::ToggleBGM() - BGMComponent is nullptr"));
-	}
-}
-
 void AMainMenuGameMode::Initialize()
 {
 	Super::Initialize();
