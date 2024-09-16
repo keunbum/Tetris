@@ -5,7 +5,6 @@
 
 void ATetrisGameModeBase::BeginPlay()
 {
-	UE_LOG(LogTemp, Warning, TEXT("ATetrisGameModeBase::BeginPlay()"));
 	Super::BeginPlay();
 
 	Initialize();
