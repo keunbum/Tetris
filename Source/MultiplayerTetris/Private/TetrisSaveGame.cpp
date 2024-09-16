@@ -2,3 +2,4 @@
 
 #include "TetrisSaveGame.h"
 
+const FName UTetrisSaveGame::CommonOptionSaveSlotName(TEXT("CommonOptionSaveSlot"));

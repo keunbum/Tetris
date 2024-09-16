@@ -6,6 +6,10 @@
 #include "GameFramework/GameModeBase.h"
 #include "MainMenuGameMode.generated.h"
 
+class USoundCue;
+class UAudioComponent;
+class UTetrisSaveGame;
+
 /**
  * 
  */
@@ -20,4 +24,22 @@ protected:
 public:
 	// Level Name
 	static const FName MainMenuLevelName;
+
+	void ToggleBGM(const bool bIsBGMOn);
+
+private:
+	void Initialize();
+	void SetInputMode();
+	void LoadSetting();
+	void LoadSoundSetting();
+	void PlayEffect();
+	void PlaySoundEffect();
+	void SaveSetting(const FString& SlotName);
+
+private:
+	UPROPERTY()
+	TObjectPtr<UTetrisSaveGame> TetrisSaveGame;
+
+	UPROPERTY()
+	TObjectPtr<UAudioComponent> BGMComponent;
 };
