@@ -56,10 +56,6 @@ void ATetrisPlayerControllerInGameBase::InitializeInput()
 		}
 	}
 
-	// Set the input mode to GameOnly
-	const FInputModeGameOnly InputMode;
-	SetInputMode(InputMode);
-
 	// Set focus to the game viewport
 	FSlateApplication::Get().SetAllUserFocusToGameViewport();
 }

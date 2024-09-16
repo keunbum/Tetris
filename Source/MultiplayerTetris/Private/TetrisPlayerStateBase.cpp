@@ -2,15 +2,15 @@
 
 #include "TetrisPlayerStateBase.h"
 
-#include "TetrisGameModeBase.h"
+#include "TetrisInGameGameMode.h"
 #include "GoalSystemInterface.h"
 #include "HUDSingle.h"
 
 ATetrisPlayerStateBase::ATetrisPlayerStateBase()
-	: GameLevel(ATetrisGameModeBase::DefaultGameLevel)
-	, LineClearCount(ATetrisGameModeBase::DefaultLineCount)
+	: GameLevel(ATetrisInGameGameMode::DefaultGameLevel)
+	, LineClearCount(ATetrisInGameGameMode::DefaultLineCount)
 {
-	SetScore(ATetrisGameModeBase::DefaultScore);
+	SetScore(ATetrisInGameGameMode::DefaultScore);
 }
 
 void ATetrisPlayerStateBase::Initialize(const IGoalSystemInterface* GoalSystem)

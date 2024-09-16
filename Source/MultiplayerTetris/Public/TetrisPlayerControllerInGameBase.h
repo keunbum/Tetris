@@ -11,7 +11,7 @@
 
 class UInputMappingContext;
 class UInputAction;
-class ATetrisGameModeBase;
+class ATetrisInGameGameMode;
 class ATetrisPlayManager;
 
 UENUM()
@@ -66,7 +66,7 @@ private:
 
 protected:
 	UPROPERTY()
-	TObjectPtr<ATetrisGameModeBase> GameMode;
+	TObjectPtr<ATetrisInGameGameMode> GameMode;
 
 private:
 	static constexpr int32 MappingContextDefaultPriority = 0;
