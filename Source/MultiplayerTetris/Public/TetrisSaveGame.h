@@ -13,13 +13,20 @@ UCLASS()
 class MULTIPLAYERTETRIS_API UTetrisSaveGame : public USaveGame
 {
 	GENERATED_BODY()
+
+public:
+	void Initialize();
+	void SaveSetting();
+
+	// static methods
+	static UTetrisSaveGame* LoadTetrisSaveGame();
 	
 public:
 	// Save Slot Name
-	static const FName CommonOptionSaveSlotName;
+	static const FName SlotName;
 	static constexpr int32 UserIndex = 0;
 
-	// bIsMainMenuBGMOn
+	/** Save Data */
 	UPROPERTY(VisibleAnywhere, Category = "Audio")
-	bool bIsMainMenuBGMOn;
+	float MainMenuBGMVolume;
 };

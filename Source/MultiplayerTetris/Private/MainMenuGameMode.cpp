@@ -11,6 +11,7 @@
 #include "TetrisSaveGame.h"
 
 const FName AMainMenuGameMode::MainMenuLevelName(TEXT("MainMenuLevel"));
+const FName AMainMenuGameMode::BGMCuePath(TEXT("/Game/Sound/BGM/Block_Dance_Cue"));
 
 void AMainMenuGameMode::BeginPlay()
 {
@@ -42,8 +43,6 @@ void AMainMenuGameMode::Initialize()
 {
 	SetInputMode();
 	LoadSetting();
-	
-	//PlayEffect();
 }
 
 void AMainMenuGameMode::SetInputMode()
@@ -62,45 +61,50 @@ void AMainMenuGameMode::SetInputMode()
 
 void AMainMenuGameMode::LoadSetting()
 {
+	TetrisSaveGame = UTetrisSaveGame::LoadTetrisSaveGame();
+	if (!TetrisSaveGame)
+	{
+		UE_LOG(LogTemp, Error, TEXT("MainMenuGameMode::LoadSoundSetting() - Failed to load TetrisSaveGame"));
+		return;
+	}
+
 	LoadSoundSetting();
 }
 
 void AMainMenuGameMode::LoadSoundSetting()
 {
-	TetrisSaveGame = Cast<UTetrisSaveGame>(UGameplayStatics::LoadGameFromSlot(UTetrisSaveGame::CommonOptionSaveSlotName.ToString(), UTetrisSaveGame::UserIndex));
-	check(TetrisSaveGame != nullptr);
-	if (ensureMsgf(TetrisSaveGame, TEXT("MainMenuGameMode::LoadBGMSetting() - Failed to load TetrisSaveGame")))
+	BGMComponent = CreateAudioComponent(*BGMCuePath.ToString());
+}
+
+UAudioComponent* AMainMenuGameMode::CreateAudioComponent(const TCHAR* CuePath) const
+{
+	if (USoundCue* const SoundCue = LoadObject<USoundCue>(nullptr, CuePath))
 	{
-		// Load BGM Setting
-		if (TetrisSaveGame->bIsMainMenuBGMOn)
+		if (UAudioComponent* const AudioComponent = UGameplayStatics::SpawnSound2D(GetWorld(), SoundCue))
 		{
-			static ConstructorHelpers::FObjectFinder<USoundCue> BGMCue(TEXT("/Game/Sound/BGM/Block_Dance_Cue"));
-			if (BGMCue.Succeeded())
-			{
-				BGMComponent = UGameplayStatics::SpawnSound2D(this, BGMCue.Object);
-			}
-			else
-			{
-				UE_LOG(LogTemp, Error, TEXT("MainMenuGameMode::LoadBGMSetting() - Failed to find Block_Dance_Cue"));
-			}
+			return AudioComponent;
+		}
+		else
+		{
+			UE_LOG(LogTemp, Error, TEXT("MainMenuGameMode::CreateAudioComponent() - Failed to spawn AudioComponent"));
 		}
 	}
-}
-
-void AMainMenuGameMode::PlayEffect()
-{
-	PlaySoundEffect();
-}
-
-void AMainMenuGameMode::PlaySoundEffect()
-{
-	if (TetrisSaveGame->bIsMainMenuBGMOn && BGMComponent)
+	else
 	{
-		BGMComponent->Play();
+		UE_LOG(LogTemp, Error, TEXT("MainMenuGameMode::CreateAudioComponent() - Failed to load SoundCue"));
 	}
+
+	return nullptr;
 }
 
-void AMainMenuGameMode::SaveSetting(const FString& SlotName)
+void AMainMenuGameMode::SetAudioComponentVolume(UAudioComponent* const AudioComponent, const float Volume)
 {
-	UGameplayStatics::SaveGameToSlot(TetrisSaveGame, SlotName, UTetrisSaveGame::UserIndex);
+	if (AudioComponent)
+	{
+		AudioComponent->SetVolumeMultiplier(Volume);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("MainMenuGameMode::SetAudioComponentVolume() - AudioComponent is nullptr"));
+	}
 }

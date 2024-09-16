@@ -22,9 +22,6 @@ protected:
 	virtual void BeginPlay() override;
 
 public:
-	// Level Name
-	static const FName MainMenuLevelName;
-
 	void ToggleBGM(const bool bIsBGMOn);
 
 private:
@@ -32,9 +29,14 @@ private:
 	void SetInputMode();
 	void LoadSetting();
 	void LoadSoundSetting();
-	void PlayEffect();
-	void PlaySoundEffect();
-	void SaveSetting(const FString& SlotName);
+	UAudioComponent* CreateAudioComponent(const TCHAR* CuePath) const;
+
+	static void SetAudioComponentVolume(UAudioComponent* const AudioComponent, const float Volume);
+
+public:
+	// Level Name
+	static const FName MainMenuLevelName;
+	static const FName BGMCuePath;
 
 private:
 	UPROPERTY()
