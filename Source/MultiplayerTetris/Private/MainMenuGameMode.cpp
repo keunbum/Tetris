@@ -2,25 +2,40 @@
 
 #include "MainMenuGameMode.h"
 
-#include "Kismet/GameplayStatics.h"
-
-#include "TetrisPlayerControllerSingle.h"
-#include "TetrisGameModeBase.h"
+#include "TetrisSaveGameOption.h"
 
 const FName AMainMenuGameMode::MainMenuLevelName(TEXT("MainMenuLevel"));
+const FName AMainMenuGameMode::BGMCuePath(TEXT("/Game/Sound/BGM/Block_Dance_Cue"));
 
 void AMainMenuGameMode::BeginPlay()
 {
 	Super::BeginPlay();
+}
 
-	if (ATetrisPlayerControllerSingle* const TetrisPlayerController = Cast<ATetrisPlayerControllerSingle>(UGameplayStatics::GetPlayerController(GetWorld(), ATetrisGameModeBase::PlayerIndex)))
-	{
-		// Set the input mode to UIOnly
-		const FInputModeUIOnly InputMode;
-		TetrisPlayerController->SetInputMode(InputMode);
-	}
-	else
-	{
-		UE_LOG(LogTemp, Error, TEXT("MainMenuGameMode::BeginPlay() - Failed to get TetrisPlayerController"));
-	}
+void AMainMenuGameMode::Initialize()
+{
+	Super::Initialize();
+}
+
+void AMainMenuGameMode::SetInputMode()
+{
+	// Set the input mode to UIOnly
+	const FInputModeUIOnly InputMode;
+	InternalSetInputMode(InputMode);
+}
+
+void AMainMenuGameMode::LoadSetting()
+{
+	Super::LoadSetting();
+}
+
+bool AMainMenuGameMode::LoadSaveGameInstance()
+{
+	TetrisSaveGameOption = UTetrisSaveGameOption::LoadTetrisSaveGameOptionInstance();
+	return TetrisSaveGameOption != nullptr;
+}
+
+void AMainMenuGameMode::LoadSoundSetting()
+{
+	BGMComponent = ATetrisGameModeBase::CreateAudioComponent(BGMCuePath);
 }

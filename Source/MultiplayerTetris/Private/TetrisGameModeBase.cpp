@@ -1,63 +1,42 @@
 // Copyright Ryu KeunBeom. All Rights Reserved.
 
 #include "TetrisGameModeBase.h"
-
-#include "Engine/World.h"
-#include "GameFramework/PlayerStart.h"
 #include "Kismet/GameplayStatics.h"
-#include "UObject/ConstructorHelpers.h"
-#include "Blueprint/UserWidget.h"
+#include "Components/AudioComponent.h"
+#include "Sound/SoundCue.h"
 
-#include "TetriminoBase.h"
-#include "TetrisPlayManager.h"
-#include "Board.h"
-#include "TetrisPlayerControllerSingle.h"
-#include "TetrisPlayerStateBase.h"
-#include "GoalSystemFactory.h"
-#include "GoalSystemInterface.h"
-#include "HUDSingle.h"
-
-const FName ATetrisGameModeBase::TetrisLevelName = FName(TEXT("TetrisLevel"));
-
-
-ATetrisGameModeBase::ATetrisGameModeBase()
-	: GoalSystemType(EGoalSystemType::None)
+UAudioComponent* ATetrisGameModeBase::CreateAudioComponent(const FName& CuePath) const
 {
-	// Unreal Editor에서 PlayerStateClass를 설정할 수 있도록 함
-	PlayerStateClass = nullptr;
-}
-
-void ATetrisGameModeBase::PostLogin(APlayerController* const NewPlayer)
-{
-	Super::PostLogin(NewPlayer);
-
-	TetrisPlayerState = Cast<ATetrisPlayerStateBase>(NewPlayer->PlayerState);
-	check(TetrisPlayerState != nullptr);
-}
-
-float ATetrisGameModeBase::GetElapsedTime() const
-{
-	return UGameplayStatics::GetTimeSeconds(GetWorld()) - GameStartTime;
-}
-
-float ATetrisGameModeBase::GetCurrentLevelNormalFallSpeed() const
-{
-	return ATetrisGameModeBase::CalculateNormalFallSpeed(TetrisPlayerState->GetGameLevel());
-}
-
-void ATetrisGameModeBase::UpdateGamePlay(const FTetrisGamePlayInfo& UpdateInfo)
-{
-	TetrisPlayerState->UpdateState(UpdateInfo);
-
-	check(GoalSystem.GetObject() != nullptr);
-	const bool bIsLevelUpCondition = GoalSystem->IsLevelUpCondition(*TetrisPlayerState);
-	if (bIsLevelUpCondition)
+	if (USoundCue* const SoundCue = LoadObject<USoundCue>(nullptr, *CuePath.ToString()))
 	{
-		LevelUp();
+		if (UAudioComponent* const AudioComponent = UGameplayStatics::SpawnSound2D(GetWorld(), SoundCue))
+		{
+			return AudioComponent;
+		}
+		else
+		{
+			UE_LOG(LogTemp, Error, TEXT("ATetrisGameModeBase::CreateAudioComponent() - Failed to spawn AudioComponent"));
+		}
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("ATetrisGameModeBase::CreateAudioComponent() - Failed to load SoundCue"));
 	}
 
-	// Update HUD
-	HUDWidget->UpdateDisplay(TetrisPlayerState->GetHUDSingleUpdateDisplayParams());
+	return nullptr;
+
+}
+
+void ATetrisGameModeBase::SetAudioComponentVolume(UAudioComponent* const AudioComponent, const float Volume)
+{
+	if (AudioComponent)
+	{
+		AudioComponent->SetVolumeMultiplier(Volume);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("ATetrisGameModeBase::SetAudioComponentVolume() - AudioComponent is nullptr"));
+	}
 }
 
 void ATetrisGameModeBase::BeginPlay()
@@ -65,67 +44,32 @@ void ATetrisGameModeBase::BeginPlay()
 	Super::BeginPlay();
 
 	Initialize();
-	StartGamePlay();
 }
 
-void ATetrisGameModeBase::LevelUp()
+void ATetrisGameModeBase::InternalSetInputMode(const FInputModeDataBase& InputMode)
 {
-	TetrisPlayerState->LevelUp(GoalSystem.GetInterface());
-
-	const float OldNormalFallSpeed = TetrisPlayManager->GetNormalFallSpeed();
-	const float NewNormalFallSpeed = GetCurrentLevelNormalFallSpeed();
-	check(OldNormalFallSpeed != NewNormalFallSpeed); // If this is not true, the level up system is not working properly.
-	TetrisPlayManager->SetNormalFallSpeed(NewNormalFallSpeed);
-	UE_LOG(LogTemp, Warning, TEXT("Level Up! New NormalFallSpeed: %f"), NewNormalFallSpeed);
+	if (APlayerController* const PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), PlayerIndex))
+	{
+		PlayerController->SetInputMode(InputMode);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("ATetrisGameModeBase::InternalSetInputMode() - Failed to get PlayerController"));
+	}
 }
 
 void ATetrisGameModeBase::Initialize()
 {
-	UWorld* const World = GetWorld();
-	check(World != nullptr);
+	SetInputMode();
+	LoadSetting();
+}
 
-	// TetrisPlayManager
-	check(TetrisPlayManagerClass != nullptr);
-	TetrisPlayManager = World->SpawnActor<ATetrisPlayManager>(TetrisPlayManagerClass);
-	check(TetrisPlayManager != nullptr);
-
-	// TetrisPlayerController
-	TetrisPlayerController = Cast<ATetrisPlayerControllerSingle>(UGameplayStatics::GetPlayerController(World, PlayerIndex));
-	check(TetrisPlayerController != nullptr);
-
-	// GoalSystem
-	check(GoalSystemType != EGoalSystemType::None);
-	if (IGoalSystemInterface* const GoalSystemInterface = GoalSystemFactory::CreateGoalSystemInterface(GoalSystemType, this))
+void ATetrisGameModeBase::LoadSetting()
+{
+	if (!LoadSaveGameInstance())
 	{
-		if (UObject* const GoalSystemObject = Cast<UObject>(GoalSystemInterface))
-		{
-			GoalSystem.SetInterface(GoalSystemInterface);
-			GoalSystem.SetObject(GoalSystemObject);
-		}
+		return;
 	}
 
-	// HUDWidget
-	check(HUDWidgetClass != nullptr);
-	HUDWidget = CreateWidget<UHUDSingle>(World, HUDWidgetClass);
-	check(HUDWidget != nullptr);
-
-	/** Call Initialize methods */
-	TetrisPlayManager->Initialize();
-	TetrisPlayerController->Initialize();
-	TetrisPlayerState->Initialize(GoalSystem.GetInterface());
-
-	HUDWidget->InitializeHUD(TetrisPlayerState->GetHUDSingleUpdateDisplayParams(), this);
-}
-
-void ATetrisGameModeBase::StartGamePlay()
-{
-	GameStartTime = UGameplayStatics::GetTimeSeconds(GetWorld());
-	TetrisPlayManager->StartGenerationPhase();
-}
-
-float ATetrisGameModeBase::CalculateNormalFallSpeed(const int32 GameLevel)
-{
-	const float A = 0.8f - ((GameLevel - 1) * 0.007f);
-	const float B = static_cast<float>(GameLevel - 1);
-	return FMath::Pow(A, B);
+	LoadSoundSetting();
 }
