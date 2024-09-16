@@ -21,6 +21,12 @@ UTetrisSaveGameOption* UTetrisSaveGameOption::LoadTetrisSaveGame()
 	if (!SaveGameOption)
 	{
 		SaveGameOption = Cast<UTetrisSaveGameOption>(UGameplayStatics::CreateSaveGameObject(UTetrisSaveGameOption::StaticClass()));
+		if (!SaveGameOption)
+		{
+			UE_LOG(LogTemp, Error, TEXT("UTetrisSaveGameOption::LoadTetrisSaveGame() - Failed to create SaveGameOption"));
+			return nullptr;
+		}
+
 		SaveGameOption->Initialize();
 		SaveGameOption->SaveSetting();
 	}
