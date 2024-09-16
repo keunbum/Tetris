@@ -8,7 +8,7 @@
 
 class USoundCue;
 class UAudioComponent;
-class UTetrisSaveGame;
+class UTetrisSaveGameOption;
 
 /**
  * 
@@ -37,7 +37,7 @@ public:
 
 private:
 	UPROPERTY()
-	TObjectPtr<UTetrisSaveGame> TetrisSaveGame;
+	TObjectPtr<UTetrisSaveGameOption> TetrisSaveGame;
 
 	UPROPERTY()
 	TObjectPtr<UAudioComponent> BGMComponent;

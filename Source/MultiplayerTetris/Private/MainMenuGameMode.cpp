@@ -6,7 +6,7 @@
 #include "Components/AudioComponent.h"
 #include "Sound/SoundCue.h"
 
-#include "TetrisSaveGame.h"
+#include "TetrisSaveGameOption.h"
 
 const FName AMainMenuGameMode::MainMenuLevelName(TEXT("MainMenuLevel"));
 const FName AMainMenuGameMode::BGMCuePath(TEXT("/Game/Sound/BGM/Block_Dance_Cue"));
@@ -30,7 +30,7 @@ void AMainMenuGameMode::SetInputMode()
 
 void AMainMenuGameMode::LoadSetting()
 {
-	TetrisSaveGame = UTetrisSaveGame::LoadTetrisSaveGame();
+	TetrisSaveGame = UTetrisSaveGameOption::LoadTetrisSaveGame();
 	if (!TetrisSaveGame)
 	{
 		UE_LOG(LogTemp, Error, TEXT("MainMenuGameMode::LoadSoundSetting() - Failed to load TetrisSaveGame"));
