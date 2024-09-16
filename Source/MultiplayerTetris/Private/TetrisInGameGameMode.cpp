@@ -123,7 +123,7 @@ void ATetrisInGameGameMode::SetInputMode()
 
 void ATetrisInGameGameMode::LoadSetting()
 {
-	// TODO:: Implement if needed
+	// TODO: Implement if needed
 }
 
 void ATetrisInGameGameMode::StartGamePlay()
