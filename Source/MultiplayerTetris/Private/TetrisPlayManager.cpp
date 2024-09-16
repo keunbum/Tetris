@@ -366,8 +366,8 @@ void ATetrisPlayManager::HardDrop()
 {
 	check(IsTetriminoInPlayManipulable());
 	MoveTetriminoToFinalFallingMatrixLocation();
-	// GhostPiece를 지운다.
-
+	// GhostPiece를 잠시 안보이게 한다.
+	GhostPiece->SetActorHiddenInGame(true);
 	ForcedLockDown();
 }
 

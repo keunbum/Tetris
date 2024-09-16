@@ -27,6 +27,8 @@ void ATetrimino::SetGhostPiece(AGhostPiece* const InGhostPiece)
 		GhostPiece->Initialize(InitializeParams);
 		check(Board != nullptr);
 		GhostPiece->SetRelativeLocationByMatrixLocation(Board->GetFinalFallingMatrixLocation(this));
+		// GhostPiece를 화면에 보이게 한다 (ATetrisPlayManager::HardDrop 때문에 필요)
+		GhostPiece->SetActorHiddenInGame(false);
 	}
 }
 
