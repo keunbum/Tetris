@@ -366,6 +366,8 @@ void ATetrisPlayManager::HardDrop()
 {
 	check(IsTetriminoInPlayManipulable());
 	MoveTetriminoToFinalFallingMatrixLocation();
+	// GhostPiece를 지운다.
+
 	ForcedLockDown();
 }
 
@@ -436,7 +438,7 @@ void ATetrisPlayManager::ForcedLockDown()
 	// GenerationPhaseTimerHandle should be finished.
 	check(!GetWorldTimerManager().IsTimerActive(GenerationPhaseTimerHandle));
 
-	StartLockPhase(LockDownDelayOfHardDrop);
+	StartLockPhase(HardDropLockDownDelay);
 }
 
 void ATetrisPlayManager::CheckLineClearPattern(TArray<int32>& OutHitList)
