@@ -367,7 +367,7 @@ void ATetrisPlayManager::HardDrop()
 	check(IsTetriminoInPlayManipulable());
 	// GhostPiece를 잠시 안보이게 한다.
 	GhostPiece->SetActorHiddenInGame(true);
-	MoveTetriminoToFinalFallingMatrixLocation();
+	MoveTetriminoInPlayToFinalFallingLocation();
 	ForcedLockDown();
 }
 
@@ -377,7 +377,7 @@ bool ATetrisPlayManager::IsHoldingTetriminoInPlayAvailable() const
 	return HoldQueue->IsEmpty() || bIsTetriminoInPlayLockedDownFromLastHold;
 }
 
-void ATetrisPlayManager::MoveTetriminoToFinalFallingMatrixLocation()
+void ATetrisPlayManager::MoveTetriminoInPlayToFinalFallingLocation()
 {
 	const FIntPoint FinalFallingMatrixLocation = GhostPiece->GetMatrixLocation();
 	TetriminoInPlay->SetRelativeLocationByMatrixLocation(FinalFallingMatrixLocation);

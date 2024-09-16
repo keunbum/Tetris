@@ -88,7 +88,7 @@ private:
 	void MoveTetrimino();
 	void MoveTetriminoDown();
 	// Move the Tetrimino to FinalFallingMatrixLocation.
-	void MoveTetriminoToFinalFallingMatrixLocation();
+	void MoveTetriminoInPlayToFinalFallingLocation();
 
 	void HardDrop();
 
