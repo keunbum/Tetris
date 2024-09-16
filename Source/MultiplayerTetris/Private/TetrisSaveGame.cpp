@@ -22,6 +22,7 @@ UTetrisSaveGame* UTetrisSaveGame::LoadTetrisSaveGame()
 	{
 		SaveGame = Cast<UTetrisSaveGame>(UGameplayStatics::CreateSaveGameObject(UTetrisSaveGame::StaticClass()));
 		SaveGame->Initialize();
+		SaveGame->SaveSetting();
 	}
 
 	return SaveGame;
