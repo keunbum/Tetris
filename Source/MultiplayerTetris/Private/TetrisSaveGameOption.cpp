@@ -17,19 +17,18 @@ void UTetrisSaveGameOption::SaveSetting()
 
 UTetrisSaveGameOption* UTetrisSaveGameOption::LoadTetrisSaveGame()
 {
-	UTetrisSaveGameOption* SaveGameOption = Cast<UTetrisSaveGameOption>(UGameplayStatics::LoadGameFromSlot(UTetrisSaveGameOption::SlotName.ToString(), UTetrisSaveGameOption::UserIndex));
-	if (!SaveGameOption)
+	if (UTetrisSaveGameOption* const ExistingSaveGameOption = Cast<UTetrisSaveGameOption>(UGameplayStatics::LoadGameFromSlot(UTetrisSaveGameOption::SlotName.ToString(), UTetrisSaveGameOption::UserIndex)))
 	{
-		SaveGameOption = Cast<UTetrisSaveGameOption>(UGameplayStatics::CreateSaveGameObject(UTetrisSaveGameOption::StaticClass()));
-		if (!SaveGameOption)
-		{
-			UE_LOG(LogTemp, Error, TEXT("UTetrisSaveGameOption::LoadTetrisSaveGame() - Failed to create SaveGameOption"));
-			return nullptr;
-		}
-
-		SaveGameOption->Initialize();
-		SaveGameOption->SaveSetting();
+		return ExistingSaveGameOption;
 	}
 
-	return SaveGameOption;
+	if (UTetrisSaveGameOption* const NewSaveGameOption = Cast<UTetrisSaveGameOption>(UGameplayStatics::CreateSaveGameObject(UTetrisSaveGameOption::StaticClass())))
+	{
+		NewSaveGameOption->Initialize();
+		NewSaveGameOption->SaveSetting();
+		return NewSaveGameOption;
+	}
+
+	UE_LOG(LogTemp, Error, TEXT("UTetrisSaveGameOption::LoadTetrisSaveGame() - Failed to create SaveGameOption"));
+	return nullptr;
 }
