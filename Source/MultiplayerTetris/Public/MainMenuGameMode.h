@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/GameModeBase.h"
+#include "TetrisGameModeBase.h"
 #include "MainMenuGameMode.generated.h"
 
 class USoundCue;
@@ -14,7 +14,7 @@ class UTetrisSaveGame;
  * 
  */
 UCLASS()
-class MULTIPLAYERTETRIS_API AMainMenuGameMode : public AGameModeBase
+class MULTIPLAYERTETRIS_API AMainMenuGameMode : public ATetrisGameModeBase
 {
 	GENERATED_BODY()
 	

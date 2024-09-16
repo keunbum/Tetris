@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/GameModeBase.h"
+#include "TetrisGameModeBase.h"
 
 #include "GoalSystemFactory.h"
 
@@ -32,7 +32,7 @@ struct FTetrisGamePlayInfo
  * 
  */
 UCLASS()
-class MULTIPLAYERTETRIS_API ATetrisPlayGameModeBase : public AGameModeBase
+class MULTIPLAYERTETRIS_API ATetrisPlayGameModeBase : public ATetrisGameModeBase
 {
 	GENERATED_BODY()
 	
