@@ -28,13 +28,13 @@ protected:
 	virtual void BeginPlay() override;
 
 	void InternalSetInputMode(const FInputModeDataBase& InputModeData);
-
 	virtual void Initialize();
 	virtual void LoadSetting();
+
+private:
+	// Declare PURE_VIRTUAL functions
 	virtual bool LoadSaveGameInstance() PURE_VIRTUAL(ATetrisGameModeBase::LoadSaveGameInstance, return false;);
 	virtual void LoadSoundSetting() PURE_VIRTUAL(ATetrisGameModeBase::LoadSoundSetting);
-
-	// Declare PURE_VIRTUAL functions
 	virtual void SetInputMode() PURE_VIRTUAL(ATetrisGameModeBase::SetInputMode);
 
 public:
