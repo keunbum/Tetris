@@ -365,7 +365,9 @@ void ATetrisPlayManager::MoveTetriminoDown()
 void ATetrisPlayManager::HardDrop()
 {
 	check(IsTetriminoInPlayManipulable());
-	MoveTetriminoToFinalFallingMatrixLocation();
+	// GhostPiece를 잠시 안보이게 한다.
+	GhostPiece->SetActorHiddenInGame(true);
+	MoveTetriminoInPlayToFinalFallingLocation();
 	ForcedLockDown();
 }
 
@@ -375,7 +377,7 @@ bool ATetrisPlayManager::IsHoldingTetriminoInPlayAvailable() const
 	return HoldQueue->IsEmpty() || bIsTetriminoInPlayLockedDownFromLastHold;
 }
 
-void ATetrisPlayManager::MoveTetriminoToFinalFallingMatrixLocation()
+void ATetrisPlayManager::MoveTetriminoInPlayToFinalFallingLocation()
 {
 	const FIntPoint FinalFallingMatrixLocation = GhostPiece->GetMatrixLocation();
 	TetriminoInPlay->SetRelativeLocationByMatrixLocation(FinalFallingMatrixLocation);
@@ -436,7 +438,7 @@ void ATetrisPlayManager::ForcedLockDown()
 	// GenerationPhaseTimerHandle should be finished.
 	check(!GetWorldTimerManager().IsTimerActive(GenerationPhaseTimerHandle));
 
-	StartLockPhase(LockDownDelayOfHardDrop);
+	StartLockPhase(HardDropLockDownDelay);
 }
 
 void ATetrisPlayManager::CheckLineClearPattern(TArray<int32>& OutHitList)

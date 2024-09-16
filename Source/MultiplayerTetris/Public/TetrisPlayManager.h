@@ -88,7 +88,7 @@ private:
 	void MoveTetrimino();
 	void MoveTetriminoDown();
 	// Move the Tetrimino to FinalFallingMatrixLocation.
-	void MoveTetriminoToFinalFallingMatrixLocation();
+	void MoveTetriminoInPlayToFinalFallingLocation();
 
 	void HardDrop();
 
@@ -146,7 +146,7 @@ private:
 	/** Hard Drop */
 	static constexpr bool bIsHardDropTimerLoop = false;
 	static constexpr float HardDropTimerInitialDelay = 0.0001f;
-	static constexpr float LockDownDelayOfHardDrop = 0.0f;
+	static constexpr float HardDropLockDownDelay = 0.0f;
 
 	/** LockDown */
 	static constexpr bool bIsLockDownTimerLoop = false;
