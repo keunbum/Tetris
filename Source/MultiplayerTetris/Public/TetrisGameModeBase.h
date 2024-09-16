@@ -7,6 +7,8 @@
 #include "TetrisGameModeBase.generated.h"
 
 struct FInputModeDataBase;
+class UAudioComponent;
+class UTetrisSaveGameOption;
 
 /**
  * 
@@ -31,4 +33,11 @@ private:
 public:
 	/** Player */
 	static constexpr int32 PlayerIndex = 0;
+
+protected:
+	UPROPERTY()
+	TObjectPtr<UTetrisSaveGameOption> TetrisSaveGameOption;
+
+	UPROPERTY()
+	TObjectPtr<UAudioComponent> BGMComponent;
 };
