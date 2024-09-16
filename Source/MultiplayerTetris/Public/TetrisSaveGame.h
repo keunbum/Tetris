@@ -22,7 +22,6 @@ public:
 	static UTetrisSaveGame* LoadTetrisSaveGame();
 	
 public:
-	// Save Slot Name
 	static const FName SlotName;
 	static constexpr int32 UserIndex = 0;
 
