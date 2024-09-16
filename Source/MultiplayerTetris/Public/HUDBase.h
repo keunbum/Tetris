@@ -7,7 +7,7 @@
 #include "HUDBase.generated.h"
 
 class UTextBlock;
-class ATetrisPlayGameModeBase;
+class ATetrisInGameGameMode;
 
 /**
  * 
@@ -26,5 +26,5 @@ public:
 
 protected:
 	UPROPERTY()
-	TObjectPtr<ATetrisPlayGameModeBase> TetrisGameMode;
+	TObjectPtr<ATetrisInGameGameMode> TetrisGameMode;
 };

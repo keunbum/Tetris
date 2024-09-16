@@ -35,7 +35,7 @@ class MULTIPLAYERTETRIS_API UHUDSingle : public UHUDBase
 	GENERATED_BODY()
 	
 public:
-	void InitializeHUD(const FHUDSingleUpdateDisplayParams& DisplayParams, ATetrisPlayGameModeBase* const InTetrisGameMode);
+	void InitializeHUD(const FHUDSingleUpdateDisplayParams& DisplayParams, ATetrisInGameGameMode* const InTetrisGameMode);
 
 	void UpdateDisplay(const FHUDSingleUpdateDisplayParams& DisplayParams);
 
