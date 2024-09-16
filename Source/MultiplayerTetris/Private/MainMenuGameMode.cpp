@@ -31,7 +31,7 @@ void AMainMenuGameMode::LoadSetting()
 
 bool AMainMenuGameMode::LoadSaveGameInstance()
 {
-	TetrisSaveGameOption = UTetrisSaveGameOption::LoadTetrisSaveGame();
+	TetrisSaveGameOption = UTetrisSaveGameOption::LoadTetrisSaveGameOptionInstance();
 	return TetrisSaveGameOption != nullptr;
 }
 

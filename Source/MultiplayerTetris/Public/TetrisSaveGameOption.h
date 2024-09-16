@@ -23,7 +23,7 @@ public:
 	float GetBGMVolume() const { return BGMVolume; }
 
 	// static methods
-	static UTetrisSaveGameOption* LoadTetrisSaveGame();
+	static UTetrisSaveGameOption* LoadTetrisSaveGameOptionInstance();
 	
 public:
 	static const FName SlotName;
