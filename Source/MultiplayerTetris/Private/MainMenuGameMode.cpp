@@ -13,6 +13,11 @@ void AMainMenuGameMode::BeginPlay()
 {
 	Super::BeginPlay();
 
+	SetInputMode();
+}
+
+void AMainMenuGameMode::SetInputMode()
+{
 	if (ATetrisPlayerControllerSingle* const TetrisPlayerController = Cast<ATetrisPlayerControllerSingle>(UGameplayStatics::GetPlayerController(GetWorld(), ATetrisGameModeBase::PlayerIndex)))
 	{
 		// Set the input mode to UIOnly
