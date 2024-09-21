@@ -8,13 +8,24 @@
 #include "OptionPopUpWidget.h"
 #include "MenuButton.h"
 
+const FName UMainMenuWidget::OptionPopUpWidgetPath(TEXT("/Game/UI/WB_OptionPopUp"));
+
+UMainMenuWidget::UMainMenuWidget()
+{
+	static ConstructorHelpers::FClassFinder<UOptionPopUpWidget> OptionPopUpBPClass(*OptionPopUpWidgetPath.ToString());
+	if (OptionPopUpBPClass.Succeeded())
+	{
+		OptionPopUpWidgetClass = OptionPopUpBPClass.Class;
+	}
+}
+
 void UMainMenuWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 
 	if (MenuButtons.IsEmpty())
 	{
-		SetMenuButtons({ StartButton, ExitButton });
+		SetMenuButtons({ StartButton, OptionButton, ExitButton });
 	}
 
 	if (!StartButton->OnClicked.IsBound())
@@ -39,7 +50,14 @@ void UMainMenuWidget::OnStartClicked()
 
 void UMainMenuWidget::OnOptionClicked()
 {
-	// Open Option PopUp Widget
+	if (!OptionPopUpWidget)
+	{
+		check(OptionPopUpWidgetClass != nullptr);
+		OptionPopUpWidget = CreateWidget<UOptionPopUpWidget>(GetWorld(), OptionPopUpWidgetClass);
+		check(OptionPopUpWidget != nullptr);
+	}
+
+	OptionPopUpWidget->AddToViewport();
 }
 
 void UMainMenuWidget::OnExitClicked()
