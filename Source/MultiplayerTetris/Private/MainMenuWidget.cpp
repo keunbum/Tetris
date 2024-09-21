@@ -50,6 +50,7 @@ void UMainMenuWidget::OnStartClicked()
 
 void UMainMenuWidget::OnOptionClicked()
 {
+	// Create Option PopUp Widget if not exist
 	if (!OptionPopUpWidget)
 	{
 		check(OptionPopUpWidgetClass != nullptr);
@@ -57,6 +58,7 @@ void UMainMenuWidget::OnOptionClicked()
 		check(OptionPopUpWidget != nullptr);
 	}
 
+	// Open Option PopUp
 	OptionPopUpWidget->AddToViewport();
 }
 
