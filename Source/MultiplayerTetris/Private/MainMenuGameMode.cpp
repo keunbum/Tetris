@@ -5,7 +5,7 @@
 #include "TetrisSaveGameOption.h"
 
 const FName AMainMenuGameMode::MainMenuLevelName(TEXT("MainMenuLevel"));
-const FName AMainMenuGameMode::BGMCuePath(TEXT("/Game/Sound/BGM/Block_Dance_Cue"));
+const FName AMainMenuGameMode::BGMCuePath(TEXT("/Game/Sound/BGM/Whispers_of_the_Sea_Cue"));
 
 void AMainMenuGameMode::BeginPlay()
 {
