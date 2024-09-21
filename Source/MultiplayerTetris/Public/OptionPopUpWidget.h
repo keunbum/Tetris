@@ -6,7 +6,6 @@
 #include "PopUpWidgetBase.h"
 #include "OptionPopUpWidget.generated.h"
 
-class UButtonBase;
 class UAudioVolumeSlider;
 
 /**
@@ -21,13 +20,6 @@ protected:
 	virtual void NativeConstruct() override;
 
 private:
-	UFUNCTION()
-	void OnCloseClicked();
-
-private:
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UAudioVolumeSlider> BGMVolumeSlider;
-
-	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UButtonBase> CloseButton;
 };
