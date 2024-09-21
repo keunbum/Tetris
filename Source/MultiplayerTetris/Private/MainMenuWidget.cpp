@@ -5,7 +5,19 @@
 #include "Kismet/GameplayStatics.h"
 
 #include "TetrisInGameGameMode.h"
+#include "OptionPopUpWidget.h"
 #include "MenuButton.h"
+
+const FName UMainMenuWidget::OptionPopUpWidgetPath(TEXT("/Game/UI/WB_OptionPopUp"));
+
+UMainMenuWidget::UMainMenuWidget()
+{
+	static ConstructorHelpers::FClassFinder<UOptionPopUpWidget> OptionPopUpBPClass(*OptionPopUpWidgetPath.ToString());
+	if (ensureMsgf(OptionPopUpBPClass.Succeeded(), TEXT("Failed to find OptionPopUpWidget BP class.")))
+	{
+		OptionPopUpWidgetClass = OptionPopUpBPClass.Class;
+	}
+}
 
 void UMainMenuWidget::NativeConstruct()
 {
@@ -13,12 +25,16 @@ void UMainMenuWidget::NativeConstruct()
 
 	if (MenuButtons.IsEmpty())
 	{
-		SetMenuButtons({ StartButton, ExitButton });
+		SetMenuButtons({ StartButton, OptionButton, ExitButton });
 	}
 
 	if (!StartButton->OnClicked.IsBound())
 	{
 		StartButton->OnClicked.AddDynamic(this, &UMainMenuWidget::OnStartClicked);
+	}
+	if (!OptionButton->OnClicked.IsBound())
+	{
+		OptionButton->OnClicked.AddDynamic(this, &UMainMenuWidget::OnOptionClicked);
 	}
 	if (!ExitButton->OnClicked.IsBound())
 	{
@@ -30,6 +46,20 @@ void UMainMenuWidget::OnStartClicked()
 {
 	// Open Tetris Level
 	UGameplayStatics::OpenLevel(GetWorld(), ATetrisInGameGameMode::TetrisLevelName);
+}
+
+void UMainMenuWidget::OnOptionClicked()
+{
+	// Create Option PopUp Widget if not exist
+	if (!OptionPopUpWidget)
+	{
+		check(OptionPopUpWidgetClass != nullptr);
+		OptionPopUpWidget = CreateWidget<UOptionPopUpWidget>(GetWorld(), OptionPopUpWidgetClass);
+		check(OptionPopUpWidget != nullptr);
+	}
+
+	// Open Option PopUp
+	OptionPopUpWidget->AddToViewport();
 }
 
 void UMainMenuWidget::OnExitClicked()

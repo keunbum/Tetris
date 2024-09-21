@@ -34,7 +34,7 @@ private:
 	TObjectPtr<UInputAction> PauseAction;
 
 	/** Widget References */
-	UPROPERTY(meta = (BindWidget))
+	UPROPERTY()
 	TObjectPtr<UPauseMenuWidget> PauseMenuWidget;
 
 	/** Widget Class Reference */
