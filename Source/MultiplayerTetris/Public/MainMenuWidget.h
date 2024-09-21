@@ -22,11 +22,17 @@ private:
 	void OnStartClicked();
 
 	UFUNCTION()
+	void OnOptionClicked();
+
+	UFUNCTION()
 	void OnExitClicked();
 
 private:
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UMenuButton> StartButton;
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UMenuButton> OptionButton;
 
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UMenuButton> ExitButton;
