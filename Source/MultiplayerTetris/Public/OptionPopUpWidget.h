@@ -16,6 +16,13 @@ UCLASS()
 class MULTIPLAYERTETRIS_API UOptionPopUpWidget : public UPopUpWidgetBase
 {
 	GENERATED_BODY()
+
+protected:
+	virtual void NativeConstruct() override;
+
+private:
+	UFUNCTION()
+	void OnCloseClicked();
 	
 protected:
 	UPROPERTY(meta = (BindWidget))
