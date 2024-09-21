@@ -13,7 +13,7 @@ const FName UMainMenuWidget::OptionPopUpWidgetPath(TEXT("/Game/UI/WB_OptionPopUp
 UMainMenuWidget::UMainMenuWidget()
 {
 	static ConstructorHelpers::FClassFinder<UOptionPopUpWidget> OptionPopUpBPClass(*OptionPopUpWidgetPath.ToString());
-	if (OptionPopUpBPClass.Succeeded())
+	if (ensureMsgf(OptionPopUpBPClass.Succeeded(), TEXT("Failed to find OptionPopUpWidget BP class.")))
 	{
 		OptionPopUpWidgetClass = OptionPopUpBPClass.Class;
 	}
