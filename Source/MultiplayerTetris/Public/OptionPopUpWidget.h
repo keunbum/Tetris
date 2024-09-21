@@ -23,8 +23,8 @@ protected:
 private:
 	UFUNCTION()
 	void OnCloseClicked();
-	
-protected:
+
+private:
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UAudioVolumeSlider> BGMVolumeSlider;
 
