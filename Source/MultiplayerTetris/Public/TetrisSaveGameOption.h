@@ -19,8 +19,8 @@ public:
 
 	void SaveCommonOptionSettings();
 
-	float GetMainSoundClassVolume() const { return MainSoundClassVolume; }
 	void SetMainSoundClassVolume(const float NewVolume) { MainSoundClassVolume = NewVolume; SaveCommonOptionSettings(); }
+	float GetMainSoundClassVolume() const { return MainSoundClassVolume; }
 
 	void SetBGMSoundClassVolume(const float NewVolume) { BGMSoundClassVolume = NewVolume; SaveCommonOptionSettings(); }
 	float GetBGMSoundClassVolume() const { return BGMSoundClassVolume; }
