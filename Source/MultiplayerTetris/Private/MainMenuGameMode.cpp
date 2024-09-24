@@ -22,9 +22,9 @@ void AMainMenuGameMode::SetInputMode()
 	InternalSetInputMode(InputMode);
 }
 
-void AMainMenuGameMode::InitDefaultEffect()
+void AMainMenuGameMode::InitializeDefaultEffect()
 {
-	Super::InitDefaultEffect();
+	Super::InitializeDefaultEffect();
 
 	// Init Default Audio
 	BGMComponent = CreateAudioComponent(BGMCuePath);

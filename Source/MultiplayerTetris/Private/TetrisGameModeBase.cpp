@@ -49,5 +49,5 @@ void ATetrisGameModeBase::InternalSetInputMode(const FInputModeDataBase& InputMo
 void ATetrisGameModeBase::Initialize()
 {
 	SetInputMode();
-	InitDefaultEffect();
+	InitializeDefaultEffect();
 }

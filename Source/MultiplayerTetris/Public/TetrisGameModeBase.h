@@ -25,7 +25,7 @@ protected:
 
 	void InternalSetInputMode(const FInputModeDataBase& InputModeData);
 	virtual void Initialize();
-	virtual void InitDefaultEffect() {}
+	virtual void InitializeDefaultEffect() {}
 
 private:
 	// Declare PURE_VIRTUAL functions
