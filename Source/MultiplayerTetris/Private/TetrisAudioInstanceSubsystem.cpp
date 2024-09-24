@@ -45,23 +45,29 @@ void UTetrisAudioInstanceSubsystem::Deinitialize()
 
 float UTetrisAudioInstanceSubsystem::GetMainSoundClassVolume() const
 {
-	return SaveCommonOption->GetMainSoundClassVolume();
+	return SaveCommonOption ? SaveCommonOption->GetMainSoundClassVolume() : 0.f;
 }
 
 float UTetrisAudioInstanceSubsystem::GetBGMSoundClassVolume() const
 {
-	return SaveCommonOption->GetBGMSoundClassVolume();
+	return SaveCommonOption ? SaveCommonOption->GetBGMSoundClassVolume() : 0.f;
 }
 
 void UTetrisAudioInstanceSubsystem::SetMainSoundClassVolume(const float NewVolume)
 {
-	SaveCommonOption->SetMainSoundClassVolume(NewVolume);
+	if (SaveCommonOption)
+	{
+		SaveCommonOption->SetMainSoundClassVolume(NewVolume);
+	}
 	UTetrisAudioInstanceSubsystem::SetSoundClassVolume(MainSoundClass, NewVolume);
 }
 
 void UTetrisAudioInstanceSubsystem::SetBGMSoundClassVolume(const float NewVolume)
 {
-	SaveCommonOption->SetBGMSoundClassVolume(NewVolume);
+	if (SaveCommonOption)
+	{
+		SaveCommonOption->SetBGMSoundClassVolume(NewVolume);
+	}
 	UTetrisAudioInstanceSubsystem::SetSoundClassVolume(BGMSoundClass, NewVolume);
 }
 
