@@ -27,18 +27,6 @@ UAudioComponent* ATetrisGameModeBase::CreateAudioComponent(const FName& CuePath)
 
 }
 
-void ATetrisGameModeBase::SetAudioComponentVolume(UAudioComponent* const AudioComponent, const float Volume)
-{
-	if (AudioComponent)
-	{
-		AudioComponent->SetVolumeMultiplier(Volume);
-	}
-	else
-	{
-		UE_LOG(LogTemp, Error, TEXT("ATetrisGameModeBase::SetAudioComponentVolume() - AudioComponent is nullptr"));
-	}
-}
-
 void ATetrisGameModeBase::BeginPlay()
 {
 	Super::BeginPlay();
@@ -61,15 +49,5 @@ void ATetrisGameModeBase::InternalSetInputMode(const FInputModeDataBase& InputMo
 void ATetrisGameModeBase::Initialize()
 {
 	SetInputMode();
-	LoadSetting();
-}
-
-void ATetrisGameModeBase::LoadSetting()
-{
-	if (!LoadSaveGameInstance())
-	{
-		return;
-	}
-
-	LoadSoundSetting();
+	InitDefaultEffect();
 }
