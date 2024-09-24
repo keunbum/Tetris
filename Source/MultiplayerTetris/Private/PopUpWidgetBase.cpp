@@ -15,5 +15,6 @@ void UPopUpWidgetBase::NativeConstruct()
 
 void UPopUpWidgetBase::OnCloseClicked()
 {
+	PrepareClose();
 	RemoveFromParent();
 }

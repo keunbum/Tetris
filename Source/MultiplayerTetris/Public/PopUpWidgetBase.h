@@ -18,6 +18,8 @@ class MULTIPLAYERTETRIS_API UPopUpWidgetBase : public UUserWidget
 
 protected:
 	virtual void NativeConstruct() override;
+
+	virtual void PrepareClose() {}
 	
 private:
 	UFUNCTION()

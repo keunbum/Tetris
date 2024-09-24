@@ -16,21 +16,29 @@ class MULTIPLAYERTETRIS_API UTetrisSaveGameOption : public USaveGame
 
 public:
 	void Initialize();
-	void SaveSetting();
 
-	// SaveSetting은 옵션창 닫으며 최종적으로 저장할 때 호출
-	void SetBGMVolume(const float NewVolume) { BGMVolume = NewVolume; }
-	float GetBGMVolume() const { return BGMVolume; }
+	void SaveCommonOptionSettings();
+
+	void SetMainSoundClassVolume(const float NewVolume) { MainSoundClassVolume = NewVolume; SaveCommonOptionSettings(); }
+	float GetMainSoundClassVolume() const { return MainSoundClassVolume; }
+
+	void SetBGMSoundClassVolume(const float NewVolume) { BGMSoundClassVolume = NewVolume; SaveCommonOptionSettings(); }
+	float GetBGMSoundClassVolume() const { return BGMSoundClassVolume; }
+
+	void DebugPrint(const FString& Prefix = TEXT("")) const;
 
 	// static methods
-	static UTetrisSaveGameOption* LoadTetrisSaveGameOptionInstance();
+	static UTetrisSaveGameOption* LoadTetrisSaveCommonOption();
 	
 public:
-	static const FName SlotName;
+	static const FName CommonOptionSlotName;
 	static constexpr int32 UserIndex = 0;
 
 private:
 	/** Save Data */
 	UPROPERTY(VisibleAnywhere, Category = "Audio")
-	float BGMVolume;
+	float MainSoundClassVolume = 1.0f;
+
+	UPROPERTY(VisibleAnywhere, Category = "Audio")
+	float BGMSoundClassVolume = 1.0f;
 };

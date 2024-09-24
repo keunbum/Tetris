@@ -6,7 +6,8 @@
 #include "PopUpWidgetBase.h"
 #include "OptionPopUpWidget.generated.h"
 
-class UAudioVolumeSlider;
+class USlider;
+class UTetrisAudioInstanceSubsystem;
 
 /**
  * 
@@ -19,7 +20,15 @@ class MULTIPLAYERTETRIS_API UOptionPopUpWidget : public UPopUpWidgetBase
 protected:
 	virtual void NativeConstruct() override;
 
+	virtual void PrepareClose() override;
+
+	UFUNCTION()
+	void OnBGMVolumeChanged(const float NewVolume);
+
 private:
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UAudioVolumeSlider> BGMVolumeSlider;
+	TObjectPtr<USlider> BGMVolumeSlider;
+
+	UPROPERTY()
+	TObjectPtr<UTetrisAudioInstanceSubsystem> AudioInstanceSubsystem;
 };

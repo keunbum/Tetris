@@ -61,15 +61,10 @@ protected:
 private:
 	virtual void Initialize() override;
 	virtual void SetInputMode() override;
-	virtual void LoadSetting() override;
-	virtual bool LoadSaveGameInstance() override;
-	virtual void LoadSoundSetting() override;
 	void StartGamePlay();
 
 	/** static methods */
 	static float CalculateNormalFallSpeed(const int32 GameLevel);
-
-	//void ShowWidget(TSubclassOf<UUserWidget> WidgetClass);
 
 public:
 	UPROPERTY(EditDefaultsOnly, Category = "Tetrimino")
@@ -121,8 +116,4 @@ protected:
 	/** Interfaces */
 	UPROPERTY()
 	TScriptInterface<IGoalSystemInterface> GoalSystem;
-
-	//UPROPERTY()
-	//// Widgets
-	//TObjectPtr<UUserWidget> CurrentWidget;
 };
