@@ -13,16 +13,14 @@ UCLASS()
 class MULTIPLAYERTETRIS_API AMainMenuGameMode : public ATetrisGameModeBase
 {
 	GENERATED_BODY()
-	
+
 protected:
 	virtual void BeginPlay() override;
 
-private:
+protected:
 	virtual void Initialize() override;
 	virtual void SetInputMode() override;
-	virtual void LoadSetting() override;
-	virtual bool LoadSaveGameInstance() override;
-	virtual void LoadSoundSetting() override;
+	virtual void InitDefaultEffect() override;
 
 public:
 	// Level Name
