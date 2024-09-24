@@ -3,7 +3,7 @@
 #include "TetrisSaveGameOption.h"
 #include "Kismet/GameplayStatics.h"
 
-const FName UTetrisSaveGameOption::CommonSlotName(TEXT("CommonOptionSaveSlot"));
+const FName UTetrisSaveGameOption::CommonOptionSlotName(TEXT("CommonOptionSaveSlot"));
 
 void UTetrisSaveGameOption::Initialize()
 {
@@ -13,7 +13,7 @@ void UTetrisSaveGameOption::Initialize()
 
 void UTetrisSaveGameOption::SaveCommonOptionSettings()
 {
-	UGameplayStatics::SaveGameToSlot(this, UTetrisSaveGameOption::CommonSlotName.ToString(), UTetrisSaveGameOption::UserIndex);
+	UGameplayStatics::SaveGameToSlot(this, UTetrisSaveGameOption::CommonOptionSlotName.ToString(), UTetrisSaveGameOption::UserIndex);
 }
 
 void UTetrisSaveGameOption::DebugPrint(const FString& Prefix) const
@@ -24,10 +24,10 @@ void UTetrisSaveGameOption::DebugPrint(const FString& Prefix) const
 
 UTetrisSaveGameOption* UTetrisSaveGameOption::LoadTetrisSaveCommonOption()
 {
-	if (UGameplayStatics::DoesSaveGameExist(UTetrisSaveGameOption::CommonSlotName.ToString(), UTetrisSaveGameOption::UserIndex))
+	if (UGameplayStatics::DoesSaveGameExist(UTetrisSaveGameOption::CommonOptionSlotName.ToString(), UTetrisSaveGameOption::UserIndex))
 	{
 		// Load Save Game Instance
-		UTetrisSaveGameOption* const ExistingSaveGameOption = Cast<UTetrisSaveGameOption>(UGameplayStatics::LoadGameFromSlot(UTetrisSaveGameOption::CommonSlotName.ToString(), UTetrisSaveGameOption::UserIndex));
+		UTetrisSaveGameOption* const ExistingSaveGameOption = Cast<UTetrisSaveGameOption>(UGameplayStatics::LoadGameFromSlot(UTetrisSaveGameOption::CommonOptionSlotName.ToString(), UTetrisSaveGameOption::UserIndex));
 		check(ExistingSaveGameOption != nullptr);
 		return ExistingSaveGameOption;
 	}

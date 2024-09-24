@@ -31,7 +31,7 @@ public:
 	static UTetrisSaveGameOption* LoadTetrisSaveCommonOption();
 	
 public:
-	static const FName CommonSlotName;
+	static const FName CommonOptionSlotName;
 	static constexpr int32 UserIndex = 0;
 
 private:
