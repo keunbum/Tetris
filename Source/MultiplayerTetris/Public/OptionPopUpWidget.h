@@ -19,6 +19,7 @@ class MULTIPLAYERTETRIS_API UOptionPopUpWidget : public UPopUpWidgetBase
 protected:
 	virtual void NativeConstruct() override;
 
+	virtual void PrepareClose() override;
 private:
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UAudioVolumeSlider> BGMVolumeSlider;
