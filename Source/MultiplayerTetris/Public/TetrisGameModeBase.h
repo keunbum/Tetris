@@ -13,7 +13,7 @@ class UTetrisSaveGameOption;
 /**
  * 
  */
-UCLASS()
+UCLASS(Abstract)
 class MULTIPLAYERTETRIS_API ATetrisGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
