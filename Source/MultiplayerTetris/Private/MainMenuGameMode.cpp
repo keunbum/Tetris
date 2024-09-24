@@ -15,8 +15,8 @@ void AMainMenuGameMode::BeginPlay()
 	{
 		check(MainMenuWidgetClass != nullptr);
 		MainMenuWidget = CreateWidget<UMainMenuWidget>(GetWorld(), MainMenuWidgetClass);
-		MainMenuWidget->AddToViewport();
 		check(MainMenuWidget != nullptr);
+		MainMenuWidget->AddToViewport();
 	}
 }
 
