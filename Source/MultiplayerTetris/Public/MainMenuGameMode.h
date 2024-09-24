@@ -6,6 +6,8 @@
 #include "TetrisGameModeBase.h"
 #include "MainMenuGameMode.generated.h"
 
+class UMainMenuWidget;
+
 /**
  * 
  */
@@ -26,4 +28,13 @@ public:
 	// Level Name
 	static const FName MainMenuLevelName;
 	static const FName BGMCuePath;
+
+private:
+	/** Widget References */
+	UPROPERTY()
+	TObjectPtr<UMainMenuWidget> MainMenuWidget;
+
+	/** Widget Class References */
+	UPROPERTY(EditDefaultsOnly, Category = "Classes")
+	TSubclassOf<UMainMenuWidget> MainMenuWidgetClass;
 };

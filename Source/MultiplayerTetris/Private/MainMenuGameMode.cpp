@@ -1,6 +1,7 @@
 // Copyright Ryu KeunBeom. All Rights Reserved.
 
 #include "MainMenuGameMode.h"
+#include "MainMenuWidget.h"
 
 const FName AMainMenuGameMode::MainMenuLevelName(TEXT("MainMenuLevel"));
 const FName AMainMenuGameMode::BGMCuePath(TEXT("/Game/Audio/BGM/Whispers_of_the_Sea_Cue"));
@@ -8,6 +9,15 @@ const FName AMainMenuGameMode::BGMCuePath(TEXT("/Game/Audio/BGM/Whispers_of_the_
 void AMainMenuGameMode::BeginPlay()
 {
 	Super::BeginPlay();
+
+	// Create Main Menu Widget
+	if (!MainMenuWidget)
+	{
+		check(MainMenuWidgetClass != nullptr);
+		MainMenuWidget = CreateWidget<UMainMenuWidget>(GetWorld(), MainMenuWidgetClass);
+		MainMenuWidget->AddToViewport();
+		check(MainMenuWidget != nullptr);
+	}
 }
 
 void AMainMenuGameMode::Initialize()
