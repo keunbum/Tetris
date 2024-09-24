@@ -121,22 +121,6 @@ void ATetrisInGameGameMode::SetInputMode()
 	InternalSetInputMode(InputMode);
 }
 
-void ATetrisInGameGameMode::LoadSetting()
-{
-	Super::LoadSetting();
-}
-
-bool ATetrisInGameGameMode::LoadSaveGameInstance()
-{
-	// TODO: Implement if needed
-	return false;
-}
-
-void ATetrisInGameGameMode::LoadSoundSetting()
-{
-	// TODO: Implement if needed
-}
-
 void ATetrisInGameGameMode::StartGamePlay()
 {
 	GameStartTime = UGameplayStatics::GetTimeSeconds(GetWorld());

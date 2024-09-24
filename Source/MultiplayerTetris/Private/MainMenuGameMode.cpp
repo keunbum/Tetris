@@ -2,10 +2,8 @@
 
 #include "MainMenuGameMode.h"
 
-#include "TetrisSaveGameOption.h"
-
 const FName AMainMenuGameMode::MainMenuLevelName(TEXT("MainMenuLevel"));
-const FName AMainMenuGameMode::BGMCuePath(TEXT("/Game/Sound/BGM/Whispers_of_the_Sea_Cue"));
+const FName AMainMenuGameMode::BGMCuePath(TEXT("/Game/Audio/BGM/Whispers_of_the_Sea_Cue"));
 
 void AMainMenuGameMode::BeginPlay()
 {
@@ -24,18 +22,11 @@ void AMainMenuGameMode::SetInputMode()
 	InternalSetInputMode(InputMode);
 }
 
-void AMainMenuGameMode::LoadSetting()
+void AMainMenuGameMode::InitializeDefaultEffect()
 {
-	Super::LoadSetting();
-}
+	Super::InitializeDefaultEffect();
 
-bool AMainMenuGameMode::LoadSaveGameInstance()
-{
-	TetrisSaveGameOption = UTetrisSaveGameOption::LoadTetrisSaveGameOptionInstance();
-	return TetrisSaveGameOption != nullptr;
-}
-
-void AMainMenuGameMode::LoadSoundSetting()
-{
-	BGMComponent = ATetrisGameModeBase::CreateAudioComponent(BGMCuePath);
+	// Init Default Audio
+	BGMComponent = CreateAudioComponent(BGMCuePath);
+	check(BGMComponent != nullptr);
 }
