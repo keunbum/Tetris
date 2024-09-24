@@ -14,6 +14,7 @@ void UTetrisAudioInstanceSubsystem::Initialize(FSubsystemCollectionBase& Collect
 {
 	Super::Initialize(Collection);
 
+	// MainSoundMix
 	MainSoundMix = LoadObject<USoundMix>(nullptr, *MainSoundMixName.ToString());
 	check(MainSoundMix != nullptr);
 	AsyncTask(ENamedThreads::GameThread, [this]()
@@ -21,9 +22,11 @@ void UTetrisAudioInstanceSubsystem::Initialize(FSubsystemCollectionBase& Collect
 			UGameplayStatics::SetBaseSoundMix(GetWorld(), MainSoundMix);
 		});
 
+	// MainSoundClass
 	MainSoundClass = LoadObject<USoundClass>(nullptr, *MainSoundClassName.ToString());
 	check(MainSoundClass != nullptr);
 
+	// BGMSoundClass
 	BGMSoundClass = LoadObject<USoundClass>(nullptr, *BGMSoundClassName.ToString());
 	check(BGMSoundClass != nullptr);
 
