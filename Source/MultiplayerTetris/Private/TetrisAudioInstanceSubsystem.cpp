@@ -43,16 +43,6 @@ void UTetrisAudioInstanceSubsystem::Deinitialize()
 	}
 }
 
-float UTetrisAudioInstanceSubsystem::GetMainSoundClassVolume() const
-{
-	return SaveCommonOption ? SaveCommonOption->GetMainSoundClassVolume() : 0.f;
-}
-
-float UTetrisAudioInstanceSubsystem::GetBGMSoundClassVolume() const
-{
-	return SaveCommonOption ? SaveCommonOption->GetBGMSoundClassVolume() : 0.f;
-}
-
 void UTetrisAudioInstanceSubsystem::SetMainSoundClassVolume(const float NewVolume)
 {
 	if (SaveCommonOption)
@@ -62,6 +52,11 @@ void UTetrisAudioInstanceSubsystem::SetMainSoundClassVolume(const float NewVolum
 	UTetrisAudioInstanceSubsystem::SetSoundClassVolume(MainSoundClass, NewVolume);
 }
 
+float UTetrisAudioInstanceSubsystem::GetMainSoundClassVolume() const
+{
+	return SaveCommonOption ? SaveCommonOption->GetMainSoundClassVolume() : 0.f;
+}
+
 void UTetrisAudioInstanceSubsystem::SetBGMSoundClassVolume(const float NewVolume)
 {
 	if (SaveCommonOption)
@@ -69,6 +64,11 @@ void UTetrisAudioInstanceSubsystem::SetBGMSoundClassVolume(const float NewVolume
 		SaveCommonOption->SetBGMSoundClassVolume(NewVolume);
 	}
 	UTetrisAudioInstanceSubsystem::SetSoundClassVolume(BGMSoundClass, NewVolume);
+}
+
+float UTetrisAudioInstanceSubsystem::GetBGMSoundClassVolume() const
+{
+	return SaveCommonOption ? SaveCommonOption->GetBGMSoundClassVolume() : 0.f;
 }
 
 void UTetrisAudioInstanceSubsystem::LoadSavedSettings()
