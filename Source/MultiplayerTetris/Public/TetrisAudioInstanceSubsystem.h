@@ -39,14 +39,14 @@ public:
 
 private:
 	/** Sound Mixes */
-	UPROPERTY(EditDefaultsOnly, Category = "Audio")
+	UPROPERTY()
 	TObjectPtr<USoundMix> MainSoundMix;
 
 	/** Sound Classes */
-	UPROPERTY(EditDefaultsOnly, Category = "Audio")
+	UPROPERTY()
 	TObjectPtr<USoundClass> MainSoundClass;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Audio")
+	UPROPERTY()
 	TObjectPtr<USoundClass> BGMSoundClass;
 
 	/** Save */
