@@ -17,7 +17,6 @@ class MULTIPLAYERTETRIS_API UTetrisSaveGameOption : public USaveGame
 public:
 	void Initialize();
 
-	UFUNCTION(BlueprintCallable)
 	void SaveCommonOptionSettings();
 
 	float GetMainSoundClassVolume() const { return MainSoundClassVolume; }
