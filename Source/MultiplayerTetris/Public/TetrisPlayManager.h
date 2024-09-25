@@ -53,6 +53,8 @@ public:
 
 	void Initialize();
 
+	/** Basic Member Variable Accessors */
+	void SetPhase(const EPhase NewPhase) { Phase = NewPhase; }
 	const FVector2D& GetTetriminoMovementDirection() const { return TetriminoMovementDirection; }
 	float GetNormalFallSpeed() const { return NormalFallSpeed; }
 	void SetNormalFallSpeed(const float NewNormalFallSpeed) { NormalFallSpeed = NewNormalFallSpeed; }
@@ -114,8 +116,7 @@ private:
 	void ClearTimers(const TArray<FTimerHandle*>& TimerHandles);
 	void ClearTetriminoInPlayLogicTimers();
 
-	/** Basic Member Variable Methods */
-	void SetPhase(const EPhase NewPhase) { Phase = NewPhase; }
+	/** Basic Member Variable Accessors */
 	void SetIsTetriminoInPlayManipulable(const bool bInIsTetriminoInPlayManipulable) { bIsTetriminoInPlayManipulable = bInIsTetriminoInPlayManipulable; }
 	bool IsTetriminoInPlayManipulable() const { return bIsTetriminoInPlayManipulable; }
 	void SetTetriminoMovementDirection(const FVector2D& NewTetriminoMovementDirection) { TetriminoMovementDirection = NewTetriminoMovementDirection; }
