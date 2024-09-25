@@ -247,7 +247,7 @@ void ATetrisPlayManager::InitializeHoldQueue()
 
 void ATetrisPlayManager::RunGenerationPhase()
 {
-	UE_LOG(LogTemp, Display, TEXT("Start Generation Phase."));
+	//UE_LOG(LogTemp, Display, TEXT("Start Generation Phase."));
 
 	ATetrimino* const NewTetriminoInPlay = PopTetriminoFromNextQueue();
 
