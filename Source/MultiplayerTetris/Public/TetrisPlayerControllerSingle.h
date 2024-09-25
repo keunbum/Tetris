@@ -8,6 +8,7 @@
 #include "TetrisPlayerControllerSingle.generated.h"
 
 class UPauseMenuWidget;
+class UGameOverMenuWidget;
 
 /**
  * 
@@ -20,6 +21,7 @@ class MULTIPLAYERTETRIS_API ATetrisPlayerControllerSingle : public ATetrisPlayer
 public:
 	void SetInputModeGameOnlyAndUnPause();
 	void SetInputModeUIOnlyAndPause();
+	void SetInputModeUIOnlyAndGameOver();
 
 protected:
 	virtual void BindInputActions(UEnhancedInputComponent* const EnhancedInputComponent) override;
@@ -37,7 +39,13 @@ private:
 	UPROPERTY()
 	TObjectPtr<UPauseMenuWidget> PauseMenuWidget;
 
+	UPROPERTY()
+	TObjectPtr<UGameOverMenuWidget> GameOverMenuWidget;
+
 	/** Widget Class Reference */
 	UPROPERTY(EditDefaultsOnly, Category = "UI")
 	TSubclassOf<UPauseMenuWidget> PauseMenuWidgetClass;
+
+	UPROPERTY(EditDefaultsOnly, Category = "UI")
+	TSubclassOf<UGameOverMenuWidget> GameOverMenuWidgetClass;
 };
