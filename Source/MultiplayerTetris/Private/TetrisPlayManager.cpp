@@ -269,11 +269,6 @@ void ATetrisPlayManager::RunGenerationPhase()
 	ChangePhase(EPhase::Falling);
 }
 
-//void ATetrisPlayManager::RunGenerationPhaseWithDelay(const float Delay)
-//{
-//	GetWorldTimerManager().SetTimer(GenerationPhaseTimerHandle, this, &ATetrisPlayManager::RunGenerationPhase, Delay, bIsGenerationPhaseTimerLoop);
-//}
-
 void ATetrisPlayManager::RunFallingPhase()
 {
 	//UE_LOG(LogTemp, Display, TEXT("Start Falling Phase."));
