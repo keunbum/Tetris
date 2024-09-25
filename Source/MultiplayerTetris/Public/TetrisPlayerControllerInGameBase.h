@@ -74,17 +74,17 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	float OrthoWidth = 8000 * UMino::MinoScale;
 
-	// 입력 상태 추적
+	/** 입력 상태 추적 */
 	UPROPERTY()
 	EKeyFlags KeyPressingFlags;
 
 
-	// Input Mapping Context
+	/** Input Mapping Context */
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	TObjectPtr<UInputMappingContext> InGameInputMappingContext;
 
 
-	// Input Actions
+	/** Input Actions */
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	TObjectPtr<UInputAction> MoveLeftAction;
 
