@@ -58,6 +58,10 @@ public:
 	float GetNormalFallSpeed() const { return NormalFallSpeed; }
 	void SetNormalFallSpeed(const float NewNormalFallSpeed) { NormalFallSpeed = NewNormalFallSpeed; }
 
+	/** Logic */
+	void ChangePhase(const EPhase NewPhase);
+	void ChangePhaseWithDelay(const EPhase NewPhase, const float Delay);
+
 	/** Event Handlers */
 	void StartMovement(const FVector2D& InMovementDirection);
 	void EndMovement();
@@ -146,7 +150,7 @@ private:
 	static constexpr float HardDropLockDownDelay = 0.0f;
 
 	/** Phase Transition */
-	static constexpr bool bIsPhaseTransitionTimerLoop = false;
+	static constexpr bool bIsPhaseChangeTimerLoop = false;
 	static constexpr float LockPhaseTransitionInitialDelayOfNormalFallOrSoftDrop = 0.5f;
 	static constexpr float GenerationPhaseTransitionInitialDelay = 0.2f;
 

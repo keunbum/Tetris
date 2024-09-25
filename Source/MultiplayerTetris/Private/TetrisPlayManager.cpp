@@ -67,6 +67,48 @@ void ATetrisPlayManager::Initialize()
 	GhostPiece->AttachToMatrix(Board->GetMatrixRoot());
 }
 
+void ATetrisPlayManager::ChangePhase(const EPhase NewPhase)
+{
+	SetPhase(NewPhase);
+
+	switch (Phase)
+	{
+	case EPhase::Generation:
+		RunGenerationPhase();
+		break;
+	case EPhase::Falling:
+		RunFallingPhase();
+		break;
+	case EPhase::Lock:
+		RunLockPhase();
+		break;
+	case EPhase::Pattern:
+		RunPatternPhase();
+		break;
+	case EPhase::Iterate:
+		RunIteratePhase();
+		break;
+	case EPhase::Animate:
+		RunAnimatePhase();
+		break;
+	case EPhase::Elimate:
+		RunEliminatePhase();
+		break;
+	case EPhase::Completion:
+		RunCompletionPhase();
+		break;
+	default:
+		break;
+	}
+}
+
+void ATetrisPlayManager::ChangePhaseWithDelay(const EPhase NewPhase, const float Delay)
+{
+	FTimerDelegate TimerDelegate;
+	TimerDelegate.BindUObject(this, &ATetrisPlayManager::ChangePhase, NewPhase);
+	GetWorldTimerManager().SetTimer(PhaseChangeTimerHandle, TimerDelegate, Delay, bIsPhaseChangeTimerLoop);
+}
+
 void ATetrisPlayManager::StartMovement(const FVector2D& InMovementDirection)
 {
 	if (!GetIsTetriminoInPlayManipulable())
@@ -296,7 +338,7 @@ void ATetrisPlayManager::RunCompletionPhase()
 	GamePlayInfo.Reset();
 
 	/** Phase Transition*/
-	SetPhaseWithDelay(EPhase::Generation, GenerationPhaseTransitionInitialDelay);
+	ChangePhaseWithDelay(EPhase::Generation, GenerationPhaseTransitionInitialDelay);
 }
 
 void ATetrisPlayManager::MoveTetriminoTo(const FVector2D& Direction)
@@ -318,7 +360,7 @@ void ATetrisPlayManager::MoveTetriminoTo(const FVector2D& Direction)
 		const bool bIsLockPhaseReached = bIsSoftDropOrNormalFall && bIsOnSurface;
 		if (bIsLockPhaseReached)
 		{
-			SetPhaseWithDelay(EPhase::Lock, LockPhaseTransitionInitialDelayOfNormalFallOrSoftDrop);
+			ChangePhaseWithDelay(EPhase::Lock, LockPhaseTransitionInitialDelayOfNormalFallOrSoftDrop);
 		}
 	}
 	else

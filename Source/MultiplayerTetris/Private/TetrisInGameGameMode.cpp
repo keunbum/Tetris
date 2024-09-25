@@ -124,7 +124,7 @@ void ATetrisInGameGameMode::SetInputMode()
 void ATetrisInGameGameMode::StartGamePlay()
 {
 	GameStartTime = UGameplayStatics::GetTimeSeconds(GetWorld());
-	TetrisPlayManager->SetPhase(EPhase::Generation);
+	TetrisPlayManager->ChangePhase(EPhase::Generation);
 }
 
 float ATetrisInGameGameMode::CalculateNormalFallSpeed(const int32 GameLevel)
