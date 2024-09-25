@@ -24,7 +24,7 @@ ATetrisPlayManager::ATetrisPlayManager()
 	, GhostPieceClass(AGhostPiece::StaticClass())
 	, GhostPiece(nullptr)
 {
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 }
 
 void ATetrisPlayManager::Initialize()
