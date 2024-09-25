@@ -48,6 +48,14 @@ void ABoard::Initialize()
 	InitializeMinoMatrix();
 }
 
+bool ABoard::IsBlocked(const ATetrimino* Tetrimino) const
+{
+	check(Tetrimino != nullptr);
+	const TArray<FIntPoint>& MinoTetriminoLocalLocations = Tetrimino->GetMinoTetriminoLocalLocations();
+	const FIntPoint TetriminoMatrixLocation = Tetrimino->GetMatrixLocation();
+	return !IsMinoLocationsPossible(MinoTetriminoLocalLocations, TetriminoMatrixLocation);
+}
+
 bool ABoard::IsMovementPossible(const ATetrimino* Tetrimino, const FIntPoint& MovementIntPoint2D) const
 {
 	check(Tetrimino != nullptr);
