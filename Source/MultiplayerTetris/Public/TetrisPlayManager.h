@@ -148,7 +148,7 @@ private:
 	static constexpr float HardDropTimerInitialDelay = 0.0001f;
 	static constexpr float HardDropLockDownDelay = 0.0f;
 
-	/** Phase Transition */
+	/** Phase Change */
 	static constexpr bool bIsPhaseChangeTimerLoop = false;
 	static constexpr float LockPhaseTransitionInitialDelayOfNormalFallOrSoftDrop = 0.5f;
 	static constexpr float GenerationPhaseTransitionInitialDelay = 0.2f;
