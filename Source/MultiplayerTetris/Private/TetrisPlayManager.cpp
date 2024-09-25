@@ -253,7 +253,7 @@ void ATetrisPlayManager::RunGenerationPhase()
 
 	SetTetriminoInPlay(NewTetriminoInPlay);
 
-	// Check if it is Block Out Condition.
+	// Check Game Over Condition
 	// Block Out Condition occurs when part of a newly-generated Tetrimino is blocked due to an existing Block in the Matrix.
 	const bool bIsBlockOutCondition = Board->IsBlocked(TetriminoInPlay);
 	if (bIsBlockOutCondition)
@@ -435,7 +435,7 @@ void ATetrisPlayManager::LockDown()
 
 	PlayLockDownEffect(TetriminoInPlay->GetMinoArray());
 
-	// Check if it is Lock Out Condition.
+	// Game Over Condition
 	// Lock Out Condition occurs when a Tetrimino Locks Down completely above the Skyline.
 	const bool bIsLockOutCondition = Board->IsAboveSkyline(TetriminoInPlay);
 	if (bIsLockOutCondition)
