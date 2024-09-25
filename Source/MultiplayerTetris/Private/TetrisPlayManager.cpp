@@ -259,7 +259,7 @@ void ATetrisPlayManager::RunGenerationPhase()
 	if (bIsBlockOutCondition)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Block Out Condition -> Game Over"));
-		//GameMode->RunGameOver();
+		GameMode->RunGameOver();
 		return;
 	}
 
@@ -441,7 +441,7 @@ void ATetrisPlayManager::LockDown()
 	if (bIsLockOutCondition)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Lock Out Condition -> Game Over"));
-		//GameMode->RunGameOver();
+		GameMode->RunGameOver();
 		return;
 	}
 
