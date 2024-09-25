@@ -43,9 +43,9 @@ private:
 	TObjectPtr<UGameOverMenuWidget> GameOverMenuWidget;
 
 	/** Widget Class Reference */
-	UPROPERTY(EditDefaultsOnly, Category = "UI")
+	UPROPERTY(EditDefaultsOnly, Category = "Classes")
 	TSubclassOf<UPauseMenuWidget> PauseMenuWidgetClass;
 
-	UPROPERTY(EditDefaultsOnly, Category = "UI")
+	UPROPERTY(EditDefaultsOnly, Category = "Classes")
 	TSubclassOf<UGameOverMenuWidget> GameOverMenuWidgetClass;
 };
