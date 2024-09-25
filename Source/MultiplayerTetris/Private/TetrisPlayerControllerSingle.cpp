@@ -59,6 +59,7 @@ void ATetrisPlayerControllerSingle::SetInputModeUIOnlyAndGameOver()
 
 	// 이거는.. 추후에 수정될 여지 있음.
 	// 일부 로직만 멈추고, 배경이나 효과 같은 건 그대로 돌아가야 그럴싸하기 때문.
+	// 이렇게 해야 Pause 같은 입력이 먹히질 않기 때문에 일단 편의상 이렇게 구현.
 	UGameplayStatics::SetGamePaused(GetWorld(), true);
 }
 
