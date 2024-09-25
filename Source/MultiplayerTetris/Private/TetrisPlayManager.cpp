@@ -266,7 +266,7 @@ void ATetrisPlayManager::RunGenerationPhase()
 
 void ATetrisPlayManager::RunFallingPhase()
 {
-	UE_LOG(LogTemp, Display, TEXT("Start Falling Phase."));
+	//UE_LOG(LogTemp, Display, TEXT("Start Falling Phase."));
 	SetIsTetriminoInPlayManipulable(true);
 
 	SetNormalFallTimer();
@@ -422,7 +422,7 @@ void ATetrisPlayManager::RunSuperRotationSystem(const ETetriminoRotationDirectio
 
 void ATetrisPlayManager::LockDown()
 {
-	UE_LOG(LogTemp, Display, TEXT("Lock Down."));
+	//UE_LOG(LogTemp, Display, TEXT("Lock Down."));
 
 	check(TetriminoInPlay != nullptr);
 
@@ -494,7 +494,7 @@ void ATetrisPlayManager::SetNormalFallTimer()
 	const bool bIsNormalFallOn = GameMode && !GameMode->bNormalFallOff;
 	if (bIsNormalFallOn)
 	{
-		UE_LOG(LogTemp, Display, TEXT("Normal Fall Timer is set."));
+		//UE_LOG(LogTemp, Display, TEXT("Normal Fall Timer is set."));
 		GetWorldTimerManager().SetTimer(NormalFallTimerHandle, this, &ATetrisPlayManager::MoveTetriminoDown, NormalFallSpeed, bIsNormalFallTimerLoop, NormalFallTimerInitialDelay);
 	}
 }
