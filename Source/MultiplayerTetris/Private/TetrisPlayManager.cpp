@@ -67,13 +67,6 @@ void ATetrisPlayManager::Initialize()
 	GhostPiece->AttachToMatrix(Board->GetMatrixRoot());
 }
 
-void ATetrisPlayManager::SetPhaseWithDelay(const EPhase NewPhase, const float Delay)
-{
-	FTimerDelegate TimerDelegate;
-	TimerDelegate.BindUObject(this, &ATetrisPlayManager::SetPhase, NewPhase);
-	GetWorldTimerManager().SetTimer(PhaseTransitionTimerHandle, TimerDelegate, Delay, bIsPhaseTransitionTimerLoop);
-}
-
 void ATetrisPlayManager::StartMovement(const FVector2D& InMovementDirection)
 {
 	if (!GetIsTetriminoInPlayManipulable())

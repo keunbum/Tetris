@@ -54,7 +54,6 @@ public:
 	void Initialize();
 
 	/** Basic Member Variable Accessors */
-	void SetPhaseWithDelay(const EPhase NewPhase, const float Delay);
 	const FVector2D& GetTetriminoMovementDirection() const { return TetriminoMovementDirection; }
 	float GetNormalFallSpeed() const { return NormalFallSpeed; }
 	void SetNormalFallSpeed(const float NewNormalFallSpeed) { NormalFallSpeed = NewNormalFallSpeed; }
