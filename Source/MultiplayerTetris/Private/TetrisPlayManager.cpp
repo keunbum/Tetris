@@ -253,6 +253,16 @@ void ATetrisPlayManager::RunGenerationPhase()
 
 	SetTetriminoInPlay(NewTetriminoInPlay);
 
+	// Check if it is Block Out Condition.
+	// Block Out Condition occurs when part of a newly-generated Tetrimino is blocked due to an existing Block in the Matrix.
+	const bool bIsBlockOutCondition = Board->IsBlocked(NewTetriminoInPlay);
+	if (bIsBlockOutCondition)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Block Out Condition -> Game Over"));
+		//GameMode->GameOver();
+		return;
+	}
+
 	// TetriminoInPlay drops one row if no existing Block is in its path.
 	MoveTetriminoDown();
 
