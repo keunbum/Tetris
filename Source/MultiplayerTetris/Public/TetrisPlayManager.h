@@ -213,5 +213,5 @@ private:
 	FTimerHandle HardDropTimerHandle;
 
 	/** Phase Timers */
-	FTimerHandle PhaseTransitionTimerHandle;
+	FTimerHandle PhaseChangeTimerHandle;
 };

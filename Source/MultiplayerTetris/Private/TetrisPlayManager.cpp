@@ -417,7 +417,7 @@ void ATetrisPlayManager::ForcedLockDown()
 	// 물론 이건 추후에 다른 기능 구현하다보면 구체화될 수도 있는 거니, 지금은 이 정도로 넘어 가는 걸로.
 	// 버그는 아니잖아.
 	//ClearTimer(LockDownTimerHandle);
-	ClearTimer(PhaseTransitionTimerHandle);
+	ClearTimer(PhaseChangeTimerHandle);
 
 	SetPhase(EPhase::Lock);
 }
