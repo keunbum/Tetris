@@ -31,6 +31,8 @@ public:
 	/** Check Methods */
 	// Determine if the Tetrimino is blocked due to an existing Block in the Matrix.
 	bool IsBlocked(const ATetrimino* Tetrimino) const;
+	// Determine if the Tetrimino is above the skyline.
+	bool IsAboveSkyline(const ATetrimino* Tetrimino) const;
 	bool IsMovementPossible(const ATetrimino* Tetrimino, const FIntPoint& MovementIntPoint2D) const;
 	bool IsRotationPossible(const ATetrimino* Tetrimino, const ETetriminoRotationDirection RotationDirection, const FIntPoint& RotationPointOffset) const;
 	bool IsRowFull(const int32 TargetRow) const;

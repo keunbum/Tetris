@@ -8,7 +8,6 @@
 #include "Materials/MaterialInterface.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Algo/AllOf.h"
-
 #include "TetriminoBase.h"
 
 const FMinoInfo ABoard::BackgroundMinoInfo = FMinoInfo(TEXT("/Game/Material/M_MinoMaterial"), FLinearColor::Gray, 1.0f, 0);
@@ -51,6 +50,18 @@ void ABoard::Initialize()
 bool ABoard::IsBlocked(const ATetrimino* Tetrimino) const
 {
 	return !IsMovementPossible(Tetrimino, FIntPoint::ZeroValue);
+}
+
+bool ABoard::IsAboveSkyline(const ATetrimino* Tetrimino) const
+{
+	check(Tetrimino != nullptr);
+	const FIntPoint& TetriminoMatrixLocation = Tetrimino->GetMatrixLocation();
+	const TArray<FIntPoint>& MinoTetriminoLocalLocations = Tetrimino->GetMinoTetriminoLocalLocations();
+	return Algo::AllOf(MinoTetriminoLocalLocations, [this, &TetriminoMatrixLocation](const FIntPoint& MinoTetriminoLocalLocation) {
+		const FIntPoint MinoLocalMatrixLocation = TetriminoMatrixLocation + MinoTetriminoLocalLocation;
+		return MinoLocalMatrixLocation.X < SkyLine;
+		}
+	);
 }
 
 bool ABoard::IsMovementPossible(const ATetrimino* Tetrimino, const FIntPoint& MovementIntPoint2D) const
