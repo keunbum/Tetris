@@ -338,7 +338,7 @@ void ATetrisPlayManager::RunCompletionPhase()
 	GamePlayInfo.Reset();
 
 	/** Phase Transition*/
-	ChangePhaseWithDelay(EPhase::Generation, GenerationPhaseTransitionInitialDelay);
+	ChangePhaseWithDelay(EPhase::Generation, GenerationPhaseChangeInitialDelay);
 }
 
 void ATetrisPlayManager::MoveTetriminoTo(const FVector2D& Direction)
@@ -360,7 +360,7 @@ void ATetrisPlayManager::MoveTetriminoTo(const FVector2D& Direction)
 		const bool bIsLockPhaseReached = bIsSoftDropOrNormalFall && bIsOnSurface;
 		if (bIsLockPhaseReached)
 		{
-			ChangePhaseWithDelay(EPhase::Lock, LockPhaseTransitionInitialDelayOfNormalFallOrSoftDrop);
+			ChangePhaseWithDelay(EPhase::Lock, LockPhaseChangeInitialDelayOfNormalFallOrSoftDrop);
 		}
 	}
 	else

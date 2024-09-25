@@ -150,8 +150,8 @@ private:
 
 	/** Phase Change */
 	static constexpr bool bIsPhaseChangeTimerLoop = false;
-	static constexpr float LockPhaseTransitionInitialDelayOfNormalFallOrSoftDrop = 0.5f;
-	static constexpr float GenerationPhaseTransitionInitialDelay = 0.2f;
+	static constexpr float LockPhaseChangeInitialDelayOfNormalFallOrSoftDrop = 0.5f;
+	static constexpr float GenerationPhaseChangeInitialDelay = 0.2f;
 
 private:
 	UPROPERTY(VisibleAnywhere)
