@@ -67,24 +67,51 @@ void ATetrisPlayManager::Initialize()
 	GhostPiece->AttachToMatrix(Board->GetMatrixRoot());
 }
 
-void ATetrisPlayManager::StartGenerationPhase()
+void ATetrisPlayManager::ChangePhase(const EPhase NewPhase)
 {
-	//UE_LOG(LogTemp, Display, TEXT("Start Generation Phase."));
+	Phase = NewPhase;
 
-	SetPhase(EPhase::Generation);
-	ATetrimino* const NewTetriminoInPlay = PopTetriminoFromNextQueue();
+	switch (Phase)
+	{
+	case EPhase::Generation:
+		RunGenerationPhase();
+		break;
+	case EPhase::Falling:
+		RunFallingPhase();
+		break;
+	case EPhase::Lock:
+		RunLockPhase();
+		break;
+	case EPhase::Pattern:
+		RunPatternPhase();
+		break;
+	case EPhase::Iterate:
+		RunIteratePhase();
+		break;
+	case EPhase::Animate:
+		RunAnimatePhase();
+		break;
+	case EPhase::Elimate:
+		RunEliminatePhase();
+		break;
+	case EPhase::Completion:
+		RunCompletionPhase();
+		break;
+	default:
+		break;
+	}
+}
 
-	SetTetriminoInPlay(NewTetriminoInPlay);
-
-	// TetriminoInPlay drops one row if no existing Block is in its path.
-	MoveTetriminoDown();
-
-	StartFallingPhase();
+void ATetrisPlayManager::ChangePhaseWithDelay(const EPhase NewPhase, const float Delay)
+{
+	FTimerDelegate TimerDelegate;
+	TimerDelegate.BindUObject(this, &ATetrisPlayManager::ChangePhase, NewPhase);
+	GetWorldTimerManager().SetTimer(PhaseChangeTimerHandle, TimerDelegate, Delay, bIsPhaseChangeTimerLoop);
 }
 
 void ATetrisPlayManager::StartMovement(const FVector2D& InMovementDirection)
 {
-	if (!IsTetriminoInPlayManipulable())
+	if (!GetIsTetriminoInPlayManipulable())
 	{
 		UE_LOG(LogTemp, Display, TEXT("Tetrimino is not manipulable."));
 		return;
@@ -108,7 +135,7 @@ void ATetrisPlayManager::EndMovement()
 
 void ATetrisPlayManager::StartSoftDrop()
 {
-	if (!IsTetriminoInPlayManipulable())
+	if (!GetIsTetriminoInPlayManipulable())
 	{
 		UE_LOG(LogTemp, Display, TEXT("Tetrimino is not manipulable."));
 		return;
@@ -138,7 +165,7 @@ void ATetrisPlayManager::DoHardDrop()
 	// 테트리스 가이드라인 2009에 나와 있는 방식 그대로 구현하기.
 	// HardDrop에는 Auto-Repeat 없음.
 	// TODO: 나중에 Hard Drop Trail 관련 이펙트도 있으면 금상첨화.
-	if (!IsTetriminoInPlayManipulable())
+	if (!GetIsTetriminoInPlayManipulable())
 	{
 		UE_LOG(LogTemp, Display, TEXT("Tetrimino is not manipulable."));
 		return;
@@ -148,7 +175,7 @@ void ATetrisPlayManager::DoHardDrop()
 
 void ATetrisPlayManager::DoRotation(const ETetriminoRotationDirection RotationDirection)
 {
-	if (!IsTetriminoInPlayManipulable())
+	if (!GetIsTetriminoInPlayManipulable())
 	{
 		UE_LOG(LogTemp, Display, TEXT("Tetrimino is not manipulable."));
 		return;
@@ -159,7 +186,7 @@ void ATetrisPlayManager::DoRotation(const ETetriminoRotationDirection RotationDi
 
 void ATetrisPlayManager::HoldTetriminoInPlay()
 {
-	if (!IsTetriminoInPlayManipulable())
+	if (!GetIsTetriminoInPlayManipulable())
 	{
 		UE_LOG(LogTemp, Display, TEXT("Tetrimino is not manipulable."));
 		return;
@@ -190,13 +217,13 @@ void ATetrisPlayManager::HoldTetriminoInPlay()
 	if (bWasHoldQueueEmpty)
 	{
 		// 비어 있었다면 새로 꺼내고
-		StartGenerationPhase();
+		RunGenerationPhase();
 	}
 	else
 	{
 		// 비어 있지 않았다면 HoldQueue에 있던 테트리미노를 TetriminoInPlay로 설정한다
 		SetTetriminoInPlay(TetriminoInHoldQueue);
-		StartFallingPhase();
+		RunFallingPhase();
 	}
 
 	bIsTetriminoInPlayLockedDownFromLastHold = false;
@@ -218,101 +245,96 @@ void ATetrisPlayManager::InitializeHoldQueue()
 	check(HoldQueue->IsEmpty());
 }
 
-void ATetrisPlayManager::StartGenerationPhaseWithDelay(const float Delay)
+void ATetrisPlayManager::RunGenerationPhase()
 {
-	GetWorldTimerManager().SetTimer(GenerationPhaseTimerHandle, this, &ATetrisPlayManager::StartGenerationPhase, Delay, bIsGenerationPhaseTimerLoop);
+	//UE_LOG(LogTemp, Display, TEXT("Start Generation Phase."));
+
+	ATetrimino* const NewTetriminoInPlay = PopTetriminoFromNextQueue();
+	SetTetriminoInPlay(NewTetriminoInPlay);
+
+	// Check Game Over Condition
+	// Block Out Condition occurs when part of a newly-generated Tetrimino is blocked due to an existing Block in the Matrix.
+	const bool bIsBlockOutCondition = Board->IsBlocked(TetriminoInPlay);
+	if (bIsBlockOutCondition)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Block Out Condition -> Game Over"));
+		GameMode->RunGameOver();
+		return;
+	}
+
+	// TetriminoInPlay drops one row if no existing Block is in its path.
+	MoveTetriminoDown();
+
+	ChangePhase(EPhase::Falling);
 }
 
-void ATetrisPlayManager::StartFallingPhase()
+void ATetrisPlayManager::RunFallingPhase()
 {
 	//UE_LOG(LogTemp, Display, TEXT("Start Falling Phase."));
-
-	SetPhase(EPhase::Falling);
 	SetIsTetriminoInPlayManipulable(true);
 
 	SetNormalFallTimer();
-
-	ATetrisPlayerControllerSingle* const PlayerController = GameMode->GetTetrisPlayerController();
-	check(PlayerController != nullptr);
-	if (PlayerController->IsSoftDropKeyPressed())
-	{
-		StartSoftDrop();
-	}
+	
+	// TODO: Soft Drop Key Pressed Check - 버그 수정 필요
+	//ATetrisPlayerControllerSingle* const PlayerController = GameMode->GetTetrisPlayerController();
+	//check(PlayerController != nullptr);
+	//if (PlayerController->IsSoftDropKeyPressed())
+	//{
+	//	StartSoftDrop();
+	//}
 }
 
-void ATetrisPlayManager::StartLockPhase(const float LockDownFirstDelay)
+void ATetrisPlayManager::RunLockPhase()
 {
 	//UE_LOG(LogTemp, Display, TEXT("Start Lock Phase."));
-
-	SetPhase(EPhase::Lock);
-
-	// LockDownFirstDelay가 0.0f이면 LockDown 메서드를 바로 호출하고 (직접 비교 말고 오차 범위 고려해서 비교하기),
-	// 그렇지 않으면 LockDown 타이머를 설정한다. (0.0f를 타이머 함수에 넘겨주면 이상한 일이 일어나서 이렇게 구현함.)
-	if (FMath::IsNearlyZero(LockDownFirstDelay))
-	{
-		LockDown();
-	}
-	else
-	{
-		SetLockDownTimer(LockDownFirstDelay);
-	}
+	LockDown();
 }
 
-void ATetrisPlayManager::StartPatternPhase()
+void ATetrisPlayManager::RunPatternPhase()
 {
 	//UE_LOG(LogTemp, Display, TEXT("Start Pattern Phase."));
-
-	SetPhase(EPhase::Pattern);
 
 	/** Main Logic */
 	CheckLineClearPattern(GamePlayInfo.HitList);
 
 	/** Phase Transition*/
-	StartIteratePhase();
+	ChangePhase(EPhase::Iterate);
 }
 
-void ATetrisPlayManager::StartIteratePhase()
+void ATetrisPlayManager::RunIteratePhase()
 {
 	//UE_LOG(LogTemp, Display, TEXT("Start Iterate Phase."));
 
-	SetPhase(EPhase::Iterate);
-
 	/** Main Logic */
 
 	/** Phase Transition*/
-	StartAnimatePhase();
+	ChangePhase(EPhase::Animate);
 }
 
-void ATetrisPlayManager::StartAnimatePhase()
+void ATetrisPlayManager::RunAnimatePhase()
 {
 	//UE_LOG(LogTemp, Display, TEXT("Start Animate Phase."));
 
-	SetPhase(EPhase::Animate);
-
 	/** Main Logic */
 
 	/** Phase Transition*/
-	StartEliminatePhase();
+	ChangePhase(EPhase::Elimate);
 }
 
-void ATetrisPlayManager::StartEliminatePhase()
+void ATetrisPlayManager::RunEliminatePhase()
 {
 	//UE_LOG(LogTemp, Display, TEXT("Start Eliminate Phase."));
-
-	SetPhase(EPhase::Elimate);
 
 	/** Main Logic */
 	Board->ClearRows(GamePlayInfo.HitList);
 
 	/** Phase Transition*/
-	StartCompletionPhase();
+	ChangePhase(EPhase::Completion);
 }
 
-void ATetrisPlayManager::StartCompletionPhase()
+void ATetrisPlayManager::RunCompletionPhase()
 {
 	//UE_LOG(LogTemp, Display, TEXT("Start Completion Phase."));
-
-	SetPhase(EPhase::Completion);
 
 	/** Main Logic */
 	GameMode->UpdateGamePlay(GamePlayInfo);
@@ -321,7 +343,7 @@ void ATetrisPlayManager::StartCompletionPhase()
 	GamePlayInfo.Reset();
 
 	/** Phase Transition*/
-	StartGenerationPhaseWithDelay(GenerationPhaseInitialDelay);
+	ChangePhaseWithDelay(EPhase::Generation, GenerationPhaseChangeInitialDelay);
 }
 
 void ATetrisPlayManager::MoveTetriminoTo(const FVector2D& Direction)
@@ -337,18 +359,12 @@ void ATetrisPlayManager::MoveTetriminoTo(const FVector2D& Direction)
 	if (bIsMovementPossible)
 	{
 		TetriminoInPlay->MoveBy(MovementIntPoint);
-
-		const bool bIsSoftDropOrNormalFall = (Direction == ATetrimino::MoveDirectionDown);
-		const bool bIsOnSurface = !Board->IsMovementPossible(TetriminoInPlay, MovementIntPoint);
-		const bool bIsLockPhaseReached = bIsSoftDropOrNormalFall && bIsOnSurface;
-		if (bIsLockPhaseReached)
-		{
-			StartLockPhase(LockDownTimerInitialDelayOfNormalFallOrSoftDrop);
-		}
 	}
-	else
+
+	if (IsLockPhaseReached(Direction))
 	{
 		//UE_LOG(LogTemp, Display, TEXT("Movement is impossible."));
+		ChangePhaseWithDelay(EPhase::Lock, LockPhaseChangeInitialDelayOfNormalFallOrSoftDrop);
 	}
 }
 
@@ -364,7 +380,8 @@ void ATetrisPlayManager::MoveTetriminoDown()
 
 void ATetrisPlayManager::HardDrop()
 {
-	check(IsTetriminoInPlayManipulable());
+	check(GetIsTetriminoInPlayManipulable());
+
 	// GhostPiece를 잠시 안보이게 한다.
 	GhostPiece->SetActorHiddenInGame(true);
 	MoveTetriminoInPlayToFinalFallingLocation();
@@ -375,6 +392,11 @@ bool ATetrisPlayManager::IsHoldingTetriminoInPlayAvailable() const
 {
 	// 홀드 큐가 비어 있거나, 마지막 홀드로부터 LockDown이 수행된 적이 있다면 가능하다.
 	return HoldQueue->IsEmpty() || bIsTetriminoInPlayLockedDownFromLastHold;
+}
+
+bool ATetrisPlayManager::IsLockPhaseReached(const FVector2D& Direction) const
+{
+	return IsSoftDropOrNormalFall(Direction) && Board->IsDirectlyAboveSurface(TetriminoInPlay);
 }
 
 void ATetrisPlayManager::MoveTetriminoInPlayToFinalFallingLocation()
@@ -404,13 +426,23 @@ void ATetrisPlayManager::RunSuperRotationSystem(const ETetriminoRotationDirectio
 
 void ATetrisPlayManager::LockDown()
 {
-	UE_LOG(LogTemp, Display, TEXT("Lock Down."));
+	//UE_LOG(LogTemp, Display, TEXT("Lock Down."));
 
 	check(TetriminoInPlay != nullptr);
 
 	SetIsTetriminoInPlayManipulable(false);
 
 	PlayLockDownEffect(TetriminoInPlay->GetMinoArray());
+
+	// Game Over Condition
+	// Lock Out Condition occurs when a Tetrimino Locks Down completely above the Skyline.
+	const bool bIsLockOutCondition = Board->IsAboveSkyline(TetriminoInPlay);
+	if (bIsLockOutCondition)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Lock Out Condition -> Game Over"));
+		GameMode->RunGameOver();
+		return;
+	}
 
 	// Transfer of TetriminoInPlay's Minos to Board
 	TetriminoInPlay->DetachMinos();
@@ -424,21 +456,18 @@ void ATetrisPlayManager::LockDown()
 	bIsTetriminoInPlayLockedDownFromLastHold = true;
 
 	// Switch to Pattern Phase.
-	StartPatternPhase();
+	ChangePhase(EPhase::Pattern);
 }
 
 void ATetrisPlayManager::ForcedLockDown()
 {
-	// TODO: 아 이건 좀.. 그.. 아니 만약에 LockDownTimerHandle 남은 시간이 HardDropTimerInitialDelay보다 짧을 수도 있잖아?
+	// TODO: 아 이건 좀.. 그.. 아니 만약에 PhaseChangeTimerHandle 남은 시간이 HardDropTimerInitialDelay보다 짧을 수도 있잖아?
 	// 가이드라인에 정확히는 안나와 있는데.. HardDrop의 강제성이 더 높아야 할 것 같은데..
 	// 물론 이건 추후에 다른 기능 구현하다보면 구체화될 수도 있는 거니, 지금은 이 정도로 넘어 가는 걸로.
 	// 버그는 아니잖아.
-	ClearTimer(LockDownTimerHandle);
+	ClearTimer(PhaseChangeTimerHandle);
 
-	// GenerationPhaseTimerHandle should be finished.
-	check(!GetWorldTimerManager().IsTimerActive(GenerationPhaseTimerHandle));
-
-	StartLockPhase(HardDropLockDownDelay);
+	ChangePhase(EPhase::Lock);
 }
 
 void ATetrisPlayManager::CheckLineClearPattern(TArray<int32>& OutHitList)
@@ -478,15 +507,9 @@ void ATetrisPlayManager::SetNormalFallTimer()
 	const bool bIsNormalFallOn = GameMode && !GameMode->bNormalFallOff;
 	if (bIsNormalFallOn)
 	{
-		UE_LOG(LogTemp, Display, TEXT("Normal Fall Timer is set."));
+		//UE_LOG(LogTemp, Display, TEXT("Normal Fall Timer is set."));
 		GetWorldTimerManager().SetTimer(NormalFallTimerHandle, this, &ATetrisPlayManager::MoveTetriminoDown, NormalFallSpeed, bIsNormalFallTimerLoop, NormalFallTimerInitialDelay);
 	}
-}
-
-void ATetrisPlayManager::SetLockDownTimer(const float FirstDelay)
-{
-	GetWorldTimerManager().SetTimer(LockDownTimerHandle, this, &ATetrisPlayManager::LockDown, FirstDelay, bIsLockDownTimerLoop);
-	UE_LOG(LogTemp, Display, TEXT("LockDown Timer is set."));
 }
 
 void ATetrisPlayManager::ClearTimer(FTimerHandle& InOutTimerHandle)
@@ -511,7 +534,6 @@ void ATetrisPlayManager::ClearTetriminoInPlayLogicTimers()
 	{
 		&AutoRepeatMovementTimerHandle,
 		&NormalFallTimerHandle,
-		&LockDownTimerHandle,
 		&SoftDropTimerHandle,
 		&HardDropTimerHandle,
 	};

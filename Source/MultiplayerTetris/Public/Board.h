@@ -29,6 +29,12 @@ public:
 	void Initialize();
 
 	/** Check Methods */
+	// Determine if the Tetrimino directly above a surface (the floor or another block)?
+	bool IsDirectlyAboveSurface(const ATetrimino* Tetrimino) const;
+	// Determine if the Tetrimino is blocked due to an existing Block in the Matrix.
+	bool IsBlocked(const ATetrimino* Tetrimino) const;
+	// Determine if the Tetrimino is above the skyline.
+	bool IsAboveSkyline(const ATetrimino* Tetrimino) const;
 	bool IsMovementPossible(const ATetrimino* Tetrimino, const FIntPoint& MovementIntPoint2D) const;
 	bool IsRotationPossible(const ATetrimino* Tetrimino, const ETetriminoRotationDirection RotationDirection, const FIntPoint& RotationPointOffset) const;
 	bool IsRowFull(const int32 TargetRow) const;
@@ -94,7 +100,7 @@ public:
 
 	static constexpr int32 SkyLine = VisibleBeginRow;
 
-	static constexpr int32 TetriminoDefaultSpawnLocationX = ABoard::SkyLine - 1;
+	static constexpr int32 TetriminoDefaultSpawnLocationX = ABoard::SkyLine;
 	static constexpr int32 TetriminoDefaultSpawnLocationY = ABoard::VisibleBeginCol + 3;
 
 private:

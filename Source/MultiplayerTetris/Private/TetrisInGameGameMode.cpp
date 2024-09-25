@@ -56,6 +56,12 @@ void ATetrisInGameGameMode::UpdateGamePlay(const FTetrisGamePlayInfo& UpdateInfo
 	HUDWidget->UpdateDisplay(TetrisPlayerState->GetHUDSingleUpdateDisplayParams());
 }
 
+void ATetrisInGameGameMode::RunGameOver()
+{
+	// 추후에 추가 로직 작성할 가능성 있음
+	TetrisPlayerController->SetInputModeUIOnlyAndGameOver();
+}
+
 void ATetrisInGameGameMode::BeginPlay()
 {
 	Super::BeginPlay();
@@ -124,7 +130,7 @@ void ATetrisInGameGameMode::SetInputMode()
 void ATetrisInGameGameMode::StartGamePlay()
 {
 	GameStartTime = UGameplayStatics::GetTimeSeconds(GetWorld());
-	TetrisPlayManager->StartGenerationPhase();
+	TetrisPlayManager->ChangePhase(EPhase::Generation);
 }
 
 float ATetrisInGameGameMode::CalculateNormalFallSpeed(const int32 GameLevel)

@@ -53,11 +53,14 @@ public:
 
 	void Initialize();
 
+	/** Basic Member Variable Accessors */
 	const FVector2D& GetTetriminoMovementDirection() const { return TetriminoMovementDirection; }
 	float GetNormalFallSpeed() const { return NormalFallSpeed; }
 	void SetNormalFallSpeed(const float NewNormalFallSpeed) { NormalFallSpeed = NewNormalFallSpeed; }
 
-	void StartGenerationPhase();
+	/** Logic */
+	void ChangePhase(const EPhase NewPhase);
+	void ChangePhaseWithDelay(const EPhase NewPhase, const float Delay);
 
 	/** Event Handlers */
 	void StartMovement(const FVector2D& InMovementDirection);
@@ -74,25 +77,26 @@ private:
 	void InitializeHoldQueue();
 
 	/** Phase Flow */
-	void StartGenerationPhaseWithDelay(const float Delay);
-	void StartFallingPhase();
-	void StartLockPhase(const float LockDownFirstDelay);
-	void StartPatternPhase();
-	void StartIteratePhase();
-	void StartAnimatePhase();
-	void StartEliminatePhase();
-	void StartCompletionPhase();
+	void RunGenerationPhase();
+	void RunFallingPhase();
+	void RunLockPhase();
+	void RunPatternPhase();
+	void RunIteratePhase();
+	void RunAnimatePhase();
+	void RunEliminatePhase();
+	void RunCompletionPhase();
 
 	/** User Input */
 	void MoveTetriminoTo(const FVector2D& Direction);
 	void MoveTetrimino();
 	void MoveTetriminoDown();
-	// Move the Tetrimino to FinalFallingMatrixLocation.
 	void MoveTetriminoInPlayToFinalFallingLocation();
 
 	void HardDrop();
 
 	bool IsHoldingTetriminoInPlayAvailable() const;
+	bool IsSoftDropOrNormalFall(const FVector2D& Direction) const { return Direction == ATetriminoBase::MoveDirectionDown; }
+	bool IsLockPhaseReached(const FVector2D& Direction) const;
 
 	void RunSuperRotationSystem(const ETetriminoRotationDirection RotationDirection);
 
@@ -108,16 +112,14 @@ private:
 	void SetSoftDropTimer();
 	void SetHardDropTimer();
 	void SetNormalFallTimer();
-	void SetLockDownTimer(const float FirstDelay);
 
 	void ClearTimer(FTimerHandle& InOutTimerHandle);
 	void ClearTimers(const TArray<FTimerHandle*>& TimerHandles);
 	void ClearTetriminoInPlayLogicTimers();
 
-	/** Basic Member Variable Methods */
-	void SetPhase(const EPhase NewPhase) { Phase = NewPhase; }
+	/** Basic Member Variable Accessors */
 	void SetIsTetriminoInPlayManipulable(const bool bInIsTetriminoInPlayManipulable) { bIsTetriminoInPlayManipulable = bInIsTetriminoInPlayManipulable; }
-	bool IsTetriminoInPlayManipulable() const { return bIsTetriminoInPlayManipulable; }
+	bool GetIsTetriminoInPlayManipulable() const { return bIsTetriminoInPlayManipulable; }
 	void SetTetriminoMovementDirection(const FVector2D& NewTetriminoMovementDirection) { TetriminoMovementDirection = NewTetriminoMovementDirection; }
 	void SetTetriminoInPlay(ATetrimino* const InTetriminoInPlay);
 
@@ -148,13 +150,10 @@ private:
 	static constexpr float HardDropTimerInitialDelay = 0.0001f;
 	static constexpr float HardDropLockDownDelay = 0.0f;
 
-	/** LockDown */
-	static constexpr bool bIsLockDownTimerLoop = false;
-	static constexpr float LockDownTimerInitialDelayOfNormalFallOrSoftDrop = 0.5f;
-
-	/** GenerationPhase */
-	static constexpr bool bIsGenerationPhaseTimerLoop = false;
-	static constexpr float GenerationPhaseInitialDelay = 0.2f;
+	/** Phase Change */
+	static constexpr bool bIsPhaseChangeTimerLoop = false;
+	static constexpr float LockPhaseChangeInitialDelayOfNormalFallOrSoftDrop = 0.5f;
+	static constexpr float GenerationPhaseChangeInitialDelay = 0.2f;
 
 private:
 	UPROPERTY(VisibleAnywhere)
@@ -214,10 +213,9 @@ private:
 	/** TetriminoInPlay Logic Timers */
 	FTimerHandle AutoRepeatMovementTimerHandle;
 	FTimerHandle NormalFallTimerHandle;
-	FTimerHandle LockDownTimerHandle;
 	FTimerHandle SoftDropTimerHandle;
 	FTimerHandle HardDropTimerHandle;
 
 	/** Phase Timers */
-	FTimerHandle GenerationPhaseTimerHandle;
+	FTimerHandle PhaseChangeTimerHandle;
 };
