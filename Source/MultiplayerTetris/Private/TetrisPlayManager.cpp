@@ -275,7 +275,8 @@ void ATetrisPlayManager::RunFallingPhase()
 	SetIsTetriminoInPlayManipulable(true);
 
 	SetNormalFallTimer();
-
+	
+	// TODO: Soft Drop Key Pressed Check - 버그 수정 필요
 	//ATetrisPlayerControllerSingle* const PlayerController = GameMode->GetTetrisPlayerController();
 	//check(PlayerController != nullptr);
 	//if (PlayerController->IsSoftDropKeyPressed())
