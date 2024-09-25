@@ -116,7 +116,6 @@ private:
 	void ClearTetriminoInPlayLogicTimers();
 
 	/** Basic Member Variable Accessors */
-	void SetPhase(const EPhase NewPhase) { Phase = NewPhase; }
 	void SetIsTetriminoInPlayManipulable(const bool bInIsTetriminoInPlayManipulable) { bIsTetriminoInPlayManipulable = bInIsTetriminoInPlayManipulable; }
 	bool GetIsTetriminoInPlayManipulable() const { return bIsTetriminoInPlayManipulable; }
 	void SetTetriminoMovementDirection(const FVector2D& NewTetriminoMovementDirection) { TetriminoMovementDirection = NewTetriminoMovementDirection; }

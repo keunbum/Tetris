@@ -69,7 +69,7 @@ void ATetrisPlayManager::Initialize()
 
 void ATetrisPlayManager::ChangePhase(const EPhase NewPhase)
 {
-	SetPhase(NewPhase);
+	Phase = NewPhase;
 
 	switch (Phase)
 	{
@@ -256,7 +256,7 @@ void ATetrisPlayManager::RunGenerationPhase()
 	// TetriminoInPlay drops one row if no existing Block is in its path.
 	MoveTetriminoDown();
 
-	SetPhase(EPhase::Falling);
+	ChangePhase(EPhase::Falling);
 }
 
 //void ATetrisPlayManager::RunGenerationPhaseWithDelay(const float Delay)
@@ -293,7 +293,7 @@ void ATetrisPlayManager::RunPatternPhase()
 	CheckLineClearPattern(GamePlayInfo.HitList);
 
 	/** Phase Transition*/
-	SetPhase(EPhase::Iterate);
+	ChangePhase(EPhase::Iterate);
 }
 
 void ATetrisPlayManager::RunIteratePhase()
@@ -303,7 +303,7 @@ void ATetrisPlayManager::RunIteratePhase()
 	/** Main Logic */
 
 	/** Phase Transition*/
-	SetPhase(EPhase::Animate);
+	ChangePhase(EPhase::Animate);
 }
 
 void ATetrisPlayManager::RunAnimatePhase()
@@ -313,7 +313,7 @@ void ATetrisPlayManager::RunAnimatePhase()
 	/** Main Logic */
 
 	/** Phase Transition*/
-	SetPhase(EPhase::Elimate);
+	ChangePhase(EPhase::Elimate);
 }
 
 void ATetrisPlayManager::RunEliminatePhase()
@@ -324,7 +324,7 @@ void ATetrisPlayManager::RunEliminatePhase()
 	Board->ClearRows(GamePlayInfo.HitList);
 
 	/** Phase Transition*/
-	SetPhase(EPhase::Completion);
+	ChangePhase(EPhase::Completion);
 }
 
 void ATetrisPlayManager::RunCompletionPhase()
@@ -442,7 +442,7 @@ void ATetrisPlayManager::LockDown()
 	bIsTetriminoInPlayLockedDownFromLastHold = true;
 
 	// Switch to Pattern Phase.
-	SetPhase(EPhase::Pattern);
+	ChangePhase(EPhase::Pattern);
 }
 
 void ATetrisPlayManager::ForcedLockDown()
@@ -454,7 +454,7 @@ void ATetrisPlayManager::ForcedLockDown()
 	//ClearTimer(LockDownTimerHandle);
 	ClearTimer(PhaseChangeTimerHandle);
 
-	SetPhase(EPhase::Lock);
+	ChangePhase(EPhase::Lock);
 }
 
 void ATetrisPlayManager::CheckLineClearPattern(TArray<int32>& OutHitList)
