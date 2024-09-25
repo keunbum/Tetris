@@ -48,6 +48,7 @@ public:
 	ATetrisPlayerControllerSingle* GetTetrisPlayerController() const { return TetrisPlayerController; }
 
 	void UpdateGamePlay(const FTetrisGamePlayInfo& UpdateInfo);
+	void RunGameOver();
 
 	/** statics methods */
 	static float GetSoftDropSpeed(const float NormalFallSpeed) { return NormalFallSpeed / SoftDropMultiplier; }

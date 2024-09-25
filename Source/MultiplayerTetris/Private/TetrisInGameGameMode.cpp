@@ -56,6 +56,10 @@ void ATetrisInGameGameMode::UpdateGamePlay(const FTetrisGamePlayInfo& UpdateInfo
 	HUDWidget->UpdateDisplay(TetrisPlayerState->GetHUDSingleUpdateDisplayParams());
 }
 
+void ATetrisInGameGameMode::RunGameOver()
+{
+}
+
 void ATetrisInGameGameMode::BeginPlay()
 {
 	Super::BeginPlay();
