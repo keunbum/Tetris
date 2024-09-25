@@ -50,10 +50,7 @@ void ABoard::Initialize()
 
 bool ABoard::IsBlocked(const ATetrimino* Tetrimino) const
 {
-	check(Tetrimino != nullptr);
-	const TArray<FIntPoint>& MinoTetriminoLocalLocations = Tetrimino->GetMinoTetriminoLocalLocations();
-	const FIntPoint TetriminoMatrixLocation = Tetrimino->GetMatrixLocation();
-	return !IsMinoLocationsPossible(MinoTetriminoLocalLocations, TetriminoMatrixLocation);
+	return !IsMovementPossible(Tetrimino, FIntPoint::ZeroValue);
 }
 
 bool ABoard::IsMovementPossible(const ATetrimino* Tetrimino, const FIntPoint& MovementIntPoint2D) const
