@@ -5,6 +5,7 @@
 #include "GhostPiece.h"
 #include "Board.h"
 #include "Mino.h"
+#include "Algo/MinElement.h"
 
 ATetrimino::ATetrimino()
 	: GhostPiece(nullptr)
@@ -43,6 +44,14 @@ void ATetrimino::SetBoard(ABoard* const InBoard)
 	{
 		DetachFromMatrix();
 	}
+}
+
+int32 ATetrimino::GetLowestMinoX() const
+{
+	const TArray<FIntPoint>& MinoLocalLocations = GetMinoTetriminoLocalLocations();
+	// X 값이 클수록 미노가 더 아래에 위치해 있음.
+	const FIntPoint LowestMinoLocalLocation = *Algo::MinElement(MinoLocalLocations, [](const FIntPoint& A, const FIntPoint& B) { return A.X > B.X; });
+	return MatrixLocation.X + LowestMinoLocalLocation.X;
 }
 
 void ATetrimino::MoveBy(const FIntPoint& IntPoint2D)
