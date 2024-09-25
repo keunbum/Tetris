@@ -95,6 +95,8 @@ private:
 	void HardDrop();
 
 	bool IsHoldingTetriminoInPlayAvailable() const;
+	bool IsSoftDropOrNormalFall(const FVector2D& Direction) const { return Direction == ATetriminoBase::MoveDirectionDown; }
+	bool IsLockPhaseReached(const FVector2D& Direction) const;
 
 	void RunSuperRotationSystem(const ETetriminoRotationDirection RotationDirection);
 

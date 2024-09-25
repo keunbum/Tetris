@@ -401,6 +401,11 @@ bool ATetrisPlayManager::IsHoldingTetriminoInPlayAvailable() const
 	return HoldQueue->IsEmpty() || bIsTetriminoInPlayLockedDownFromLastHold;
 }
 
+bool ATetrisPlayManager::IsLockPhaseReached(const FVector2D& Direction) const
+{
+	return IsSoftDropOrNormalFall(Direction) && Board->IsDirectlyAboveSurface(TetriminoInPlay);
+}
+
 void ATetrisPlayManager::MoveTetriminoInPlayToFinalFallingLocation()
 {
 	const FIntPoint FinalFallingMatrixLocation = GhostPiece->GetMatrixLocation();
