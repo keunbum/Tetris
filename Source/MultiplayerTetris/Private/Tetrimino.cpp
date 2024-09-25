@@ -32,6 +32,19 @@ void ATetrimino::SetGhostPiece(AGhostPiece* const InGhostPiece)
 	}
 }
 
+void ATetrimino::SetBoard(ABoard* const InBoard)
+{
+	Board = InBoard;
+	if (Board)
+	{
+		AttachToMatrix(Board->GetMatrixRoot());
+	}
+	else
+	{
+		DetachFromMatrix();
+	}
+}
+
 void ATetrimino::MoveBy(const FIntPoint& IntPoint2D)
 {
 	AddRelativeLocationByMatrixLocationOffset(IntPoint2D);
@@ -51,19 +64,6 @@ void ATetrimino::RotateTo(const ETetriminoRotationDirection RotationDirection)
 	if (GhostPiece)
 	{
 		GhostPiece->RotateByFacing(NewFacing);
-	}
-}
-
-void ATetrimino::SetBoard(ABoard* const InBoard)
-{
-	Board = InBoard;
-	if (Board)
-	{
-		AttachToMatrix(Board->GetMatrixRoot());
-	}
-	else
-	{
-		DetachFromMatrix();
 	}
 }
 
