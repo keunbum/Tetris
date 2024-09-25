@@ -49,7 +49,7 @@ void ATetrimino::SetBoard(ABoard* const InBoard)
 int32 ATetrimino::GetLowestMinoX() const
 {
 	const TArray<FIntPoint>& MinoLocalLocations = GetMinoTetriminoLocalLocations();
-	// X 값이 클수록 미노가 더 아래에 위치해 있음.
+	// X 값이 클수록 미노가 더 아래에 위치함.
 	const FIntPoint LowestMinoLocalLocation = *Algo::MinElement(MinoLocalLocations, [](const FIntPoint& A, const FIntPoint& B) { return A.X > B.X; });
 	return MatrixLocation.X + LowestMinoLocalLocation.X;
 }

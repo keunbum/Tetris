@@ -250,7 +250,6 @@ void ATetrisPlayManager::RunGenerationPhase()
 	//UE_LOG(LogTemp, Display, TEXT("Start Generation Phase."));
 
 	ATetrimino* const NewTetriminoInPlay = PopTetriminoFromNextQueue();
-
 	SetTetriminoInPlay(NewTetriminoInPlay);
 
 	// Check Game Over Condition
