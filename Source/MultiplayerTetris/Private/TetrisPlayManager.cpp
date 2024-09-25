@@ -27,42 +27,6 @@ ATetrisPlayManager::ATetrisPlayManager()
 	PrimaryActorTick.bCanEverTick = true;
 }
 
-void ATetrisPlayManager::Tick(const float DeltaSeconds)
-{
-	Super::Tick(DeltaSeconds);
-
-	switch (Phase)
-	{
-	case EPhase::Generation:
-		RunGenerationPhase();
-		break;
-	case EPhase::Falling:
-		RunFallingPhase();
-		break;
-	case EPhase::Lock:
-		RunLockPhase();
-		break;
-	case EPhase::Pattern:
-		RunPatternPhase();
-		break;
-	case EPhase::Iterate:
-		RunIteratePhase();
-		break;
-	case EPhase::Animate:
-		RunAnimatePhase();
-		break;
-	case EPhase::Elimate:
-		RunEliminatePhase();
-		break;
-	case EPhase::Completion:
-		RunCompletionPhase();
-		break;
-	default:
-		UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayManager::Tick(): Phase is None."));
-		break;
-	}
-}
-
 void ATetrisPlayManager::Initialize()
 {
 	UE_LOG(LogTemp, Display, TEXT("TetrisPlayManager is initialized."));

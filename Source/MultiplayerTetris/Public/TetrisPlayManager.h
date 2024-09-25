@@ -51,10 +51,6 @@ class MULTIPLAYERTETRIS_API ATetrisPlayManager : public AActor
 public:
 	ATetrisPlayManager();
 
-	/** AActor Interface */
-	virtual void Tick(const float DeltaSeconds) override;
-	/** ~AActor Interface */
-
 	void Initialize();
 
 	/** Basic Member Variable Accessors */
