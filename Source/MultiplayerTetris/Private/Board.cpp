@@ -8,7 +8,6 @@
 #include "Materials/MaterialInterface.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Algo/AllOf.h"
-
 #include "TetriminoBase.h"
 
 const FMinoInfo ABoard::BackgroundMinoInfo = FMinoInfo(TEXT("/Game/Material/M_MinoMaterial"), FLinearColor::Gray, 1.0f, 0);
@@ -46,6 +45,29 @@ void ABoard::Initialize()
 {
 	InitializeBackground();
 	InitializeMinoMatrix();
+}
+
+bool ABoard::IsDirectlyAboveSurface(const ATetrimino* Tetrimino) const
+{
+	static const FIntPoint MovementDown = ATetriminoBase::GetMatrixMovementIntPointByDirection(ATetrimino::MoveDirectionDown);
+	return !IsMovementPossible(Tetrimino, MovementDown);
+}
+
+bool ABoard::IsBlocked(const ATetrimino* Tetrimino) const
+{
+	return !IsMovementPossible(Tetrimino, FIntPoint::ZeroValue);
+}
+
+bool ABoard::IsAboveSkyline(const ATetrimino* Tetrimino) const
+{
+	check(Tetrimino != nullptr);
+	const FIntPoint& TetriminoMatrixLocation = Tetrimino->GetMatrixLocation();
+	const TArray<FIntPoint>& MinoTetriminoLocalLocations = Tetrimino->GetMinoTetriminoLocalLocations();
+	return Algo::AllOf(MinoTetriminoLocalLocations, [this, &TetriminoMatrixLocation](const FIntPoint& MinoTetriminoLocalLocation) {
+		const FIntPoint MinoLocalMatrixLocation = TetriminoMatrixLocation + MinoTetriminoLocalLocation;
+		return MinoLocalMatrixLocation.X < SkyLine;
+		}
+	);
 }
 
 bool ABoard::IsMovementPossible(const ATetrimino* Tetrimino, const FIntPoint& MovementIntPoint2D) const
@@ -124,10 +146,10 @@ FIntPoint ABoard::GetFinalFallingMatrixLocation(const ATetrimino* Tetrimino) con
 	check(Tetrimino != nullptr);
 
 	FIntPoint FinalFallingMatrixLocation = Tetrimino->GetMatrixLocation();
-	static const FIntPoint MovementIntPoint2D = ATetriminoBase::GetMatrixMovementIntPointByDirection(ATetrimino::MoveDirectionDown);
-	while (IsMinoLocationsPossible(Tetrimino->GetMinoTetriminoLocalLocations(), FinalFallingMatrixLocation + MovementIntPoint2D))
+	static const FIntPoint MovementDown = ATetriminoBase::GetMatrixMovementIntPointByDirection(ATetrimino::MoveDirectionDown);
+	while (IsMinoLocationsPossible(Tetrimino->GetMinoTetriminoLocalLocations(), FinalFallingMatrixLocation + MovementDown))
 	{
-		FinalFallingMatrixLocation += MovementIntPoint2D;
+		FinalFallingMatrixLocation += MovementDown;
 	}
 	return FinalFallingMatrixLocation;
 }

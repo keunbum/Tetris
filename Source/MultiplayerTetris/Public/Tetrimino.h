@@ -24,11 +24,11 @@ public:
 	virtual const FMinoInfo GetMinoInfo() const override;
 
 	void SetGhostPiece(AGhostPiece* const InGhostPiece);
+	void SetBoard(ABoard* const InBoard);
+	int32 GetLowestMinoX() const;
 
 	void MoveBy(const FIntPoint& IntVector2D);
 	void RotateTo(const ETetriminoRotationDirection RotationDirection);
-
-	void SetBoard(ABoard* const InBoard);
 
 private:
 	void AttachToMatrix(USceneComponent* const MatrixRoot);

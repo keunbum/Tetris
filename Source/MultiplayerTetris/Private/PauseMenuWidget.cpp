@@ -63,11 +63,7 @@ void UPauseMenuWidget::OnResumeClicked()
 void UPauseMenuWidget::OnRestartClicked()
 {
 	// Restart the level
-	if (const UWorld* World = GetWorld())
-	{
-		const FName CurrentLevelName = World->GetFName();
-		UGameplayStatics::OpenLevel(this, CurrentLevelName);
-	}
+	UGameplayStatics::OpenLevel(this, GetWorld()->GetFName());
 }
 
 void UPauseMenuWidget::OnExitClicked()
