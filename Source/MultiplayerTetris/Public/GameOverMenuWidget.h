@@ -14,4 +14,20 @@ class MULTIPLAYERTETRIS_API UGameOverMenuWidget : public UMenuWidgetBase
 {
 	GENERATED_BODY()
 	
+protected:
+	virtual void NativeConstruct() override;
+
+private:
+	UFUNCTION()
+	void OnRestartClicked();
+
+	UFUNCTION()
+	void OnHomeClicked();
+
+private:
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UMenuButton> RestartButton;
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UMenuButton> HomeButton;
 };
