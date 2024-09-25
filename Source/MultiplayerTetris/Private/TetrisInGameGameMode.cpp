@@ -58,6 +58,8 @@ void ATetrisInGameGameMode::UpdateGamePlay(const FTetrisGamePlayInfo& UpdateInfo
 
 void ATetrisInGameGameMode::RunGameOver()
 {
+	// 추후에 추가 로직 작성할 가능성 있음
+	TetrisPlayerController->SetInputModeUIOnlyAndGameOver();
 }
 
 void ATetrisInGameGameMode::BeginPlay()
