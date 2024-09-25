@@ -47,6 +47,12 @@ void ABoard::Initialize()
 	InitializeMinoMatrix();
 }
 
+bool ABoard::IsDirectlyAboveSurface(const ATetrimino* Tetrimino) const
+{
+	static const FIntPoint MovementDown = ATetriminoBase::GetMatrixMovementIntPointByDirection(ATetrimino::MoveDirectionDown);
+	return !IsMovementPossible(Tetrimino, MovementDown);
+}
+
 bool ABoard::IsBlocked(const ATetrimino* Tetrimino) const
 {
 	return !IsMovementPossible(Tetrimino, FIntPoint::ZeroValue);

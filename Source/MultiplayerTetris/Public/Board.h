@@ -29,6 +29,8 @@ public:
 	void Initialize();
 
 	/** Check Methods */
+	// Determine if the Tetrimino directly above a surface (the floor or another block)?
+	bool IsDirectlyAboveSurface(const ATetrimino* Tetrimino) const;
 	// Determine if the Tetrimino is blocked due to an existing Block in the Matrix.
 	bool IsBlocked(const ATetrimino* Tetrimino) const;
 	// Determine if the Tetrimino is above the skyline.
