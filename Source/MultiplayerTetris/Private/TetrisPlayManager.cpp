@@ -360,18 +360,12 @@ void ATetrisPlayManager::MoveTetriminoTo(const FVector2D& Direction)
 	if (bIsMovementPossible)
 	{
 		TetriminoInPlay->MoveBy(MovementIntPoint);
-
-		const bool bIsSoftDropOrNormalFall = (Direction == ATetrimino::MoveDirectionDown);
-		const bool bIsOnSurface = !Board->IsMovementPossible(TetriminoInPlay, MovementIntPoint);
-		const bool bIsLockPhaseReached = bIsSoftDropOrNormalFall && bIsOnSurface;
-		if (bIsLockPhaseReached)
-		{
-			ChangePhaseWithDelay(EPhase::Lock, LockPhaseChangeInitialDelayOfNormalFallOrSoftDrop);
-		}
 	}
-	else
+
+	if (IsLockPhaseReached(Direction))
 	{
 		//UE_LOG(LogTemp, Display, TEXT("Movement is impossible."));
+		ChangePhaseWithDelay(EPhase::Lock, LockPhaseChangeInitialDelayOfNormalFallOrSoftDrop);
 	}
 }
 
