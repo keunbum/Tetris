@@ -26,7 +26,7 @@ enum class ELockDownOption : uint8
 };
 
 UENUM()
-enum class EPhase : uint8
+enum class EPhase : uint16
 {
 	None,
 	Generation,
