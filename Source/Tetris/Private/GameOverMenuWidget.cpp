@@ -11,17 +11,14 @@ void UGameOverMenuWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 
-	if (MenuButtons.IsEmpty())
+	if (RestartButton && !RestartButton->OnClicked.IsBound())
 	{
-		SetMenuButtons({ RestartButton, HomeButton });
-	}
-
-	if (!RestartButton->OnClicked.IsBound())
-	{
+		MenuButtons.Add(RestartButton);
 		RestartButton->OnClicked.AddDynamic(this, &UGameOverMenuWidget::OnRestartClicked);
 	}
-	if (!HomeButton->OnClicked.IsBound())
+	if (HomeButton && !HomeButton->OnClicked.IsBound())
 	{
+		MenuButtons.Add(HomeButton);
 		HomeButton->OnClicked.AddDynamic(this, &UGameOverMenuWidget::OnHomeClicked);
 	}
 }

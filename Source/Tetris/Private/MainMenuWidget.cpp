@@ -24,21 +24,19 @@ void UMainMenuWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 
-	if (MenuButtons.IsEmpty())
+	if (StartButton && !StartButton->OnClicked.IsBound())
 	{
-		SetMenuButtons({ StartButton, OptionButton, ExitButton });
-	}
-
-	if (!StartButton->OnClicked.IsBound())
-	{
+		MenuButtons.Add(StartButton);
 		StartButton->OnClicked.AddDynamic(this, &UMainMenuWidget::OnStartClicked);
 	}
-	if (!OptionButton->OnClicked.IsBound())
+	if (OptionButton && !OptionButton->OnClicked.IsBound())
 	{
+		MenuButtons.Add(OptionButton);
 		OptionButton->OnClicked.AddDynamic(this, &UMainMenuWidget::OnOptionClicked);
 	}
-	if (!ExitButton->OnClicked.IsBound())
+	if (ExitButton && !ExitButton->OnClicked.IsBound())
 	{
+		MenuButtons.Add(ExitButton);
 		ExitButton->OnClicked.AddDynamic(this, &UMainMenuWidget::OnExitClicked);
 	}
 }

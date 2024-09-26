@@ -4,11 +4,6 @@
 
 #include "MenuButton.h"
 
-void UMenuWidgetBase::SetMenuButtons(const TArray<UMenuButton*>& InMenuButtons)
-{
-	MenuButtons = InMenuButtons;
-}
-
 void UMenuWidgetBase::SetDefaultMenuButtonFocus()
 {
 	SetMenuButtonFocusByButtonIndex(DefaultFocusedButtonIndex);
@@ -81,9 +76,10 @@ FReply UMenuWidgetBase::NativeOnPreviewKeyDown(const FGeometry& InGeometry, cons
 	}
 
 	// if this widget has no keyboard focus, then set keyboard focus to current button index.
-	if (MenuButtons[FocusedButtonIndex] && !MenuButtons[FocusedButtonIndex]->HasKeyboardFocus())
+	if (UMenuButton* const MenuButton = MenuButtons[FocusedButtonIndex];
+		MenuButton && !MenuButton->HasKeyboardFocus())
 	{
-		MenuButtons[FocusedButtonIndex]->SetKeyboardFocus();
+		MenuButton->SetKeyboardFocus();
 		return FReply::Handled();
 	}
 
@@ -102,9 +98,9 @@ FReply UMenuWidgetBase::NativeOnPreviewKeyDown(const FGeometry& InGeometry, cons
 void UMenuWidgetBase::SetMenuButtonFocusByButtonIndex(const int32 NewFocusedButtonIndex)
 {
 	FocusedButtonIndex = NewFocusedButtonIndex;
-	if (MenuButtons[FocusedButtonIndex])
+	if (UMenuButton* const MenuButton = MenuButtons[FocusedButtonIndex])
 	{
-		MenuButtons[FocusedButtonIndex]->SetFocus();
+		MenuButton->SetFocus();
 	}
 }
 

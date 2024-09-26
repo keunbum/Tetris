@@ -12,23 +12,19 @@ void UPauseMenuWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 
-	if (MenuButtons.IsEmpty())
+	if (ResumeButton && !ResumeButton->OnClicked.IsBound())
 	{
-		SetMenuButtons({ ResumeButton, RestartButton, ExitButton });
-	}
-
-	SetDefaultMenuButtonFocus();
-
-	if (!ResumeButton->OnClicked.IsBound())
-	{
+		MenuButtons.Add(ResumeButton);
 		ResumeButton->OnClicked.AddDynamic(this, &UPauseMenuWidget::OnResumeClicked);
 	}
-	if (!RestartButton->OnClicked.IsBound())
+	if (RestartButton && !RestartButton->OnClicked.IsBound())
 	{
+		MenuButtons.Add(RestartButton);
 		RestartButton->OnClicked.AddDynamic(this, &UPauseMenuWidget::OnRestartClicked);
 	}
-	if (!ExitButton->OnClicked.IsBound())
+	if (ExitButton && !ExitButton->OnClicked.IsBound())
 	{
+		MenuButtons.Add(ExitButton);
 		ExitButton->OnClicked.AddDynamic(this, &UPauseMenuWidget::OnExitClicked);
 	}
 
@@ -36,6 +32,8 @@ void UPauseMenuWidget::NativeConstruct()
 	{
 		TetrisPlayerController = Cast<ATetrisPlayerControllerSingle>(GetOwningPlayer());
 	}
+
+	SetDefaultMenuButtonFocus();
 }
 
 FReply UPauseMenuWidget::NativeOnPreviewKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent)
