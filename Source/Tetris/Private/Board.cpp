@@ -232,13 +232,12 @@ bool ABoard::IsMinoLocationsPossible(const TArray<FIntPoint>& MinoTetriminoLocal
 
 USceneComponent* ABoard::CreateAndSetupSceneComponent(const FName& ComponentName, USceneComponent* const Parent)
 {
-	if (USceneComponent* const SceneComponent = CreateDefaultSubobject<USceneComponent>(ComponentName))
+	USceneComponent* const SceneComponent = CreateDefaultSubobject<USceneComponent>(ComponentName);
+	if (SceneComponent)
 	{
 		SceneComponent->SetupAttachment(Parent);
-		return SceneComponent;
 	}
-
-	return nullptr;
+	return SceneComponent;
 }
 
 void ABoard::AddMino(UMino* const Mino, const FIntPoint& MinoMatrixLocation)

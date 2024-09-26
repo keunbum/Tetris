@@ -12,7 +12,7 @@ const FMinoInfo AGhostPiece::GetMinoInfo() const
 
 void AGhostPiece::AttachToMatrix(USceneComponent* const MatrixRoot)
 {
-	if (RootComponent && MatrixRoot)
+	if (RootComponent)
 	{
 		RootComponent->AttachToComponent(MatrixRoot, FAttachmentTransformRules::KeepRelativeTransform);
 	}
