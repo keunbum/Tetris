@@ -170,6 +170,7 @@ void ATetrisPlayManager::DoHardDrop()
 		UE_LOG(LogTemp, Display, TEXT("Tetrimino is not manipulable."));
 		return;
 	}
+	SetIsTetriminoInPlayManipulable(false);
 	SetHardDropTimer();
 }
 
@@ -380,7 +381,7 @@ void ATetrisPlayManager::MoveTetriminoDown()
 
 void ATetrisPlayManager::HardDrop()
 {
-	check(GetIsTetriminoInPlayManipulable());
+	check(!GetIsTetriminoInPlayManipulable());
 
 	// GhostPiece를 잠시 안보이게 한다.
 	GhostPiece->SetActorHiddenInGame(true);
