@@ -13,10 +13,14 @@ void AMainMenuGameMode::BeginPlay()
 	// Create Main Menu Widget
 	if (!MainMenuWidget)
 	{
-		check(MainMenuWidgetClass != nullptr);
-		MainMenuWidget = CreateWidget<UMainMenuWidget>(GetWorld(), MainMenuWidgetClass);
-		check(MainMenuWidget != nullptr);
-		MainMenuWidget->AddToViewport();
+		if (MainMenuWidgetClass)
+		{
+			MainMenuWidget = CreateWidget<UMainMenuWidget>(GetWorld(), MainMenuWidgetClass);
+			if (MainMenuWidget)
+			{
+				MainMenuWidget->AddToViewport();
+			}
+		}
 	}
 }
 
@@ -38,5 +42,4 @@ void AMainMenuGameMode::InitializeDefaultEffect()
 
 	// Init Default Audio
 	BGMComponent = CreateAudioComponent(BGMCuePath);
-	check(BGMComponent != nullptr);
 }

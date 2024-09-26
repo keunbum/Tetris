@@ -18,5 +18,5 @@ class TETRIS_API ATetrisPlayerControllerBase : public APlayerController
 	GENERATED_BODY()
 	
 protected:
-	virtual void BindInputActions(UEnhancedInputComponent* const EnhancedInputComponent) { check(EnhancedInputComponent != nullptr); }
+	virtual void BindInputActions(UEnhancedInputComponent* const EnhancedInputComponent) { }
 };

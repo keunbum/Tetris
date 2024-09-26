@@ -10,22 +10,25 @@ ATetriminoQueue::ATetriminoQueue()
 	PrimaryActorTick.bCanEverTick = false;
 
 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
-	check(RootComponent != nullptr);
 }
 
 void ATetriminoQueue::Initialize(const int32 QueueSize, USceneComponent* const NewParentComponent)
 {
 	TetriminoArray.Reserve(QueueSize);
-	check(NewParentComponent != nullptr);
-	RootComponent->AttachToComponent(NewParentComponent, FAttachmentTransformRules::KeepRelativeTransform);
+	if (RootComponent)
+	{
+		RootComponent->AttachToComponent(NewParentComponent, FAttachmentTransformRules::KeepRelativeTransform);
+	}
 }
 
 void ATetriminoQueue::Enqueue(ATetrimino* const Tetrimino)
 {
-	check(Tetrimino != nullptr);
-	TetriminoArray.Add(Tetrimino);
-	// Attach the Tetrimino to the queue's root component
-	Tetrimino->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+	if (Tetrimino)
+	{
+		TetriminoArray.Add(Tetrimino);
+		// Attach the Tetrimino to the queue's root component
+		Tetrimino->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+	}
 }
 
 ATetrimino* ATetriminoQueue::Dequeue()
@@ -39,7 +42,10 @@ ATetrimino* ATetriminoQueue::Dequeue()
 	TetriminoArray.RemoveAt(0);
 
 	// Detach the Tetrimino from the queue's root component
-	NextTetrimino->DetachFromActor(FDetachmentTransformRules::KeepRelativeTransform);
+	if (NextTetrimino)
+	{
+		NextTetrimino->DetachFromActor(FDetachmentTransformRules::KeepRelativeTransform);
+	}
 
 	return NextTetrimino;
 }
@@ -48,9 +54,11 @@ void ATetriminoQueue::ReArrangeTetriminoLocations()
 {
 	for (int32 Index = 0; Index < TetriminoArray.Num(); ++Index)
 	{
-		ATetrimino* const Tetrimino = TetriminoArray[Index];
-		const FVector NewLocation = ATetriminoQueue::GetTetriminoLocalLocationByIndex(Index);
-		Tetrimino->SetActorRelativeLocation(NewLocation);
+		if (ATetrimino* const Tetrimino = TetriminoArray[Index])
+		{
+			const FVector NewLocation = ATetriminoQueue::GetTetriminoLocalLocationByIndex(Index);
+			Tetrimino->SetActorRelativeLocation(NewLocation);
+		}
 	}
 }
 

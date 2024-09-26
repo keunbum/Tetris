@@ -331,7 +331,6 @@ ATetriminoBase::ATetriminoBase()
 	PrimaryActorTick.bCanEverTick = false;
 
 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
-	check(RootComponent != nullptr);
 }
 
 const TArray<FIntPoint>& ATetriminoBase::GetMinoTetriminoLocalLocations() const
@@ -375,9 +374,11 @@ void ATetriminoBase::UpdateMinoTetriminoLocalLocations()
 	const TArray<FIntPoint>& MinoTetriminoLocalLocations = GetMinoTetriminoLocalLocations();
 	for (int32 MinoIndex = 0; MinoIndex < MinoNum; ++MinoIndex)
 	{
-		UMino* const Mino = MinoArray[MinoIndex];
-		const FIntPoint& NewMinoTetriminoLocalLocation = MinoTetriminoLocalLocations[MinoIndex];
-		Mino->SetRelativeLocationByMatrixLocation(NewMinoTetriminoLocalLocation);
+		if (UMino* const Mino = MinoArray[MinoIndex])
+		{
+			const FIntPoint& NewMinoTetriminoLocalLocation = MinoTetriminoLocalLocations[MinoIndex];
+			Mino->SetRelativeLocationByMatrixLocation(NewMinoTetriminoLocalLocation);
+		}
 	}
 }
 
@@ -385,7 +386,10 @@ void ATetriminoBase::DetachMinos()
 {
 	for (UMino* const Mino : MinoArray)
 	{
-		Mino->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
+		if (Mino)
+		{
+			Mino->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
+		}
 	}
 }
 
@@ -434,7 +438,6 @@ FIntPoint ATetriminoBase::GetMatrixMovementIntPointByDirection(const FVector2D& 
 void ATetriminoBase::InitializeMinoArray()
 {
 	const TArray<FIntPoint>& MinoTetriminoLocalLocations = GetMinoTetriminoLocalLocations();
-	check(MinoTetriminoLocalLocations.Num() == MinoNum);
 	const FMinoInfo MinoInfo = GetMinoInfo();
 
 	DestroyMinos();
@@ -442,19 +445,23 @@ void ATetriminoBase::InitializeMinoArray()
 
 	for (const FIntPoint& MinoTetriminoLocalLocation : MinoTetriminoLocalLocations)
 	{
-		UMino* const Mino = UMino::CreateMino(this, MinoInfo);
-		check(Mino != nullptr);
-		Mino->AttachToWithMatrixLocation(RootComponent, MinoTetriminoLocalLocation);
-		MinoArray.Add(Mino);
+		if (UMino* const Mino = UMino::CreateMino(this, MinoInfo))
+		{
+			Mino->AttachToWithMatrixLocation(RootComponent, MinoTetriminoLocalLocation);
+			MinoArray.Add(Mino);
+		}
 	}
 }
 
 void ATetriminoBase::DestroyMinos()
 {
-	for (TObjectPtr<UMino>& Mino : MinoArray)
+	for (UMino* const Mino : MinoArray)
 	{
-		Mino->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
-		Mino->DestroyComponent();
+		if (Mino)
+		{
+			Mino->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
+			Mino->DestroyComponent();
+		}
 	}
 }
 
@@ -467,15 +474,16 @@ void ATetriminoBase::AddRelativeLocationByMatrixLocationOffset(const FIntPoint& 
 
 void ATetriminoBase::AttachToComponentByMatrixLocation(USceneComponent* const NewParentComponent, const FIntPoint& InitialMatrixLocation)
 {
-	check(NewParentComponent != nullptr);
-	RootComponent->AttachToComponent(NewParentComponent, FAttachmentTransformRules::KeepRelativeTransform);
-	SetRelativeLocationByMatrixLocation(InitialMatrixLocation);
+	if (RootComponent)
+	{
+		RootComponent->AttachToComponent(NewParentComponent, FAttachmentTransformRules::KeepRelativeTransform);
+		SetRelativeLocationByMatrixLocation(InitialMatrixLocation);
+	}
 }
 
 const FTetriminoShapeInfo& ATetriminoBase::GetTetriminoShapeInfoByShape(const ETetriminoShape Shape)
 {
 	const FTetriminoShapeInfo* TetriminoShapeInfo = TetriminoShapeInfos.Find(Shape);
-	check(TetriminoShapeInfo != nullptr);
 	return *TetriminoShapeInfo;
 }
 

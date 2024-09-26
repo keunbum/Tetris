@@ -13,7 +13,6 @@ void UOptionPopUpWidget::NativeConstruct()
 	{
 		// Get GameInstance Subsystem
 		AudioInstanceSubsystem = GetGameInstance()->GetSubsystem<UTetrisAudioInstanceSubsystem>();
-		check(AudioInstanceSubsystem != nullptr);
 	}
 
 	if (BGMVolumeSlider)

@@ -16,7 +16,6 @@
 void ATetrisPlayerControllerInGameBase::Initialize()
 {
 	GameMode = GetWorld()->GetAuthGameMode<ATetrisSinglePlayerGameModeBase>();
-	check(GameMode != nullptr);
 
 	KeyPressingFlags = EKeyFlags::None;
 
@@ -137,39 +136,57 @@ void ATetrisPlayerControllerInGameBase::OnMoveRightCompleted(const FInputActionV
 void ATetrisPlayerControllerInGameBase::OnSoftDropStarted(const FInputActionValue& ActionValue)
 {
 	//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayerControllerInGameBase::OnSoftDropStarted()"));
-	EnumAddFlags(KeyPressingFlags, EKeyFlags::SoftDrop);
-	GameMode->GetTetrisPlayManager()->StartSoftDrop();
+	if (GameMode)
+	{
+		EnumAddFlags(KeyPressingFlags, EKeyFlags::SoftDrop);
+		GameMode->GetTetrisPlayManager()->StartSoftDrop();
+	}
 }
 
 void ATetrisPlayerControllerInGameBase::OnSoftDropCompleted(const FInputActionValue& ActionValue)
 {
 	//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayerControllerInGameBase::OnSoftDropCompleted()"));
-	EnumRemoveFlags(KeyPressingFlags, EKeyFlags::SoftDrop);
-	GameMode->GetTetrisPlayManager()->EndSoftDrop();
+	if (GameMode)
+	{
+		EnumRemoveFlags(KeyPressingFlags, EKeyFlags::SoftDrop);
+		GameMode->GetTetrisPlayManager()->EndSoftDrop();
+	}
 }
 
 void ATetrisPlayerControllerInGameBase::OnHardDropStarted(const FInputActionValue& ActionValue)
 {
 	UE_LOG(LogTemp, Display, TEXT("ATetrisPlayerControllerInGameBase::OnHardDropStarted()"));
-	GameMode->GetTetrisPlayManager()->DoHardDrop();
+	if (GameMode)
+	{
+		GameMode->GetTetrisPlayManager()->DoHardDrop();
+	}
 }
 
 void ATetrisPlayerControllerInGameBase::OnRotateClockwiseStarted(const FInputActionValue& ActionValue)
 {
 	//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayerControllerInGameBase::RotateClockwise()"));
-	GameMode->GetTetrisPlayManager()->DoRotation(ETetriminoRotationDirection::Clockwise);
+	if (GameMode)
+	{
+		GameMode->GetTetrisPlayManager()->DoRotation(ETetriminoRotationDirection::Clockwise);
+	}
 }
 
 void ATetrisPlayerControllerInGameBase::OnRotateCounterClockwiseStarted(const FInputActionValue& ActionValue)
 {
 	//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayerControllerInGameBase::RotateCounterClockwise()"));
-	GameMode->GetTetrisPlayManager()->DoRotation(ETetriminoRotationDirection::CounterClockwise);
+	if (GameMode)
+	{
+		GameMode->GetTetrisPlayManager()->DoRotation(ETetriminoRotationDirection::CounterClockwise);
+	}
 }
 
 void ATetrisPlayerControllerInGameBase::OnHoldStarted(const FInputActionValue& ActionValue)
 {
 	//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayerControllerInGameBase::OnHoldStarted()"));
-	GameMode->GetTetrisPlayManager()->HoldTetriminoInPlay();
+	if (GameMode)
+	{
+		GameMode->GetTetrisPlayManager()->HoldTetriminoInPlay();
+	}
 }
 
 const FVector2D& ATetrisPlayerControllerInGameBase::GetDirectionByKeyFlag(const EKeyFlags KeyFlag)
@@ -184,28 +201,34 @@ const FVector2D& ATetrisPlayerControllerInGameBase::GetDirectionByKeyFlag(const 
 
 void ATetrisPlayerControllerInGameBase::StartTetriminoMovement(const EKeyFlags KeyPressed)
 {
-	EnumAddFlags(KeyPressingFlags, KeyPressed);
+	if (GameMode)
+	{
+		EnumAddFlags(KeyPressingFlags, KeyPressed);
 
-	const FVector2D& DirectionPressed = GetDirectionByKeyFlag(KeyPressed);
-	GameMode->GetTetrisPlayManager()->StartMovement(DirectionPressed);
+		const FVector2D& DirectionPressed = GetDirectionByKeyFlag(KeyPressed);
+		GameMode->GetTetrisPlayManager()->StartMovement(DirectionPressed);
+	}
 }
 
 void ATetrisPlayerControllerInGameBase::EndTetriminoMovement(const EKeyFlags KeyReleased)
 {
-	const bool bIsPressingLeftRightBoth = EnumHasAllFlags(KeyPressingFlags, (EKeyFlags::Left | EKeyFlags::Right));
-	if (bIsPressingLeftRightBoth)
+	if (GameMode)
 	{
-		const FVector2D& DirectionReleased = GetDirectionByKeyFlag(KeyReleased);
-		// 테트로미노 현재 이동 중인 방향 키를 뗐을 경우
-		if (GameMode->GetTetrisPlayManager()->GetTetriminoMovementDirection() == DirectionReleased)
+		const bool bIsPressingLeftRightBoth = EnumHasAllFlags(KeyPressingFlags, (EKeyFlags::Left | EKeyFlags::Right));
+		if (bIsPressingLeftRightBoth)
 		{
-			const FVector2D OppositeDirection = -DirectionReleased;
-			GameMode->GetTetrisPlayManager()->StartMovement(OppositeDirection);
+			const FVector2D& DirectionReleased = GetDirectionByKeyFlag(KeyReleased);
+			// 테트로미노 현재 이동 중인 방향 키를 뗐을 경우
+			if (GameMode->GetTetrisPlayManager()->GetTetriminoMovementDirection() == DirectionReleased)
+			{
+				const FVector2D OppositeDirection = -DirectionReleased;
+				GameMode->GetTetrisPlayManager()->StartMovement(OppositeDirection);
+			}
 		}
+		else
+		{
+			GameMode->GetTetrisPlayManager()->EndMovement();
+		}
+		EnumRemoveFlags(KeyPressingFlags, KeyReleased);
 	}
-	else
-	{
-		GameMode->GetTetrisPlayManager()->EndMovement();
-	}
-	EnumRemoveFlags(KeyPressingFlags, KeyReleased);
 }

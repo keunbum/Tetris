@@ -16,6 +16,7 @@ UMainMenuWidget::UMainMenuWidget()
 	if (ensureMsgf(OptionPopUpBPClass.Succeeded(), TEXT("Failed to find OptionPopUpWidget BP class.")))
 	{
 		OptionPopUpWidgetClass = OptionPopUpBPClass.Class;
+		OptionPopUpWidget = CreateWidget<UOptionPopUpWidget>(GetWorld(), OptionPopUpWidgetClass);
 	}
 }
 
@@ -50,16 +51,10 @@ void UMainMenuWidget::OnStartClicked()
 
 void UMainMenuWidget::OnOptionClicked()
 {
-	// Create Option PopUp Widget if not exist
-	if (!OptionPopUpWidget)
+	if (OptionPopUpWidget)
 	{
-		check(OptionPopUpWidgetClass != nullptr);
-		OptionPopUpWidget = CreateWidget<UOptionPopUpWidget>(GetWorld(), OptionPopUpWidgetClass);
-		check(OptionPopUpWidget != nullptr);
+		OptionPopUpWidget->AddToViewport();
 	}
-
-	// Open Option PopUp
-	OptionPopUpWidget->AddToViewport();
 }
 
 void UMainMenuWidget::OnExitClicked()
