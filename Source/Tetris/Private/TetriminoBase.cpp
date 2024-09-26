@@ -484,6 +484,7 @@ void ATetriminoBase::AttachToComponentByMatrixLocation(USceneComponent* const Ne
 const FTetriminoShapeInfo& ATetriminoBase::GetTetriminoShapeInfoByShape(const ETetriminoShape Shape)
 {
 	const FTetriminoShapeInfo* TetriminoShapeInfo = TetriminoShapeInfos.Find(Shape);
+	check(TetriminoShapeInfo != nullptr);
 	return *TetriminoShapeInfo;
 }
 
