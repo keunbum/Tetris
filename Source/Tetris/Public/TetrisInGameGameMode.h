@@ -39,7 +39,9 @@ class TETRIS_API ATetrisInGameGameMode : public ATetrisGameModeBase
 public:
 	ATetrisInGameGameMode();
 
+	/** AGameModeBase */
 	virtual void PostLogin(APlayerController* const NewPlayer) override;
+	/** ~AGameModeBase */
 
 	float GetElapsedTime() const;
 	// Here, speed means the seconds it takes to move one line.
@@ -54,14 +56,19 @@ public:
 	static float GetSoftDropSpeed(const float NormalFallSpeed) { return NormalFallSpeed / SoftDropMultiplier; }
 
 protected:
+	/** AActor */
 	virtual void BeginPlay() override;
+	/** ~AActor */
 
 	void SetGoalSystemType(const EGoalSystemType NewGoalSystemType) { GoalSystemType = NewGoalSystemType; }
 	void LevelUp();
 
 private:
+	/** ATetrisGameModeBase */
 	virtual void Initialize() override;
 	virtual void SetInputMode() override;
+	/** ~ATetrisGameModeBase */
+
 	void StartGamePlay();
 
 	/** static methods */
