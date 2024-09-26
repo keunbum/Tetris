@@ -155,7 +155,7 @@ void ATetrisPlayerControllerInGameBase::OnSoftDropCompleted(const FInputActionVa
 
 void ATetrisPlayerControllerInGameBase::OnHardDropStarted(const FInputActionValue& ActionValue)
 {
-	UE_LOG(LogTemp, Display, TEXT("ATetrisPlayerControllerInGameBase::OnHardDropStarted()"));
+	//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayerControllerInGameBase::OnHardDropStarted()"));
 	if (GameMode)
 	{
 		GameMode->GetTetrisPlayManager()->DoHardDrop();
