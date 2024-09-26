@@ -86,18 +86,15 @@ void ATetrisInGameGameMode::BeginPlay()
 
 void ATetrisInGameGameMode::LevelUp()
 {
-	if (TetrisPlayerState)
+	if (TetrisPlayerState && TetrisPlayManager)
 	{
 		TetrisPlayerState->LevelUp(GoalSystem.GetInterface());
 
-		if (TetrisPlayManager)
-		{
-			const float OldNormalFallSpeed = TetrisPlayManager->GetNormalFallSpeed();
-			const float NewNormalFallSpeed = GetCurrentLevelNormalFallSpeed();
-			check(OldNormalFallSpeed != NewNormalFallSpeed); // If this is not true, the level up system is not working properly.
-			TetrisPlayManager->SetNormalFallSpeed(NewNormalFallSpeed);
-			UE_LOG(LogTemp, Warning, TEXT("Level Up! New NormalFallSpeed: %f"), NewNormalFallSpeed);
-		}
+		const float OldNormalFallSpeed = TetrisPlayManager->GetNormalFallSpeed();
+		const float NewNormalFallSpeed = GetCurrentLevelNormalFallSpeed();
+		check(OldNormalFallSpeed != NewNormalFallSpeed); // If this is not true, the level up system is not working properly.
+		TetrisPlayManager->SetNormalFallSpeed(NewNormalFallSpeed);
+		UE_LOG(LogTemp, Warning, TEXT("Level Up! New NormalFallSpeed: %f"), NewNormalFallSpeed);
 	}
 }
 
@@ -158,7 +155,10 @@ void ATetrisInGameGameMode::SetInputMode()
 void ATetrisInGameGameMode::StartGamePlay()
 {
 	GameStartTime = UGameplayStatics::GetTimeSeconds(GetWorld());
-	TetrisPlayManager->ChangePhase(EPhase::Generation);
+	if (TetrisPlayManager)
+	{
+		TetrisPlayManager->ChangePhase(EPhase::Generation);
+	}
 }
 
 float ATetrisInGameGameMode::CalculateNormalFallSpeed(const int32 GameLevel)
