@@ -167,7 +167,7 @@ void ATetrisPlayManager::DoHardDrop()
 		return;
 	}
 	bIsTetriminoInPlayManipulable = false;
-	SetHardDropTimer();
+	HardDrop();
 }
 
 void ATetrisPlayManager::DoRotation(const ETetriminoRotationDirection RotationDirection)
@@ -488,12 +488,6 @@ void ATetrisPlayManager::LockDown()
 
 void ATetrisPlayManager::ForcedLockDown()
 {
-	// TODO: 아 이건 좀.. 그.. 아니 만약에 PhaseChangeTimerHandle 남은 시간이 HardDropTimerInitialDelay보다 짧을 수도 있잖아?
-	// 가이드라인에 정확히는 안나와 있는데.. HardDrop의 강제성이 더 높아야 할 것 같은데..
-	// 물론 이건 추후에 다른 기능 구현하다보면 구체화될 수도 있는 거니, 지금은 이 정도로 넘어 가는 걸로.
-	// 버그는 아니잖아.
-	ClearTimer(PhaseChangeTimerHandle);
-
 	ChangePhase(EPhase::Lock);
 }
 
@@ -524,12 +518,6 @@ void ATetrisPlayManager::SetSoftDropTimer()
 {
 	const float SoftDropSpeed = ATetrisInGameGameMode::GetSoftDropSpeed(NormalFallSpeed);
 	GetWorldTimerManager().SetTimer(SoftDropTimerHandle, this, &ATetrisPlayManager::MoveTetriminoDown, SoftDropSpeed, bSoftDropTimerLoop, SoftDropTimerInitialDelay);
-}
-
-void ATetrisPlayManager::SetHardDropTimer()
-{
-	UE_LOG(LogTemp, Display, TEXT("Hard Drop Timer is set."));
-	GetWorldTimerManager().SetTimer(HardDropTimerHandle, this, &ATetrisPlayManager::HardDrop, HardDropTimerInitialDelay, bIsHardDropTimerLoop);
 }
 
 void ATetrisPlayManager::SetNormalFallTimer()
