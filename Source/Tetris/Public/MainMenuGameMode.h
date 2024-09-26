@@ -27,6 +27,9 @@ protected:
 public:
 	// Level Name
 	static const FName MainMenuLevelName;
+
+	/** Audio Asset Path */
+	// BGM Cue Path
 	static const FName BGMCuePath;
 
 private:
