@@ -111,7 +111,7 @@ void ATetrisPlayManager::ChangePhaseWithDelay(const EPhase NewPhase, const float
 
 void ATetrisPlayManager::StartMovement(const FVector2D& InMovementDirection)
 {
-	if (!GetIsTetriminoInPlayManipulable())
+	if (!bIsTetriminoInPlayManipulable)
 	{
 		UE_LOG(LogTemp, Display, TEXT("Tetrimino is not manipulable."));
 		return;
@@ -135,7 +135,7 @@ void ATetrisPlayManager::EndMovement()
 
 void ATetrisPlayManager::StartSoftDrop()
 {
-	if (!GetIsTetriminoInPlayManipulable())
+	if (!bIsTetriminoInPlayManipulable)
 	{
 		UE_LOG(LogTemp, Display, TEXT("Tetrimino is not manipulable."));
 		return;
@@ -165,18 +165,18 @@ void ATetrisPlayManager::DoHardDrop()
 	// 테트리스 가이드라인 2009에 나와 있는 방식 그대로 구현하기.
 	// HardDrop에는 Auto-Repeat 없음.
 	// TODO: 나중에 Hard Drop Trail 관련 이펙트도 있으면 금상첨화.
-	if (!GetIsTetriminoInPlayManipulable())
+	if (!bIsTetriminoInPlayManipulable)
 	{
 		UE_LOG(LogTemp, Display, TEXT("Tetrimino is not manipulable."));
 		return;
 	}
-	SetIsTetriminoInPlayManipulable(false);
+	bIsTetriminoInPlayManipulable = false;
 	SetHardDropTimer();
 }
 
 void ATetrisPlayManager::DoRotation(const ETetriminoRotationDirection RotationDirection)
 {
-	if (!GetIsTetriminoInPlayManipulable())
+	if (!bIsTetriminoInPlayManipulable)
 	{
 		UE_LOG(LogTemp, Display, TEXT("Tetrimino is not manipulable."));
 		return;
@@ -187,7 +187,7 @@ void ATetrisPlayManager::DoRotation(const ETetriminoRotationDirection RotationDi
 
 void ATetrisPlayManager::HoldTetriminoInPlay()
 {
-	if (!GetIsTetriminoInPlayManipulable())
+	if (!bIsTetriminoInPlayManipulable)
 	{
 		UE_LOG(LogTemp, Display, TEXT("Tetrimino is not manipulable."));
 		return;
@@ -199,7 +199,7 @@ void ATetrisPlayManager::HoldTetriminoInPlay()
 		return;
 	}
 
-	SetIsTetriminoInPlayManipulable(false);
+	bIsTetriminoInPlayManipulable = false;
 
 	// 기존 TetriminoInPlay를 떼어 내기
 	ATetrimino* const OldTetriminoInPlay = TetriminoInPlay;
@@ -272,7 +272,7 @@ void ATetrisPlayManager::RunGenerationPhase()
 void ATetrisPlayManager::RunFallingPhase()
 {
 	//UE_LOG(LogTemp, Display, TEXT("Start Falling Phase."));
-	SetIsTetriminoInPlayManipulable(true);
+	bIsTetriminoInPlayManipulable = true;
 
 	SetNormalFallTimer();
 	
@@ -381,7 +381,7 @@ void ATetrisPlayManager::MoveTetriminoDown()
 
 void ATetrisPlayManager::HardDrop()
 {
-	check(!GetIsTetriminoInPlayManipulable());
+	check(!bIsTetriminoInPlayManipulable);
 
 	// GhostPiece를 잠시 안보이게 한다.
 	GhostPiece->SetActorHiddenInGame(true);
@@ -431,7 +431,7 @@ void ATetrisPlayManager::LockDown()
 
 	check(TetriminoInPlay != nullptr);
 
-	SetIsTetriminoInPlayManipulable(false);
+	bIsTetriminoInPlayManipulable = false;
 
 	PlayLockDownEffect(TetriminoInPlay->GetMinoArray());
 
