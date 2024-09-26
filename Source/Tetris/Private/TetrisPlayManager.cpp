@@ -453,10 +453,10 @@ void ATetrisPlayManager::LockDown()
 
 	bIsTetriminoInPlayManipulable = false;
 
-	PlayLockDownEffect(TetriminoInPlay->GetMinoArray());
-
 	if (Board && GameMode && TetriminoInPlay)
 	{
+		PlayLockDownEffect(TetriminoInPlay->GetMinoArray());
+
 		// Game Over Condition
 		// Lock Out Condition occurs when a Tetrimino Locks Down completely above the Skyline.
 		const bool bIsLockOutCondition = Board->IsAboveSkyline(TetriminoInPlay);
