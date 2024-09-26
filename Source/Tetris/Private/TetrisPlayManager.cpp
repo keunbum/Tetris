@@ -500,6 +500,7 @@ void ATetrisPlayManager::SetSoftDropTimer()
 
 void ATetrisPlayManager::SetHardDropTimer()
 {
+	UE_LOG(LogTemp, Display, TEXT("Hard Drop Timer is set."));
 	GetWorldTimerManager().SetTimer(HardDropTimerHandle, this, &ATetrisPlayManager::HardDrop, HardDropTimerInitialDelay, bIsHardDropTimerLoop);
 }
 
