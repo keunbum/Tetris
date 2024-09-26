@@ -11,7 +11,6 @@ void UHUDSingle::InitializeHUD(const FHUDSingleUpdateDisplayParams& DisplayParam
 {
 	UpdateDisplay(DisplayParams);
 	TetrisGameMode = InTetrisGameMode;
-	check(TetrisGameMode != nullptr);
 	AddToViewport();
 
 	// 경과 시간 업데이트 타이머 시작
@@ -26,27 +25,36 @@ void UHUDSingle::UpdateDisplay(const FHUDSingleUpdateDisplayParams& DisplayParam
 
 void UHUDSingle::UpdateLevelDisplay(const int32 NewLevel)
 {
-	check(LevelText != nullptr);
-	const FString LevelString = FString::Printf(TEXT("%-15s %10d"), TEXT("Level"), NewLevel);
-	LevelText->SetText(FText::FromString(LevelString));
+	if (LevelText)
+	{
+		const FString LevelString = FString::Printf(TEXT("%-15s %10d"), TEXT("Level"), NewLevel);
+		LevelText->SetText(FText::FromString(LevelString));
+	}
 }
 
 void UHUDSingle::UpdateGoalDisplay(const int32 NewGoal)
 {
-	check(GoalText != nullptr);
-	const FString GoalString = FString::Printf(TEXT("%-15s %10d"), TEXT("Goal"), NewGoal);
-	GoalText->SetText(FText::FromString(GoalString));
+	if (GoalText)
+	{
+		const FString GoalString = FString::Printf(TEXT("%-15s %10d"), TEXT("Goal"), NewGoal);
+		GoalText->SetText(FText::FromString(GoalString));
+	}
 }
 
 void UHUDSingle::UpdateTimeDisplay(const float NewTime)
 {
-	check(TimeText != nullptr);
-	const FString ElapsedTimeString = UHUDBase::GetFormattedTimeString(NewTime);
-	const FString TimeString = FString::Printf(TEXT("%-10s %10s"), TEXT("Time"), *ElapsedTimeString);
-	TimeText->SetText(FText::FromString(TimeString));
+	if (TimeText)
+	{
+		const FString ElapsedTimeString = UHUDBase::GetFormattedTimeString(NewTime);
+		const FString TimeString = FString::Printf(TEXT("%-10s %10s"), TEXT("Time"), *ElapsedTimeString);
+		TimeText->SetText(FText::FromString(TimeString));
+	}
 }
 
 void UHUDSingle::OnUpdateTime()
 {
-	UpdateTimeDisplay(TetrisGameMode->GetElapsedTime());
+	if (TetrisGameMode)
+	{
+		UpdateTimeDisplay(TetrisGameMode->GetElapsedTime());
+	}
 }

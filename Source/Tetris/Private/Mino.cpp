@@ -34,10 +34,9 @@ UMino* UMino::CreateMino(UObject* const InOuter, const FMinoInfo& MinoInfo)
 {
 	if (UMino* const Mino = NewObject<UMino>(InOuter))
 	{
-		static constexpr int32 ElementIndex = 0;
-		UMaterialInstanceDynamic* const MaterialInstance = UMino::GetMaterialInstanceByMinoInfo(InOuter, MinoInfo);
-		if (ensureMsgf(MaterialInstance != nullptr, TEXT("Failed to create material instance: %s"), *MinoInfo.MaterialPath))
+		if (UMaterialInstanceDynamic* const MaterialInstance = UMino::GetMaterialInstanceByMinoInfo(InOuter, MinoInfo))
 		{
+			static constexpr int32 ElementIndex = 0;
 			Mino->SetMaterial(ElementIndex, MaterialInstance);
 			Mino->SetTranslucentSortPriority(MinoInfo.TranslucentSortPriority);
 			Mino->RegisterComponent();
@@ -56,7 +55,6 @@ FVector UMino::GetRelativeLocationByMatrixLocation(const FIntPoint& MatrixLocati
 
 UMaterialInterface* UMino::GetMaterialByMinoInfo(const FMinoInfo& MinoInfo)
 {
-	check(!MinoInfo.MaterialPath.IsEmpty());
 	UMaterialInterface* const MinoMaterial = Cast<UMaterialInterface>(StaticLoadObject(UMaterialInterface::StaticClass(), nullptr, *MinoInfo.MaterialPath));
 	ensureMsgf(MinoMaterial != nullptr, TEXT("Failed to load material: %s"), *MinoInfo.MaterialPath);
 	return MinoMaterial;

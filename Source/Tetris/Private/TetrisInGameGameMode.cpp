@@ -28,7 +28,6 @@ void ATetrisInGameGameMode::PostLogin(APlayerController* const NewPlayer)
 	Super::PostLogin(NewPlayer);
 
 	TetrisPlayerState = Cast<ATetrisPlayerStateBase>(NewPlayer->PlayerState);
-	check(TetrisPlayerState != nullptr);
 }
 
 float ATetrisInGameGameMode::GetElapsedTime() const
@@ -38,28 +37,44 @@ float ATetrisInGameGameMode::GetElapsedTime() const
 
 float ATetrisInGameGameMode::GetCurrentLevelNormalFallSpeed() const
 {
-	return ATetrisInGameGameMode::CalculateNormalFallSpeed(TetrisPlayerState->GetGameLevel());
+	if (TetrisPlayerState)
+	{
+		return ATetrisInGameGameMode::CalculateNormalFallSpeed(TetrisPlayerState->GetGameLevel());
+	}
+
+	return 0.f;
 }
 
 void ATetrisInGameGameMode::UpdateGamePlay(const FTetrisGamePlayInfo& UpdateInfo)
 {
-	TetrisPlayerState->UpdateState(UpdateInfo);
-
-	check(GoalSystem.GetObject() != nullptr);
-	const bool bIsLevelUpCondition = GoalSystem->IsLevelUpCondition(*TetrisPlayerState);
-	if (bIsLevelUpCondition)
+	if (TetrisPlayerState)
 	{
-		LevelUp();
-	}
+		TetrisPlayerState->UpdateState(UpdateInfo);
 
-	// Update HUD
-	HUDWidget->UpdateDisplay(TetrisPlayerState->GetHUDSingleUpdateDisplayParams());
+		if (GoalSystem)
+		{
+			const bool bIsLevelUpCondition = GoalSystem->IsLevelUpCondition(*TetrisPlayerState);
+			if (bIsLevelUpCondition)
+			{
+				LevelUp();
+			}
+		}
+
+		// Update HUD
+		if (HUDWidget)
+		{
+			HUDWidget->UpdateDisplay(TetrisPlayerState->GetHUDSingleUpdateDisplayParams());
+		}
+	}
 }
 
 void ATetrisInGameGameMode::RunGameOver()
 {
 	// 추후에 추가 로직 작성할 가능성 있음
-	TetrisPlayerController->SetInputModeUIOnlyAndGameOver();
+	if (TetrisPlayerController)
+	{
+		TetrisPlayerController->SetInputModeUIOnlyAndGameOver();
+	}
 }
 
 void ATetrisInGameGameMode::BeginPlay()
@@ -71,53 +86,63 @@ void ATetrisInGameGameMode::BeginPlay()
 
 void ATetrisInGameGameMode::LevelUp()
 {
-	TetrisPlayerState->LevelUp(GoalSystem.GetInterface());
+	if (TetrisPlayerState && TetrisPlayManager)
+	{
+		TetrisPlayerState->LevelUp(GoalSystem.GetInterface());
 
-	const float OldNormalFallSpeed = TetrisPlayManager->GetNormalFallSpeed();
-	const float NewNormalFallSpeed = GetCurrentLevelNormalFallSpeed();
-	check(OldNormalFallSpeed != NewNormalFallSpeed); // If this is not true, the level up system is not working properly.
-	TetrisPlayManager->SetNormalFallSpeed(NewNormalFallSpeed);
-	UE_LOG(LogTemp, Warning, TEXT("Level Up! New NormalFallSpeed: %f"), NewNormalFallSpeed);
+		const float OldNormalFallSpeed = TetrisPlayManager->GetNormalFallSpeed();
+		const float NewNormalFallSpeed = GetCurrentLevelNormalFallSpeed();
+		check(OldNormalFallSpeed != NewNormalFallSpeed); // If this is not true, the level up system is not working properly.
+		TetrisPlayManager->SetNormalFallSpeed(NewNormalFallSpeed);
+		UE_LOG(LogTemp, Warning, TEXT("Level Up! New NormalFallSpeed: %f"), NewNormalFallSpeed);
+	}
 }
 
 void ATetrisInGameGameMode::Initialize()
 {
 	Super::Initialize();
 
-	UWorld* const World = GetWorld();
-	check(World != nullptr);
-
-	// TetrisPlayManager
-	check(TetrisPlayManagerClass != nullptr);
-	TetrisPlayManager = World->SpawnActor<ATetrisPlayManager>(TetrisPlayManagerClass);
-	check(TetrisPlayManager != nullptr);
-
-	// TetrisPlayerController
-	TetrisPlayerController = Cast<ATetrisPlayerControllerSingle>(UGameplayStatics::GetPlayerController(World, PlayerIndex));
-	check(TetrisPlayerController != nullptr);
-
-	// GoalSystem
-	check(GoalSystemType != EGoalSystemType::None);
-	if (IGoalSystemInterface* const GoalSystemInterface = GoalSystemFactory::CreateGoalSystemInterface(GoalSystemType, this))
+	if (UWorld* const World = GetWorld())
 	{
-		if (UObject* const GoalSystemObject = Cast<UObject>(GoalSystemInterface))
+
+		// TetrisPlayManager
+		TetrisPlayManager = World->SpawnActor<ATetrisPlayManager>(TetrisPlayManagerClass);
+
+		// TetrisPlayerController
+		TetrisPlayerController = Cast<ATetrisPlayerControllerSingle>(UGameplayStatics::GetPlayerController(World, PlayerIndex));
+
+		// GoalSystem
+		if (IGoalSystemInterface* const GoalSystemInterface = GoalSystemFactory::CreateGoalSystemInterface(GoalSystemType, this))
 		{
-			GoalSystem.SetInterface(GoalSystemInterface);
-			GoalSystem.SetObject(GoalSystemObject);
+			if (UObject* const GoalSystemObject = Cast<UObject>(GoalSystemInterface))
+			{
+				GoalSystem.SetInterface(GoalSystemInterface);
+				GoalSystem.SetObject(GoalSystemObject);
+			}
+		}
+
+		// HUDWidget
+		HUDWidget = CreateWidget<UHUDSingle>(World, HUDWidgetClass);
+
+		/** Call Initialize methods */
+		if (TetrisPlayManager)
+		{
+			TetrisPlayManager->Initialize();
+		}
+		if (TetrisPlayerController)
+		{
+			TetrisPlayerController->Initialize();
+		}
+		if (TetrisPlayerState)
+		{
+			TetrisPlayerState->Initialize(GoalSystem.GetInterface());
+
+			if (HUDWidget)
+			{
+				HUDWidget->InitializeHUD(TetrisPlayerState->GetHUDSingleUpdateDisplayParams(), this);
+			}
 		}
 	}
-
-	// HUDWidget
-	check(HUDWidgetClass != nullptr);
-	HUDWidget = CreateWidget<UHUDSingle>(World, HUDWidgetClass);
-	check(HUDWidget != nullptr);
-
-	/** Call Initialize methods */
-	TetrisPlayManager->Initialize();
-	TetrisPlayerController->Initialize();
-	TetrisPlayerState->Initialize(GoalSystem.GetInterface());
-
-	HUDWidget->InitializeHUD(TetrisPlayerState->GetHUDSingleUpdateDisplayParams(), this);
 }
 
 void ATetrisInGameGameMode::SetInputMode()
@@ -130,7 +155,10 @@ void ATetrisInGameGameMode::SetInputMode()
 void ATetrisInGameGameMode::StartGamePlay()
 {
 	GameStartTime = UGameplayStatics::GetTimeSeconds(GetWorld());
-	TetrisPlayManager->ChangePhase(EPhase::Generation);
+	if (TetrisPlayManager)
+	{
+		TetrisPlayManager->ChangePhase(EPhase::Generation);
+	}
 }
 
 float ATetrisInGameGameMode::CalculateNormalFallSpeed(const int32 GameLevel)

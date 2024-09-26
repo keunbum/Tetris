@@ -16,19 +16,19 @@ void UTetrisAudioInstanceSubsystem::Initialize(FSubsystemCollectionBase& Collect
 
 	// MainSoundMix
 	MainSoundMix = LoadObject<USoundMix>(nullptr, *MainSoundMixName.ToString());
-	check(MainSoundMix != nullptr);
-	AsyncTask(ENamedThreads::GameThread, [this]()
-		{
-			UGameplayStatics::SetBaseSoundMix(GetWorld(), MainSoundMix);
-		});
+	if (MainSoundMix)
+	{
+		AsyncTask(ENamedThreads::GameThread, [this]()
+			{
+				UGameplayStatics::SetBaseSoundMix(GetWorld(), MainSoundMix);
+			});
+	}
 
 	// MainSoundClass
 	MainSoundClass = LoadObject<USoundClass>(nullptr, *MainSoundClassName.ToString());
-	check(MainSoundClass != nullptr);
 
 	// BGMSoundClass
 	BGMSoundClass = LoadObject<USoundClass>(nullptr, *BGMSoundClassName.ToString());
-	check(BGMSoundClass != nullptr);
 
 	LoadSavedSettings();
 }
@@ -76,7 +76,6 @@ void UTetrisAudioInstanceSubsystem::LoadSavedSettings()
 	if (!SaveCommonOption)
 	{
 		SaveCommonOption = UTetrisSaveGameOption::LoadTetrisSaveCommonOption();
-		check(SaveCommonOption != nullptr);
 	}
 
 	SetMainSoundClassVolume(GetMainSoundClassVolume());

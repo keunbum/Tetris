@@ -33,7 +33,6 @@ void ATetrisPlayManager::Initialize()
 
 	// World
 	UWorld* const World = GetWorld();
-	check(World != nullptr);
 
 	// GameMode
 	GameMode = World->GetAuthGameMode<ATetrisInGameGameMode>();
@@ -44,27 +43,28 @@ void ATetrisPlayManager::Initialize()
 
 	// Board
 	Board = World->SpawnActor<ABoard>();
-	check(Board != nullptr);
-	Board->Initialize();
+	if (Board)
+	{
+		Board->Initialize();
+	}
 
 	// TetriminoGenerator
 	TetriminoGenerator = NewObject<UTetriminoGenerator>(this);
-	check(TetriminoGenerator != nullptr);
 
 	// NextQueue
 	NextQueue = World->SpawnActor<ATetriminoQueue>(ATetriminoQueue::StaticClass());
-	check(NextQueue != nullptr);
 	InitializeNextQueue();
 
 	// HoldQueue
 	HoldQueue = World->SpawnActor<ATetriminoQueue>(ATetriminoQueue::StaticClass());
-	check(HoldQueue != nullptr);
 	InitializeHoldQueue();
 
 	// GhostPiece
 	GhostPiece = World->SpawnActor<AGhostPiece>(GhostPieceClass);
-	check(GhostPiece != nullptr);
-	GhostPiece->AttachToMatrix(Board->GetMatrixRoot());
+	if (GhostPiece)
+	{
+		GhostPiece->AttachToMatrix(Board->GetMatrixRoot());
+	}
 }
 
 void ATetrisPlayManager::ChangePhase(const EPhase NewPhase)
@@ -111,13 +111,11 @@ void ATetrisPlayManager::ChangePhaseWithDelay(const EPhase NewPhase, const float
 
 void ATetrisPlayManager::StartMovement(const FVector2D& InMovementDirection)
 {
-	if (!GetIsTetriminoInPlayManipulable())
+	if (!bIsTetriminoInPlayManipulable)
 	{
 		UE_LOG(LogTemp, Display, TEXT("Tetrimino is not manipulable."));
 		return;
 	}
-
-	check(TetriminoInPlay != nullptr);
 
 	SetTetriminoMovementDirection(InMovementDirection);
 	MoveTetrimino();
@@ -135,13 +133,11 @@ void ATetrisPlayManager::EndMovement()
 
 void ATetrisPlayManager::StartSoftDrop()
 {
-	if (!GetIsTetriminoInPlayManipulable())
+	if (!bIsTetriminoInPlayManipulable)
 	{
 		UE_LOG(LogTemp, Display, TEXT("Tetrimino is not manipulable."));
 		return;
 	}
-
-	check(TetriminoInPlay != nullptr);
 
 	// NormalFall 일시 중지
 	ClearTimer(NormalFallTimerHandle);
@@ -165,17 +161,18 @@ void ATetrisPlayManager::DoHardDrop()
 	// 테트리스 가이드라인 2009에 나와 있는 방식 그대로 구현하기.
 	// HardDrop에는 Auto-Repeat 없음.
 	// TODO: 나중에 Hard Drop Trail 관련 이펙트도 있으면 금상첨화.
-	if (!GetIsTetriminoInPlayManipulable())
+	if (!bIsTetriminoInPlayManipulable)
 	{
 		UE_LOG(LogTemp, Display, TEXT("Tetrimino is not manipulable."));
 		return;
 	}
-	SetHardDropTimer();
+	bIsTetriminoInPlayManipulable = false;
+	HardDrop();
 }
 
 void ATetrisPlayManager::DoRotation(const ETetriminoRotationDirection RotationDirection)
 {
-	if (!GetIsTetriminoInPlayManipulable())
+	if (!bIsTetriminoInPlayManipulable)
 	{
 		UE_LOG(LogTemp, Display, TEXT("Tetrimino is not manipulable."));
 		return;
@@ -186,7 +183,7 @@ void ATetrisPlayManager::DoRotation(const ETetriminoRotationDirection RotationDi
 
 void ATetrisPlayManager::HoldTetriminoInPlay()
 {
-	if (!GetIsTetriminoInPlayManipulable())
+	if (!bIsTetriminoInPlayManipulable)
 	{
 		UE_LOG(LogTemp, Display, TEXT("Tetrimino is not manipulable."));
 		return;
@@ -198,32 +195,37 @@ void ATetrisPlayManager::HoldTetriminoInPlay()
 		return;
 	}
 
-	SetIsTetriminoInPlayManipulable(false);
+	bIsTetriminoInPlayManipulable = false;
 
 	// 기존 TetriminoInPlay를 떼어 내기
-	ATetrimino* const OldTetriminoInPlay = TetriminoInPlay;
-	SetTetriminoInPlay(nullptr);
-
-	// HoldQueue에서 테트리미노 가져오기 (비어 있으면 nullptr)
-	ATetrimino* const TetriminoInHoldQueue = HoldQueue->Dequeue();
-	const bool bWasHoldQueueEmpty = (TetriminoInHoldQueue == nullptr);
-
-	// HoldQueue에 기존 TetriminoInPlay 넣기
-	HoldQueue->Enqueue(OldTetriminoInPlay);
-	OldTetriminoInPlay->RotateByFacing(ATetrimino::DefaultFacing);
-
-	HoldQueue->ReArrangeTetriminoLocations();
-
-	if (bWasHoldQueueEmpty)
+	if (TetriminoInPlay)
 	{
-		// 비어 있었다면 새로 꺼내고
-		RunGenerationPhase();
-	}
-	else
-	{
-		// 비어 있지 않았다면 HoldQueue에 있던 테트리미노를 TetriminoInPlay로 설정한다
-		SetTetriminoInPlay(TetriminoInHoldQueue);
-		RunFallingPhase();
+		ATetrimino* const OldTetriminoInPlay = TetriminoInPlay;
+		SetTetriminoInPlay(nullptr);
+
+		// HoldQueue에서 테트리미노 가져오기 (비어 있으면 nullptr)
+		if (HoldQueue)
+		{
+			ATetrimino* const TetriminoInHoldQueue = HoldQueue->Dequeue();
+			const bool bWasHoldQueueEmpty = (TetriminoInHoldQueue == nullptr);
+
+			// HoldQueue에 기존 TetriminoInPlay 넣기
+			HoldQueue->Enqueue(OldTetriminoInPlay);
+			OldTetriminoInPlay->RotateByFacing(ATetrimino::DefaultFacing);
+			HoldQueue->ReArrangeTetriminoLocations();
+
+			if (bWasHoldQueueEmpty)
+			{
+				// 비어 있었다면 새로 꺼내고
+				RunGenerationPhase();
+			}
+			else
+			{
+				// 비어 있지 않았다면 HoldQueue에 있던 테트리미노를 TetriminoInPlay로 설정한다
+				SetTetriminoInPlay(TetriminoInHoldQueue);
+				RunFallingPhase();
+			}
+		}
 	}
 
 	bIsTetriminoInPlayLockedDownFromLastHold = false;
@@ -231,18 +233,23 @@ void ATetrisPlayManager::HoldTetriminoInPlay()
 
 void ATetrisPlayManager::InitializeNextQueue()
 {
-	NextQueue->Initialize(GameMode->NextQueueSize, Board->GetNextQueueRoot());
-	for (int32 Count = 0; Count < GameMode->NextQueueSize; ++Count)
+	if (NextQueue && GameMode && Board)
 	{
-		SpawnAndPushTetriminoToNextQueue();
+		NextQueue->Initialize(GameMode->NextQueueSize, Board->GetNextQueueRoot());
+		for (int32 Count = 0; Count < GameMode->NextQueueSize; ++Count)
+		{
+			SpawnAndPushTetriminoToNextQueue();
+		}
+		NextQueue->ReArrangeTetriminoLocations();
 	}
-	NextQueue->ReArrangeTetriminoLocations();
 }
 
 void ATetrisPlayManager::InitializeHoldQueue()
 {
-	HoldQueue->Initialize(GameMode->HoldQueueSize, Board->GetHoldQueueRoot());
-	check(HoldQueue->IsEmpty());
+	if (HoldQueue && GameMode && Board)
+	{
+		HoldQueue->Initialize(GameMode->HoldQueueSize, Board->GetHoldQueueRoot());
+	}
 }
 
 void ATetrisPlayManager::RunGenerationPhase()
@@ -252,14 +259,17 @@ void ATetrisPlayManager::RunGenerationPhase()
 	ATetrimino* const NewTetriminoInPlay = PopTetriminoFromNextQueue();
 	SetTetriminoInPlay(NewTetriminoInPlay);
 
-	// Check Game Over Condition
-	// Block Out Condition occurs when part of a newly-generated Tetrimino is blocked due to an existing Block in the Matrix.
-	const bool bIsBlockOutCondition = Board->IsBlocked(TetriminoInPlay);
-	if (bIsBlockOutCondition)
+	if (Board && GameMode)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Block Out Condition -> Game Over"));
-		GameMode->RunGameOver();
-		return;
+		// Check Game Over Condition
+		// Block Out Condition occurs when part of a newly-generated Tetrimino is blocked due to an existing Block in the Matrix.
+		const bool bIsBlockOutCondition = Board->IsBlocked(TetriminoInPlay);
+		if (bIsBlockOutCondition)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Block Out Condition -> Game Over"));
+			GameMode->RunGameOver();
+			return;
+		}
 	}
 
 	// TetriminoInPlay drops one row if no existing Block is in its path.
@@ -271,14 +281,13 @@ void ATetrisPlayManager::RunGenerationPhase()
 void ATetrisPlayManager::RunFallingPhase()
 {
 	//UE_LOG(LogTemp, Display, TEXT("Start Falling Phase."));
-	SetIsTetriminoInPlayManipulable(true);
+	bIsTetriminoInPlayManipulable = true;
 
 	SetNormalFallTimer();
-	
+
 	// TODO: Soft Drop Key Pressed Check - 버그 수정 필요
-	//ATetrisPlayerControllerSingle* const PlayerController = GameMode->GetTetrisPlayerController();
-	//check(PlayerController != nullptr);
-	//if (PlayerController->IsSoftDropKeyPressed())
+	//if (const ATetrisPlayerControllerSingle* PlayerController = GameMode->GetTetrisPlayerController();
+	//	PlayerController && PlayerController->IsSoftDropKeyPressed())
 	//{
 	//	StartSoftDrop();
 	//}
@@ -326,7 +335,10 @@ void ATetrisPlayManager::RunEliminatePhase()
 	//UE_LOG(LogTemp, Display, TEXT("Start Eliminate Phase."));
 
 	/** Main Logic */
-	Board->ClearRows(GamePlayInfo.HitList);
+	if (Board)
+	{
+		Board->ClearRows(GamePlayInfo.HitList);
+	}
 
 	/** Phase Transition*/
 	ChangePhase(EPhase::Completion);
@@ -337,7 +349,10 @@ void ATetrisPlayManager::RunCompletionPhase()
 	//UE_LOG(LogTemp, Display, TEXT("Start Completion Phase."));
 
 	/** Main Logic */
-	GameMode->UpdateGamePlay(GamePlayInfo);
+	if (GameMode)
+	{
+		GameMode->UpdateGamePlay(GamePlayInfo);
+	}
 
 	/** Reset Variables */
 	GamePlayInfo.Reset();
@@ -354,17 +369,20 @@ void ATetrisPlayManager::MoveTetriminoTo(const FVector2D& Direction)
 		return;
 	}
 
-	const FIntPoint MovementIntPoint = ATetriminoBase::GetMatrixMovementIntPointByDirection(Direction);
-	const bool bIsMovementPossible = Board->IsMovementPossible(TetriminoInPlay, MovementIntPoint);
-	if (bIsMovementPossible)
+	if (TetriminoInPlay)
 	{
-		TetriminoInPlay->MoveBy(MovementIntPoint);
-	}
+		const FIntPoint MovementIntPoint = ATetriminoBase::GetMatrixMovementIntPointByDirection(Direction);
+		const bool bIsMovementPossible = Board->IsMovementPossible(TetriminoInPlay, MovementIntPoint);
+		if (bIsMovementPossible)
+		{
+			TetriminoInPlay->MoveBy(MovementIntPoint);
+		}
 
-	if (IsLockPhaseReached(Direction))
-	{
-		//UE_LOG(LogTemp, Display, TEXT("Movement is impossible."));
-		ChangePhaseWithDelay(EPhase::Lock, LockPhaseChangeInitialDelayOfNormalFallOrSoftDrop);
+		if (IsLockPhaseReached(Direction))
+		{
+			//UE_LOG(LogTemp, Display, TEXT("Movement is impossible."));
+			ChangePhaseWithDelay(EPhase::Lock, LockPhaseChangeInitialDelayOfNormalFallOrSoftDrop);
+		}
 	}
 }
 
@@ -380,10 +398,11 @@ void ATetrisPlayManager::MoveTetriminoDown()
 
 void ATetrisPlayManager::HardDrop()
 {
-	check(GetIsTetriminoInPlayManipulable());
-
 	// GhostPiece를 잠시 안보이게 한다.
-	GhostPiece->SetActorHiddenInGame(true);
+	if (GhostPiece)
+	{
+		GhostPiece->SetActorHiddenInGame(true);
+	}
 	MoveTetriminoInPlayToFinalFallingLocation();
 	ForcedLockDown();
 }
@@ -391,82 +410,84 @@ void ATetrisPlayManager::HardDrop()
 bool ATetrisPlayManager::IsHoldingTetriminoInPlayAvailable() const
 {
 	// 홀드 큐가 비어 있거나, 마지막 홀드로부터 LockDown이 수행된 적이 있다면 가능하다.
-	return HoldQueue->IsEmpty() || bIsTetriminoInPlayLockedDownFromLastHold;
+	return (HoldQueue && HoldQueue->IsEmpty()) || bIsTetriminoInPlayLockedDownFromLastHold;
 }
 
 bool ATetrisPlayManager::IsLockPhaseReached(const FVector2D& Direction) const
 {
-	return IsSoftDropOrNormalFall(Direction) && Board->IsDirectlyAboveSurface(TetriminoInPlay);
+	return IsSoftDropOrNormalFall(Direction) && (Board && Board->IsDirectlyAboveSurface(TetriminoInPlay));
 }
 
 void ATetrisPlayManager::MoveTetriminoInPlayToFinalFallingLocation()
 {
-	const FIntPoint FinalFallingMatrixLocation = GhostPiece->GetMatrixLocation();
-	TetriminoInPlay->SetRelativeLocationByMatrixLocation(FinalFallingMatrixLocation);
+	if (GhostPiece && TetriminoInPlay)
+	{
+		const FIntPoint FinalFallingMatrixLocation = GhostPiece->GetMatrixLocation();
+		TetriminoInPlay->SetRelativeLocationByMatrixLocation(FinalFallingMatrixLocation);
+	}
 }
 
 void ATetrisPlayManager::RunSuperRotationSystem(const ETetriminoRotationDirection RotationDirection)
 {
-	check(TetriminoInPlay != nullptr);
-
-	const TArray<FIntPoint>& SRSRotationPointOffsets = TetriminoInPlay->GetSRSRotationPointOffsets(RotationDirection);
-	for (const FIntPoint& SRSRotationPointOffset : SRSRotationPointOffsets)
+	if (TetriminoInPlay && Board)
 	{
-		const bool bIsRotationPossible = Board->IsRotationPossible(TetriminoInPlay, RotationDirection, SRSRotationPointOffset);
-		if (bIsRotationPossible)
+		const TArray<FIntPoint>& SRSRotationPointOffsets = TetriminoInPlay->GetSRSRotationPointOffsets(RotationDirection);
+		for (const FIntPoint& SRSRotationPointOffset : SRSRotationPointOffsets)
 		{
-			TetriminoInPlay->RotateTo(RotationDirection);
-			TetriminoInPlay->MoveBy(SRSRotationPointOffset);
-			//UE_LOG(LogTemp, Display, TEXT("%Rotation with Point%d."), PointIndex + 1);
-			return;
+			const bool bIsRotationPossible = Board->IsRotationPossible(TetriminoInPlay, RotationDirection, SRSRotationPointOffset);
+			if (bIsRotationPossible)
+			{
+				TetriminoInPlay->RotateTo(RotationDirection);
+				TetriminoInPlay->MoveBy(SRSRotationPointOffset);
+				//UE_LOG(LogTemp, Display, TEXT("%Rotation with Point%d."), PointIndex + 1);
+				return;
+			}
 		}
+		//UE_LOG(LogTemp, Display, TEXT("All of Rotation Points failed."));
 	}
-	//UE_LOG(LogTemp, Display, TEXT("All of Rotation Points failed."));
 }
 
 void ATetrisPlayManager::LockDown()
 {
 	//UE_LOG(LogTemp, Display, TEXT("Lock Down."));
 
-	check(TetriminoInPlay != nullptr);
+	bIsTetriminoInPlayManipulable = false;
 
-	SetIsTetriminoInPlayManipulable(false);
-
-	PlayLockDownEffect(TetriminoInPlay->GetMinoArray());
-
-	// Game Over Condition
-	// Lock Out Condition occurs when a Tetrimino Locks Down completely above the Skyline.
-	const bool bIsLockOutCondition = Board->IsAboveSkyline(TetriminoInPlay);
-	if (bIsLockOutCondition)
+	if (Board && GameMode && TetriminoInPlay)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Lock Out Condition -> Game Over"));
-		GameMode->RunGameOver();
-		return;
+		PlayLockDownEffect(TetriminoInPlay->GetMinoArray());
+
+		// Game Over Condition
+		// Lock Out Condition occurs when a Tetrimino Locks Down completely above the Skyline.
+		const bool bIsLockOutCondition = Board->IsAboveSkyline(TetriminoInPlay);
+		if (bIsLockOutCondition)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Lock Out Condition -> Game Over"));
+			GameMode->RunGameOver();
+			return;
+		}
+
+		// Transfer of TetriminoInPlay's Minos to Board
+		TetriminoInPlay->DetachMinos();
+		Board->AddMinos(TetriminoInPlay);
+
+		// Remove TetriminoInPlay
+		ATetrimino* const OldTetriminoInPlay = TetriminoInPlay;
+		SetTetriminoInPlay(nullptr);
+		if (OldTetriminoInPlay)
+		{
+			OldTetriminoInPlay->Destroy();
+		}
+
+		bIsTetriminoInPlayLockedDownFromLastHold = true;
+
+		// Switch to Pattern Phase.
+		ChangePhase(EPhase::Pattern);
 	}
-
-	// Transfer of TetriminoInPlay's Minos to Board
-	TetriminoInPlay->DetachMinos();
-	Board->AddMinos(TetriminoInPlay);
-
-	// Remove TetriminoInPlay
-	ATetrimino* const OldTetriminoInPlay = TetriminoInPlay;
-	SetTetriminoInPlay(nullptr);
-	OldTetriminoInPlay->Destroy();
-
-	bIsTetriminoInPlayLockedDownFromLastHold = true;
-
-	// Switch to Pattern Phase.
-	ChangePhase(EPhase::Pattern);
 }
 
 void ATetrisPlayManager::ForcedLockDown()
 {
-	// TODO: 아 이건 좀.. 그.. 아니 만약에 PhaseChangeTimerHandle 남은 시간이 HardDropTimerInitialDelay보다 짧을 수도 있잖아?
-	// 가이드라인에 정확히는 안나와 있는데.. HardDrop의 강제성이 더 높아야 할 것 같은데..
-	// 물론 이건 추후에 다른 기능 구현하다보면 구체화될 수도 있는 거니, 지금은 이 정도로 넘어 가는 걸로.
-	// 버그는 아니잖아.
-	ClearTimer(PhaseChangeTimerHandle);
-
 	ChangePhase(EPhase::Lock);
 }
 
@@ -475,13 +496,15 @@ void ATetrisPlayManager::CheckLineClearPattern(TArray<int32>& OutHitList)
 	// 모든 대상 행에 대해 LineClearPattern을 체크해서 HitList에 추가한다.
 	// RowIndex 범위 아마 Visible이 맞을 거임. 스카이라인 위에서 라인 클리어 패턴이 발견될 일 없음. 그전에 게임 오버로 끝났어야 함.
 	// TODO: 근데 가이드라인을 정독한 게 아니므로, 틀릴 수도 있음.
-	check(OutHitList.IsEmpty());
-	for (int32 RowIndex = ABoard::VisibleBeginRow; RowIndex < ABoard::VisibleEndRow; ++RowIndex)
+	if (Board)
 	{
-		const bool bIsLineClearPattern = Board->IsRowFull(RowIndex);
-		if (bIsLineClearPattern)
+		for (int32 RowIndex = ABoard::VisibleBeginRow; RowIndex < ABoard::VisibleEndRow; ++RowIndex)
 		{
-			OutHitList.Add(RowIndex);
+			const bool bIsLineClearPattern = Board->IsRowFull(RowIndex);
+			if (bIsLineClearPattern)
+			{
+				OutHitList.Add(RowIndex);
+			}
 		}
 	}
 }
@@ -495,11 +518,6 @@ void ATetrisPlayManager::SetSoftDropTimer()
 {
 	const float SoftDropSpeed = ATetrisInGameGameMode::GetSoftDropSpeed(NormalFallSpeed);
 	GetWorldTimerManager().SetTimer(SoftDropTimerHandle, this, &ATetrisPlayManager::MoveTetriminoDown, SoftDropSpeed, bSoftDropTimerLoop, SoftDropTimerInitialDelay);
-}
-
-void ATetrisPlayManager::SetHardDropTimer()
-{
-	GetWorldTimerManager().SetTimer(HardDropTimerHandle, this, &ATetrisPlayManager::HardDrop, HardDropTimerInitialDelay, bIsHardDropTimerLoop);
 }
 
 void ATetrisPlayManager::SetNormalFallTimer()
@@ -558,31 +576,40 @@ void ATetrisPlayManager::SetTetriminoInPlay(ATetrimino* const InTetriminoInPlay)
 
 ATetrimino* ATetrisPlayManager::PopTetriminoFromNextQueue()
 {
-	ATetrimino* const NextTetrimino = NextQueue->Dequeue();
-	check(NextTetrimino != nullptr);
-	SpawnAndPushTetriminoToNextQueue();
-	NextQueue->ReArrangeTetriminoLocations();
-	return NextTetrimino;
+	if (ATetrimino* const NextTetrimino = NextQueue->Dequeue())
+	{
+		SpawnAndPushTetriminoToNextQueue();
+		NextQueue->ReArrangeTetriminoLocations();
+		return NextTetrimino;
+	}
+
+	return nullptr;
 }
 
 void ATetrisPlayManager::SpawnAndPushTetriminoToNextQueue()
 {
-	ATetrimino* const NewTetrimino = SpawnNextTetrimino();
-	check(NewTetrimino != nullptr);
-	NextQueue->Enqueue(NewTetrimino);
+	if (ATetrimino* const NewTetrimino = SpawnNextTetrimino())
+	{
+		NextQueue->Enqueue(NewTetrimino);
+	}
 }
 
 ATetrimino* ATetrisPlayManager::SpawnNextTetrimino() const
 {
-	static constexpr bool bIsTetriminoSpawnRandom = true;
-	if constexpr (bIsTetriminoSpawnRandom)
+	if (TetriminoGenerator)
 	{
-		return TetriminoGenerator->SpawnTetriminoByBagSystem(TetriminoClass);
+		static constexpr bool bIsTetriminoSpawnRandom = true;
+		if constexpr (bIsTetriminoSpawnRandom)
+		{
+			return TetriminoGenerator->SpawnTetriminoByBagSystem(TetriminoClass);
+		}
+		else
+		{
+			return TetriminoGenerator->SpawnTetriminoByShape(TetriminoClass, TestSpawnShape);
+		}
 	}
-	else
-	{
-		return TetriminoGenerator->SpawnTetriminoByShape(TetriminoClass, TestSpawnShape);
-	}
+
+	return nullptr;
 }
 
 void ATetrisPlayManager::PlayLockDownEffect(const TArray<UMino*>& MinoArray)

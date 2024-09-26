@@ -22,7 +22,6 @@ ABoard::ABoard()
 	HoldQueueRelativeLocation = FVector(UMino::UnitLength * 6.f, UMino::UnitLength * -15.f, 0.f);
 
 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
-	check(RootComponent != nullptr);
 
 	MinoClass = UMino::StaticClass();
 
@@ -60,32 +59,44 @@ bool ABoard::IsBlocked(const ATetrimino* Tetrimino) const
 
 bool ABoard::IsAboveSkyline(const ATetrimino* Tetrimino) const
 {
-	check(Tetrimino != nullptr);
-	const FIntPoint& TetriminoMatrixLocation = Tetrimino->GetMatrixLocation();
-	const TArray<FIntPoint>& MinoTetriminoLocalLocations = Tetrimino->GetMinoTetriminoLocalLocations();
-	return Algo::AllOf(MinoTetriminoLocalLocations, [this, &TetriminoMatrixLocation](const FIntPoint& MinoTetriminoLocalLocation) {
-		const FIntPoint MinoLocalMatrixLocation = TetriminoMatrixLocation + MinoTetriminoLocalLocation;
-		return MinoLocalMatrixLocation.X < SkyLine;
-		}
-	);
+	if (Tetrimino)
+	{
+		const FIntPoint& TetriminoMatrixLocation = Tetrimino->GetMatrixLocation();
+		const TArray<FIntPoint>& MinoTetriminoLocalLocations = Tetrimino->GetMinoTetriminoLocalLocations();
+		return Algo::AllOf(MinoTetriminoLocalLocations, [this, &TetriminoMatrixLocation](const FIntPoint& MinoTetriminoLocalLocation) {
+			const FIntPoint MinoLocalMatrixLocation = TetriminoMatrixLocation + MinoTetriminoLocalLocation;
+			return MinoLocalMatrixLocation.X < SkyLine;
+			}
+		);
+	}
+
+	return false;
 }
 
 bool ABoard::IsMovementPossible(const ATetrimino* Tetrimino, const FIntPoint& MovementIntPoint2D) const
 {
-	check(Tetrimino != nullptr);
-	const FIntPoint NewTetriminoMatrixLocation = Tetrimino->GetMatrixLocation() + MovementIntPoint2D;
-	const TArray<FIntPoint>& MinoTetriminoLocalLocations = Tetrimino->GetMinoTetriminoLocalLocations();
-	return IsMinoLocationsPossible(MinoTetriminoLocalLocations, NewTetriminoMatrixLocation);
+	if (Tetrimino)
+	{
+		const FIntPoint NewTetriminoMatrixLocation = Tetrimino->GetMatrixLocation() + MovementIntPoint2D;
+		const TArray<FIntPoint>& MinoTetriminoLocalLocations = Tetrimino->GetMinoTetriminoLocalLocations();
+		return IsMinoLocationsPossible(MinoTetriminoLocalLocations, NewTetriminoMatrixLocation);
+	}
+
+	return false;
 }
 
 bool ABoard::IsRotationPossible(const ATetrimino* Tetrimino, const ETetriminoRotationDirection RotationDirection, const FIntPoint& RotationPointOffset) const
 {
-	check(Tetrimino != nullptr);
-	const FIntPoint& NewTetriminoMatrixLocation = Tetrimino->GetMatrixLocation() + RotationPointOffset;
-	const ETetriminoShape TetriminoShape = Tetrimino->GetShape();
-	const ETetriminoFacing NewTetriminoFacing = Tetrimino->GetFacing() + static_cast<int32>(RotationDirection);
-	const TArray<FIntPoint>& NewMinoLocalMatrixLocations = ATetriminoBase::GetMinoTetriminoLocalLocationsByTetriminoShapeAndFacing(TetriminoShape, NewTetriminoFacing);
-	return IsMinoLocationsPossible(NewMinoLocalMatrixLocations, NewTetriminoMatrixLocation);
+	if (Tetrimino)
+	{
+		const FIntPoint& NewTetriminoMatrixLocation = Tetrimino->GetMatrixLocation() + RotationPointOffset;
+		const ETetriminoShape TetriminoShape = Tetrimino->GetShape();
+		const ETetriminoFacing NewTetriminoFacing = Tetrimino->GetFacing() + static_cast<int32>(RotationDirection);
+		const TArray<FIntPoint>& NewMinoLocalMatrixLocations = ATetriminoBase::GetMinoTetriminoLocalLocationsByTetriminoShapeAndFacing(TetriminoShape, NewTetriminoFacing);
+		return IsMinoLocationsPossible(NewMinoLocalMatrixLocations, NewTetriminoMatrixLocation);
+	}
+
+	return false;
 }
 
 bool ABoard::IsRowFull(const int32 TargetRow) const
@@ -103,17 +114,18 @@ bool ABoard::IsRowFull(const int32 TargetRow) const
 
 void ABoard::AddMinos(const ATetrimino* Tetrimino)
 {
-	check(Tetrimino != nullptr);
-
-	const FIntPoint TetriminoMatrixLocation = Tetrimino->GetMatrixLocation();
-	const TArray<FIntPoint>& MinoTetriminoLocalLocations = Tetrimino->GetMinoTetriminoLocalLocations();
-	const TArray<UMino*>& MinoArray = Tetrimino->GetMinoArray();
-	for (int32 MinoIndex = 0; MinoIndex < Tetrimino->MinoNum; ++MinoIndex)
+	if (Tetrimino)
 	{
-		const FIntPoint& MinoTetriminoLocalLocation = MinoTetriminoLocalLocations[MinoIndex];
-		const FIntPoint MinoMatrixLocation = TetriminoMatrixLocation + MinoTetriminoLocalLocation;
-		UMino* const Mino = MinoArray[MinoIndex];
-		AddMino(Mino, MinoMatrixLocation);
+		const FIntPoint TetriminoMatrixLocation = Tetrimino->GetMatrixLocation();
+		const TArray<FIntPoint>& MinoTetriminoLocalLocations = Tetrimino->GetMinoTetriminoLocalLocations();
+		const TArray<UMino*>& MinoArray = Tetrimino->GetMinoArray();
+		for (int32 MinoIndex = 0; MinoIndex < Tetrimino->MinoNum; ++MinoIndex)
+		{
+			const FIntPoint& MinoTetriminoLocalLocation = MinoTetriminoLocalLocations[MinoIndex];
+			const FIntPoint MinoMatrixLocation = TetriminoMatrixLocation + MinoTetriminoLocalLocation;
+			UMino* const Mino = MinoArray[MinoIndex];
+			AddMino(Mino, MinoMatrixLocation);
+		}
 	}
 }
 
@@ -143,15 +155,18 @@ void ABoard::ClearRows(const TArray<int32>& TargetRows)
 
 FIntPoint ABoard::GetFinalFallingMatrixLocation(const ATetrimino* Tetrimino) const
 {
-	check(Tetrimino != nullptr);
-
-	FIntPoint FinalFallingMatrixLocation = Tetrimino->GetMatrixLocation();
-	static const FIntPoint MovementDown = ATetriminoBase::GetMatrixMovementIntPointByDirection(ATetrimino::MoveDirectionDown);
-	while (IsMinoLocationsPossible(Tetrimino->GetMinoTetriminoLocalLocations(), FinalFallingMatrixLocation + MovementDown))
+	if (Tetrimino)
 	{
-		FinalFallingMatrixLocation += MovementDown;
+		FIntPoint FinalFallingMatrixLocation = Tetrimino->GetMatrixLocation();
+		static const FIntPoint MovementDown = ATetriminoBase::GetMatrixMovementIntPointByDirection(ATetrimino::MoveDirectionDown);
+		while (IsMinoLocationsPossible(Tetrimino->GetMinoTetriminoLocalLocations(), FinalFallingMatrixLocation + MovementDown))
+		{
+			FinalFallingMatrixLocation += MovementDown;
+		}
+		return FinalFallingMatrixLocation;
 	}
-	return FinalFallingMatrixLocation;
+
+	return FIntPoint::ZeroValue;
 }
 
 void ABoard::InitializeBackground()
@@ -163,9 +178,10 @@ void ABoard::InitializeBackground()
 		{
 			const FIntPoint MinoMatrixLocation(Row, Col);
 			static constexpr float Z = 0.f - UMino::UnitLength;
-			UMino* const Mino = UMino::CreateMino(this, MinoInfo);
-			check(Mino != nullptr);
-			Mino->AttachToWithMatrixLocation(BackgroundRoot, MinoMatrixLocation, Z);
+			if (UMino* const Mino = UMino::CreateMino(this, MinoInfo))
+			{
+				Mino->AttachToWithMatrixLocation(BackgroundRoot, MinoMatrixLocation, Z);
+			}
 		}
 	}
 }
@@ -217,17 +233,22 @@ bool ABoard::IsMinoLocationsPossible(const TArray<FIntPoint>& MinoTetriminoLocal
 USceneComponent* ABoard::CreateAndSetupSceneComponent(const FName& ComponentName, USceneComponent* const Parent)
 {
 	USceneComponent* const SceneComponent = CreateDefaultSubobject<USceneComponent>(ComponentName);
-	check(SceneComponent != nullptr);
-	SceneComponent->SetupAttachment(Parent);
+	if (SceneComponent)
+	{
+		SceneComponent->SetupAttachment(Parent);
+	}
 	return SceneComponent;
 }
 
 void ABoard::AddMino(UMino* const Mino, const FIntPoint& MinoMatrixLocation)
 {
 	// Change ownership of the component to the board
-	Mino->Rename(nullptr, this);
-	Mino->AttachToWithMatrixLocation(MatrixRoot, MinoMatrixLocation);
-	SetMinoByMatrixLocation(Mino, MinoMatrixLocation);
+	if (Mino)
+	{
+		Mino->Rename(nullptr, this);
+		Mino->AttachToWithMatrixLocation(MatrixRoot, MinoMatrixLocation);
+		SetMinoByMatrixLocation(Mino, MinoMatrixLocation);
+	}
 }
 
 void ABoard::ClearRow(const int32 TargetRow)
@@ -236,7 +257,6 @@ void ABoard::ClearRow(const int32 TargetRow)
 	{
 		const FIntPoint MinoMatrixLocation(TargetRow, TargetCol);
 		UMino* const Mino = GetMinoByMatrixLocation(MinoMatrixLocation);
-		check(IsValid(Mino));
 		RemoveMino(Mino, MinoMatrixLocation);
 	}
 }
@@ -257,14 +277,20 @@ void ABoard::MoveRow(const int32 TargetRow, const int32 MoveDistance)
 
 void ABoard::RemoveMino(UMino* const Mino, const FIntPoint& MinoMatrixLocation)
 {
-	Mino->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
-	Mino->DestroyComponent();
-	SetMinoByMatrixLocation(nullptr, MinoMatrixLocation);
+	if (Mino)
+	{
+		Mino->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
+		Mino->DestroyComponent();
+		SetMinoByMatrixLocation(nullptr, MinoMatrixLocation);
+	}
 }
 
 void ABoard::MoveMino(UMino* const Mino, const FIntPoint& OldMatrixLocation, const FIntPoint& NewMatrixLocation)
 {
-	Mino->SetRelativeLocationByMatrixLocation(NewMatrixLocation);
-	SetMinoByMatrixLocation(Mino, NewMatrixLocation);
-	SetMinoByMatrixLocation(nullptr, OldMatrixLocation);
+	if (Mino)
+	{
+		Mino->SetRelativeLocationByMatrixLocation(NewMatrixLocation);
+		SetMinoByMatrixLocation(Mino, NewMatrixLocation);
+		SetMinoByMatrixLocation(nullptr, OldMatrixLocation);
+	}
 }

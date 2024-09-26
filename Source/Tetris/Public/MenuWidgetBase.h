@@ -29,7 +29,6 @@ class TETRIS_API UMenuWidgetBase : public UUserWidget
 	GENERATED_BODY()
 
 public:
-	void SetMenuButtons(const TArray<UMenuButton*>& InMenuButtons);
 	void SetDefaultMenuButtonFocus();
 	void SetWidgetFocusOnly();
 

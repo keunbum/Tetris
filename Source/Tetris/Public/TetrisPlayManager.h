@@ -110,7 +110,6 @@ private:
 	/** Timers */
 	void SetAutoRepeatMovementTimer();
 	void SetSoftDropTimer();
-	void SetHardDropTimer();
 	void SetNormalFallTimer();
 
 	void ClearTimer(FTimerHandle& InOutTimerHandle);
@@ -118,8 +117,6 @@ private:
 	void ClearTetriminoInPlayLogicTimers();
 
 	/** Basic Member Variable Accessors */
-	void SetIsTetriminoInPlayManipulable(const bool bInIsTetriminoInPlayManipulable) { bIsTetriminoInPlayManipulable = bInIsTetriminoInPlayManipulable; }
-	bool GetIsTetriminoInPlayManipulable() const { return bIsTetriminoInPlayManipulable; }
 	void SetTetriminoMovementDirection(const FVector2D& NewTetriminoMovementDirection) { TetriminoMovementDirection = NewTetriminoMovementDirection; }
 	void SetTetriminoInPlay(ATetrimino* const InTetriminoInPlay);
 
@@ -144,11 +141,6 @@ private:
 	/** Soft Drop */
 	static constexpr bool bSoftDropTimerLoop = true;
 	static constexpr float SoftDropTimerInitialDelay = 0.0f;
-
-	/** Hard Drop */
-	static constexpr bool bIsHardDropTimerLoop = false;
-	static constexpr float HardDropTimerInitialDelay = 0.0001f;
-	static constexpr float HardDropLockDownDelay = 0.0f;
 
 	/** Phase Change */
 	static constexpr bool bIsPhaseChangeTimerLoop = false;

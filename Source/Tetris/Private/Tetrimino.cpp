@@ -22,11 +22,10 @@ const FMinoInfo ATetrimino::GetMinoInfo() const
 void ATetrimino::SetGhostPiece(AGhostPiece* const InGhostPiece)
 {
 	GhostPiece = InGhostPiece;
-	if (GhostPiece)
+	if (GhostPiece && Board)
 	{
 		const ATetriminoBase::FInitializeParams InitializeParams(Shape, Facing);
 		GhostPiece->Initialize(InitializeParams);
-		check(Board != nullptr);
 		GhostPiece->SetRelativeLocationByMatrixLocation(Board->GetFinalFallingMatrixLocation(this));
 		// GhostPiece를 화면에 보이게 한다 (ATetrisPlayManager::HardDrop 때문에 필요)
 		GhostPiece->SetActorHiddenInGame(false);
@@ -58,9 +57,8 @@ void ATetrimino::MoveBy(const FIntPoint& IntPoint2D)
 {
 	AddRelativeLocationByMatrixLocationOffset(IntPoint2D);
 
-	if (GhostPiece)
+	if (GhostPiece && Board)
 	{
-		check(Board != nullptr);
 		GhostPiece->SetRelativeLocationByMatrixLocation(Board->GetFinalFallingMatrixLocation(this));
 	}
 }
@@ -78,11 +76,13 @@ void ATetrimino::RotateTo(const ETetriminoRotationDirection RotationDirection)
 
 void ATetrimino::AttachToMatrix(USceneComponent* const MatrixRoot)
 {
-	check(MatrixRoot != nullptr);
 	AttachToComponentByMatrixLocation(MatrixRoot, GetInitialMatrixLocation());
 }
 
 void ATetrimino::DetachFromMatrix()
 {
-	RootComponent->DetachFromComponent(FDetachmentTransformRules::KeepRelativeTransform);
+	if (RootComponent)
+	{
+		RootComponent->DetachFromComponent(FDetachmentTransformRules::KeepRelativeTransform);
+	}
 }

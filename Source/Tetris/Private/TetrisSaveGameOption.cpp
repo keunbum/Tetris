@@ -28,7 +28,6 @@ UTetrisSaveGameOption* UTetrisSaveGameOption::LoadTetrisSaveCommonOption()
 	{
 		// Load Save Game Instance
 		UTetrisSaveGameOption* const ExistingSaveGameOption = Cast<UTetrisSaveGameOption>(UGameplayStatics::LoadGameFromSlot(UTetrisSaveGameOption::CommonOptionSlotName.ToString(), UTetrisSaveGameOption::UserIndex));
-		check(ExistingSaveGameOption != nullptr);
 		return ExistingSaveGameOption;
 	}
 
