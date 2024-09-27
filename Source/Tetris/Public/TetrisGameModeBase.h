@@ -40,13 +40,13 @@ public:
 
 protected:
 	/** Audio */
-	// BGM
+	// Bgm
 	UPROPERTY(EditDefaultsOnly, Category = "Audio")
-	TObjectPtr<USoundCue> BGMCue;
+	TObjectPtr<USoundCue> BgmCue;
 
 	UPROPERTY()
-	TObjectPtr<UAudioComponent> BGMComponent;
+	TObjectPtr<UAudioComponent> BgmComponent;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Audio")
-	float BGMFadeInTime = 0.f;
+	float BgmFadeInTime = 0.f;
 };

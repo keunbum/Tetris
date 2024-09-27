@@ -23,11 +23,11 @@ protected:
 	virtual void PrepareClose() override;
 
 	UFUNCTION()
-	void OnBGMVolumeSliderValueChanged(const float NewVolume);
+	void OnBgmVolumeSliderValueChanged(const float NewVolume);
 
 private:
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<USlider> BGMVolumeSlider;
+	TObjectPtr<USlider> BgmVolumeSlider;
 
 	UPROPERTY()
 	TObjectPtr<UTetrisAudioInstanceSubsystem> AudioInstanceSubsystem;

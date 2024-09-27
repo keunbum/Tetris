@@ -10,7 +10,7 @@ const FName UTetrisAudioInstanceSubsystem::MainSoundMixPath(TEXT("/Game/Audio/Ma
 const TArray<TPair<FName, FName>> UTetrisAudioInstanceSubsystem::SoundClassPaths =
 {
 	{ TEXT("MainSoundClass"), TEXT("/Game/Audio/MainSoundClass") },
-	{ TEXT("BGMSoundClass"), TEXT("/Game/Audio/BgmSoundClass") },
+	{ TEXT("BgmSoundClass"), TEXT("/Game/Audio/BgmSoundClass") },
 };
 const FName UTetrisAudioInstanceSubsystem::BgmSoundClassName(TEXT("BgmSoundClass"));
 

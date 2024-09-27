@@ -15,13 +15,13 @@ void UOptionPopUpWidget::NativeConstruct()
 		AudioInstanceSubsystem = GetGameInstance()->GetSubsystem<UTetrisAudioInstanceSubsystem>();
 	}
 
-	if (BGMVolumeSlider)
+	if (BgmVolumeSlider)
 	{
-		if (!BGMVolumeSlider->OnValueChanged.IsBound())
+		if (!BgmVolumeSlider->OnValueChanged.IsBound())
 		{
-			BGMVolumeSlider->OnValueChanged.AddDynamic(this, &UOptionPopUpWidget::OnBGMVolumeSliderValueChanged);
+			BgmVolumeSlider->OnValueChanged.AddDynamic(this, &UOptionPopUpWidget::OnBgmVolumeSliderValueChanged);
 		}
-		BGMVolumeSlider->SetValue(AudioInstanceSubsystem->GetSoundClassVolumeByName(UTetrisAudioInstanceSubsystem::BgmSoundClassName));
+		BgmVolumeSlider->SetValue(AudioInstanceSubsystem->GetSoundClassVolumeByName(UTetrisAudioInstanceSubsystem::BgmSoundClassName));
 	}
 }
 
@@ -30,7 +30,7 @@ void UOptionPopUpWidget::PrepareClose()
 	Super::PrepareClose();
 }
 
-void UOptionPopUpWidget::OnBGMVolumeSliderValueChanged(const float NewVolume)
+void UOptionPopUpWidget::OnBgmVolumeSliderValueChanged(const float NewVolume)
 {
 	if (AudioInstanceSubsystem)
 	{
@@ -38,6 +38,6 @@ void UOptionPopUpWidget::OnBGMVolumeSliderValueChanged(const float NewVolume)
 	}
 	else
 	{
-		UE_LOG(LogTemp, Error, TEXT("UOptionPopUpWidget::OnBGMVolumeSliderValueChanged() - Failed to get AudioInstanceSubsystem"));
+		UE_LOG(LogTemp, Error, TEXT("UOptionPopUpWidget::OnBgmVolumeSliderValueChanged() - Failed to get AudioInstanceSubsystem"));
 	}
 }
