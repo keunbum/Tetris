@@ -23,7 +23,7 @@ protected:
 	virtual void PrepareClose() override;
 
 	UFUNCTION()
-	void OnBGMVolumeChanged(const float NewVolume);
+	void OnBGMVolumeSliderValueChanged(const float NewVolume);
 
 private:
 	UPROPERTY(meta = (BindWidget))

@@ -15,7 +15,6 @@
 
 const FName ATetrisInGameGameMode::TetrisLevelName = FName(TEXT("TetrisLevel"));
 
-
 ATetrisInGameGameMode::ATetrisInGameGameMode()
 	: GoalSystemType(EGoalSystemType::None)
 {
@@ -150,6 +149,11 @@ void ATetrisInGameGameMode::SetInputMode()
 	// Set the input mode to GameOnly
 	const FInputModeGameOnly InputMode;
 	InternalSetInputMode(InputMode);
+}
+
+void ATetrisInGameGameMode::InitializeDefaultEffect()
+{
+	Super::InitializeDefaultEffect();
 }
 
 void ATetrisInGameGameMode::StartGamePlay()

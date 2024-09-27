@@ -6,16 +6,20 @@
 #include "Sound/SoundClass.h"
 #include "Sound/SoundMix.h"
 
-const FName UTetrisAudioInstanceSubsystem::MainSoundMixName(TEXT("/Game/Audio/MainSoundMix"));
-const FName UTetrisAudioInstanceSubsystem::MainSoundClassName(TEXT("/Game/Audio/MainSoundClass"));
-const FName UTetrisAudioInstanceSubsystem::BGMSoundClassName(TEXT("/Game/Audio/BGMSoundClass"));
+const FName UTetrisAudioInstanceSubsystem::MainSoundMixPath(TEXT("/Game/Audio/MainSoundMix"));
+const TArray<TPair<FName, FName>> UTetrisAudioInstanceSubsystem::SoundClassPaths =
+{
+	{ TEXT("MainSoundClass"), TEXT("/Game/Audio/MainSoundClass") },
+	{ TEXT("BGMSoundClass"), TEXT("/Game/Audio/BgmSoundClass") },
+};
+const FName UTetrisAudioInstanceSubsystem::BgmSoundClassName(TEXT("BgmSoundClass"));
 
 void UTetrisAudioInstanceSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 {
 	Super::Initialize(Collection);
 
 	// MainSoundMix
-	MainSoundMix = LoadObject<USoundMix>(nullptr, *MainSoundMixName.ToString());
+	MainSoundMix = LoadObject<USoundMix>(nullptr, *MainSoundMixPath.ToString());
 	if (MainSoundMix)
 	{
 		AsyncTask(ENamedThreads::GameThread, [this]()
@@ -23,12 +27,23 @@ void UTetrisAudioInstanceSubsystem::Initialize(FSubsystemCollectionBase& Collect
 				UGameplayStatics::SetBaseSoundMix(GetWorld(), MainSoundMix);
 			});
 	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("UTetrisAudioInstanceSubsystem::Initialize() - Failed to load MainSoundMix"));
+	}
 
-	// MainSoundClass
-	MainSoundClass = LoadObject<USoundClass>(nullptr, *MainSoundClassName.ToString());
-
-	// BGMSoundClass
-	BGMSoundClass = LoadObject<USoundClass>(nullptr, *BGMSoundClassName.ToString());
+	// Sound Classes
+	for (const auto& [_, SoundClassPath] : SoundClassPaths)
+	{
+		if (USoundClass* const SoundClass = LoadObject<USoundClass>(nullptr, *SoundClassPath.ToString()))
+		{
+			SoundClassMap.Add(SoundClass->GetFName(), SoundClass);
+		}
+		else
+		{
+			UE_LOG(LogTemp, Error, TEXT("UTetrisAudioInstanceSubsystem::Initialize() - Failed to load SoundClass: %s"), *SoundClassPath.ToString());
+		}
+	}
 
 	LoadSavedSettings();
 }
@@ -43,56 +58,40 @@ void UTetrisAudioInstanceSubsystem::Deinitialize()
 	}
 }
 
-void UTetrisAudioInstanceSubsystem::SetMainSoundClassVolume(const float NewVolume)
-{
-	if (SaveCommonOption)
-	{
-		SaveCommonOption->SetMainSoundClassVolume(NewVolume);
-	}
-	UTetrisAudioInstanceSubsystem::SetSoundClassVolume(MainSoundClass, NewVolume);
-}
-
-float UTetrisAudioInstanceSubsystem::GetMainSoundClassVolume() const
-{
-	return SaveCommonOption ? SaveCommonOption->GetMainSoundClassVolume() : 0.f;
-}
-
-void UTetrisAudioInstanceSubsystem::SetBGMSoundClassVolume(const float NewVolume)
-{
-	if (SaveCommonOption)
-	{
-		SaveCommonOption->SetBGMSoundClassVolume(NewVolume);
-	}
-	UTetrisAudioInstanceSubsystem::SetSoundClassVolume(BGMSoundClass, NewVolume);
-}
-
-float UTetrisAudioInstanceSubsystem::GetBGMSoundClassVolume() const
-{
-	return SaveCommonOption ? SaveCommonOption->GetBGMSoundClassVolume() : 0.f;
-}
-
 void UTetrisAudioInstanceSubsystem::LoadSavedSettings()
 {
 	if (!SaveCommonOption)
 	{
 		SaveCommonOption = UTetrisSaveGameOption::LoadTetrisSaveCommonOption();
 	}
-
-	SetMainSoundClassVolume(GetMainSoundClassVolume());
-	SetBGMSoundClassVolume(GetBGMSoundClassVolume());
 }
 
 void UTetrisAudioInstanceSubsystem::SetSoundClassVolume(USoundClass* const SoundClass, const float NewVolume)
 {
+	if (SaveCommonOption)
+	{
+		SaveCommonOption->SetSoundClassVolume(SoundClass->GetFName(), NewVolume);
+	}
+
+	SetSoundMixClassOverrideInGameThread(MainSoundMix, SoundClass, NewVolume);
+}
+
+float UTetrisAudioInstanceSubsystem::GetSoundClassVolume(const USoundClass* SoundClass) const
+{
+	return SaveCommonOption ? SaveCommonOption->GetSoundClassVolume(SoundClass->GetFName()) : 0.f;
+}
+
+void UTetrisAudioInstanceSubsystem::SetSoundMixClassOverrideInGameThread(USoundMix* const SoundMix, USoundClass* const SoundClass, const float Volume, const float Pitch, const float FadeInTime, const bool bApplyToChildren)
+{
 	if (SoundClass)
 	{
-		AsyncTask(ENamedThreads::GameThread, [this, SoundClass, NewVolume]()
+		AsyncTask(ENamedThreads::GameThread, [this, SoundMix, SoundClass, Volume, Pitch, FadeInTime, bApplyToChildren]()
 			{
-				UGameplayStatics::SetSoundMixClassOverride(GetWorld(), MainSoundMix, SoundClass, NewVolume, 1.0f, 0.0f, true);
+				UGameplayStatics::SetSoundMixClassOverride(GetWorld(), SoundMix, SoundClass, Volume, Pitch, FadeInTime, bApplyToChildren);
 			});
 	}
 	else
 	{
-		UE_LOG(LogTemp, Error, TEXT("UTetrisAudioInstanceSubsystem::SetSoundClassVolume() - Invalid SoundClass"));
+		UE_LOG(LogTemp, Error, TEXT("UTetrisAudioInstanceSubsystem::SetSoundMixClassOverrideInGameThread() - Invalid SoundClass"));
 	}
 }

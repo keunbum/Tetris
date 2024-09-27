@@ -67,6 +67,7 @@ private:
 	/** ATetrisGameModeBase */
 	virtual void Initialize() override;
 	virtual void SetInputMode() override;
+	virtual void InitializeDefaultEffect() override;
 	/** ~ATetrisGameModeBase */
 
 	void StartGamePlay();

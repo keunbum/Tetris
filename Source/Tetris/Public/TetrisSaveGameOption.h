@@ -19,11 +19,8 @@ public:
 
 	void SaveCommonOptionSettings();
 
-	void SetMainSoundClassVolume(const float NewVolume) { MainSoundClassVolume = NewVolume; SaveCommonOptionSettings(); }
-	float GetMainSoundClassVolume() const { return MainSoundClassVolume; }
-
-	void SetBGMSoundClassVolume(const float NewVolume) { BGMSoundClassVolume = NewVolume; SaveCommonOptionSettings(); }
-	float GetBGMSoundClassVolume() const { return BGMSoundClassVolume; }
+	void SetSoundClassVolume(const FName& SoundClassName, const float NewVolume);
+	float GetSoundClassVolume(const FName& SoundClassName) const;
 
 	void DebugPrint(const FString& Prefix = TEXT("")) const;
 
@@ -37,8 +34,5 @@ public:
 private:
 	/** Save Data */
 	UPROPERTY(VisibleAnywhere, Category = "Audio")
-	float MainSoundClassVolume = 1.0f;
-
-	UPROPERTY(VisibleAnywhere, Category = "Audio")
-	float BGMSoundClassVolume = 1.0f;
+	TMap<FName, float> SoundClassVolumeMap;
 };
