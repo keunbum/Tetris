@@ -44,11 +44,11 @@ public:
 protected:
 	/** Audio */
 	// Bgm
-	UPROPERTY(EditDefaultsOnly, Category = "Audio")
-	TObjectPtr<USoundCue> BgmCue;
-
 	UPROPERTY()
 	TObjectPtr<UAudioComponent> BgmComponent;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Audio")
+	TObjectPtr<USoundCue> BgmCue;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Audio")
 	float BgmFadeInTime = 0.f;
