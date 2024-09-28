@@ -8,7 +8,6 @@
 
 class USoundMix;
 class USoundClass;
-class UTetrisAudioSettings;
 
 /**
  * 
@@ -64,5 +63,5 @@ private:
 	TObjectPtr<USoundClass> BgmSoundClass;
 
 	UPROPERTY()
-	TMap<FName, float> SoundClassVolumes;
+	TMap<FName, float> SoundClassVolumes; // SoundClassName, Volume
 };
