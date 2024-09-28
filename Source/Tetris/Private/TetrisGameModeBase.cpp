@@ -79,4 +79,8 @@ void ATetrisGameModeBase::UninitializeEffect()
 	{
 		BgmComponent->FadeOut(BgmFadeOutTime, 0.f /* FadeVolumeLevel */);
 	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("ATetrisGameModeBase::UninitializeEffect() - Failed to get BgmComponent"));
+	}
 }
