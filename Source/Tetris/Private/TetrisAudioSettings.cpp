@@ -4,7 +4,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "TetrisAudioManagerSubsystem.h"
 
-const FName UTetrisAudioSettings::CommonOptionSlotName(TEXT("CommonOptionSaveSlot"));
+const FName UTetrisAudioSettings::AudioSettingsSlotName(TEXT("CommonOptionSaveSlot"));
 
 void UTetrisAudioSettings::Initialize()
 {
@@ -17,7 +17,7 @@ void UTetrisAudioSettings::Initialize()
 
 void UTetrisAudioSettings::SaveCommonOptionSettings()
 {
-	UGameplayStatics::SaveGameToSlot(this, UTetrisAudioSettings::CommonOptionSlotName.ToString(), UTetrisAudioSettings::UserIndex);
+	UGameplayStatics::SaveGameToSlot(this, UTetrisAudioSettings::AudioSettingsSlotName.ToString(), UTetrisAudioSettings::UserIndex);
 }
 
 void UTetrisAudioSettings::SetSoundClassVolume(const FName& SoundClassName, const float NewVolume)
@@ -49,10 +49,13 @@ void UTetrisAudioSettings::DebugPrint(const FString& Prefix) const
 
 UTetrisAudioSettings* UTetrisAudioSettings::LoadTetrisSaveCommonOption()
 {
-	if (UGameplayStatics::DoesSaveGameExist(UTetrisAudioSettings::CommonOptionSlotName.ToString(), UTetrisAudioSettings::UserIndex))
+	// Delete existing Save Game Instance
+	UGameplayStatics::DeleteGameInSlot(UTetrisAudioSettings::AudioSettingsSlotName.ToString(), UTetrisAudioSettings::UserIndex);
+
+	if (UGameplayStatics::DoesSaveGameExist(UTetrisAudioSettings::AudioSettingsSlotName.ToString(), UTetrisAudioSettings::UserIndex))
 	{
 		// Load Save Game Instance
-		UTetrisAudioSettings* const ExistingSaveGameOption = Cast<UTetrisAudioSettings>(UGameplayStatics::LoadGameFromSlot(UTetrisAudioSettings::CommonOptionSlotName.ToString(), UTetrisAudioSettings::UserIndex));
+		UTetrisAudioSettings* const ExistingSaveGameOption = Cast<UTetrisAudioSettings>(UGameplayStatics::LoadGameFromSlot(UTetrisAudioSettings::AudioSettingsSlotName.ToString(), UTetrisAudioSettings::UserIndex));
 		return ExistingSaveGameOption;
 	}
 

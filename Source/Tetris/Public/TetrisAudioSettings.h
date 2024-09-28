@@ -28,7 +28,7 @@ public:
 	static UTetrisAudioSettings* LoadTetrisSaveCommonOption();
 	
 public:
-	static const FName CommonOptionSlotName;
+	static const FName AudioSettingsSlotName;
 	static constexpr int32 UserIndex = 0;
 
 private:
