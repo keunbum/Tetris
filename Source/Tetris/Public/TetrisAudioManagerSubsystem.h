@@ -8,7 +8,7 @@
 
 class USoundMix;
 class USoundClass;
-class UTetrisSaveGameOption;
+class UTetrisAudioSettings;
 
 /**
  * 
@@ -53,5 +53,5 @@ private:
 
 	/** Save */
 	UPROPERTY()
-	TObjectPtr<UTetrisSaveGameOption> SaveCommonOption;
+	TObjectPtr<UTetrisAudioSettings> SaveCommonOption;
 };

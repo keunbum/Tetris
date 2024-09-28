@@ -4,13 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "TetrisSettingsBase.h"
-#include "TetrisSaveGameOption.generated.h"
+#include "TetrisAudioSettings.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class TETRIS_API UTetrisSaveGameOption : public UTetrisSettingsBase
+class TETRIS_API UTetrisAudioSettings : public UTetrisSettingsBase
 {
 	GENERATED_BODY()
 
@@ -25,7 +25,7 @@ public:
 	void DebugPrint(const FString& Prefix = TEXT("")) const;
 
 	// static methods
-	static UTetrisSaveGameOption* LoadTetrisSaveCommonOption();
+	static UTetrisAudioSettings* LoadTetrisSaveCommonOption();
 	
 public:
 	static const FName CommonOptionSlotName;

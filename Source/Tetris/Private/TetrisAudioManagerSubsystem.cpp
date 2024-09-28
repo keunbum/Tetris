@@ -2,7 +2,7 @@
 
 #include "TetrisAudioManagerSubsystem.h"
 #include "Kismet/GameplayStatics.h"
-#include "TetrisSaveGameOption.h"
+#include "TetrisAudioSettings.h"
 #include "Sound/SoundClass.h"
 #include "Sound/SoundMix.h"
 
@@ -62,7 +62,7 @@ void UTetrisAudioManagerSubsystem::LoadSavedSettings()
 {
 	if (!SaveCommonOption)
 	{
-		SaveCommonOption = UTetrisSaveGameOption::LoadTetrisSaveCommonOption();
+		SaveCommonOption = UTetrisAudioSettings::LoadTetrisSaveCommonOption();
 	}
 }
 
