@@ -3,11 +3,11 @@
 #include "PopUpWidgetBase.h"
 #include "ButtonBase.h"
 
-void UPopUpWidgetBase::NativeConstruct()
+void UPopUpWidgetBase::NativeOnInitialized()
 {
-	Super::NativeConstruct();
+	Super::NativeOnInitialized();
 
-	if (!CloseButton->OnClicked.IsBound())
+	if (CloseButton)
 	{
 		CloseButton->OnClicked.AddDynamic(this, &UPopUpWidgetBase::OnCloseClicked);
 	}
@@ -15,6 +15,5 @@ void UPopUpWidgetBase::NativeConstruct()
 
 void UPopUpWidgetBase::OnCloseClicked()
 {
-	PrepareClose();
 	RemoveFromParent();
 }

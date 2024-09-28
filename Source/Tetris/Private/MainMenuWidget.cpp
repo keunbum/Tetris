@@ -20,21 +20,21 @@ UMainMenuWidget::UMainMenuWidget()
 	}
 }
 
-void UMainMenuWidget::NativeConstruct()
+void UMainMenuWidget::NativeOnInitialized()
 {
-	Super::NativeConstruct();
+	Super::NativeOnInitialized();
 
-	if (StartButton && !StartButton->OnClicked.IsBound())
+	if (StartButton)
 	{
 		MenuButtons.Add(StartButton);
 		StartButton->OnClicked.AddDynamic(this, &UMainMenuWidget::OnStartClicked);
 	}
-	if (OptionButton && !OptionButton->OnClicked.IsBound())
+	if (OptionButton)
 	{
 		MenuButtons.Add(OptionButton);
 		OptionButton->OnClicked.AddDynamic(this, &UMainMenuWidget::OnOptionClicked);
 	}
-	if (ExitButton && !ExitButton->OnClicked.IsBound())
+	if (ExitButton)
 	{
 		MenuButtons.Add(ExitButton);
 		ExitButton->OnClicked.AddDynamic(this, &UMainMenuWidget::OnExitClicked);

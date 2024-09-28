@@ -8,30 +8,32 @@
 #include "TetrisPlayerControllerSingle.h"
 #include "MainMenuGameMode.h"
 
-void UPauseMenuWidget::NativeConstruct()
+void UPauseMenuWidget::NativeOnInitialized()
 {
-	Super::NativeConstruct();
+	Super::NativeOnInitialized();
 
-	if (ResumeButton && !ResumeButton->OnClicked.IsBound())
+	if (ResumeButton)
 	{
 		MenuButtons.Add(ResumeButton);
 		ResumeButton->OnClicked.AddDynamic(this, &UPauseMenuWidget::OnResumeClicked);
 	}
-	if (RestartButton && !RestartButton->OnClicked.IsBound())
+	if (RestartButton)
 	{
 		MenuButtons.Add(RestartButton);
 		RestartButton->OnClicked.AddDynamic(this, &UPauseMenuWidget::OnRestartClicked);
 	}
-	if (ExitButton && !ExitButton->OnClicked.IsBound())
+	if (ExitButton)
 	{
 		MenuButtons.Add(ExitButton);
 		ExitButton->OnClicked.AddDynamic(this, &UPauseMenuWidget::OnExitClicked);
 	}
 
-	if (!TetrisPlayerController)
-	{
-		TetrisPlayerController = Cast<ATetrisPlayerControllerSingle>(GetOwningPlayer());
-	}
+	TetrisPlayerController = Cast<ATetrisPlayerControllerSingle>(GetOwningPlayer());
+}
+
+void UPauseMenuWidget::NativeConstruct()
+{
+	Super::NativeConstruct();
 
 	SetDefaultMenuButtonFocus();
 }

@@ -17,6 +17,7 @@ class TETRIS_API UPauseMenuWidget : public UMenuWidgetBase
 	GENERATED_BODY()
 	
 protected:
+	virtual void NativeOnInitialized() override;
 	virtual void NativeConstruct() override;
 	virtual FReply NativeOnPreviewKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent) override;
 

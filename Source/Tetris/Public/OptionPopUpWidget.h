@@ -18,9 +18,11 @@ class TETRIS_API UOptionPopUpWidget : public UPopUpWidgetBase
 	GENERATED_BODY()
 
 protected:
+	/** UUserWidget Interface */
+	virtual void NativeOnInitialized() override;
 	virtual void NativeConstruct() override;
-
-	virtual void PrepareClose() override;
+	virtual void NativeDestruct() override;
+	/** ~UUserWidget Interface */
 
 	UFUNCTION()
 	void OnBgmVolumeSliderValueChanged(const float NewVolume);

@@ -7,16 +7,16 @@
 #include "TetrisPlayerControllerSingle.h"
 #include "MainMenuGameMode.h"
 
-void UGameOverMenuWidget::NativeConstruct()
+void UGameOverMenuWidget::NativeOnInitialized()
 {
-	Super::NativeConstruct();
+	Super::NativeOnInitialized();
 
-	if (RestartButton && !RestartButton->OnClicked.IsBound())
+	if (RestartButton)
 	{
 		MenuButtons.Add(RestartButton);
 		RestartButton->OnClicked.AddDynamic(this, &UGameOverMenuWidget::OnRestartClicked);
 	}
-	if (HomeButton && !HomeButton->OnClicked.IsBound())
+	if (HomeButton)
 	{
 		MenuButtons.Add(HomeButton);
 		HomeButton->OnClicked.AddDynamic(this, &UGameOverMenuWidget::OnHomeClicked);

@@ -23,7 +23,7 @@ ENUM_CLASS_FLAGS(EMenuMoveDirection);
 /**
  *
  */
-UCLASS()
+UCLASS(Abstract)
 class TETRIS_API UMenuWidgetBase : public UUserWidget
 {
 	GENERATED_BODY()
@@ -58,9 +58,7 @@ private:
 
 protected:
 	static constexpr int32 InvalidButtonIndex = -1;
-
-	UPROPERTY()
-	int32 DefaultFocusedButtonIndex;
+	static constexpr int32 DefaultFocusedButtonIndex = 0;
 
 	UPROPERTY()
 	TArray<TObjectPtr<UMenuButton>> MenuButtons;

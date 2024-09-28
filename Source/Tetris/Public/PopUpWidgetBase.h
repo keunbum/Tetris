@@ -11,16 +11,14 @@ class UButtonBase;
 /**
  * 
  */
-UCLASS()
+UCLASS(Abstract)
 class TETRIS_API UPopUpWidgetBase : public UUserWidget
 {
 	GENERATED_BODY()
 
 protected:
-	virtual void NativeConstruct() override;
+	virtual void NativeOnInitialized() override;
 
-	virtual void PrepareClose() {}
-	
 private:
 	UFUNCTION()
 	void OnCloseClicked();

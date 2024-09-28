@@ -63,8 +63,6 @@ void UMenuWidgetBase::NativeConstruct()
 	Super::NativeConstruct();
 
 	SetInitialFocus();
-
-	DefaultFocusedButtonIndex = 0;
 }
 
 FReply UMenuWidgetBase::NativeOnPreviewKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent)

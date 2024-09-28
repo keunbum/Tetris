@@ -20,7 +20,7 @@ public:
 	UMainMenuWidget();
 
 protected:
-	virtual void NativeConstruct() override;
+	virtual void NativeOnInitialized() override;
 
 private:
 	UFUNCTION()
@@ -46,10 +46,11 @@ private:
 	TObjectPtr<UMenuButton> ExitButton;
 
 	/** Widget References */
+	// OptionPopUpWidget
 	UPROPERTY()
 	TObjectPtr<UOptionPopUpWidget> OptionPopUpWidget;
 
 	/** Widget Class References */
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, Category = "Classes")
 	TSubclassOf<UOptionPopUpWidget> OptionPopUpWidgetClass;
 };
