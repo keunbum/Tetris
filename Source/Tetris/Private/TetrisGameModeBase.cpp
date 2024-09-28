@@ -4,7 +4,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "Components/AudioComponent.h"
 #include "Sound/SoundCue.h"
-#include "TetrisAudioInstanceSubsystem.h"
+#include "TetrisAudioManagerSubsystem.h"
 
 UAudioComponent* ATetrisGameModeBase::CreateAudioComponent(USoundCue* const SoundCue) const
 {
@@ -44,14 +44,14 @@ void ATetrisGameModeBase::Initialize()
 
 void ATetrisGameModeBase::InitializeDefaultEffect()
 {
-	if (UTetrisAudioInstanceSubsystem* const AudioInstanceSubsystem = GetGameInstance()->GetSubsystem<UTetrisAudioInstanceSubsystem>())
+	if (UTetrisAudioManagerSubsystem* const AudioInstanceSubsystem = GetGameInstance()->GetSubsystem<UTetrisAudioManagerSubsystem>())
 	{
 		if (BgmCue)
 		{
 			BgmComponent = CreateAudioComponent(BgmCue);
 			if (BgmComponent)
 			{
-				const float BgmVolume = AudioInstanceSubsystem->GetSoundClassVolumeByName(UTetrisAudioInstanceSubsystem::BgmSoundClassName);
+				const float BgmVolume = AudioInstanceSubsystem->GetSoundClassVolumeByName(UTetrisAudioManagerSubsystem::BgmSoundClassName);
 				BgmComponent->FadeIn(BgmFadeInTime, BgmVolume);
 			}
 		}

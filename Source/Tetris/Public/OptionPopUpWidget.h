@@ -7,7 +7,7 @@
 #include "OptionPopUpWidget.generated.h"
 
 class USlider;
-class UTetrisAudioInstanceSubsystem;
+class UTetrisAudioManagerSubsystem;
 
 /**
  * 
@@ -30,5 +30,5 @@ private:
 	TObjectPtr<USlider> BgmVolumeSlider;
 
 	UPROPERTY()
-	TObjectPtr<UTetrisAudioInstanceSubsystem> AudioInstanceSubsystem;
+	TObjectPtr<UTetrisAudioManagerSubsystem> AudioInstanceSubsystem;
 };

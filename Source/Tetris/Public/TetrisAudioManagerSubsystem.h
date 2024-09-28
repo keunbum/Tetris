@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Subsystems/GameInstanceSubsystem.h"
-#include "TetrisAudioInstanceSubsystem.generated.h"
+#include "TetrisAudioManagerSubsystem.generated.h"
 
 class USoundMix;
 class USoundClass;
@@ -14,7 +14,7 @@ class UTetrisSaveGameOption;
  * 
  */
 UCLASS()
-class TETRIS_API UTetrisAudioInstanceSubsystem : public UGameInstanceSubsystem
+class TETRIS_API UTetrisAudioManagerSubsystem : public UGameInstanceSubsystem
 {
 	GENERATED_BODY()
 	

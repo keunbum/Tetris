@@ -2,7 +2,7 @@
 
 #include "OptionPopUpWidget.h"
 #include "Components/Slider.h"
-#include "TetrisAudioInstanceSubsystem.h"
+#include "TetrisAudioManagerSubsystem.h"
 
 
 void UOptionPopUpWidget::NativeConstruct()
@@ -12,7 +12,7 @@ void UOptionPopUpWidget::NativeConstruct()
 	if (!AudioInstanceSubsystem)
 	{
 		// Get GameInstance Subsystem
-		AudioInstanceSubsystem = GetGameInstance()->GetSubsystem<UTetrisAudioInstanceSubsystem>();
+		AudioInstanceSubsystem = GetGameInstance()->GetSubsystem<UTetrisAudioManagerSubsystem>();
 	}
 
 	if (BgmVolumeSlider)
@@ -21,7 +21,7 @@ void UOptionPopUpWidget::NativeConstruct()
 		{
 			BgmVolumeSlider->OnValueChanged.AddDynamic(this, &UOptionPopUpWidget::OnBgmVolumeSliderValueChanged);
 		}
-		BgmVolumeSlider->SetValue(AudioInstanceSubsystem->GetSoundClassVolumeByName(UTetrisAudioInstanceSubsystem::BgmSoundClassName));
+		BgmVolumeSlider->SetValue(AudioInstanceSubsystem->GetSoundClassVolumeByName(UTetrisAudioManagerSubsystem::BgmSoundClassName));
 	}
 }
 
@@ -34,7 +34,7 @@ void UOptionPopUpWidget::OnBgmVolumeSliderValueChanged(const float NewVolume)
 {
 	if (AudioInstanceSubsystem)
 	{
-		AudioInstanceSubsystem->SetSoundClassVolumeByName(UTetrisAudioInstanceSubsystem::BgmSoundClassName, NewVolume);
+		AudioInstanceSubsystem->SetSoundClassVolumeByName(UTetrisAudioManagerSubsystem::BgmSoundClassName, NewVolume);
 	}
 	else
 	{

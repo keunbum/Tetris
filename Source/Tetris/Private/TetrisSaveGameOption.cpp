@@ -2,14 +2,14 @@
 
 #include "TetrisSaveGameOption.h"
 #include "Kismet/GameplayStatics.h"
-#include "TetrisAudioInstanceSubsystem.h"
+#include "TetrisAudioManagerSubsystem.h"
 
 const FName UTetrisSaveGameOption::CommonOptionSlotName(TEXT("CommonOptionSaveSlot"));
 
 void UTetrisSaveGameOption::Initialize()
 {
 	// Initialize SoundClassVolumeMap
-	for (const auto& [SoundClassName, _] : UTetrisAudioInstanceSubsystem::SoundClassPaths)
+	for (const auto& [SoundClassName, _] : UTetrisAudioManagerSubsystem::SoundClassPaths)
 	{
 		SoundClassVolumeMap.Add(SoundClassName, 1.0f);
 	}

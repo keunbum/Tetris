@@ -1,20 +1,20 @@
 // Copyright Ryu KeunBeom. All Rights Reserved.
 
-#include "TetrisAudioInstanceSubsystem.h"
+#include "TetrisAudioManagerSubsystem.h"
 #include "Kismet/GameplayStatics.h"
 #include "TetrisSaveGameOption.h"
 #include "Sound/SoundClass.h"
 #include "Sound/SoundMix.h"
 
-const FName UTetrisAudioInstanceSubsystem::MainSoundMixPath(TEXT("/Game/Audio/MainSoundMix"));
-const TArray<TPair<FName, FName>> UTetrisAudioInstanceSubsystem::SoundClassPaths =
+const FName UTetrisAudioManagerSubsystem::MainSoundMixPath(TEXT("/Game/Audio/MainSoundMix"));
+const TArray<TPair<FName, FName>> UTetrisAudioManagerSubsystem::SoundClassPaths =
 {
 	{ TEXT("MainSoundClass"), TEXT("/Game/Audio/MainSoundClass") },
 	{ TEXT("BgmSoundClass"), TEXT("/Game/Audio/BgmSoundClass") },
 };
-const FName UTetrisAudioInstanceSubsystem::BgmSoundClassName(TEXT("BgmSoundClass"));
+const FName UTetrisAudioManagerSubsystem::BgmSoundClassName(TEXT("BgmSoundClass"));
 
-void UTetrisAudioInstanceSubsystem::Initialize(FSubsystemCollectionBase& Collection)
+void UTetrisAudioManagerSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 {
 	Super::Initialize(Collection);
 
@@ -29,7 +29,7 @@ void UTetrisAudioInstanceSubsystem::Initialize(FSubsystemCollectionBase& Collect
 	}
 	else
 	{
-		UE_LOG(LogTemp, Error, TEXT("UTetrisAudioInstanceSubsystem::Initialize() - Failed to load MainSoundMix"));
+		UE_LOG(LogTemp, Error, TEXT("UTetrisAudioManagerSubsystem::Initialize() - Failed to load MainSoundMix"));
 	}
 
 	// Sound Classes
@@ -41,14 +41,14 @@ void UTetrisAudioInstanceSubsystem::Initialize(FSubsystemCollectionBase& Collect
 		}
 		else
 		{
-			UE_LOG(LogTemp, Error, TEXT("UTetrisAudioInstanceSubsystem::Initialize() - Failed to load SoundClass: %s"), *SoundClassPath.ToString());
+			UE_LOG(LogTemp, Error, TEXT("UTetrisAudioManagerSubsystem::Initialize() - Failed to load SoundClass: %s"), *SoundClassPath.ToString());
 		}
 	}
 
 	LoadSavedSettings();
 }
 
-void UTetrisAudioInstanceSubsystem::Deinitialize()
+void UTetrisAudioManagerSubsystem::Deinitialize()
 {
 	Super::Deinitialize();
 
@@ -58,7 +58,7 @@ void UTetrisAudioInstanceSubsystem::Deinitialize()
 	}
 }
 
-void UTetrisAudioInstanceSubsystem::LoadSavedSettings()
+void UTetrisAudioManagerSubsystem::LoadSavedSettings()
 {
 	if (!SaveCommonOption)
 	{
@@ -66,7 +66,7 @@ void UTetrisAudioInstanceSubsystem::LoadSavedSettings()
 	}
 }
 
-void UTetrisAudioInstanceSubsystem::SetSoundClassVolume(USoundClass* const SoundClass, const float NewVolume)
+void UTetrisAudioManagerSubsystem::SetSoundClassVolume(USoundClass* const SoundClass, const float NewVolume)
 {
 	if (SaveCommonOption)
 	{
@@ -76,12 +76,12 @@ void UTetrisAudioInstanceSubsystem::SetSoundClassVolume(USoundClass* const Sound
 	SetSoundMixClassOverrideInGameThread(MainSoundMix, SoundClass, NewVolume);
 }
 
-float UTetrisAudioInstanceSubsystem::GetSoundClassVolume(const USoundClass* SoundClass) const
+float UTetrisAudioManagerSubsystem::GetSoundClassVolume(const USoundClass* SoundClass) const
 {
 	return SaveCommonOption ? SaveCommonOption->GetSoundClassVolume(SoundClass->GetFName()) : 0.f;
 }
 
-void UTetrisAudioInstanceSubsystem::SetSoundMixClassOverrideInGameThread(USoundMix* const SoundMix, USoundClass* const SoundClass, const float Volume, const float Pitch, const float FadeInTime, const bool bApplyToChildren)
+void UTetrisAudioManagerSubsystem::SetSoundMixClassOverrideInGameThread(USoundMix* const SoundMix, USoundClass* const SoundClass, const float Volume, const float Pitch, const float FadeInTime, const bool bApplyToChildren)
 {
 	if (SoundClass)
 	{
@@ -92,6 +92,6 @@ void UTetrisAudioInstanceSubsystem::SetSoundMixClassOverrideInGameThread(USoundM
 	}
 	else
 	{
-		UE_LOG(LogTemp, Error, TEXT("UTetrisAudioInstanceSubsystem::SetSoundMixClassOverrideInGameThread() - Invalid SoundClass"));
+		UE_LOG(LogTemp, Error, TEXT("UTetrisAudioManagerSubsystem::SetSoundMixClassOverrideInGameThread() - Invalid SoundClass"));
 	}
 }
