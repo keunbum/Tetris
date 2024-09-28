@@ -11,6 +11,15 @@ void UPopUpWidgetBase::NativeOnInitialized()
 	{
 		CloseButton->OnClicked.AddDynamic(this, &UPopUpWidgetBase::OnCloseClicked);
 	}
+
+	bIsFocusable = true;
+}
+
+void UPopUpWidgetBase::NativeConstruct()
+{
+	Super::NativeConstruct();
+
+	SetFocus();
 }
 
 void UPopUpWidgetBase::OnCloseClicked()

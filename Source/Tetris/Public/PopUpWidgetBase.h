@@ -18,6 +18,7 @@ class TETRIS_API UPopUpWidgetBase : public UUserWidget
 
 protected:
 	virtual void NativeOnInitialized() override;
+	virtual void NativeConstruct() override;
 
 private:
 	UFUNCTION()
