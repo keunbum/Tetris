@@ -35,7 +35,7 @@ void AMainMenuGameMode::SetInputMode()
 	InternalSetInputMode(InputMode);
 }
 
-void AMainMenuGameMode::InitializeDefaultEffect()
+void AMainMenuGameMode::InitializeEffect()
 {
-	Super::InitializeDefaultEffect();
+	Super::InitializeEffect();
 }

@@ -39,10 +39,10 @@ void ATetrisGameModeBase::InternalSetInputMode(const FInputModeDataBase& InputMo
 void ATetrisGameModeBase::Initialize()
 {
 	SetInputMode();
-	InitializeDefaultEffect();
+	InitializeEffect();
 }
 
-void ATetrisGameModeBase::InitializeDefaultEffect()
+void ATetrisGameModeBase::InitializeEffect()
 {
 	if (UTetrisAudioManagerSubsystem* const AudioInstanceSubsystem = GetGameInstance()->GetSubsystem<UTetrisAudioManagerSubsystem>())
 	{
@@ -58,6 +58,6 @@ void ATetrisGameModeBase::InitializeDefaultEffect()
 	}
 	else
 	{
-		UE_LOG(LogTemp, Error, TEXT("ATetrisGameModeBase::InitializeDefaultEffect() - Failed to get AudioInstanceSubsystem"));
+		UE_LOG(LogTemp, Error, TEXT("ATetrisGameModeBase::InitializeEffect() - Failed to get AudioInstanceSubsystem"));
 	}
 }

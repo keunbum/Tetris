@@ -22,7 +22,7 @@ protected:
 protected:
 	virtual void Initialize() override;
 	virtual void SetInputMode() override;
-	virtual void InitializeDefaultEffect() override;
+	virtual void InitializeEffect() override;
 
 public:
 	// Level Name

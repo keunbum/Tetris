@@ -151,9 +151,9 @@ void ATetrisInGameGameMode::SetInputMode()
 	InternalSetInputMode(InputMode);
 }
 
-void ATetrisInGameGameMode::InitializeDefaultEffect()
+void ATetrisInGameGameMode::InitializeEffect()
 {
-	Super::InitializeDefaultEffect();
+	Super::InitializeEffect();
 }
 
 void ATetrisInGameGameMode::StartGamePlay()

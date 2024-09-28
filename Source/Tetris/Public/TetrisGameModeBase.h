@@ -28,7 +28,7 @@ protected:
 
 	void InternalSetInputMode(const FInputModeDataBase& InputModeData);
 	virtual void Initialize();
-	virtual void InitializeDefaultEffect();
+	virtual void InitializeEffect();
 
 private:
 	// Declare PURE_VIRTUAL functions
@@ -49,4 +49,7 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Audio")
 	float BgmFadeInTime = 0.f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Audio")
+	float BgmFadeOutTime = 0.f;
 };
