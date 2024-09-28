@@ -3,18 +3,26 @@
 #include "PopUpWidgetBase.h"
 #include "ButtonBase.h"
 
+void UPopUpWidgetBase::NativeOnInitialized()
+{
+	Super::NativeOnInitialized();
+
+	if (CloseButton)
+	{
+		CloseButton->OnClicked.AddDynamic(this, &UPopUpWidgetBase::OnCloseClicked);
+	}
+
+	bIsFocusable = true;
+}
+
 void UPopUpWidgetBase::NativeConstruct()
 {
 	Super::NativeConstruct();
 
-	if (!CloseButton->OnClicked.IsBound())
-	{
-		CloseButton->OnClicked.AddDynamic(this, &UPopUpWidgetBase::OnCloseClicked);
-	}
+	SetFocus();
 }
 
 void UPopUpWidgetBase::OnCloseClicked()
 {
-	PrepareClose();
 	RemoveFromParent();
 }

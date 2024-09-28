@@ -15,7 +15,9 @@ class TETRIS_API UGameOverMenuWidget : public UMenuWidgetBase
 	GENERATED_BODY()
 	
 protected:
-	virtual void NativeConstruct() override;
+	/** UUserWidget Interface */
+	virtual void NativeOnInitialized() override;
+	/** ~UUserWidget Interface */
 
 private:
 	UFUNCTION()

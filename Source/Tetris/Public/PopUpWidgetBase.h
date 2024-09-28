@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Blueprint/UserWidget.h"
+#include "TetrisWidgetBase.h"
 #include "PopUpWidgetBase.generated.h"
 
 class UButtonBase;
@@ -11,16 +11,17 @@ class UButtonBase;
 /**
  * 
  */
-UCLASS()
-class TETRIS_API UPopUpWidgetBase : public UUserWidget
+UCLASS(Abstract)
+class TETRIS_API UPopUpWidgetBase : public UTetrisWidgetBase
 {
 	GENERATED_BODY()
 
 protected:
+	/** UUserWidget Interface */
+	virtual void NativeOnInitialized() override;
 	virtual void NativeConstruct() override;
+	/** ~UUserWidget Interface */
 
-	virtual void PrepareClose() {}
-	
 private:
 	UFUNCTION()
 	void OnCloseClicked();

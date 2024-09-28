@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Blueprint/UserWidget.h"
+#include "TetrisWidgetBase.h"
 #include "MenuWidgetBase.generated.h"
 
 class UMenuButton;
@@ -23,17 +23,12 @@ ENUM_CLASS_FLAGS(EMenuMoveDirection);
 /**
  *
  */
-UCLASS()
-class TETRIS_API UMenuWidgetBase : public UUserWidget
+UCLASS(Abstract)
+class TETRIS_API UMenuWidgetBase : public UTetrisWidgetBase
 {
 	GENERATED_BODY()
 
 public:
-	void SetDefaultMenuButtonFocus();
-	void SetWidgetFocusOnly();
-
-	bool IsNoButtonFocused() const { return FocusedButtonIndex == InvalidButtonIndex; }
-
 	/** static methods */
 	static bool GetMenuMoveDirection(const FKey& Key, EMenuMoveDirection& OutMenuMoveDirection);
 	static bool IsMenuMoveDirectionValid(const EMenuMoveDirection MenuMoveDirection) { return MenuMoveDirection != EMenuMoveDirection::None; }
@@ -41,8 +36,16 @@ public:
 	static FName GetMenuMoveDirectionName(const EMenuMoveDirection MenuMoveDirection);
 
 protected:
+	/** UUserWidget Interface */
+	virtual void NativeOnInitialized() override;
 	virtual void NativeConstruct() override;
 	virtual FReply NativeOnPreviewKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent) override;
+	/** ~UUserWidget Interface */
+
+	void SetDefaultMenuButtonFocus();
+	void SetWidgetFocusOnly();
+
+	bool IsNoButtonFocused() const { return FocusedButtonIndex == InvalidButtonIndex; }
 
 	void SetMenuButtonFocusByButtonIndex(const int32 NewFocusedButtonIndex);
 	void MoveMenuButtonFocus(const int32 MoveDelta);
@@ -58,9 +61,7 @@ private:
 
 protected:
 	static constexpr int32 InvalidButtonIndex = -1;
-
-	UPROPERTY()
-	int32 DefaultFocusedButtonIndex;
+	static constexpr int32 DefaultFocusedButtonIndex = 0;
 
 	UPROPERTY()
 	TArray<TObjectPtr<UMenuButton>> MenuButtons;

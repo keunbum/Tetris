@@ -16,11 +16,10 @@ class TETRIS_API UMainMenuWidget : public UMenuWidgetBase
 {
 	GENERATED_BODY()
 
-public:
-	UMainMenuWidget();
-
 protected:
-	virtual void NativeConstruct() override;
+	/** UUserWidget Interface */
+	virtual void NativeOnInitialized() override;
+	/** ~UUserWidget Interface */
 
 private:
 	UFUNCTION()
@@ -46,10 +45,11 @@ private:
 	TObjectPtr<UMenuButton> ExitButton;
 
 	/** Widget References */
+	// OptionPopUpWidget
 	UPROPERTY()
 	TObjectPtr<UOptionPopUpWidget> OptionPopUpWidget;
 
 	/** Widget Class References */
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, Category = "Classes")
 	TSubclassOf<UOptionPopUpWidget> OptionPopUpWidgetClass;
 };

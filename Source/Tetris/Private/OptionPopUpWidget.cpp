@@ -5,38 +5,38 @@
 #include "TetrisAudioManagerSubsystem.h"
 
 
+void UOptionPopUpWidget::NativeOnInitialized()
+{
+	Super::NativeOnInitialized();
+
+	AudioManager = GetGameInstance()->GetSubsystem<UTetrisAudioManagerSubsystem>();
+
+	if (BgmVolumeSlider)
+	{
+		BgmVolumeSlider->OnValueChanged.AddDynamic(this, &UOptionPopUpWidget::OnBgmVolumeSliderValueChanged);
+	}
+}
+
 void UOptionPopUpWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 
-	if (!AudioManager)
-	{
-		// Get GameInstance Subsystem
-		AudioManager = GetGameInstance()->GetSubsystem<UTetrisAudioManagerSubsystem>();
-	}
-
 	if (BgmVolumeSlider)
 	{
-		if (!BgmVolumeSlider->OnValueChanged.IsBound())
-		{
-			BgmVolumeSlider->OnValueChanged.AddDynamic(this, &UOptionPopUpWidget::OnBgmVolumeSliderValueChanged);
-		}
 		const float BgmVolume = AudioManager->GetBgmVolume();
 		BgmVolumeSlider->SetValue(BgmVolume);
 	}
 }
 
-void UOptionPopUpWidget::PrepareClose()
+void UOptionPopUpWidget::NativeDestruct()
 {
-	Super::PrepareClose();
-
 	if (AudioManager)
 	{
 		AudioManager->SaveSettings();
 	}
 	else
 	{
-		UE_LOG(LogTemp, Error, TEXT("UOptionPopUpWidget::PrepareClose() - Failed to get AudioManager"));
+		UE_LOG(LogTemp, Error, TEXT("UOptionPopUpWidget::NativeDestruct() - Failed to get AudioManager"));
 	}
 }
 
