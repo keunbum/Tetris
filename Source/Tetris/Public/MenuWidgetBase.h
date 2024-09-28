@@ -36,9 +36,11 @@ public:
 	static FName GetMenuMoveDirectionName(const EMenuMoveDirection MenuMoveDirection);
 
 protected:
+	/** UUserWidget Interface */
 	virtual void NativeOnInitialized() override;
 	virtual void NativeConstruct() override;
 	virtual FReply NativeOnPreviewKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent) override;
+	/** ~UUserWidget Interface */
 
 	void SetDefaultMenuButtonFocus();
 	void SetWidgetFocusOnly();
