@@ -35,20 +35,15 @@ void UTetrisAudioManagerSubsystem::SetMainVolume(const float NewVolume)
 
 void UTetrisAudioManagerSubsystem::SetBgmVolume(const float NewVolume)
 {
-	// Print Previous Volume
-	UE_LOG(LogTemp, Log, TEXT("UTetrisAudioManagerSubsystem::SetBgmVolume() - Previous Volume: %f"), GetSoundClassVolume(BgmSoundClass));
-	UE_LOG(LogTemp, Log, TEXT("UTetrisAudioManagerSubsystem::SetBgmVolume() - New Volume: %f"), NewVolume);
 	SetSoundClassVolume(BgmSoundClass, NewVolume);
 }
 
 void UTetrisAudioManagerSubsystem::SaveSettings()
 {
-	// Use ConfigCacheIni to save settings to ini file
 	if (GConfig)
 	{
 		for (const auto& [SoundClassName, Volume] : SoundClassVolumes)
 		{
-			UE_LOG(LogTemp, Log, TEXT("UTetrisAudioManagerSubsystem::SaveSettings() - SoundClass: %s, Volume: %f"), *SoundClassName.ToString(), Volume);
 			GConfig->SetFloat(*AudioConfigSectionName, *SoundClassName.ToString(), Volume, AudioConfigFileName);
 		}
 		GConfig->Flush(false, AudioConfigFileName);
@@ -71,6 +66,7 @@ void UTetrisAudioManagerSubsystem::InitializeSoundMixAndClasses()
 		UE_LOG(LogTemp, Error, TEXT("UTetrisAudioManagerSubsystem::Initialize() - Failed to load MainSoundMix"));
 	}
 
+	// SoundClasses
 	MainSoundClass = LoadSoundClassObject(MainSoundClassPath);
 	BgmSoundClass = LoadSoundClassObject(BgmSoundClassPath);
 }
@@ -86,9 +82,7 @@ USoundClass* UTetrisAudioManagerSubsystem::LoadSoundClassObject(const FName& Pat
 	if (USoundClass* const SoundClass = LoadObject<USoundClass>(nullptr, *Path.ToString()))
 	{
 		static constexpr float DefaultVolume = 1.0f;
-		UE_LOG(LogTemp, Log, TEXT("UTetrisAudioManagerSubsystem::LoadSoundClassObject() - SoundClass: %s, DefaultVolume: %f"), *SoundClass->GetName(), DefaultVolume);
-		SoundClassVolumes.Add(SoundClass->GetFName(), DefaultVolume);
-		//SetSoundClassVolume(SoundClass, DefaultVolume);
+		SetSoundClassVolume(SoundClass, DefaultVolume);
 		return SoundClass;
 	}
 
@@ -103,7 +97,6 @@ void UTetrisAudioManagerSubsystem::LoadSoundClassVolumeSetting(FConfigCacheIni* 
 		if (float Volume = GetSoundClassVolume(SoundClass);
 			Config && Config->GetFloat(*AudioConfigSectionName, *SoundClass->GetName(), Volume, AudioConfigFileName))
 		{
-			UE_LOG(LogTemp, Log, TEXT("UTetrisAudioManagerSubsystem::LoadSoundClassVolumeSetting() - SoundClass: %s, Volume: %f"), *SoundClass->GetName(), Volume);
 			SetSoundClassVolume(SoundClass, Volume);
 		}
 		else
@@ -116,7 +109,6 @@ void UTetrisAudioManagerSubsystem::LoadSoundClassVolumeSetting(FConfigCacheIni* 
 	{
 		UE_LOG(LogTemp, Error, TEXT("UTetrisAudioManagerSubsystem::LoadSoundClassVolumeSetting() - Invalid SoundClass"));
 	}
-
 }
 
 void UTetrisAudioManagerSubsystem::SetSoundClassVolume(USoundClass* const SoundClass, const float NewVolume)

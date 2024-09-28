@@ -42,7 +42,6 @@ void UOptionPopUpWidget::PrepareClose()
 
 void UOptionPopUpWidget::OnBgmVolumeSliderValueChanged(const float NewVolume)
 {
-	UE_LOG(LogTemp, Log, TEXT("UOptionPopUpWidget::OnBgmVolumeSliderValueChanged() - NewVolume: %f"), NewVolume);
 	if (AudioInstanceSubsystem)
 	{
 		AudioInstanceSubsystem->SetBgmVolume(NewVolume);
