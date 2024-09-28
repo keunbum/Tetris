@@ -24,11 +24,14 @@ public:
 protected:
 	/** AActor */
 	virtual void BeginPlay() override;
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 	/** ~AActor */
 
 	void InternalSetInputMode(const FInputModeDataBase& InputModeData);
 	virtual void Initialize();
 	virtual void InitializeEffect();
+	virtual void Uninitialize();
+	virtual void UninitializeEffect();
 
 private:
 	// Declare PURE_VIRTUAL functions

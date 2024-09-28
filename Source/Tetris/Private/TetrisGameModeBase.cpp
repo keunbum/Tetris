@@ -24,6 +24,13 @@ void ATetrisGameModeBase::BeginPlay()
 	Initialize();
 }
 
+void ATetrisGameModeBase::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	Uninitialize();
+
+	Super::EndPlay(EndPlayReason);
+}
+
 void ATetrisGameModeBase::InternalSetInputMode(const FInputModeDataBase& InputMode)
 {
 	if (APlayerController* const PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), PlayerIndex))
@@ -59,5 +66,18 @@ void ATetrisGameModeBase::InitializeEffect()
 	else
 	{
 		UE_LOG(LogTemp, Error, TEXT("ATetrisGameModeBase::InitializeEffect() - Failed to get AudioInstanceSubsystem"));
+	}
+}
+
+void ATetrisGameModeBase::Uninitialize()
+{
+	UninitializeEffect();
+}
+
+void ATetrisGameModeBase::UninitializeEffect()
+{
+	if (BgmComponent)
+	{
+		BgmComponent->FadeOut(BgmFadeOutTime, 0.f /* FadeVolumeLevel */);
 	}
 }
