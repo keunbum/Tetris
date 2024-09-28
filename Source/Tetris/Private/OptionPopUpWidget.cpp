@@ -9,10 +9,10 @@ void UOptionPopUpWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 
-	if (!AudioInstanceSubsystem)
+	if (!AudioManager)
 	{
 		// Get GameInstance Subsystem
-		AudioInstanceSubsystem = GetGameInstance()->GetSubsystem<UTetrisAudioManagerSubsystem>();
+		AudioManager = GetGameInstance()->GetSubsystem<UTetrisAudioManagerSubsystem>();
 	}
 
 	if (BgmVolumeSlider)
@@ -21,7 +21,7 @@ void UOptionPopUpWidget::NativeConstruct()
 		{
 			BgmVolumeSlider->OnValueChanged.AddDynamic(this, &UOptionPopUpWidget::OnBgmVolumeSliderValueChanged);
 		}
-		const float BgmVolume = AudioInstanceSubsystem->GetBgmVolume();
+		const float BgmVolume = AudioManager->GetBgmVolume();
 		BgmVolumeSlider->SetValue(BgmVolume);
 	}
 }
@@ -30,24 +30,24 @@ void UOptionPopUpWidget::PrepareClose()
 {
 	Super::PrepareClose();
 
-	if (AudioInstanceSubsystem)
+	if (AudioManager)
 	{
-		AudioInstanceSubsystem->SaveSettings();
+		AudioManager->SaveSettings();
 	}
 	else
 	{
-		UE_LOG(LogTemp, Error, TEXT("UOptionPopUpWidget::PrepareClose() - Failed to get AudioInstanceSubsystem"));
+		UE_LOG(LogTemp, Error, TEXT("UOptionPopUpWidget::PrepareClose() - Failed to get AudioManager"));
 	}
 }
 
 void UOptionPopUpWidget::OnBgmVolumeSliderValueChanged(const float NewVolume)
 {
-	if (AudioInstanceSubsystem)
+	if (AudioManager)
 	{
-		AudioInstanceSubsystem->SetBgmVolume(NewVolume);
+		AudioManager->SetBgmVolume(NewVolume);
 	}
 	else
 	{
-		UE_LOG(LogTemp, Error, TEXT("UOptionPopUpWidget::OnBgmVolumeSliderValueChanged() - Failed to get AudioInstanceSubsystem"));
+		UE_LOG(LogTemp, Error, TEXT("UOptionPopUpWidget::OnBgmVolumeSliderValueChanged() - Failed to get AudioManager"));
 	}
 }

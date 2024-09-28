@@ -30,5 +30,5 @@ private:
 	TObjectPtr<USlider> BgmVolumeSlider;
 
 	UPROPERTY()
-	TObjectPtr<UTetrisAudioManagerSubsystem> AudioInstanceSubsystem;
+	TObjectPtr<UTetrisAudioManagerSubsystem> AudioManager;
 };

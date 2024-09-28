@@ -51,7 +51,7 @@ void ATetrisGameModeBase::Initialize()
 
 void ATetrisGameModeBase::InitializeEffect()
 {
-	if (UTetrisAudioManagerSubsystem* const AudioInstanceSubsystem = GetGameInstance()->GetSubsystem<UTetrisAudioManagerSubsystem>())
+	if (UTetrisAudioManagerSubsystem* const AudioManager = GetGameInstance()->GetSubsystem<UTetrisAudioManagerSubsystem>())
 	{
 		if (BgmCue)
 		{
@@ -64,7 +64,7 @@ void ATetrisGameModeBase::InitializeEffect()
 	}
 	else
 	{
-		UE_LOG(LogTemp, Error, TEXT("ATetrisGameModeBase::InitializeEffect() - Failed to get AudioInstanceSubsystem"));
+		UE_LOG(LogTemp, Error, TEXT("ATetrisGameModeBase::InitializeEffect() - Failed to get AudioManager"));
 	}
 }
 
