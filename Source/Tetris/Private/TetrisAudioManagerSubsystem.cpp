@@ -19,7 +19,6 @@ void UTetrisAudioManagerSubsystem::Initialize(FSubsystemCollectionBase& Collecti
 	Super::Initialize(Collection);
 
 	InitializeSoundMixAndClasses();
-
 	LoadSettings();
 }
 
@@ -54,17 +53,16 @@ void UTetrisAudioManagerSubsystem::InitializeSoundMixAndClasses()
 {
 	// MainSoundMix
 	MainSoundMix = LoadObject<USoundMix>(nullptr, *MainSoundMixPath.ToString());
-	if (MainSoundMix)
-	{
-		AsyncTask(ENamedThreads::GameThread, [this]()
-			{
-				UGameplayStatics::SetBaseSoundMix(GetWorld(), MainSoundMix);
-			});
-	}
-	else
+	if (!MainSoundMix)
 	{
 		UE_LOG(LogTemp, Error, TEXT("UTetrisAudioManagerSubsystem::Initialize() - Failed to load MainSoundMix"));
+		return;
 	}
+
+	AsyncTask(ENamedThreads::GameThread, [this]()
+		{
+			UGameplayStatics::SetBaseSoundMix(GetWorld(), MainSoundMix);
+		});
 
 	// SoundClasses
 	MainSoundClass = LoadSoundClassObject(MainSoundClassPath);
@@ -84,6 +82,7 @@ USoundClass* UTetrisAudioManagerSubsystem::LoadSoundClassObject(const FName& Pat
 		return SoundClass;
 	}
 
+	UE_LOG(LogTemp, Error, TEXT("UTetrisAudioManagerSubsystem::LoadSoundClassObject() - Failed to load SoundClass"));
 	checkNoEntry();
 	return nullptr;
 }
