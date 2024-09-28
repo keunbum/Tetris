@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Blueprint/UserWidget.h"
+#include "TetrisWidgetBase.h"
 #include "PopUpWidgetBase.generated.h"
 
 class UButtonBase;
@@ -12,7 +12,7 @@ class UButtonBase;
  * 
  */
 UCLASS(Abstract)
-class TETRIS_API UPopUpWidgetBase : public UUserWidget
+class TETRIS_API UPopUpWidgetBase : public UTetrisWidgetBase
 {
 	GENERATED_BODY()
 

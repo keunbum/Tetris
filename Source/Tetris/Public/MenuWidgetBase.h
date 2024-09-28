@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Blueprint/UserWidget.h"
+#include "TetrisWidgetBase.h"
 #include "MenuWidgetBase.generated.h"
 
 class UMenuButton;
@@ -24,7 +24,7 @@ ENUM_CLASS_FLAGS(EMenuMoveDirection);
  *
  */
 UCLASS(Abstract)
-class TETRIS_API UMenuWidgetBase : public UUserWidget
+class TETRIS_API UMenuWidgetBase : public UTetrisWidgetBase
 {
 	GENERATED_BODY()
 
