@@ -4,20 +4,6 @@
 
 #include "MenuButton.h"
 
-void UMenuWidgetBase::SetDefaultMenuButtonFocus()
-{
-	SetMenuButtonFocusByButtonIndex(DefaultFocusedButtonIndex);
-}
-
-void UMenuWidgetBase::SetWidgetFocusOnly()
-{
-	// 초기에 포커싱된 버튼 없음.
-	FocusedButtonIndex = UMenuWidgetBase::InvalidButtonIndex;
-	// 위젯 자체에는 포커싱이 걸려야 키보드 입력을 받을 수 있음.
-	bIsFocusable = true;
-	SetFocus();
-}
-
 bool UMenuWidgetBase::GetMenuMoveDirection(const FKey& Key, EMenuMoveDirection& OutMenuMoveDirection)
 {
 	static const TArray<TPair<TFunction<bool(const FKey&)>, EMenuMoveDirection>> FuncAndDirectionPairs =
@@ -58,6 +44,13 @@ FName UMenuWidgetBase::GetMenuMoveDirectionName(const EMenuMoveDirection MenuMov
 	}
 }
 
+void UMenuWidgetBase::NativeOnInitialized()
+{
+	Super::NativeOnInitialized();
+
+	bIsFocusable = true;
+}
+
 void UMenuWidgetBase::NativeConstruct()
 {
 	Super::NativeConstruct();
@@ -91,6 +84,19 @@ FReply UMenuWidgetBase::NativeOnPreviewKeyDown(const FGeometry& InGeometry, cons
 	}
 
 	return Super::NativeOnPreviewKeyDown(InGeometry, InKeyEvent);
+}
+
+void UMenuWidgetBase::SetDefaultMenuButtonFocus()
+{
+	SetMenuButtonFocusByButtonIndex(DefaultFocusedButtonIndex);
+}
+
+void UMenuWidgetBase::SetWidgetFocusOnly()
+{
+	// 초기에 포커싱된 버튼 없음.
+	FocusedButtonIndex = UMenuWidgetBase::InvalidButtonIndex;
+	// 위젯 자체에는 포커싱이 걸려야 키보드 입력을 받을 수 있음.
+	SetFocus();
 }
 
 void UMenuWidgetBase::SetMenuButtonFocusByButtonIndex(const int32 NewFocusedButtonIndex)

@@ -29,11 +29,6 @@ class TETRIS_API UMenuWidgetBase : public UUserWidget
 	GENERATED_BODY()
 
 public:
-	void SetDefaultMenuButtonFocus();
-	void SetWidgetFocusOnly();
-
-	bool IsNoButtonFocused() const { return FocusedButtonIndex == InvalidButtonIndex; }
-
 	/** static methods */
 	static bool GetMenuMoveDirection(const FKey& Key, EMenuMoveDirection& OutMenuMoveDirection);
 	static bool IsMenuMoveDirectionValid(const EMenuMoveDirection MenuMoveDirection) { return MenuMoveDirection != EMenuMoveDirection::None; }
@@ -41,8 +36,14 @@ public:
 	static FName GetMenuMoveDirectionName(const EMenuMoveDirection MenuMoveDirection);
 
 protected:
+	virtual void NativeOnInitialized() override;
 	virtual void NativeConstruct() override;
 	virtual FReply NativeOnPreviewKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent) override;
+
+	void SetDefaultMenuButtonFocus();
+	void SetWidgetFocusOnly();
+
+	bool IsNoButtonFocused() const { return FocusedButtonIndex == InvalidButtonIndex; }
 
 	void SetMenuButtonFocusByButtonIndex(const int32 NewFocusedButtonIndex);
 	void MoveMenuButtonFocus(const int32 MoveDelta);
