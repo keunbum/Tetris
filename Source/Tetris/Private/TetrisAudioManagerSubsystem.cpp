@@ -80,8 +80,7 @@ USoundClass* UTetrisAudioManagerSubsystem::LoadSoundClassObject(const FName& Pat
 {
 	if (USoundClass* const SoundClass = LoadObject<USoundClass>(nullptr, *Path.ToString()))
 	{
-		static constexpr float DefaultVolume = 1.0f;
-		SetSoundClassVolume(SoundClass, DefaultVolume);
+		SetSoundClassVolume(SoundClass, UTetrisAudioManagerSubsystem::DefaultVolume);
 		return SoundClass;
 	}
 

@@ -49,6 +49,8 @@ public:
 	static const FString AudioConfigSectionName;
 	static const FString AudioConfigFileName;
 
+	static constexpr float DefaultVolume = 0.75f;
+
 private:
 	/** Sound Mixes */
 	UPROPERTY()
