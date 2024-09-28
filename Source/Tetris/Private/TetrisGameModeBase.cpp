@@ -51,7 +51,7 @@ void ATetrisGameModeBase::InitializeDefaultEffect()
 			BgmComponent = CreateAudioComponent(BgmCue);
 			if (BgmComponent)
 			{
-				const float BgmVolume = AudioInstanceSubsystem->GetSoundClassVolumeByName(UTetrisAudioManagerSubsystem::BgmSoundClassName);
+				const float BgmVolume = AudioInstanceSubsystem->GetBgmVolume();
 				BgmComponent->FadeIn(BgmFadeInTime, BgmVolume);
 			}
 		}
