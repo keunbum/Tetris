@@ -3,14 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/SaveGame.h"
+#include "TetrisSettingsBase.h"
 #include "TetrisSaveGameOption.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class TETRIS_API UTetrisSaveGameOption : public USaveGame
+class TETRIS_API UTetrisSaveGameOption : public UTetrisSettingsBase
 {
 	GENERATED_BODY()
 
