@@ -34,7 +34,7 @@ private:
 	void InitializeSoundMixAndClasses();
 	void LoadSettings();
 	USoundClass* LoadSoundClassObject(const FName& Path);
-	void LoadSoundClassVolumeSetting(FConfigCacheIni* const Config, USoundClass* const SoundClass);
+	void LoadSoundClassVolumeSettings();
 
 	void SetSoundClassVolume(USoundClass* const SoundClass, const float NewVolume);
 	float GetSoundClassVolume(USoundClass* const SoundClass) const;

@@ -73,8 +73,7 @@ void UTetrisAudioManagerSubsystem::InitializeSoundMixAndClasses()
 
 void UTetrisAudioManagerSubsystem::LoadSettings()
 {
-	LoadSoundClassVolumeSetting(GConfig, MainSoundClass);
-	LoadSoundClassVolumeSetting(GConfig, BgmSoundClass);
+	LoadSoundClassVolumeSettings();
 }
 
 USoundClass* UTetrisAudioManagerSubsystem::LoadSoundClassObject(const FName& Path)
@@ -90,24 +89,30 @@ USoundClass* UTetrisAudioManagerSubsystem::LoadSoundClassObject(const FName& Pat
 	return nullptr;
 }
 
-void UTetrisAudioManagerSubsystem::LoadSoundClassVolumeSetting(FConfigCacheIni* const Config, USoundClass* const SoundClass)
+void UTetrisAudioManagerSubsystem::LoadSoundClassVolumeSettings()
 {
-	if (SoundClass)
+	if (GConfig)
 	{
-		if (float Volume = GetSoundClassVolume(SoundClass);
-			Config && Config->GetFloat(*AudioConfigSectionName, *SoundClass->GetName(), Volume, AudioConfigFileName))
+		for (USoundClass* const SoundClass : { MainSoundClass, BgmSoundClass })
 		{
-			SetSoundClassVolume(SoundClass, Volume);
+			if (SoundClass)
+			{
+				if (float Volume = GetSoundClassVolume(SoundClass);
+					GConfig->GetFloat(*AudioConfigSectionName, *SoundClass->GetName(), Volume, AudioConfigFileName))
+				{
+					SetSoundClassVolume(SoundClass, Volume);
+				}
+				else
+				{
+					UE_LOG(LogTemp, Warning, TEXT("UTetrisAudioManagerSubsystem::LoadSoundClassVolumeSettings() - Failed to load SoundClass volume, set to default value"));
+					GConfig->SetFloat(*AudioConfigSectionName, *SoundClass->GetName(), Volume, AudioConfigFileName);
+				}
+			}
+			else
+			{
+				UE_LOG(LogTemp, Error, TEXT("UTetrisAudioManagerSubsystem::LoadSoundClassVolumeSettings() - Invalid SoundClass"));
+			}
 		}
-		else
-		{
-			UE_LOG(LogTemp, Warning, TEXT("UTetrisAudioManagerSubsystem::LoadSoundClassVolumeSetting() - Failed to load SoundClass volume, set to default value"));
-			Config->SetFloat(*AudioConfigSectionName, *SoundClass->GetName(), Volume, AudioConfigFileName);
-		}
-	}
-	else
-	{
-		UE_LOG(LogTemp, Error, TEXT("UTetrisAudioManagerSubsystem::LoadSoundClassVolumeSetting() - Invalid SoundClass"));
 	}
 }
 
