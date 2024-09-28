@@ -8,12 +8,18 @@
 
 UAudioComponent* ATetrisGameModeBase::CreateAudioComponent(USoundCue* const SoundCue) const
 {
-	if (UAudioComponent* const AudioComponent = UGameplayStatics::CreateSound2D(GetWorld(), SoundCue))
+	if (SoundCue)
 	{
-		return AudioComponent;
+		if (UAudioComponent* const AudioComponent = UGameplayStatics::CreateSound2D(GetWorld(), SoundCue))
+		{
+			return AudioComponent;
+		}
+
+		UE_LOG(LogTemp, Error, TEXT("ATetrisGameModeBase::CreateAudioComponent() - Failed to load SoundCue"));
+		return nullptr;
 	}
 
-	UE_LOG(LogTemp, Error, TEXT("ATetrisGameModeBase::CreateAudioComponent() - Failed to load SoundCue"));
+	UE_LOG(LogTemp, Error, TEXT("ATetrisGameModeBase::CreateAudioComponent() - SoundCue is nullptr"));
 	return nullptr;
 }
 
@@ -53,13 +59,10 @@ void ATetrisGameModeBase::InitializeEffect()
 {
 	if (UTetrisAudioManagerSubsystem* const AudioManager = GetGameInstance()->GetSubsystem<UTetrisAudioManagerSubsystem>())
 	{
-		if (BgmCue)
+		BgmComponent = CreateAudioComponent(BgmCue);
+		if (BgmComponent)
 		{
-			BgmComponent = CreateAudioComponent(BgmCue);
-			if (BgmComponent)
-			{
-				BgmComponent->FadeIn(BgmFadeInTime);
-			}
+			BgmComponent->FadeIn(BgmFadeInTime);
 		}
 	}
 	else
