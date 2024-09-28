@@ -16,9 +16,6 @@ class TETRIS_API UMainMenuWidget : public UMenuWidgetBase
 {
 	GENERATED_BODY()
 
-public:
-	UMainMenuWidget();
-
 protected:
 	virtual void NativeOnInitialized() override;
 

@@ -10,16 +10,6 @@
 
 const FName UMainMenuWidget::OptionPopUpWidgetPath(TEXT("/Game/UI/WB_OptionPopUp"));
 
-UMainMenuWidget::UMainMenuWidget()
-{
-	static ConstructorHelpers::FClassFinder<UOptionPopUpWidget> OptionPopUpBPClass(*OptionPopUpWidgetPath.ToString());
-	if (ensureMsgf(OptionPopUpBPClass.Succeeded(), TEXT("Failed to find OptionPopUpWidget BP class.")))
-	{
-		OptionPopUpWidgetClass = OptionPopUpBPClass.Class;
-		OptionPopUpWidget = CreateWidget<UOptionPopUpWidget>(GetWorld(), OptionPopUpWidgetClass);
-	}
-}
-
 void UMainMenuWidget::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
@@ -38,6 +28,11 @@ void UMainMenuWidget::NativeOnInitialized()
 	{
 		MenuButtons.Add(ExitButton);
 		ExitButton->OnClicked.AddDynamic(this, &UMainMenuWidget::OnExitClicked);
+	}
+
+	if (OptionPopUpWidgetClass)
+	{
+		OptionPopUpWidget = CreateWidget<UOptionPopUpWidget>(GetWorld(), OptionPopUpWidgetClass);
 	}
 }
 
