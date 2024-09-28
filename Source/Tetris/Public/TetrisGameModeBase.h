@@ -8,6 +8,7 @@
 
 struct FInputModeDataBase;
 class UAudioComponent;
+class USoundCue;
 
 /**
  * 
@@ -18,14 +19,19 @@ class TETRIS_API ATetrisGameModeBase : public AGameModeBase
 	GENERATED_BODY()
 
 public:
-	UAudioComponent* CreateAudioComponent(const FName& CuePath) const;
+	UAudioComponent* CreateAudioComponent(USoundCue* const SoundCue) const;
 
 protected:
+	/** AActor */
 	virtual void BeginPlay() override;
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+	/** ~AActor */
 
 	void InternalSetInputMode(const FInputModeDataBase& InputModeData);
 	virtual void Initialize();
-	virtual void InitializeDefaultEffect() {}
+	virtual void InitializeEffect();
+	virtual void Uninitialize();
+	virtual void UninitializeEffect();
 
 private:
 	// Declare PURE_VIRTUAL functions
@@ -36,6 +42,17 @@ public:
 	static constexpr int32 PlayerIndex = 0;
 
 protected:
+	/** Audio */
+	// Bgm
 	UPROPERTY()
-	TObjectPtr<UAudioComponent> BGMComponent;
+	TObjectPtr<UAudioComponent> BgmComponent;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Audio")
+	TObjectPtr<USoundCue> BgmCue;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Audio")
+	float BgmFadeInTime = 0.f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Audio")
+	float BgmFadeOutTime = 0.f;
 };

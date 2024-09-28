@@ -4,27 +4,23 @@
 #include "Kismet/GameplayStatics.h"
 #include "Components/AudioComponent.h"
 #include "Sound/SoundCue.h"
+#include "TetrisAudioManagerSubsystem.h"
 
-UAudioComponent* ATetrisGameModeBase::CreateAudioComponent(const FName& CuePath) const
+UAudioComponent* ATetrisGameModeBase::CreateAudioComponent(USoundCue* const SoundCue) const
 {
-	if (USoundCue* const SoundCue = LoadObject<USoundCue>(nullptr, *CuePath.ToString()))
+	if (SoundCue)
 	{
-		if (UAudioComponent* const AudioComponent = UGameplayStatics::SpawnSound2D(GetWorld(), SoundCue))
+		if (UAudioComponent* const AudioComponent = UGameplayStatics::CreateSound2D(GetWorld(), SoundCue))
 		{
 			return AudioComponent;
 		}
-		else
-		{
-			UE_LOG(LogTemp, Error, TEXT("ATetrisGameModeBase::CreateAudioComponent() - Failed to spawn AudioComponent"));
-		}
-	}
-	else
-	{
+
 		UE_LOG(LogTemp, Error, TEXT("ATetrisGameModeBase::CreateAudioComponent() - Failed to load SoundCue"));
+		return nullptr;
 	}
 
+	UE_LOG(LogTemp, Error, TEXT("ATetrisGameModeBase::CreateAudioComponent() - SoundCue is nullptr"));
 	return nullptr;
-
 }
 
 void ATetrisGameModeBase::BeginPlay()
@@ -32,6 +28,13 @@ void ATetrisGameModeBase::BeginPlay()
 	Super::BeginPlay();
 
 	Initialize();
+}
+
+void ATetrisGameModeBase::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	Uninitialize();
+
+	Super::EndPlay(EndPlayReason);
 }
 
 void ATetrisGameModeBase::InternalSetInputMode(const FInputModeDataBase& InputMode)
@@ -49,5 +52,38 @@ void ATetrisGameModeBase::InternalSetInputMode(const FInputModeDataBase& InputMo
 void ATetrisGameModeBase::Initialize()
 {
 	SetInputMode();
-	InitializeDefaultEffect();
+	InitializeEffect();
+}
+
+void ATetrisGameModeBase::InitializeEffect()
+{
+	if (UTetrisAudioManagerSubsystem* const AudioManager = GetGameInstance()->GetSubsystem<UTetrisAudioManagerSubsystem>())
+	{
+		BgmComponent = CreateAudioComponent(BgmCue);
+		if (BgmComponent)
+		{
+			BgmComponent->FadeIn(BgmFadeInTime);
+		}
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("ATetrisGameModeBase::InitializeEffect() - Failed to get AudioManager"));
+	}
+}
+
+void ATetrisGameModeBase::Uninitialize()
+{
+	UninitializeEffect();
+}
+
+void ATetrisGameModeBase::UninitializeEffect()
+{
+	if (BgmComponent)
+	{
+		BgmComponent->FadeOut(BgmFadeOutTime, 0.f /* FadeVolumeLevel */);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("ATetrisGameModeBase::UninitializeEffect() - Failed to get BgmComponent"));
+	}
 }

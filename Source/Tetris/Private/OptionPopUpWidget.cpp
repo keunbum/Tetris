@@ -2,42 +2,52 @@
 
 #include "OptionPopUpWidget.h"
 #include "Components/Slider.h"
-#include "TetrisAudioInstanceSubsystem.h"
+#include "TetrisAudioManagerSubsystem.h"
 
 
 void UOptionPopUpWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 
-	if (!AudioInstanceSubsystem)
+	if (!AudioManager)
 	{
 		// Get GameInstance Subsystem
-		AudioInstanceSubsystem = GetGameInstance()->GetSubsystem<UTetrisAudioInstanceSubsystem>();
+		AudioManager = GetGameInstance()->GetSubsystem<UTetrisAudioManagerSubsystem>();
 	}
 
-	if (BGMVolumeSlider)
+	if (BgmVolumeSlider)
 	{
-		if (!BGMVolumeSlider->OnValueChanged.IsBound())
+		if (!BgmVolumeSlider->OnValueChanged.IsBound())
 		{
-			BGMVolumeSlider->OnValueChanged.AddDynamic(this, &UOptionPopUpWidget::OnBGMVolumeChanged);
+			BgmVolumeSlider->OnValueChanged.AddDynamic(this, &UOptionPopUpWidget::OnBgmVolumeSliderValueChanged);
 		}
-		BGMVolumeSlider->SetValue(AudioInstanceSubsystem->GetBGMSoundClassVolume());
+		const float BgmVolume = AudioManager->GetBgmVolume();
+		BgmVolumeSlider->SetValue(BgmVolume);
 	}
 }
 
 void UOptionPopUpWidget::PrepareClose()
 {
 	Super::PrepareClose();
-}
 
-void UOptionPopUpWidget::OnBGMVolumeChanged(const float NewVolume)
-{
-	if (AudioInstanceSubsystem)
+	if (AudioManager)
 	{
-		AudioInstanceSubsystem->SetBGMSoundClassVolume(NewVolume);
+		AudioManager->SaveSettings();
 	}
 	else
 	{
-		UE_LOG(LogTemp, Error, TEXT("UOptionPopUpWidget::OnBGMVolumeChanged() - Failed to get AudioInstanceSubsystem"));
+		UE_LOG(LogTemp, Error, TEXT("UOptionPopUpWidget::PrepareClose() - Failed to get AudioManager"));
+	}
+}
+
+void UOptionPopUpWidget::OnBgmVolumeSliderValueChanged(const float NewVolume)
+{
+	if (AudioManager)
+	{
+		AudioManager->SetBgmVolume(NewVolume);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("UOptionPopUpWidget::OnBgmVolumeSliderValueChanged() - Failed to get AudioManager"));
 	}
 }

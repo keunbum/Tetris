@@ -4,7 +4,6 @@
 #include "MainMenuWidget.h"
 
 const FName AMainMenuGameMode::MainMenuLevelName(TEXT("MainMenuLevel"));
-const FName AMainMenuGameMode::BGMCuePath(TEXT("/Game/Audio/BGM/Whispers_of_the_Sea_Cue"));
 
 void AMainMenuGameMode::BeginPlay()
 {
@@ -36,10 +35,7 @@ void AMainMenuGameMode::SetInputMode()
 	InternalSetInputMode(InputMode);
 }
 
-void AMainMenuGameMode::InitializeDefaultEffect()
+void AMainMenuGameMode::InitializeEffect()
 {
-	Super::InitializeDefaultEffect();
-
-	// Init Default Audio
-	BGMComponent = CreateAudioComponent(BGMCuePath);
+	Super::InitializeEffect();
 }
