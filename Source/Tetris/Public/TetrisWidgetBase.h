@@ -9,7 +9,7 @@
 /**
  * 
  */
-UCLASS()
+UCLASS(Abstract)
 class TETRIS_API UTetrisWidgetBase : public UUserWidget
 {
 	GENERATED_BODY()
