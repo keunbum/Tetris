@@ -28,7 +28,7 @@ ATetrisPlayManager::ATetrisPlayManager()
 
 void ATetrisPlayManager::Initialize()
 {
-	UE_LOG(LogTemp, Display, TEXT("TetrisPlayManager is initialized."));
+	UE_LOG(LogTemp, Display, TEXT("TetrisPlayManager is initialized()"));
 
 	// World
 	UWorld* const World = GetWorld();
@@ -382,7 +382,7 @@ void ATetrisPlayManager::MoveTetriminoTo(const FVector2D& Direction)
 {
 	if (!TetriminoInPlay)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayManager::MoveTetriminoTo(): TetriminoInPlay is nullptr."));
+		UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayManager::MoveTetriminoTo() - TetriminoInPlay is nullptr."));
 		return;
 	}
 
