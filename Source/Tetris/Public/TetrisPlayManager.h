@@ -264,7 +264,6 @@ private:
 	FTimerHandle AutoRepeatMovementTimerHandle;
 	FTimerHandle NormalFallTimerHandle;
 	FTimerHandle SoftDropTimerHandle;
-	FTimerHandle HardDropTimerHandle;
 	FTimerHandle LockDownTimerHandle;
 	FTimerHandle PhaseChangeTimerHandle;
 };
