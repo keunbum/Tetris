@@ -205,13 +205,13 @@ void ATetrisPlayManager::HoldTetriminoInPlay()
 			if (bWasHoldQueueEmpty)
 			{
 				// 비어 있었다면 새로 꺼내고
-				RunGenerationPhase();
+				EnterPhase(EPhase::Generation);
 			}
 			else
 			{
 				// 비어 있지 않았다면 HoldQueue에 있던 테트리미노를 TetriminoInPlay로 설정한다
 				SetTetriminoInPlay(TetriminoInHoldQueue);
-				RunFallingPhase();
+				EnterPhase(EPhase::Falling);
 			}
 		}
 	}
