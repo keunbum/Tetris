@@ -377,10 +377,13 @@ void ATetrisPlayManager::MoveTetriminoTo(const FVector2D& Direction)
 		TetriminoInPlay->MoveBy(MovementIntPoint);
 	}
 
-	if (IsLockPhaseReached(Direction)
-		&& !GetWorldTimerManager().IsTimerActive(LockDownTimerHandle))
+	if (IsLockPhaseReached(Direction))
 	{
-		ChangePhase(EPhase::Lock);
+		const bool bIsLockDownTimerActive = GetWorldTimerManager().IsTimerActive(LockDownTimerHandle);
+		if (!bIsLockDownTimerActive)
+		{
+			ChangePhase(EPhase::Lock);
+		}
 	}
 }
 
