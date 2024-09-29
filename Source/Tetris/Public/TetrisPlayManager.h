@@ -132,6 +132,7 @@ private:
 
 	/** Logics */
 	void LockDown();
+	void ForceLockDown();
 	void HardDrop();
 	void RunSuperRotationSystem(const ETetriminoRotationDirection RotationDirection);
 	void CheckLineClearPattern(TArray<int32>& OutHitList);

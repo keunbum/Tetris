@@ -426,6 +426,12 @@ void ATetrisPlayManager::LockDown()
 	}
 }
 
+void ATetrisPlayManager::ForceLockDown()
+{
+	ClearTimer(LockDownTimerHandle);
+	LockDown();
+}
+
 void ATetrisPlayManager::HardDrop()
 {
 	// GhostPiece를 잠시 안보이게 한다.
@@ -434,7 +440,7 @@ void ATetrisPlayManager::HardDrop()
 		GhostPiece->SetActorHiddenInGame(true);
 	}
 	MoveTetriminoInPlayToFinalFallingLocation();
-	EnterPhase(EPhase::Lock);
+	ForceLockDown();
 }
 
 void ATetrisPlayManager::RunSuperRotationSystem(const ETetriminoRotationDirection RotationDirection)
