@@ -314,6 +314,10 @@ void ATetrisPlayManager::RunLockPhase()
 {
 	//UE_LOG(LogTemp, Display, TEXT("Start Lock Phase."));
 
+	const int32 CurrentLowestRow = TetriminoInPlay->GetLowestRow();
+	const FLockDownSystemInfo LockDownSystemInfo(CurrentLowestRow);
+	RunLockDownSystem(LockDownSystemInfo);
+
 	SetLockDownTimer();
 }
 
@@ -387,8 +391,7 @@ void ATetrisPlayManager::MoveTetriminoTo(const FVector2D& Direction)
 	if (bIsMovementPossible)
 	{
 		TetriminoInPlay->MoveBy(MovementIntPoint);
-		const FLockDownSystemInfo LockDownSystemInfo(TetriminoInPlay->GetLowestRow());
-		RunLockDownSystem(LockDownSystemInfo);
+		EnterLockPhaseIfNecessary();
 	}
 }
 
@@ -471,8 +474,7 @@ void ATetrisPlayManager::RunSuperRotationSystem(const ETetriminoRotationDirectio
 				TetriminoInPlay->RotateTo(RotationDirection);
 				TetriminoInPlay->MoveBy(SRSRotationPointOffset);
 				//UE_LOG(LogTemp, Display, TEXT("%Rotation with Point%d."), PointIndex + 1);
-				const FLockDownSystemInfo LockDownSystemInfo(TetriminoInPlay->GetLowestRow());
-				RunLockDownSystem(LockDownSystemInfo);
+				EnterLockPhaseIfNecessary();
 				return;
 			}
 		}
@@ -498,10 +500,14 @@ void ATetrisPlayManager::CheckLineClearPattern(TArray<int32>& OutHitList)
 	}
 }
 
+void ATetrisPlayManager::SetLockDownSystem(const FLockDownSystemInfo& Info)
+{
+	ExtendedPlacement.SetLockDownSystem(Info);
+}
+
 void ATetrisPlayManager::RunLockDownSystem(const FLockDownSystemInfo& Info)
 {
 	ExtendedPlacement.RunLockDownSystem(Info);
-	EnterLockPhaseIfNecessary();
 }
 
 void ATetrisPlayManager::EnterLockPhaseIfNecessary()

@@ -50,20 +50,20 @@ public:
 	{
 	}
 
+	void SetLockDownSystem(const FLockDownSystemInfo& Info)
+	{
+		Reset();
+		Update(Info.CurrentLowestRow);
+	}
+
 	void RunLockDownSystem(const FLockDownSystemInfo& Info)
 	{
-		Update(Info.CurrentLowestRow);
 		//Decrease();
 	}
 
 	bool IsForcedLockDownReached() const
 	{
 		return RemainingActionCount == 0;
-	}
-
-	void Reset()
-	{
-		RemainingActionCount = DefaultActionCount;
 	}
 
 private:
@@ -76,6 +76,11 @@ private:
 	void Update(const int32 CurrentLowestRow)
 	{
 		LowestRow = FMath::Min(LowestRow, CurrentLowestRow);
+	}
+
+	void Reset()
+	{
+		RemainingActionCount = DefaultActionCount;
 	}
 
 private:
@@ -150,6 +155,7 @@ private:
 	void HardDrop();
 	void RunSuperRotationSystem(const ETetriminoRotationDirection RotationDirection);
 	void CheckLineClearPattern(TArray<int32>& OutHitList);
+	void SetLockDownSystem(const FLockDownSystemInfo& Info);
 	void RunLockDownSystem(const FLockDownSystemInfo& Info);
 	void EnterLockPhaseIfNecessary();
 
