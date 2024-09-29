@@ -72,6 +72,8 @@ void ATetrisPlayManager::Initialize()
 
 	// Etc
 	SetTetriminoMovementDirection(FVector2D::ZeroVector);
+
+	ClearAllTimers();
 }
 
 void ATetrisPlayManager::EnterPhase(const EPhase NewPhase)
@@ -118,12 +120,6 @@ void ATetrisPlayManager::EnterPhaseWithDelay(const EPhase NewPhase, const float 
 
 void ATetrisPlayManager::StartMovement(const FVector2D& InMovementDirection)
 {
-	if (!bIsTetriminoInPlayManipulable)
-	{
-		UE_LOG(LogTemp, Display, TEXT("Tetrimino is not manipulable."));
-		return;
-	}
-
 	SetTetriminoMovementDirection(InMovementDirection);
 	MoveTetrimino();
 	SetAutoRepeatMovementTimer();
@@ -131,36 +127,22 @@ void ATetrisPlayManager::StartMovement(const FVector2D& InMovementDirection)
 
 void ATetrisPlayManager::EndMovement()
 {
-	if (TetriminoInPlay)
-	{
-		ClearTimer(AutoRepeatMovementTimerHandle);
-		SetTetriminoMovementDirection(FVector2D::ZeroVector);
-	}
+	ClearTimer(AutoRepeatMovementTimerHandle);
+	SetTetriminoMovementDirection(FVector2D::ZeroVector);
 }
 
 void ATetrisPlayManager::StartSoftDrop()
 {
-	if (!bIsTetriminoInPlayManipulable)
-	{
-		UE_LOG(LogTemp, Display, TEXT("Tetrimino is not manipulable."));
-		return;
-	}
-
 	// NormalFall 일시 중지
 	ClearTimer(NormalFallTimerHandle);
-
 	SetSoftDropTimer();
 }
 
 void ATetrisPlayManager::EndSoftDrop()
 {
-	if (TetriminoInPlay)
-	{
-		ClearTimer(SoftDropTimerHandle);
-
-		// NormalFall 재개
-		SetNormalFallTimer();
-	}
+	ClearTimer(SoftDropTimerHandle);
+	// NormalFall 재개
+	SetNormalFallTimer();
 }
 
 void ATetrisPlayManager::DoHardDrop()
@@ -372,8 +354,10 @@ void ATetrisPlayManager::RunCompletionPhase()
 		GameMode->UpdateGamePlay(GamePlayInfo);
 	}
 
-	/** Reset Variables */
+	/** Reset */
 	GamePlayInfo.Reset();
+	check(!IsTimerActive(LockDownTimerHandle));
+	ClearTimers({ &NormalFallTimerHandle, &PhaseChangeTimerHandle });
 
 	EnterPhaseWithDelay(EPhase::Generation, GenerationPhaseChangeInitialDelay);
 }
@@ -386,12 +370,23 @@ void ATetrisPlayManager::MoveTetriminoTo(const FVector2D& Direction)
 		return;
 	}
 
+	if (!bIsTetriminoInPlayManipulable)
+	{
+		UE_LOG(LogTemp, Display, TEXT("ATetrisPlayManager::MoveTetriminoTo() - Tetrimino is not manipulable."));
+		return;
+
+	}
+
 	const FIntPoint MovementIntPoint = ATetriminoBase::GetMatrixMovementIntPointByDirection(Direction);
 	const bool bIsMovementPossible = Board->IsMovementPossible(TetriminoInPlay, MovementIntPoint);
 	if (bIsMovementPossible)
 	{
 		TetriminoInPlay->MoveBy(MovementIntPoint);
 		EnterLockPhaseIfNecessary();
+	}
+	else
+	{
+		UE_LOG(LogTemp, Display, TEXT("ATetrisPlayManager::MoveTetriminoTo() - Movement is not possible."));
 	}
 }
 
@@ -440,6 +435,8 @@ void ATetrisPlayManager::LockDown()
 	}
 
 	bIsTetriminoInPlayLockedDownFromLastHold = true;
+
+	check(!IsTimerActive(LockDownTimerHandle));
 
 	EnterPhase(EPhase::Pattern);
 }
@@ -553,8 +550,10 @@ void ATetrisPlayManager::SetAutoRepeatMovementTimer()
 
 void ATetrisPlayManager::SetSoftDropTimer()
 {
+	check(!IsTimerActive(SoftDropTimerHandle));
 	const float SoftDropSpeed = ATetrisInGameGameMode::GetSoftDropSpeed(NormalFallSpeed);
 	GetWorldTimerManager().SetTimer(SoftDropTimerHandle, this, &ATetrisPlayManager::MoveTetriminoDown, SoftDropSpeed, bSoftDropTimerLoop, SoftDropTimerInitialDelay);
+	//UE_LOG(LogTemp, Display, TEXT("Soft Drop Timer is set."));
 }
 
 void ATetrisPlayManager::SetNormalFallTimer()
@@ -570,11 +569,19 @@ void ATetrisPlayManager::SetNormalFallTimer()
 void ATetrisPlayManager::SetLockDownTimer()
 {
 	GetWorldTimerManager().SetTimer(LockDownTimerHandle, this, &ATetrisPlayManager::LockDown, LockDownTimerInitialDelay, bIsLockDownTimerLoop);
+	//UE_LOG(LogTemp, Display, TEXT("Lock Down Timer is set."));
 }
 
 void ATetrisPlayManager::ClearTimer(FTimerHandle& InOutTimerHandle)
 {
 	GetWorldTimerManager().ClearTimer(InOutTimerHandle);
+}
+
+void ATetrisPlayManager::ClearTimerWithPrefix(const FString& Prefix, FTimerHandle& InOutTimerHandle)
+{
+	const FString TimerIsActive = IsTimerActive(InOutTimerHandle) ? TEXT("o") : TEXT("x");
+	UE_LOG(LogTemp, Display, TEXT("Before ClearTimer(): %s Timer is %s."), *Prefix, *TimerIsActive);
+	ClearTimer(InOutTimerHandle);
 }
 
 void ATetrisPlayManager::ClearTimers(const TArray<FTimerHandle*>& TimerHandles)
@@ -599,6 +606,17 @@ void ATetrisPlayManager::ClearAllTimers()
 		&PhaseChangeTimerHandle,
 	};
 	ClearTimers(TimerHandles);
+
+	//ClearTimerWithPrefix(TEXT("Auto Repeat Movement"), AutoRepeatMovementTimerHandle);
+	//ClearTimerWithPrefix(TEXT("Soft Drop"), SoftDropTimerHandle);
+	//ClearTimerWithPrefix(TEXT("Normal Fall"), NormalFallTimerHandle);
+	//ClearTimerWithPrefix(TEXT("Lock Down"), LockDownTimerHandle);
+	//ClearTimerWithPrefix(TEXT("Phase Change"), PhaseChangeTimerHandle);
+}
+
+bool ATetrisPlayManager::IsTimerActive(const FTimerHandle& TimerHandle) const
+{
+	return GetWorldTimerManager().IsTimerActive(TimerHandle);
 }
 
 void ATetrisPlayManager::SetTetriminoInPlay(ATetrimino* const InTetriminoInPlay)
@@ -612,7 +630,6 @@ void ATetrisPlayManager::SetTetriminoInPlay(ATetrimino* const InTetriminoInPlay)
 	{
 		TetriminoInPlay->SetGhostPiece(nullptr);
 		TetriminoInPlay->SetBoard(nullptr);
-		ClearAllTimers();
 	}
 	TetriminoInPlay = InTetriminoInPlay;
 }

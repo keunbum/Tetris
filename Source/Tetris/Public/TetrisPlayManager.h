@@ -171,9 +171,11 @@ private:
 	void SetLockDownTimer();
 
 	void ClearTimer(FTimerHandle& InOutTimerHandle);
+	void ClearTimerWithPrefix(const FString& Prefix, FTimerHandle& InOutTimerHandle);
 	void ClearTimers(const TArray<FTimerHandle*>& TimerHandles);
 	void ClearAllTimers();
 
+	bool IsTimerActive(const FTimerHandle& TimerHandle) const;
 
 	/** Basic Member Variable Accessors */
 	void SetTetriminoMovementDirection(const FVector2D& NewTetriminoMovementDirection) { TetriminoMovementDirection = NewTetriminoMovementDirection; }
