@@ -45,7 +45,7 @@ void ATetrimino::SetBoard(ABoard* const InBoard)
 	}
 }
 
-int32 ATetrimino::GetLowestMinoX() const
+int32 ATetrimino::GetLowestMinoRow() const
 {
 	const TArray<FIntPoint>& MinoLocalLocations = GetMinoTetriminoLocalLocations();
 	// X 값이 클수록 미노가 더 아래에 위치함.

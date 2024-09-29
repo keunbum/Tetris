@@ -25,7 +25,7 @@ public:
 
 	void SetGhostPiece(AGhostPiece* const InGhostPiece);
 	void SetBoard(ABoard* const InBoard);
-	int32 GetLowestMinoX() const;
+	int32 GetLowestMinoRow() const;
 
 	void MoveBy(const FIntPoint& IntVector2D);
 	void RotateTo(const ETetriminoRotationDirection RotationDirection);
