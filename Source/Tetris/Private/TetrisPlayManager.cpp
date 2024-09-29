@@ -75,7 +75,7 @@ void ATetrisPlayManager::Initialize()
 	SetTetriminoMovementDirection(FVector2D::ZeroVector);
 }
 
-void ATetrisPlayManager::ChangePhase(const EPhase NewPhase)
+void ATetrisPlayManager::EnterPhase(const EPhase NewPhase)
 {
 	Phase = NewPhase;
 
@@ -110,10 +110,10 @@ void ATetrisPlayManager::ChangePhase(const EPhase NewPhase)
 	}
 }
 
-void ATetrisPlayManager::ChangePhaseWithDelay(const EPhase NewPhase, const float Delay)
+void ATetrisPlayManager::EnterPhaseWithDelay(const EPhase NewPhase, const float Delay)
 {
 	FTimerDelegate TimerDelegate;
-	TimerDelegate.BindUObject(this, &ATetrisPlayManager::ChangePhase, NewPhase);
+	TimerDelegate.BindUObject(this, &ATetrisPlayManager::EnterPhase, NewPhase);
 	GetWorldTimerManager().SetTimer(PhaseChangeTimerHandle, TimerDelegate, Delay, bIsPhaseChangeTimerLoop);
 }
 
@@ -282,7 +282,7 @@ void ATetrisPlayManager::RunGenerationPhase()
 	// TetriminoInPlay drops one row if no existing Block is in its path.
 	MoveTetriminoDown();
 
-	ChangePhase(EPhase::Falling);
+	EnterPhase(EPhase::Falling);
 }
 
 void ATetrisPlayManager::RunFallingPhase()
@@ -308,7 +308,7 @@ void ATetrisPlayManager::RunPatternPhase()
 	CheckLineClearPattern(GamePlayInfo.HitList);
 
 	/** Phase Transition*/
-	ChangePhase(EPhase::Iterate);
+	EnterPhase(EPhase::Iterate);
 }
 
 void ATetrisPlayManager::RunIteratePhase()
@@ -318,7 +318,7 @@ void ATetrisPlayManager::RunIteratePhase()
 	/** Main Logic */
 
 	/** Phase Transition*/
-	ChangePhase(EPhase::Animate);
+	EnterPhase(EPhase::Animate);
 }
 
 void ATetrisPlayManager::RunAnimatePhase()
@@ -328,7 +328,7 @@ void ATetrisPlayManager::RunAnimatePhase()
 	/** Main Logic */
 
 	/** Phase Transition*/
-	ChangePhase(EPhase::Elimate);
+	EnterPhase(EPhase::Elimate);
 }
 
 void ATetrisPlayManager::RunEliminatePhase()
@@ -342,7 +342,7 @@ void ATetrisPlayManager::RunEliminatePhase()
 	}
 
 	/** Phase Transition*/
-	ChangePhase(EPhase::Completion);
+	EnterPhase(EPhase::Completion);
 }
 
 void ATetrisPlayManager::RunCompletionPhase()
@@ -359,7 +359,7 @@ void ATetrisPlayManager::RunCompletionPhase()
 	GamePlayInfo.Reset();
 
 	/** Phase Transition*/
-	ChangePhaseWithDelay(EPhase::Generation, GenerationPhaseChangeInitialDelay);
+	EnterPhaseWithDelay(EPhase::Generation, GenerationPhaseChangeInitialDelay);
 }
 
 void ATetrisPlayManager::MoveTetriminoTo(const FVector2D& Direction)
@@ -382,7 +382,7 @@ void ATetrisPlayManager::MoveTetriminoTo(const FVector2D& Direction)
 		const bool bIsLockDownTimerActive = GetWorldTimerManager().IsTimerActive(LockDownTimerHandle);
 		if (!bIsLockDownTimerActive)
 		{
-			ChangePhase(EPhase::Lock);
+			EnterPhase(EPhase::Lock);
 		}
 	}
 }
@@ -430,7 +430,7 @@ void ATetrisPlayManager::LockDown()
 		bIsTetriminoInPlayLockedDownFromLastHold = true;
 
 		// Switch to Pattern Phase.
-		ChangePhase(EPhase::Pattern);
+		EnterPhase(EPhase::Pattern);
 	}
 }
 
@@ -442,7 +442,7 @@ void ATetrisPlayManager::HardDrop()
 		GhostPiece->SetActorHiddenInGame(true);
 	}
 	MoveTetriminoInPlayToFinalFallingLocation();
-	ChangePhase(EPhase::Lock);
+	EnterPhase(EPhase::Lock);
 }
 
 void ATetrisPlayManager::RunSuperRotationSystem(const ETetriminoRotationDirection RotationDirection)

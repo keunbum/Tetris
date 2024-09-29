@@ -97,8 +97,8 @@ public:
 	void SetNormalFallSpeed(const float NewNormalFallSpeed) { NormalFallSpeed = NewNormalFallSpeed; }
 
 	/** Logic */
-	void ChangePhase(const EPhase NewPhase);
-	void ChangePhaseWithDelay(const EPhase NewPhase, const float Delay);
+	void EnterPhase(const EPhase NewPhase);
+	void EnterPhaseWithDelay(const EPhase NewPhase, const float Delay);
 
 	/** Event Handlers */
 	void StartMovement(const FVector2D& InMovementDirection);
