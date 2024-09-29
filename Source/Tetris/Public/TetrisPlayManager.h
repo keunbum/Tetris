@@ -7,13 +7,13 @@
 
 #include "TetriminoBase.h"
 #include "TetrisInGameGameMode.h"
+#include "Board.h"
 
 #include "TetrisPlayManager.generated.h"
 
 class ATetrisInGameGameMode;
 class ATetrimino;
 class AGhostPiece;
-class ABoard;
 class ATetriminoQueue;
 class UTetriminoGenerator;
 
@@ -37,6 +37,44 @@ enum class EPhase : uint8
 	Animate,
 	Elimate,
 	Completion,
+};
+
+class FExtendedPlacement
+{
+public:
+	FExtendedPlacement()
+		: ExtendedPlacementCount(MaxExtendedPlacementCount)
+		, LowestRow(DefaultLowestRow)
+	{
+	}
+
+	void Reset()
+	{
+		ExtendedPlacementCount = MaxExtendedPlacementCount;
+	}
+
+	void Update(const int32 CurrentRow)
+	{
+		LowestRow = FMath::Min(LowestRow, CurrentRow);
+	}
+
+	bool IsForcedLockDownReached() const
+	{
+		return ExtendedPlacementCount == 0;
+	}
+
+private:
+	void Decrease()
+	{
+		ExtendedPlacementCount = FMath::Max(ExtendedPlacementCount - 1, 0);
+	}
+
+private:
+	static constexpr int32 MaxExtendedPlacementCount = 15;
+	static constexpr int32 DefaultLowestRow = ABoard::SkyLine - 1;
+
+	int32 ExtendedPlacementCount;
+	int32 LowestRow;
 };
 
 /**
