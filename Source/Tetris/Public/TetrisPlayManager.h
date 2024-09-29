@@ -206,20 +206,23 @@ private:
 	UPROPERTY()
 	TObjectPtr<ATetrisInGameGameMode> GameMode;
 
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, Category = "Classes")
 	TSubclassOf<ATetrimino> TetriminoClass;
 
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<ATetrimino> TetriminoInPlay;
 
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, Category = "Classes")
+	TSubclassOf<ABoard> BoardClass;
+
+	UPROPERTY()
+	TObjectPtr<ABoard> Board;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Classes")
 	TSubclassOf<AGhostPiece> GhostPieceClass;
 
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<AGhostPiece> GhostPiece;
-
-	UPROPERTY()
-	TObjectPtr<ABoard> Board;
 
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<ATetriminoQueue> NextQueue;

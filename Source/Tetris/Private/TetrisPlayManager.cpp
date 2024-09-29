@@ -41,16 +41,29 @@ void ATetrisPlayManager::Initialize()
 
 	// GameMode
 	GameMode = World->GetAuthGameMode<ATetrisInGameGameMode>();
-
-	// Set Basic members
-	SetNormalFallSpeed(GameMode->GetCurrentLevelNormalFallSpeed());
-	SetTetriminoMovementDirection(FVector2D::ZeroVector);
+	if (GameMode)
+	{
+		SetNormalFallSpeed(GameMode->GetCurrentLevelNormalFallSpeed());
+	}
 
 	// Board
-	Board = World->SpawnActor<ABoard>();
-	if (Board)
+	if (BoardClass)
 	{
-		Board->Initialize();
+		Board = World->SpawnActor<ABoard>(BoardClass);
+		if (Board)
+		{
+			Board->Initialize();
+
+			// GhostPiece
+			if (GhostPieceClass)
+			{
+				GhostPiece = World->SpawnActor<AGhostPiece>(GhostPieceClass);
+				if (GhostPiece)
+				{
+					GhostPiece->AttachToMatrix(Board->GetMatrixRoot());
+				}
+			}
+		}
 	}
 
 	// TetriminoGenerator
@@ -64,12 +77,8 @@ void ATetrisPlayManager::Initialize()
 	HoldQueue = World->SpawnActor<ATetriminoQueue>(ATetriminoQueue::StaticClass());
 	InitializeHoldQueue();
 
-	// GhostPiece
-	GhostPiece = World->SpawnActor<AGhostPiece>(GhostPieceClass);
-	if (GhostPiece)
-	{
-		GhostPiece->AttachToMatrix(Board->GetMatrixRoot());
-	}
+	// Etc
+	SetTetriminoMovementDirection(FVector2D::ZeroVector);
 }
 
 void ATetrisPlayManager::ChangePhase(const EPhase NewPhase)
