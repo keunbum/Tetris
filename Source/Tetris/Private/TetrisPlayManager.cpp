@@ -14,7 +14,6 @@
 
 ATetrisPlayManager::ATetrisPlayManager()
 	: Phase(EPhase::None)
-	, LockDownOption(ELockDownOption::ExtendedPlacement)
 	, bIsTetriminoInPlayManipulable(false)
 	, bIsGhostPieceOn(true)
 	, bIsTetriminoInPlayLockedDownFromLastHold(false)
@@ -370,7 +369,8 @@ void ATetrisPlayManager::MoveTetriminoTo(const FVector2D& Direction)
 	if (bIsMovementPossible)
 	{
 		TetriminoInPlay->MoveBy(MovementIntPoint);
-		EnterLockPhaseIfNecessary();
+		const FLockDownSystemInfo LockDownSystemInfo(TetriminoInPlay->GetLowestRow());
+		RunLockDownSystem(LockDownSystemInfo);
 	}
 }
 
@@ -452,8 +452,9 @@ void ATetrisPlayManager::RunSuperRotationSystem(const ETetriminoRotationDirectio
 			{
 				TetriminoInPlay->RotateTo(RotationDirection);
 				TetriminoInPlay->MoveBy(SRSRotationPointOffset);
-				EnterLockPhaseIfNecessary();
 				//UE_LOG(LogTemp, Display, TEXT("%Rotation with Point%d."), PointIndex + 1);
+				const FLockDownSystemInfo LockDownSystemInfo(TetriminoInPlay->GetLowestRow());
+				RunLockDownSystem(LockDownSystemInfo);
 				return;
 			}
 		}
@@ -477,6 +478,12 @@ void ATetrisPlayManager::CheckLineClearPattern(TArray<int32>& OutHitList)
 			}
 		}
 	}
+}
+
+void ATetrisPlayManager::RunLockDownSystem(const FLockDownSystemInfo& Info)
+{
+	ExtendedPlacement.RunLockDownSystem(Info);
+	EnterLockPhaseIfNecessary();
 }
 
 void ATetrisPlayManager::EnterLockPhaseIfNecessary()

@@ -18,14 +18,6 @@ class ATetriminoQueue;
 class UTetriminoGenerator;
 
 UENUM()
-enum class ELockDownOption : uint8
-{
-	ExtendedPlacement,
-	InfinitePlacement,
-	Classic,
-};
-
-UENUM()
 enum class EPhase : uint8
 {
 	None,
@@ -39,41 +31,59 @@ enum class EPhase : uint8
 	Completion,
 };
 
+struct FLockDownSystemInfo
+{
+	int32 CurrentLowestRow;
+
+	FLockDownSystemInfo(const int32 InCurrentLowestRow)
+		: CurrentLowestRow(InCurrentLowestRow)
+	{
+	}
+};
+
 class FExtendedPlacement
 {
 public:
 	FExtendedPlacement()
-		: ExtendedPlacementCount(MaxExtendedPlacementCount)
+		: RemainingActionCount(DefaultActionCount)
 		, LowestRow(DefaultLowestRow)
 	{
 	}
 
-	void Reset()
+	void RunLockDownSystem(const FLockDownSystemInfo& Info)
 	{
-		ExtendedPlacementCount = MaxExtendedPlacementCount;
-	}
-
-	void Update(const int32 CurrentRow)
-	{
-		LowestRow = FMath::Min(LowestRow, CurrentRow);
+		Update(Info.CurrentLowestRow);
+		//Decrease();
 	}
 
 	bool IsForcedLockDownReached() const
 	{
-		return ExtendedPlacementCount == 0;
+		return RemainingActionCount == 0;
+	}
+
+	void Reset()
+	{
+		RemainingActionCount = DefaultActionCount;
 	}
 
 private:
 	void Decrease()
 	{
-		ExtendedPlacementCount = FMath::Max(ExtendedPlacementCount - 1, 0);
+		RemainingActionCount = FMath::Max(RemainingActionCount - 1, 0);
+	}
+
+	void Update(const int32 CurrentLowestRow)
+	{
+		LowestRow = FMath::Min(LowestRow, CurrentLowestRow);
 	}
 
 private:
-	static constexpr int32 MaxExtendedPlacementCount = 15;
+	static constexpr int32 DefaultActionCount = 15;
 	static constexpr int32 DefaultLowestRow = ABoard::SkyLine - 1;
 
-	int32 ExtendedPlacementCount;
+	// The number of actions remaining before the forced lock down is reached.
+	// The Actions: Left/Right Movement or Rotation
+	int32 RemainingActionCount;
 	int32 LowestRow;
 };
 
@@ -136,6 +146,7 @@ private:
 	void HardDrop();
 	void RunSuperRotationSystem(const ETetriminoRotationDirection RotationDirection);
 	void CheckLineClearPattern(TArray<int32>& OutHitList);
+	void RunLockDownSystem(const FLockDownSystemInfo& Info);
 	void EnterLockPhaseIfNecessary();
 
 	bool IsHoldingTetriminoInPlayAvailable() const;
@@ -190,9 +201,6 @@ private:
 private:
 	UPROPERTY(VisibleAnywhere)
 	EPhase Phase;
-
-	UPROPERTY()
-	ELockDownOption LockDownOption;
 
 	UPROPERTY(VisibleAnywhere)
 	bool bIsTetriminoInPlayManipulable;
