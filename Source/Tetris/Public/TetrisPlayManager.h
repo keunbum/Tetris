@@ -166,7 +166,8 @@ private:
 
 	void ClearTimer(FTimerHandle& InOutTimerHandle);
 	void ClearTimers(const TArray<FTimerHandle*>& TimerHandles);
-	void ClearTetriminoInPlayLogicTimers();
+	void ClearAllTimers();
+
 
 	/** Basic Member Variable Accessors */
 	void SetTetriminoMovementDirection(const FVector2D& NewTetriminoMovementDirection) { TetriminoMovementDirection = NewTetriminoMovementDirection; }

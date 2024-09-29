@@ -582,16 +582,17 @@ void ATetrisPlayManager::ClearTimers(const TArray<FTimerHandle*>& TimerHandles)
 	}
 }
 
-void ATetrisPlayManager::ClearTetriminoInPlayLogicTimers()
+void ATetrisPlayManager::ClearAllTimers()
 {
-	static const TArray<FTimerHandle*> TimerHandlesToClear =
+	const TArray<FTimerHandle*> TimerHandles =
 	{
 		&AutoRepeatMovementTimerHandle,
-		&NormalFallTimerHandle,
 		&SoftDropTimerHandle,
-		&HardDropTimerHandle,
+		&NormalFallTimerHandle,
+		&LockDownTimerHandle,
+		& PhaseChangeTimerHandle,
 	};
-	ClearTimers(TimerHandlesToClear);
+	ClearTimers(TimerHandles);
 }
 
 void ATetrisPlayManager::SetTetriminoInPlay(ATetrimino* const InTetriminoInPlay)
@@ -605,7 +606,7 @@ void ATetrisPlayManager::SetTetriminoInPlay(ATetrimino* const InTetriminoInPlay)
 	{
 		TetriminoInPlay->SetGhostPiece(nullptr);
 		TetriminoInPlay->SetBoard(nullptr);
-		ClearTetriminoInPlayLogicTimers();
+		ClearAllTimers();
 	}
 	TetriminoInPlay = InTetriminoInPlay;
 }
