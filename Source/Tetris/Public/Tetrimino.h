@@ -43,7 +43,7 @@ private:
 
 private:
 	UPROPERTY(VisibleAnywhere)
-	TObjectPtr<ATetriminoBase> GhostPiece;
+	TObjectPtr<AGhostPiece> GhostPiece;
 
 	UPROPERTY()
 	TObjectPtr<ABoard> Board;
