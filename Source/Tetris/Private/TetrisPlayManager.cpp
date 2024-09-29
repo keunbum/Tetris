@@ -297,6 +297,7 @@ void ATetrisPlayManager::RunGenerationPhase()
 	}
 
 	// TetriminoInPlay drops one row if no existing Block is in its path.
+	bIsTetriminoInPlayManipulable = true;
 	MoveTetriminoDown();
 
 	EnterPhase(EPhase::Falling);
@@ -305,7 +306,6 @@ void ATetrisPlayManager::RunGenerationPhase()
 void ATetrisPlayManager::RunFallingPhase()
 {
 	//UE_LOG(LogTemp, Display, TEXT("Start Falling Phase."));
-	bIsTetriminoInPlayManipulable = true;
 
 	SetNormalFallTimer();
 }
