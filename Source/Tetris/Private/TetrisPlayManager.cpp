@@ -362,20 +362,17 @@ void ATetrisPlayManager::MoveTetriminoTo(const FVector2D& Direction)
 		return;
 	}
 
-	if (TetriminoInPlay)
+	const FIntPoint MovementIntPoint = ATetriminoBase::GetMatrixMovementIntPointByDirection(Direction);
+	const bool bIsMovementPossible = Board->IsMovementPossible(TetriminoInPlay, MovementIntPoint);
+	if (bIsMovementPossible)
 	{
-		const FIntPoint MovementIntPoint = ATetriminoBase::GetMatrixMovementIntPointByDirection(Direction);
-		const bool bIsMovementPossible = Board->IsMovementPossible(TetriminoInPlay, MovementIntPoint);
-		if (bIsMovementPossible)
-		{
-			TetriminoInPlay->MoveBy(MovementIntPoint);
-		}
+		TetriminoInPlay->MoveBy(MovementIntPoint);
+	}
 
-		if (IsLockPhaseReached(Direction))
-		{
-			//UE_LOG(LogTemp, Display, TEXT("Movement is impossible."));
-			ChangePhaseWithDelay(EPhase::Lock, LockPhaseChangeInitialDelayOfNormalFallOrSoftDrop);
-		}
+	if (IsLockPhaseReached(Direction))
+	{
+		//UE_LOG(LogTemp, Display, TEXT("Movement is impossible."));
+		ChangePhaseWithDelay(EPhase::Lock, LockPhaseChangeInitialDelayOfNormalFallOrSoftDrop);
 	}
 }
 
