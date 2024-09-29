@@ -391,39 +391,42 @@ void ATetrisPlayManager::MoveTetriminoDown()
 
 void ATetrisPlayManager::LockDown()
 {
+	if (!Board || !GameMode || !TetriminoInPlay)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Some of the necessary components are nullptr."));
+		return;
+	}
+
 	bIsTetriminoInPlayManipulable = false;
 
-	if (Board && GameMode && TetriminoInPlay)
+	PlayLockDownEffect(TetriminoInPlay->GetMinoArray());
+
+	// Game Over Condition
+	// Lock Out Condition occurs when a Tetrimino Locks Down completely above the Skyline.
+	const bool bIsLockOutCondition = Board->IsAboveSkyline(TetriminoInPlay);
+	if (bIsLockOutCondition)
 	{
-		PlayLockDownEffect(TetriminoInPlay->GetMinoArray());
-
-		// Game Over Condition
-		// Lock Out Condition occurs when a Tetrimino Locks Down completely above the Skyline.
-		const bool bIsLockOutCondition = Board->IsAboveSkyline(TetriminoInPlay);
-		if (bIsLockOutCondition)
-		{
-			UE_LOG(LogTemp, Warning, TEXT("Lock Out Condition -> Game Over"));
-			GameMode->RunGameOver();
-			return;
-		}
-
-		// Transfer of TetriminoInPlay's Minos to Board
-		TetriminoInPlay->DetachMinos();
-		Board->AddMinos(TetriminoInPlay);
-
-		// Remove TetriminoInPlay
-		ATetrimino* const OldTetriminoInPlay = TetriminoInPlay;
-		SetTetriminoInPlay(nullptr);
-		if (OldTetriminoInPlay)
-		{
-			OldTetriminoInPlay->Destroy();
-		}
-
-		bIsTetriminoInPlayLockedDownFromLastHold = true;
-
-		// Switch to Pattern Phase.
-		EnterPhase(EPhase::Pattern);
+		UE_LOG(LogTemp, Warning, TEXT("Lock Out Condition -> Game Over"));
+		GameMode->RunGameOver();
+		return;
 	}
+
+	// Transfer of TetriminoInPlay's Minos to Board
+	TetriminoInPlay->DetachMinos();
+	Board->AddMinos(TetriminoInPlay);
+
+	// Remove TetriminoInPlay
+	ATetrimino* const OldTetriminoInPlay = TetriminoInPlay;
+	SetTetriminoInPlay(nullptr);
+	if (OldTetriminoInPlay)
+	{
+		OldTetriminoInPlay->Destroy();
+	}
+
+	bIsTetriminoInPlayLockedDownFromLastHold = true;
+
+	// Switch to Pattern Phase.
+	EnterPhase(EPhase::Pattern);
 }
 
 void ATetrisPlayManager::ForceLockDown()
