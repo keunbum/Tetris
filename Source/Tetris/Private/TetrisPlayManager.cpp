@@ -33,6 +33,11 @@ void ATetrisPlayManager::Initialize()
 
 	// World
 	UWorld* const World = GetWorld();
+	if (!World)
+	{
+		UE_LOG(LogTemp, Error, TEXT("World is nullptr."));
+		return;
+	}
 
 	// GameMode
 	GameMode = World->GetAuthGameMode<ATetrisInGameGameMode>();
