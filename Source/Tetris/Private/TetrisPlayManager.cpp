@@ -596,7 +596,7 @@ void ATetrisPlayManager::ClearAllTimers()
 		&SoftDropTimerHandle,
 		&NormalFallTimerHandle,
 		&LockDownTimerHandle,
-		& PhaseChangeTimerHandle,
+		&PhaseChangeTimerHandle,
 	};
 	ClearTimers(TimerHandles);
 }
