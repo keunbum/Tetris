@@ -102,7 +102,6 @@ private:
 
 	/** Main Logic */
 	void LockDown();
-	void ForcedLockDown();
 
 	/** Sub Logic */
 	void CheckLineClearPattern(TArray<int32>& OutHitList);
