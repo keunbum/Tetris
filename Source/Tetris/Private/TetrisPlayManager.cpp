@@ -47,22 +47,16 @@ void ATetrisPlayManager::Initialize()
 	}
 
 	// Board
-	if (BoardClass)
+	Board = World->SpawnActor<ABoard>(BoardClass);
+	if (Board)
 	{
-		Board = World->SpawnActor<ABoard>(BoardClass);
-		if (Board)
-		{
-			Board->Initialize();
+		Board->Initialize();
 
-			// GhostPiece
-			if (GhostPieceClass)
-			{
-				GhostPiece = World->SpawnActor<AGhostPiece>(GhostPieceClass);
-				if (GhostPiece)
-				{
-					GhostPiece->AttachToMatrix(Board->GetMatrixRoot());
-				}
-			}
+		// GhostPiece
+		GhostPiece = World->SpawnActor<AGhostPiece>(GhostPieceClass);
+		if (GhostPiece)
+		{
+			GhostPiece->AttachToMatrix(Board->GetMatrixRoot());
 		}
 	}
 
