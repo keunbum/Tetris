@@ -501,6 +501,11 @@ bool ATetrisPlayManager::IsHoldingTetriminoInPlayAvailable() const
 
 bool ATetrisPlayManager::IsLockPhaseReached() const
 {
+	return ExtendedPlacement.IsForcedLockDownReached() || IsTetriminoInPlayOnSurface();
+}
+
+bool ATetrisPlayManager::IsTetriminoInPlayOnSurface() const
+{
 	return Board && Board->IsDirectlyAboveSurface(TetriminoInPlay);
 }
 

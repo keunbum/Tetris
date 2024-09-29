@@ -141,6 +141,7 @@ private:
 	bool IsHoldingTetriminoInPlayAvailable() const;
 	bool IsSoftDropOrNormalFall(const FVector2D& Direction) const { return Direction == ATetriminoBase::MoveDirectionDown; }
 	bool IsLockPhaseReached() const;
+	bool IsTetriminoInPlayOnSurface() const;
 
 	/** Timers */
 	void SetAutoRepeatMovementTimer();
