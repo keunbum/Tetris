@@ -375,15 +375,7 @@ void ATetrisPlayManager::MoveTetriminoTo(const FVector2D& Direction)
 	if (bIsMovementPossible)
 	{
 		TetriminoInPlay->MoveBy(MovementIntPoint);
-	}
-
-	if (IsLockPhaseReached(Direction))
-	{
-		const bool bIsLockDownTimerActive = GetWorldTimerManager().IsTimerActive(LockDownTimerHandle);
-		if (!bIsLockDownTimerActive)
-		{
-			EnterPhase(EPhase::Lock);
-		}
+		EnterLockPhaseIfNecessary();
 	}
 }
 
@@ -457,6 +449,7 @@ void ATetrisPlayManager::RunSuperRotationSystem(const ETetriminoRotationDirectio
 			{
 				TetriminoInPlay->RotateTo(RotationDirection);
 				TetriminoInPlay->MoveBy(SRSRotationPointOffset);
+				EnterLockPhaseIfNecessary();
 				//UE_LOG(LogTemp, Display, TEXT("%Rotation with Point%d."), PointIndex + 1);
 				return;
 			}
@@ -483,15 +476,26 @@ void ATetrisPlayManager::CheckLineClearPattern(TArray<int32>& OutHitList)
 	}
 }
 
+void ATetrisPlayManager::EnterLockPhaseIfNecessary()
+{
+	if (IsLockPhaseReached())
+	{
+		if (!GetWorldTimerManager().IsTimerActive(LockDownTimerHandle))
+		{
+			EnterPhase(EPhase::Lock);
+		}
+	}
+}
+
 bool ATetrisPlayManager::IsHoldingTetriminoInPlayAvailable() const
 {
 	// 홀드 큐가 비어 있거나, 마지막 홀드로부터 LockDown이 수행된 적이 있다면 가능하다.
 	return (HoldQueue && HoldQueue->IsEmpty()) || bIsTetriminoInPlayLockedDownFromLastHold;
 }
 
-bool ATetrisPlayManager::IsLockPhaseReached(const FVector2D& Direction) const
+bool ATetrisPlayManager::IsLockPhaseReached() const
 {
-	return IsSoftDropOrNormalFall(Direction) && (Board && Board->IsDirectlyAboveSurface(TetriminoInPlay));
+	return Board && Board->IsDirectlyAboveSurface(TetriminoInPlay);
 }
 
 void ATetrisPlayManager::MoveTetriminoInPlayToFinalFallingLocation()

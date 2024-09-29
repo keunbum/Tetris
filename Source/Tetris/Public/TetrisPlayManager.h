@@ -135,10 +135,11 @@ private:
 	void HardDrop();
 	void RunSuperRotationSystem(const ETetriminoRotationDirection RotationDirection);
 	void CheckLineClearPattern(TArray<int32>& OutHitList);
+	void EnterLockPhaseIfNecessary();
 
 	bool IsHoldingTetriminoInPlayAvailable() const;
 	bool IsSoftDropOrNormalFall(const FVector2D& Direction) const { return Direction == ATetriminoBase::MoveDirectionDown; }
-	bool IsLockPhaseReached(const FVector2D& Direction) const;
+	bool IsLockPhaseReached() const;
 
 	/** Timers */
 	void SetAutoRepeatMovementTimer();
