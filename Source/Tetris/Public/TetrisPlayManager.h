@@ -69,7 +69,8 @@ public:
 private:
 	void Decrease()
 	{
-		RemainingActionCount = FMath::Max(RemainingActionCount - 1, 0);
+		--RemainingActionCount;
+		check(RemainingActionCount >= 0);
 	}
 
 	void Update(const int32 CurrentLowestRow)
