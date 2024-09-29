@@ -562,8 +562,8 @@ void ATetrisPlayManager::SetNormalFallTimer()
 	const bool bIsNormalFallOn = GameMode && !GameMode->bNormalFallOff;
 	if (bIsNormalFallOn)
 	{
-		//UE_LOG(LogTemp, Display, TEXT("Normal Fall Timer is set."));
 		GetWorldTimerManager().SetTimer(NormalFallTimerHandle, this, &ATetrisPlayManager::MoveTetriminoDown, NormalFallSpeed, bIsNormalFallTimerLoop, NormalFallTimerInitialDelay);
+		//UE_LOG(LogTemp, Display, TEXT("Normal Fall Timer is set."));
 	}
 }
 
