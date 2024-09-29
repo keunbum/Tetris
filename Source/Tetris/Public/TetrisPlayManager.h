@@ -236,6 +236,9 @@ private:
 	UPROPERTY(VisibleInstanceOnly)
 	FTetrisGamePlayInfo GamePlayInfo;
 
+	/** Placement */
+	FExtendedPlacement ExtendedPlacement;
+
 	UPROPERTY(EditDefaultsOnly)
 	ETetriminoShape TestSpawnShape = ETetriminoShape::None;
 
