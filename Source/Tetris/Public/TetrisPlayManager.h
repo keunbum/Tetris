@@ -120,6 +120,9 @@ public:
 	void DoRotation(const ETetriminoRotationDirection RotationDirection);
 	void HoldTetriminoInPlay();
 
+	/** static */
+	static FName GetPhaseName(const EPhase Phase);
+
 private:
 	/**  Initialization */
 	void InitializeNextQueue();

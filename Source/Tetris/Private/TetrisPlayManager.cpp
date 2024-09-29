@@ -237,6 +237,24 @@ void ATetrisPlayManager::HoldTetriminoInPlay()
 	bIsTetriminoInPlayLockedDownFromLastHold = false;
 }
 
+FName ATetrisPlayManager::GetPhaseName(const EPhase Phase)
+{
+	static const TMap<EPhase, FName> PhaseNameMap =
+	{
+		{EPhase::None, "None"},
+		{EPhase::Generation, "Generation"},
+		{EPhase::Falling, "Falling"},
+		{EPhase::Lock, "Lock"},
+		{EPhase::Pattern, "Pattern"},
+		{EPhase::Iterate, "Iterate"},
+		{EPhase::Animate, "Animate"},
+		{EPhase::Elimate, "Elimate"},
+		{EPhase::Completion, "Completion"},
+	};
+
+	return PhaseNameMap[Phase];
+}
+
 void ATetrisPlayManager::InitializeNextQueue()
 {
 	if (NextQueue && GameMode && Board)
