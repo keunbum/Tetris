@@ -307,7 +307,6 @@ void ATetrisPlayManager::RunPatternPhase()
 	/** Main Logic */
 	CheckLineClearPattern(GamePlayInfo.HitList);
 
-	/** Phase Transition*/
 	EnterPhase(EPhase::Iterate);
 }
 
@@ -317,7 +316,6 @@ void ATetrisPlayManager::RunIteratePhase()
 
 	/** Main Logic */
 
-	/** Phase Transition*/
 	EnterPhase(EPhase::Animate);
 }
 
@@ -327,7 +325,6 @@ void ATetrisPlayManager::RunAnimatePhase()
 
 	/** Main Logic */
 
-	/** Phase Transition*/
 	EnterPhase(EPhase::Elimate);
 }
 
@@ -341,7 +338,6 @@ void ATetrisPlayManager::RunEliminatePhase()
 		Board->ClearRows(GamePlayInfo.HitList);
 	}
 
-	/** Phase Transition*/
 	EnterPhase(EPhase::Completion);
 }
 
@@ -358,7 +354,6 @@ void ATetrisPlayManager::RunCompletionPhase()
 	/** Reset Variables */
 	GamePlayInfo.Reset();
 
-	/** Phase Transition*/
 	EnterPhaseWithDelay(EPhase::Generation, GenerationPhaseChangeInitialDelay);
 }
 
@@ -425,7 +420,6 @@ void ATetrisPlayManager::LockDown()
 
 	bIsTetriminoInPlayLockedDownFromLastHold = true;
 
-	// Switch to Pattern Phase.
 	EnterPhase(EPhase::Pattern);
 }
 
