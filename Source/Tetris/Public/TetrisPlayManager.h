@@ -242,7 +242,7 @@ private:
 	/** Placement */
 	FExtendedPlacement ExtendedPlacement;
 
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, Category = "Test")
 	ETetriminoShape TestSpawnShape = ETetriminoShape::None;
 
 	/** Logic Timers */
