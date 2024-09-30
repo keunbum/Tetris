@@ -274,5 +274,4 @@ private:
 	FTimerHandle NormalFallTimerHandle;
 	FTimerHandle SoftDropTimerHandle;
 	FTimerHandle LockDownTimerHandle;
-	FTimerHandle PhaseChangeTimerHandle;
 };

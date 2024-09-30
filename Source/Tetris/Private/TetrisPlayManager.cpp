@@ -113,6 +113,7 @@ void ATetrisPlayManager::EnterPhase(const EPhase NewPhase)
 
 void ATetrisPlayManager::EnterPhaseWithDelay(const EPhase NewPhase, const float Delay)
 {
+	FTimerHandle PhaseChangeTimerHandle;
 	FTimerDelegate TimerDelegate;
 	TimerDelegate.BindUObject(this, &ATetrisPlayManager::EnterPhase, NewPhase);
 	GetWorldTimerManager().SetTimer(PhaseChangeTimerHandle, TimerDelegate, Delay, bIsPhaseChangeTimerLoop);
@@ -357,7 +358,7 @@ void ATetrisPlayManager::RunCompletionPhase()
 	/** Reset */
 	GamePlayInfo.Reset();
 	check(!IsTimerActive(LockDownTimerHandle));
-	ClearTimers({ &NormalFallTimerHandle, &PhaseChangeTimerHandle });
+	ClearTimers({ &NormalFallTimerHandle });
 
 	EnterPhaseWithDelay(EPhase::Generation, GenerationPhaseChangeInitialDelay);
 }
@@ -606,7 +607,6 @@ void ATetrisPlayManager::ClearAllTimers()
 		&SoftDropTimerHandle,
 		&NormalFallTimerHandle,
 		&LockDownTimerHandle,
-		&PhaseChangeTimerHandle,
 	};
 	ClearTimers(TimerHandles);
 
