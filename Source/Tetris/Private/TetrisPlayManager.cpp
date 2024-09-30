@@ -399,13 +399,12 @@ void ATetrisPlayManager::MoveTetriminoDown()
 
 void ATetrisPlayManager::LockDown()
 {
+	bIsTetriminoInPlayManipulable = false;
 	if (!Board || !GameMode || !TetriminoInPlay)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Some of the necessary components are nullptr."));
 		return;
 	}
-
-	bIsTetriminoInPlayManipulable = false;
 
 	PlayLockDownEffect(TetriminoInPlay->GetMinoArray());
 
