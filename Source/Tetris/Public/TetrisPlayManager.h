@@ -31,70 +31,26 @@ enum class EPhase : uint8
 	Completion,
 };
 
-struct FLockDownSystemInfo
+struct FExtendedPlacement
 {
-	int32 CurrentLowestRow;
-
-	FLockDownSystemInfo(const int32 InCurrentLowestRow)
-		: CurrentLowestRow(InCurrentLowestRow)
-	{
-	}
-};
-
-class FExtendedPlacement
-{
-public:
 	FExtendedPlacement()
-		: RemainingActionCount(0)
+		: TimerResetCount(MaxTimerResetCount)
 		, LowestRow(0)
 	{
 	}
 
-	void Init()
+	void Init(const int32 CurrentRow)
 	{
-		LowestRow = DefaultLowestRow;
-		Reset();
+		LowestRow = CurrentRow;
+		TimerResetCount = MaxTimerResetCount;
 	}
-
-	void Update(const FLockDownSystemInfo& Info)
-	{
-		// Row가 클수록 더 아래에 위치한다.
-		if (Info.CurrentLowestRow > LowestRow)
-		{
-			LowestRow = Info.CurrentLowestRow;
-			Reset();
-		}
-		else
-		{
-			Decrease();
-		}
-	}
-
-	bool IsForceLockDownReached() const
-	{
-		return RemainingActionCount == 0;
-	}
-
-private:
-	void Decrease()
-	{
-		--RemainingActionCount;
-		check(RemainingActionCount >= 0);
-	}
-
-	void Reset()
-	{
-		RemainingActionCount = DefaultActionCount;
-	}
-
-private:
-	static constexpr int32 DefaultActionCount = 15;
-	static constexpr int32 DefaultLowestRow = ABoard::SkyLine - 2;
 
 	// The number of actions remaining before the forced lock down is reached.
 	// The Actions: Left/Right Movement or Rotation
-	int32 RemainingActionCount;
+	int32 TimerResetCount;
 	int32 LowestRow;
+
+	static constexpr int32 MaxTimerResetCount = 15;
 };
 
 /**
