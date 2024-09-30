@@ -402,20 +402,21 @@ void ATetrisPlayManager::MoveTetriminoDown()
 
 void ATetrisPlayManager::LockDown()
 {
-	bIsTetriminoInPlayManipulable = false;
 	//check(IsTetriminoInPlayOnSurface());
 	//ensureMsgf(IsTetriminoInPlayOnSurface(), TEXT("TetriminoInPlay is not on the surface."));
+	if (IsTimerActive(LockDownTimerHandle))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayManager::LockDown() - LockDownTimer is active, so it will be cleared."));
+		ClearTimer(LockDownTimerHandle);
+	}
+
 	if (!IsTetriminoInPlayOnSurface())
 	{
 		UE_LOG(LogTemp, Display, TEXT("ATetrisPlayManager::LockDown() - TetriminoInPlay is not on the surface. So Do nothing."));
 		return;
 	}
 
-	if (IsTimerActive(LockDownTimerHandle))
-	{
-		UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayManager::LockDown() - LockDownTimer is active, so it will be cleared."));
-		ClearTimer(LockDownTimerHandle);
-	}
+	bIsTetriminoInPlayManipulable = false;
 
 	UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayManager::LockDown()"));
 
