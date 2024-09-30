@@ -460,23 +460,26 @@ void ATetrisPlayManager::HardDrop()
 
 void ATetrisPlayManager::RunSuperRotationSystem(const ETetriminoRotationDirection RotationDirection)
 {
-	if (TetriminoInPlay && Board)
+	if (!TetriminoInPlay || !Board)
 	{
-		const TArray<FIntPoint>& SRSRotationPointOffsets = TetriminoInPlay->GetSRSRotationPointOffsets(RotationDirection);
-		for (const FIntPoint& SRSRotationPointOffset : SRSRotationPointOffsets)
-		{
-			const bool bIsRotationPossible = Board->IsRotationPossible(TetriminoInPlay, RotationDirection, SRSRotationPointOffset);
-			if (bIsRotationPossible)
-			{
-				TetriminoInPlay->RotateTo(RotationDirection);
-				TetriminoInPlay->MoveBy(SRSRotationPointOffset);
-				//UE_LOG(LogTemp, Display, TEXT("%Rotation with Point%d."), PointIndex + 1);
-				EnterLockPhaseIfNecessary();
-				return;
-			}
-		}
-		//UE_LOG(LogTemp, Display, TEXT("All of Rotation Points failed."));
+		UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayManager::RunSuperRotationSystem() - TetriminoInPlay or Board is nullptr."));
+		return;
 	}
+
+	const TArray<FIntPoint>& SRSRotationPointOffsets = TetriminoInPlay->GetSRSRotationPointOffsets(RotationDirection);
+	for (const FIntPoint& SRSRotationPointOffset : SRSRotationPointOffsets)
+	{
+		const bool bIsRotationPossible = Board->IsRotationPossible(TetriminoInPlay, RotationDirection, SRSRotationPointOffset);
+		if (bIsRotationPossible)
+		{
+			TetriminoInPlay->RotateTo(RotationDirection);
+			TetriminoInPlay->MoveBy(SRSRotationPointOffset);
+			//UE_LOG(LogTemp, Display, TEXT("%Rotation with Point%d."), PointIndex + 1);
+			RunLockDownSystem();
+			return;
+		}
+	}
+	//UE_LOG(LogTemp, Display, TEXT("All of Rotation Points failed."));
 }
 
 void ATetrisPlayManager::CheckLineClearPattern(TArray<int32>& OutHitList)
