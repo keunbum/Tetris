@@ -297,10 +297,6 @@ void ATetrisPlayManager::RunLockPhase()
 {
 	//UE_LOG(LogTemp, Display, TEXT("Start Lock Phase."));
 
-	const int32 CurrentLowestRow = TetriminoInPlay->GetLowestRow();
-	const FLockDownSystemInfo LockDownSystemInfo(CurrentLowestRow);
-	RunLockDownSystem(LockDownSystemInfo);
-
 	SetLockDownTimer();
 }
 
@@ -383,7 +379,7 @@ void ATetrisPlayManager::MoveTetriminoTo(const FVector2D& Direction)
 	if (bIsMovementPossible)
 	{
 		TetriminoInPlay->MoveBy(MovementIntPoint);
-		EnterLockPhaseIfNecessary();
+		RunLockDownSystem();
 	}
 	else
 	{
@@ -501,24 +497,18 @@ void ATetrisPlayManager::CheckLineClearPattern(TArray<int32>& OutHitList)
 	}
 }
 
-void ATetrisPlayManager::SetLockDownSystem(const FLockDownSystemInfo& Info)
+void ATetrisPlayManager::RunLockDownSystem()
 {
-	ExtendedPlacement.SetLockDownSystem(Info);
-}
-
-void ATetrisPlayManager::RunLockDownSystem(const FLockDownSystemInfo& Info)
-{
-	ExtendedPlacement.RunLockDownSystem(Info);
-}
-
-void ATetrisPlayManager::EnterLockPhaseIfNecessary()
-{
-	if (IsLockPhaseReached())
+	if (IsTetriminoInPlayOnSurface())
 	{
-		if (!GetWorldTimerManager().IsTimerActive(LockDownTimerHandle))
+		if (ExtendedPlacement.IsForceLockDownReached())
 		{
-			EnterPhase(EPhase::Lock);
+			ForceLockDown();
+			return;
 		}
+		const FLockDownSystemInfo LockDownSystemInfo(TetriminoInPlay->GetLowestRow());
+		ExtendedPlacement.Update(LockDownSystemInfo);
+		EnterPhase(EPhase::Lock);
 	}
 }
 
@@ -526,11 +516,6 @@ bool ATetrisPlayManager::IsHoldingTetriminoInPlayAvailable() const
 {
 	// 홀드 큐가 비어 있거나, 마지막 홀드로부터 LockDown이 수행된 적이 있다면 가능하다.
 	return (HoldQueue && HoldQueue->IsEmpty()) || bIsTetriminoInPlayLockedDownFromLastHold;
-}
-
-bool ATetrisPlayManager::IsLockPhaseReached() const
-{
-	return ExtendedPlacement.IsForcedLockDownReached() || IsTetriminoInPlayOnSurface();
 }
 
 bool ATetrisPlayManager::IsTetriminoInPlayOnSurface() const
@@ -628,6 +613,7 @@ void ATetrisPlayManager::SetTetriminoInPlay(ATetrimino* const InTetriminoInPlay)
 	{
 		InTetriminoInPlay->SetBoard(Board);
 		InTetriminoInPlay->SetGhostPiece(GhostPiece);
+		ExtendedPlacement.Init();
 	}
 	else
 	{

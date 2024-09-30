@@ -45,23 +45,32 @@ class FExtendedPlacement
 {
 public:
 	FExtendedPlacement()
-		: RemainingActionCount(DefaultActionCount)
-		, LowestRow(DefaultLowestRow)
+		: RemainingActionCount(0)
+		, LowestRow(0)
 	{
 	}
 
-	void SetLockDownSystem(const FLockDownSystemInfo& Info)
+	void Init()
 	{
+		LowestRow = DefaultLowestRow;
 		Reset();
-		Update(Info.CurrentLowestRow);
 	}
 
-	void RunLockDownSystem(const FLockDownSystemInfo& Info)
+	void Update(const FLockDownSystemInfo& Info)
 	{
-		//Decrease();
+		// Row가 클수록 더 아래에 위치한다.
+		if (Info.CurrentLowestRow > LowestRow)
+		{
+			LowestRow = Info.CurrentLowestRow;
+			Reset();
+		}
+		else
+		{
+			Decrease();
+		}
 	}
 
-	bool IsForcedLockDownReached() const
+	bool IsForceLockDownReached() const
 	{
 		return RemainingActionCount == 0;
 	}
@@ -73,11 +82,6 @@ private:
 		check(RemainingActionCount >= 0);
 	}
 
-	void Update(const int32 CurrentLowestRow)
-	{
-		LowestRow = FMath::Min(LowestRow, CurrentLowestRow);
-	}
-
 	void Reset()
 	{
 		RemainingActionCount = DefaultActionCount;
@@ -85,7 +89,7 @@ private:
 
 private:
 	static constexpr int32 DefaultActionCount = 15;
-	static constexpr int32 DefaultLowestRow = ABoard::SkyLine - 1;
+	static constexpr int32 DefaultLowestRow = ABoard::SkyLine - 2;
 
 	// The number of actions remaining before the forced lock down is reached.
 	// The Actions: Left/Right Movement or Rotation
@@ -155,13 +159,10 @@ private:
 	void HardDrop();
 	void RunSuperRotationSystem(const ETetriminoRotationDirection RotationDirection);
 	void CheckLineClearPattern(TArray<int32>& OutHitList);
-	void SetLockDownSystem(const FLockDownSystemInfo& Info);
-	void RunLockDownSystem(const FLockDownSystemInfo& Info);
-	void EnterLockPhaseIfNecessary();
+	void RunLockDownSystem();
 
 	bool IsHoldingTetriminoInPlayAvailable() const;
 	bool IsSoftDropOrNormalFall(const FVector2D& Direction) const { return Direction == ATetriminoBase::MoveDirectionDown; }
-	bool IsLockPhaseReached() const;
 	bool IsTetriminoInPlayOnSurface() const;
 
 	/** Timers */
