@@ -433,8 +433,6 @@ void ATetrisPlayManager::LockDown()
 
 	bIsTetriminoInPlayLockedDownFromLastHold = true;
 
-	check(!IsTimerActive(LockDownTimerHandle));
-
 	EnterPhase(EPhase::Pattern);
 }
 
