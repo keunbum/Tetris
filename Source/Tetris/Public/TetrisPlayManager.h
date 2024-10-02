@@ -236,10 +236,7 @@ private:
 
 	/** Audio */
 	UPROPERTY(EditDefaultsOnly, Category = "Audio")
-	TObjectPtr<USoundCue> MoveSoundCue;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Audio")
-	TObjectPtr<USoundCue> RotateSoundCue;
+	TMap<FName, TObjectPtr<USoundCue>> SoundCueMap;
 
 	/** Logic Timers */
 	FTimerHandle AutoRepeatMovementTimerHandle;

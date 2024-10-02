@@ -403,7 +403,7 @@ void ATetrisPlayManager::MoveTetriminoToInternal(const FVector2D& Direction)
 		TetriminoInPlay->MoveBy(MovementIntPoint);
 		if (ATetrisPlayManager::IsAutoRepeatMovement(Direction))
 		{
-			PlaySoundCue(MoveSoundCue);
+			PlaySoundCue(SoundCueMap.FindRef(TEXT("MoveSoundCue")));
 		}
 		RunLockDownSystem();
 	}
@@ -490,7 +490,7 @@ void ATetrisPlayManager::RunSuperRotationSystem(const ETetriminoRotationDirectio
 		if (bIsRotationPossible)
 		{
 			TetriminoInPlay->RotateToWithPointOffset(RotationDirection, SRSRotationPointOffset);
-			PlaySoundCue(RotateSoundCue);
+			PlaySoundCue(SoundCueMap.FindRef(TEXT("RotationSoundCue")));
 			//UE_LOG(LogTemp, Display, TEXT("%Rotation with Point%d."), PointIndex + 1);
 			RunLockDownSystem();
 			return;
@@ -714,5 +714,9 @@ void ATetrisPlayManager::PlaySoundCue(USoundCue* const SoundCue) const
 	if (SoundCue)
 	{
 		UGameplayStatics::PlaySound2D(this, SoundCue);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("ATetrisPlayManager::PlaySoundCue() - SoundCue is nullptr."));
 	}
 }
