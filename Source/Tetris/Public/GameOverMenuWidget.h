@@ -4,13 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "MenuWidgetBase.h"
-#include "GameOverMenuWidget.generated.h"
+#include "GameoverMenuWidget.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class TETRIS_API UGameOverMenuWidget : public UMenuWidgetBase
+class TETRIS_API UGameoverMenuWidget : public UMenuWidgetBase
 {
 	GENERATED_BODY()
 	

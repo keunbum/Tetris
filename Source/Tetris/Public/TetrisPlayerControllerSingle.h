@@ -8,7 +8,7 @@
 #include "TetrisPlayerControllerSingle.generated.h"
 
 class UPauseMenuWidget;
-class UGameOverMenuWidget;
+class UGameoverMenuWidget;
 
 /**
  * 
@@ -40,12 +40,12 @@ private:
 	TObjectPtr<UPauseMenuWidget> PauseMenuWidget;
 
 	UPROPERTY()
-	TObjectPtr<UGameOverMenuWidget> GameOverMenuWidget;
+	TObjectPtr<UGameoverMenuWidget> GameOverMenuWidget;
 
 	/** Widget Class Reference */
 	UPROPERTY(EditDefaultsOnly, Category = "Classes")
 	TSubclassOf<UPauseMenuWidget> PauseMenuWidgetClass;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Classes")
-	TSubclassOf<UGameOverMenuWidget> GameOverMenuWidgetClass;
+	TSubclassOf<UGameoverMenuWidget> GameOverMenuWidgetClass;
 };
