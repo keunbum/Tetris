@@ -103,22 +103,25 @@ private:
 	void RunEliminatePhase();
 	void RunCompletionPhase();
 
-	/** User Input */
+	/** Logics */
+	// Move
 	void MoveTetriminoTo(const FVector2D& Direction);
 	void MoveTetrimino();
 	void MoveTetriminoDown();
 	void MoveTetriminoToInternal(const FVector2D& Direction);
 	void MoveTetriminoInPlayToFinalFallingLocation();
-
-	/** Logics */
+	// LockDown
 	void LockDown();
 	void ForceLockDown();
 	void HardDrop();
-	void RunSuperRotationSystem(const ETetriminoRotationDirection RotationDirection);
-	void CheckLineClearPattern(TArray<int32>& OutHitList);
 	void RunLockDownSystem();
-
+	// Rotation
+	void RunSuperRotationSystem(const ETetriminoRotationDirection RotationDirection);
+	// CheckLineClear
+	void CheckLineClearPattern(TArray<int32>& OutHitList);
+	// Eliminate
 	void RemoveTetriminoInPlay();
+	// Etc
 	bool IsHoldingTetriminoInPlayAvailable() const;
 	bool IsSoftDropOrNormalFall(const FVector2D& Direction) const { return Direction == ATetriminoBase::MoveDirectionDown; }
 	bool IsTetriminoInPlayOnSurface() const;
