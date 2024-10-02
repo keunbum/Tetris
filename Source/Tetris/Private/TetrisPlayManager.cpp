@@ -672,6 +672,7 @@ ATetrimino* ATetrisPlayManager::PopTetriminoFromNextQueue()
 		return NextTetrimino;
 	}
 
+	checkNoEntry();
 	return nullptr;
 }
 
