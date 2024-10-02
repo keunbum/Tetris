@@ -186,40 +186,26 @@ void ATetrisPlayManager::HoldTetriminoInPlay()
 		return;
 	}
 
-	bIsTetriminoInPlayManipulable = false;
-
-	// 기존 TetriminoInPlay를 떼어 내기
-	if (TetriminoInPlay)
+	if (!ensureMsgf(TetriminoInPlay && HoldQueue, TEXT("Some of the necessary components are nullptr.")))
 	{
-		ATetrimino* const OldTetriminoInPlay = TetriminoInPlay;
-		SetTetriminoInPlay(nullptr);
-
-		// HoldQueue에서 테트리미노 가져오기 (비어 있으면 nullptr)
-		if (HoldQueue)
-		{
-			ATetrimino* const TetriminoInHoldQueue = HoldQueue->Dequeue();
-			const bool bWasHoldQueueEmpty = (TetriminoInHoldQueue == nullptr);
-
-			// HoldQueue에 기존 TetriminoInPlay 넣기
-			HoldQueue->Enqueue(OldTetriminoInPlay);
-			OldTetriminoInPlay->RotateByFacing(ATetrimino::DefaultFacing);
-			HoldQueue->ReArrangeTetriminoLocations();
-
-			if (bWasHoldQueueEmpty)
-			{
-				// 비어 있었다면 새로 꺼내고
-				EnterPhase(EPhase::Generation);
-			}
-			else
-			{
-				// 비어 있지 않았다면 HoldQueue에 있던 테트리미노를 TetriminoInPlay로 설정한다
-				SetTetriminoInPlay(TetriminoInHoldQueue);
-				EnterPhase(EPhase::Falling);
-			}
-		}
+		return;
 	}
 
+	bIsTetriminoInPlayManipulable = false;
+
+	// HoldQueue에서 테트리미노 가져오기 (비어 있으면 nullptr)
+	ATetrimino* const TetriminoInHoldQueue = HoldQueue->Dequeue();
+
+	// HoldQueue에 기존 TetriminoInPlay 넣기
+	TetriminoInPlay->DetachFromBoard();
+	TetriminoInPlay->RotateByFacing(ATetrimino::DefaultFacing);
+	HoldQueue->Enqueue(TetriminoInPlay);
+	HoldQueue->ReArrangeTetriminoLocations();
+
+	SetTetriminoInPlay(TetriminoInHoldQueue);
 	bIsTetriminoInPlayLockedDownFromLastHold = false;
+
+	EnterPhase(EPhase::Generation);
 }
 
 FName ATetrisPlayManager::GetPhaseName(const EPhase Phase)
