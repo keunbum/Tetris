@@ -14,7 +14,7 @@ class UGameoverMenuWidget;
  * 
  */
 UCLASS()
-class TETRIS_API ATetrisPlayerControllerSingle : public ATetrisPlayerControllerInGameBase
+class TETRIS_API ATetrisPlayerControllerSingle : public ATetrisPlayerControllerIngameBase
 {
 	GENERATED_BODY()
 
