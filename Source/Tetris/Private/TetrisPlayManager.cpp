@@ -332,6 +332,10 @@ void ATetrisPlayManager::RunEliminatePhase()
 	if (Board)
 	{
 		Board->ClearRows(GamePlayInfo.HitList);
+		if (GamePlayInfo.HitList.Num() > 0)
+		{
+			PlaySoundCue(SoundCueMap.FindRef(TEXT("LineClear")));
+		}
 	}
 
 	EnterPhase(EPhase::Completion);
@@ -466,6 +470,7 @@ void ATetrisPlayManager::ForceLockDown()
 
 void ATetrisPlayManager::HardDrop()
 {
+	PlaySoundCue(SoundCueMap.FindRef(TEXT("HardDrop")));
 	// GhostPiece를 잠시 안보이게 한다.
 	if (GhostPiece)
 	{
