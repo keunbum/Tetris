@@ -87,6 +87,7 @@ public:
 
 	/** static */
 	static FName GetPhaseName(const EPhase Phase);
+	static bool IsAutoRepeatMovement(const FVector2D& Direction) { return (Direction == ATetriminoBase::MoveDirectionLeft || Direction == ATetriminoBase::MoveDirectionRight); }
 
 private:
 	/**  Initialization */
@@ -150,6 +151,7 @@ private:
 
 	/** Effect */
 	void PlayLockDownEffect(const TArray<UMino*>& MinoArray);
+	void PlaySoundCue(USoundCue* const SoundCue) const;
 	
 private:
 	/** Normal Fall */
@@ -228,8 +230,16 @@ private:
 	/** Placement */
 	FExtendedPlacement ExtendedPlacement;
 
+	/** Test */
 	UPROPERTY(EditDefaultsOnly, Category = "Test")
 	ETetriminoShape TestSpawnShape = ETetriminoShape::None;
+
+	/** Audio */
+	UPROPERTY(EditDefaultsOnly, Category = "Audio")
+	TObjectPtr<USoundCue> MoveSoundCue;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Audio")
+	TObjectPtr<USoundCue> RotateSoundCue;
 
 	/** Logic Timers */
 	FTimerHandle AutoRepeatMovementTimerHandle;

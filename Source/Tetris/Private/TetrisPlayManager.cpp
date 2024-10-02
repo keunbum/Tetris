@@ -11,6 +11,8 @@
 #include "TetrisPlayerControllerSingle.h"
 #include "TetriminoGenerator.h"
 #include "TetriminoQueue.h"
+#include "Kismet/GameplayStatics.h"
+#include "Sound/SoundCue.h"
 
 ATetrisPlayManager::ATetrisPlayManager()
 	: Phase(EPhase::None)
@@ -399,6 +401,10 @@ void ATetrisPlayManager::MoveTetriminoToInternal(const FVector2D& Direction)
 	if (bIsMovementPossible)
 	{
 		TetriminoInPlay->MoveBy(MovementIntPoint);
+		if (ATetrisPlayManager::IsAutoRepeatMovement(Direction))
+		{
+			PlaySoundCue(MoveSoundCue);
+		}
 		RunLockDownSystem();
 	}
 	else
@@ -484,6 +490,7 @@ void ATetrisPlayManager::RunSuperRotationSystem(const ETetriminoRotationDirectio
 		if (bIsRotationPossible)
 		{
 			TetriminoInPlay->RotateToWithPointOffset(RotationDirection, SRSRotationPointOffset);
+			PlaySoundCue(RotateSoundCue);
 			//UE_LOG(LogTemp, Display, TEXT("%Rotation with Point%d."), PointIndex + 1);
 			RunLockDownSystem();
 			return;
@@ -700,4 +707,12 @@ void ATetrisPlayManager::PlayLockDownEffect(const TArray<UMino*>& MinoArray)
 {
 	// TODO: LockDown Effect 추가
 	// 파라미터 수정될 여지 있음
+}
+
+void ATetrisPlayManager::PlaySoundCue(USoundCue* const SoundCue) const
+{
+	if (SoundCue)
+	{
+		UGameplayStatics::PlaySound2D(this, SoundCue);
+	}
 }
