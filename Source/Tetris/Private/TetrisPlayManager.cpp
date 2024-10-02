@@ -543,6 +543,16 @@ void ATetrisPlayManager::RunLockDownSystem()
 	}
 }
 
+void ATetrisPlayManager::RemoveTetriminoInPlay()
+{
+	if (TetriminoInPlay)
+	{
+		TetriminoInPlay->DetachFromBoard();
+		TetriminoInPlay->Destroy();
+		TetriminoInPlay = nullptr;
+	}
+}
+
 bool ATetrisPlayManager::IsHoldingTetriminoInPlayAvailable() const
 {
 	// 홀드 큐가 비어 있거나, 마지막 홀드로부터 LockDown이 수행된 적이 있다면 가능하다.

@@ -117,6 +117,7 @@ private:
 	void CheckLineClearPattern(TArray<int32>& OutHitList);
 	void RunLockDownSystem();
 
+	void RemoveTetriminoInPlay();
 	bool IsHoldingTetriminoInPlayAvailable() const;
 	bool IsSoftDropOrNormalFall(const FVector2D& Direction) const { return Direction == ATetriminoBase::MoveDirectionDown; }
 	bool IsTetriminoInPlayOnSurface() const;
