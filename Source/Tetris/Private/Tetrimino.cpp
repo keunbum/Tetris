@@ -81,6 +81,12 @@ void ATetrimino::RotateTo(const ETetriminoRotationDirection RotationDirection)
 	}
 }
 
+void ATetrimino::RotateToWithPointOffset(const ETetriminoRotationDirection RotationDirection, const FIntPoint& PointOffset)
+{
+	RotateTo(RotationDirection);
+	MoveBy(PointOffset);
+}
+
 void ATetrimino::AttachToMatrix(USceneComponent* const MatrixRoot)
 {
 	AttachToComponentByMatrixLocation(MatrixRoot, GetInitialMatrixLocation());

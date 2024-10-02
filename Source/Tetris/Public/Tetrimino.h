@@ -30,6 +30,7 @@ public:
 
 	void MoveBy(const FIntPoint& IntVector2D);
 	void RotateTo(const ETetriminoRotationDirection RotationDirection);
+	void RotateToWithPointOffset(const ETetriminoRotationDirection RotationDirection, const FIntPoint& PointOffset);
 
 private:
 	void AttachToMatrix(USceneComponent* const MatrixRoot);
