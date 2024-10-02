@@ -7,7 +7,7 @@
 
 #include "TetrisInGameGameMode.h"
 
-void UHUDSingle::InitializeHUD(const FHUDSingleUpdateDisplayParams& DisplayParams, ATetrisInGameGameMode* const InTetrisGameMode)
+void UHUDSingle::InitializeHUD(const FHUDSingleUpdateDisplayParams& DisplayParams, ATetrisIngameGameMode* const InTetrisGameMode)
 {
 	UpdateDisplay(DisplayParams);
 	TetrisGameMode = InTetrisGameMode;

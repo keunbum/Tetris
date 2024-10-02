@@ -39,7 +39,7 @@ void UMainMenuWidget::NativeOnInitialized()
 void UMainMenuWidget::OnStartClicked()
 {
 	// Open Tetris Level
-	UGameplayStatics::OpenLevel(GetWorld(), ATetrisInGameGameMode::TetrisLevelName);
+	UGameplayStatics::OpenLevel(GetWorld(), ATetrisIngameGameMode::TetrisLevelName);
 }
 
 void UMainMenuWidget::OnOptionClicked()

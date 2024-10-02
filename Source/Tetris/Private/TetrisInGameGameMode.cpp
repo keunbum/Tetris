@@ -1,6 +1,6 @@
 // Copyright Ryu KeunBeom. All Rights Reserved.
 
-#include "TetrisInGameGameMode.h"
+#include "TetrisIngameGameMode.h"
 
 #include "Engine/World.h"
 #include "Kismet/GameplayStatics.h"
@@ -13,38 +13,38 @@
 #include "GoalSystemInterface.h"
 #include "HUDSingle.h"
 
-const FName ATetrisInGameGameMode::TetrisLevelName = FName(TEXT("TetrisLevel"));
+const FName ATetrisIngameGameMode::TetrisLevelName = FName(TEXT("TetrisLevel"));
 
-ATetrisInGameGameMode::ATetrisInGameGameMode()
+ATetrisIngameGameMode::ATetrisIngameGameMode()
 	: GoalSystemType(EGoalSystemType::None)
 {
 	// Unreal Editor에서 PlayerStateClass를 설정할 수 있도록 함
 	PlayerStateClass = nullptr;
 }
 
-void ATetrisInGameGameMode::PostLogin(APlayerController* const NewPlayer)
+void ATetrisIngameGameMode::PostLogin(APlayerController* const NewPlayer)
 {
 	Super::PostLogin(NewPlayer);
 
 	TetrisPlayerState = Cast<ATetrisPlayerStateBase>(NewPlayer->PlayerState);
 }
 
-float ATetrisInGameGameMode::GetElapsedTime() const
+float ATetrisIngameGameMode::GetElapsedTime() const
 {
 	return UGameplayStatics::GetTimeSeconds(GetWorld()) - GameStartTime;
 }
 
-float ATetrisInGameGameMode::GetCurrentLevelNormalFallSpeed() const
+float ATetrisIngameGameMode::GetCurrentLevelNormalFallSpeed() const
 {
 	if (TetrisPlayerState)
 	{
-		return ATetrisInGameGameMode::CalculateNormalFallSpeed(TetrisPlayerState->GetGameLevel());
+		return ATetrisIngameGameMode::CalculateNormalFallSpeed(TetrisPlayerState->GetGameLevel());
 	}
 
 	return 0.f;
 }
 
-void ATetrisInGameGameMode::UpdateGamePlay(const FTetrisGamePlayInfo& UpdateInfo)
+void ATetrisIngameGameMode::UpdateGamePlay(const FTetrisGamePlayInfo& UpdateInfo)
 {
 	if (TetrisPlayerState)
 	{
@@ -67,7 +67,7 @@ void ATetrisInGameGameMode::UpdateGamePlay(const FTetrisGamePlayInfo& UpdateInfo
 	}
 }
 
-void ATetrisInGameGameMode::RunGameOver()
+void ATetrisIngameGameMode::RunGameOver()
 {
 	// 추후에 추가 로직 작성할 가능성 있음
 	if (TetrisPlayerController)
@@ -76,14 +76,14 @@ void ATetrisInGameGameMode::RunGameOver()
 	}
 }
 
-void ATetrisInGameGameMode::BeginPlay()
+void ATetrisIngameGameMode::BeginPlay()
 {
 	Super::BeginPlay();
 
 	StartGamePlay();
 }
 
-void ATetrisInGameGameMode::LevelUp()
+void ATetrisIngameGameMode::LevelUp()
 {
 	if (TetrisPlayerState && TetrisPlayManager)
 	{
@@ -97,7 +97,7 @@ void ATetrisInGameGameMode::LevelUp()
 	}
 }
 
-void ATetrisInGameGameMode::Initialize()
+void ATetrisIngameGameMode::Initialize()
 {
 	Super::Initialize();
 
@@ -144,19 +144,19 @@ void ATetrisInGameGameMode::Initialize()
 	}
 }
 
-void ATetrisInGameGameMode::SetInputMode()
+void ATetrisIngameGameMode::SetInputMode()
 {
 	// Set the input mode to GameOnly
 	const FInputModeGameOnly InputMode;
 	InternalSetInputMode(InputMode);
 }
 
-void ATetrisInGameGameMode::InitializeEffect()
+void ATetrisIngameGameMode::InitializeEffect()
 {
 	Super::InitializeEffect();
 }
 
-void ATetrisInGameGameMode::StartGamePlay()
+void ATetrisIngameGameMode::StartGamePlay()
 {
 	GameStartTime = UGameplayStatics::GetTimeSeconds(GetWorld());
 	if (TetrisPlayManager)
@@ -165,7 +165,7 @@ void ATetrisInGameGameMode::StartGamePlay()
 	}
 }
 
-float ATetrisInGameGameMode::CalculateNormalFallSpeed(const int32 GameLevel)
+float ATetrisIngameGameMode::CalculateNormalFallSpeed(const int32 GameLevel)
 {
 	const float A = 0.8f - ((GameLevel - 1) * 0.007f);
 	const float B = static_cast<float>(GameLevel - 1);
