@@ -16,7 +16,7 @@ ATetrisPlayManager::ATetrisPlayManager()
 	: Phase(EPhase::None)
 	, bIsTetriminoInPlayManipulable(false)
 	, bIsGhostPieceOn(true)
-	, bIsTetriminoInPlayLockedDownFromLastHold(false)
+	, bHasLockDownFromLastHold(false)
 	, NormalFallSpeed(-1.0f)
 	, TetriminoClass(ATetrimino::StaticClass())
 	, TetriminoInPlay(nullptr)
@@ -203,7 +203,7 @@ void ATetrisPlayManager::HoldTetriminoInPlay()
 	HoldQueue->ReArrangeTetriminoLocations();
 
 	SetTetriminoInPlay(TetriminoFromHoldQueue);
-	bIsTetriminoInPlayLockedDownFromLastHold = false;
+	bHasLockDownFromLastHold = false;
 
 	EnterPhase(EPhase::Generation);
 }
@@ -252,7 +252,7 @@ void ATetrisPlayManager::RunGenerationPhase()
 	//UE_LOG(LogTemp, Display, TEXT("|-----------------------------------------------------------------------|"));
 	//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayManager::RunGenerationPhase()"));
 
-	// TetriminoInPlay가 비어 있으면 NextQueue에서 꺼내온다. (HoldQueue에서 꺼내 왔다면 가져오지 않는다.)
+	// TetriminoInPlay가 비어 있으면 NextQueue에서 꺼내온다. (HoldQueue에서 꺼내 오는 경우가 있어서 필요)
 	if (!TetriminoInPlay)
 	{
 		ATetrimino* const NewTetriminoInPlay = PopTetriminoFromNextQueue();
@@ -347,7 +347,6 @@ void ATetrisPlayManager::RunCompletionPhase()
 
 	/** Reset */
 	GamePlayInfo.Reset();
-	check(!IsTimerActive(LockDownTimerHandle));
 	ClearTimers({ &NormalFallTimerHandle });
 
 	EnterPhaseWithDelay(EPhase::Generation, GenerationPhaseChangeInitialDelay);
@@ -448,7 +447,7 @@ void ATetrisPlayManager::LockDown()
 	Board->AddMinos(TetriminoInPlay);
 	RemoveTetriminoInPlay();
 
-	bIsTetriminoInPlayLockedDownFromLastHold = true;
+	bHasLockDownFromLastHold = true;
 
 	EnterPhase(EPhase::Pattern);
 }
@@ -565,7 +564,7 @@ void ATetrisPlayManager::RemoveTetriminoInPlay()
 bool ATetrisPlayManager::IsHoldingTetriminoInPlayAvailable() const
 {
 	// 홀드 큐가 비어 있거나, 마지막 홀드로부터 LockDown이 수행된 적이 있다면 가능하다.
-	return (HoldQueue && HoldQueue->IsEmpty()) || bIsTetriminoInPlayLockedDownFromLastHold;
+	return (HoldQueue && HoldQueue->IsEmpty()) || bHasLockDownFromLastHold;
 }
 
 bool ATetrisPlayManager::IsTetriminoInPlayOnSurface() const
