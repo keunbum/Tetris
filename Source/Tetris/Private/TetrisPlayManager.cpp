@@ -570,7 +570,6 @@ void ATetrisPlayManager::SetAutoRepeatMovementTimer()
 
 void ATetrisPlayManager::SetSoftDropTimer()
 {
-	check(!IsTimerActive(SoftDropTimerHandle));
 	const float SoftDropSpeed = ATetrisInGameGameMode::GetSoftDropSpeed(NormalFallSpeed);
 	GetWorldTimerManager().SetTimer(SoftDropTimerHandle, this, &ATetrisPlayManager::MoveTetriminoDown, SoftDropSpeed, bSoftDropTimerLoop, SoftDropTimerInitialDelay);
 	//UE_LOG(LogTemp, Display, TEXT("Soft Drop Timer is set."));
@@ -588,11 +587,6 @@ void ATetrisPlayManager::SetNormalFallTimer()
 
 void ATetrisPlayManager::SetLockDownTimer()
 {
-	UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayManager::SetLockDownTimer()"));
-	if (IsTimerActive(LockDownTimerHandle))
-	{
-		UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayManager::SetLockDownTimer() - LockDownTimer is already active, so it will be cleared and reset."));
-	}
 	GetWorldTimerManager().SetTimer(LockDownTimerHandle, this, &ATetrisPlayManager::LockDown, LockDownTimerInitialDelay, bIsLockDownTimerLoop);
 	//UE_LOG(LogTemp, Display, TEXT("Lock Down Timer is set."));
 }
