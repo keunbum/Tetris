@@ -6,7 +6,7 @@
 #include "MenuWidgetBase.h"
 #include "MainMenuWidget.generated.h"
 
-class UOptionPopUpWidget;
+class UOptionPopupWidget;
 
 /**
  * 
@@ -47,9 +47,9 @@ private:
 	/** Widget References */
 	// OptionPopUpWidget
 	UPROPERTY()
-	TObjectPtr<UOptionPopUpWidget> OptionPopUpWidget;
+	TObjectPtr<UOptionPopupWidget> OptionPopUpWidget;
 
 	/** Widget Class References */
 	UPROPERTY(EditDefaultsOnly, Category = "Classes")
-	TSubclassOf<UOptionPopUpWidget> OptionPopUpWidgetClass;
+	TSubclassOf<UOptionPopupWidget> OptionPopUpWidgetClass;
 };

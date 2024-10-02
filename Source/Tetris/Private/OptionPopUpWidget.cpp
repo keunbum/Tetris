@@ -1,11 +1,11 @@
 // Copyright Ryu KeunBeom. All Rights Reserved.
 
-#include "OptionPopUpWidget.h"
+#include "OptionPopupWidget.h"
 #include "Components/Slider.h"
 #include "TetrisAudioManagerSubsystem.h"
 
 
-void UOptionPopUpWidget::NativeOnInitialized()
+void UOptionPopupWidget::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
 
@@ -13,11 +13,11 @@ void UOptionPopUpWidget::NativeOnInitialized()
 
 	if (BgmVolumeSlider)
 	{
-		BgmVolumeSlider->OnValueChanged.AddDynamic(this, &UOptionPopUpWidget::OnBgmVolumeSliderValueChanged);
+		BgmVolumeSlider->OnValueChanged.AddDynamic(this, &UOptionPopupWidget::OnBgmVolumeSliderValueChanged);
 	}
 }
 
-void UOptionPopUpWidget::NativeConstruct()
+void UOptionPopupWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 
@@ -28,7 +28,7 @@ void UOptionPopUpWidget::NativeConstruct()
 	}
 }
 
-void UOptionPopUpWidget::NativeDestruct()
+void UOptionPopupWidget::NativeDestruct()
 {
 	if (AudioManager)
 	{
@@ -36,11 +36,11 @@ void UOptionPopUpWidget::NativeDestruct()
 	}
 	else
 	{
-		UE_LOG(LogTemp, Error, TEXT("UOptionPopUpWidget::NativeDestruct() - Failed to get AudioManager"));
+		UE_LOG(LogTemp, Error, TEXT("UOptionPopupWidget::NativeDestruct() - Failed to get AudioManager"));
 	}
 }
 
-void UOptionPopUpWidget::OnBgmVolumeSliderValueChanged(const float NewVolume)
+void UOptionPopupWidget::OnBgmVolumeSliderValueChanged(const float NewVolume)
 {
 	if (AudioManager)
 	{
@@ -48,6 +48,6 @@ void UOptionPopUpWidget::OnBgmVolumeSliderValueChanged(const float NewVolume)
 	}
 	else
 	{
-		UE_LOG(LogTemp, Error, TEXT("UOptionPopUpWidget::OnBgmVolumeSliderValueChanged() - Failed to get AudioManager"));
+		UE_LOG(LogTemp, Error, TEXT("UOptionPopupWidget::OnBgmVolumeSliderValueChanged() - Failed to get AudioManager"));
 	}
 }
