@@ -355,30 +355,18 @@ void ATetrisPlayManager::RunCompletionPhase()
 
 void ATetrisPlayManager::MoveTetriminoTo(const FVector2D& Direction)
 {
-	if (!TetriminoInPlay)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayManager::MoveTetriminoTo() - TetriminoInPlay is nullptr."));
-		return;
-	}
-
 	if (!bIsTetriminoInPlayManipulable)
 	{
 		UE_LOG(LogTemp, Display, TEXT("ATetrisPlayManager::MoveTetriminoTo() - Tetrimino is not manipulable."));
 		return;
-
 	}
 
-	const FIntPoint MovementIntPoint = ATetriminoBase::GetMatrixMovementIntPointByDirection(Direction);
-	const bool bIsMovementPossible = Board->IsMovementPossible(TetriminoInPlay, MovementIntPoint);
-	if (bIsMovementPossible)
+	if (!ensureMsgf(TetriminoInPlay, TEXT("ATetrisPlayManager::MoveTetriminoTo() - TetriminoInPlay is nullptr.")))
 	{
-		TetriminoInPlay->MoveBy(MovementIntPoint);
-		RunLockDownSystem();
+		return;
 	}
-	else
-	{
-		//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayManager::MoveTetriminoTo() - Movement is not possible."));
-	}
+
+	MoveTetriminoToInternal(Direction);
 }
 
 void ATetrisPlayManager::MoveTetrimino()
