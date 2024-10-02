@@ -194,7 +194,7 @@ void ATetrisPlayManager::HoldTetriminoInPlay()
 	bIsTetriminoInPlayManipulable = false;
 
 	// HoldQueue에서 테트리미노 가져오기 (비어 있으면 nullptr)
-	ATetrimino* const TetriminoInHoldQueue = HoldQueue->Dequeue();
+	ATetrimino* const TetriminoFromHoldQueue = HoldQueue->Dequeue();
 
 	// HoldQueue에 기존 TetriminoInPlay 넣기
 	TetriminoInPlay->DetachFromBoard();
@@ -202,7 +202,7 @@ void ATetrisPlayManager::HoldTetriminoInPlay()
 	HoldQueue->Enqueue(TetriminoInPlay);
 	HoldQueue->ReArrangeTetriminoLocations();
 
-	SetTetriminoInPlay(TetriminoInHoldQueue);
+	SetTetriminoInPlay(TetriminoFromHoldQueue);
 	bIsTetriminoInPlayLockedDownFromLastHold = false;
 
 	EnterPhase(EPhase::Generation);
