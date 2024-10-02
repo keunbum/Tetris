@@ -474,8 +474,7 @@ void ATetrisPlayManager::RunSuperRotationSystem(const ETetriminoRotationDirectio
 		const bool bIsRotationPossible = Board->IsRotationPossible(TetriminoInPlay, RotationDirection, SRSRotationPointOffset);
 		if (bIsRotationPossible)
 		{
-			TetriminoInPlay->RotateTo(RotationDirection);
-			TetriminoInPlay->MoveBy(SRSRotationPointOffset);
+			TetriminoInPlay->RotateToWithPointOffset(RotationDirection, SRSRotationPointOffset);
 			//UE_LOG(LogTemp, Display, TEXT("%Rotation with Point%d."), PointIndex + 1);
 			RunLockDownSystem();
 			return;
