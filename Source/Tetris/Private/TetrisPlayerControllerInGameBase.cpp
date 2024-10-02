@@ -135,7 +135,7 @@ void ATetrisPlayerControllerInGameBase::OnMoveRightCompleted(const FInputActionV
 
 void ATetrisPlayerControllerInGameBase::OnSoftDropStarted(const FInputActionValue& ActionValue)
 {
-	UE_LOG(LogTemp, Display, TEXT("ATetrisPlayerControllerInGameBase::OnSoftDropStarted()"));
+	//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayerControllerInGameBase::OnSoftDropStarted()"));
 	if (GameMode)
 	{
 		EnumAddFlags(KeyPressingFlags, EKeyFlags::SoftDrop);
@@ -145,7 +145,7 @@ void ATetrisPlayerControllerInGameBase::OnSoftDropStarted(const FInputActionValu
 
 void ATetrisPlayerControllerInGameBase::OnSoftDropCompleted(const FInputActionValue& ActionValue)
 {
-	UE_LOG(LogTemp, Display, TEXT("ATetrisPlayerControllerInGameBase::OnSoftDropCompleted()"));
+	//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayerControllerInGameBase::OnSoftDropCompleted()"));
 	if (GameMode)
 	{
 		EnumRemoveFlags(KeyPressingFlags, EKeyFlags::SoftDrop);

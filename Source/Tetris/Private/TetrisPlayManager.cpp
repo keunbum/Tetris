@@ -161,7 +161,7 @@ void ATetrisPlayManager::DoHardDrop()
 
 void ATetrisPlayManager::DoRotation(const ETetriminoRotationDirection RotationDirection)
 {
-	UE_LOG(LogTemp, Display, TEXT("ATetrisPlayManager::DoRotation()"));
+	//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayManager::DoRotation()"));
 
 	if (!bIsTetriminoInPlayManipulable)
 	{
@@ -263,8 +263,8 @@ void ATetrisPlayManager::InitializeHoldQueue()
 
 void ATetrisPlayManager::RunGenerationPhase()
 {
-	UE_LOG(LogTemp, Warning, TEXT("|-----------------------------------------------------------------------|"));
-	UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayManager::RunGenerationPhase()"));
+	//UE_LOG(LogTemp, Display, TEXT("|-----------------------------------------------------------------------|"));
+	//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayManager::RunGenerationPhase()"));
 
 	ATetrimino* const NewTetriminoInPlay = PopTetriminoFromNextQueue();
 	SetTetriminoInPlay(NewTetriminoInPlay);
@@ -276,7 +276,7 @@ void ATetrisPlayManager::RunGenerationPhase()
 		const bool bIsBlockOutCondition = Board->IsBlocked(TetriminoInPlay);
 		if (bIsBlockOutCondition)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("Block Out Condition -> Game Over"));
+			//UE_LOG(LogTemp, Display, TEXT("Block Out Condition -> Game Over"));
 			GameMode->RunGameOver();
 			return;
 		}
@@ -291,21 +291,21 @@ void ATetrisPlayManager::RunGenerationPhase()
 
 void ATetrisPlayManager::RunFallingPhase()
 {
-	UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayManager::RunFallingPhase()"));
+	//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayManager::RunFallingPhase()"));
 
 	SetNormalFallTimer();
 }
 
 void ATetrisPlayManager::RunLockPhase()
 {
-	UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayManager::RunLockPhase()"));
+	//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayManager::RunLockPhase()"));
 
 	SetLockDownTimer();
 }
 
 void ATetrisPlayManager::RunPatternPhase()
 {
-	//UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayManager::RunPatternPhase()"));
+	//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayManager::RunPatternPhase()"));
 
 	/** Main Logic */
 	CheckLineClearPattern(GamePlayInfo.HitList);
@@ -333,7 +333,7 @@ void ATetrisPlayManager::RunAnimatePhase()
 
 void ATetrisPlayManager::RunEliminatePhase()
 {
-	//UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayManager::RunEliminatePhase()"));
+	//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayManager::RunEliminatePhase()"));
 
 	/** Main Logic */
 	if (Board)
@@ -346,7 +346,7 @@ void ATetrisPlayManager::RunEliminatePhase()
 
 void ATetrisPlayManager::RunCompletionPhase()
 {
-	UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayManager::RunCompletionPhase()"));
+	//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayManager::RunCompletionPhase()"));
 
 	/** Main Logic */
 	if (GameMode)
@@ -386,7 +386,7 @@ void ATetrisPlayManager::MoveTetriminoTo(const FVector2D& Direction)
 	}
 	else
 	{
-		UE_LOG(LogTemp, Display, TEXT("ATetrisPlayManager::MoveTetriminoTo() - Movement is not possible."));
+		//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayManager::MoveTetriminoTo() - Movement is not possible."));
 	}
 }
 
@@ -406,13 +406,13 @@ void ATetrisPlayManager::LockDown()
 	//ensureMsgf(IsTetriminoInPlayOnSurface(), TEXT("TetriminoInPlay is not on the surface."));
 	if (IsTimerActive(LockDownTimerHandle))
 	{
-		UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayManager::LockDown() - LockDownTimer is active, so it will be cleared."));
+		//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayManager::LockDown() - LockDownTimer is active, so it will be cleared."));
 		ClearTimer(LockDownTimerHandle);
 	}
 
 	if (!IsTetriminoInPlayOnSurface())
 	{
-		UE_LOG(LogTemp, Display, TEXT("ATetrisPlayManager::LockDown() - TetriminoInPlay is not on the surface. So Do nothing."));
+		//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayManager::LockDown() - TetriminoInPlay is not on the surface. So Do nothing."));
 		return;
 	}
 
@@ -426,6 +426,8 @@ void ATetrisPlayManager::LockDown()
 		return;
 	}
 
+	//UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayManager::LockDown()"));
+
 	PlayLockDownEffect(TetriminoInPlay->GetMinoArray());
 
 	// Game Over Condition
@@ -433,7 +435,7 @@ void ATetrisPlayManager::LockDown()
 	const bool bIsLockOutCondition = Board->IsAboveSkyline(TetriminoInPlay);
 	if (bIsLockOutCondition)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Lock Out Condition -> Game Over"));
+		//UE_LOG(LogTemp, Warning, TEXT("Lock Out Condition -> Game Over"));
 		GameMode->RunGameOver();
 		return;
 	}
@@ -519,17 +521,17 @@ void ATetrisPlayManager::RunLockDownSystem()
 	const int32 CurrentRow = TetriminoInPlay->GetLowestRow();
 	if (CurrentRow > ExtendedPlacement.LowestRow)
 	{
-		UE_LOG(LogTemp, Display, TEXT("ATetrisPlayManager::RunLockDownSystem() -> It's a new lowest row: %d"), CurrentRow);
+		//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayManager::RunLockDownSystem() -> It's a new lowest row: %d"), CurrentRow);
 		ExtendedPlacement.LowestRow = CurrentRow;
 		ExtendedPlacement.TimerResetCount = ExtendedPlacement.MaxTimerResetCount;
 	}
 
 	if (IsTetriminoInPlayOnSurface())
 	{
-		UE_LOG(LogTemp, Display, TEXT("ATetrisPlayManager::RunLockDownSystem() -> Tetrimino is on the surface."));
+		//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayManager::RunLockDownSystem() -> Tetrimino is on the surface."));
 		if (ExtendedPlacement.TimerResetCount <= 0)
 		{
-			UE_LOG(LogTemp, Display, TEXT("ATetrisPlayManager::RunLockDownSystem() -> Force Lock Down"));
+			//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayManager::RunLockDownSystem() -> Force Lock Down"));
 			ForceLockDown();
 		}
 		else
@@ -538,19 +540,19 @@ void ATetrisPlayManager::RunLockDownSystem()
 			{
 				//ClearTimer(LockDownTimerHandle);
 				--ExtendedPlacement.TimerResetCount;
-				UE_LOG(LogTemp, Display, TEXT("ATetrisPlayManager::RunLockDownSystem() -> TimerResetCount Used: %d"), ExtendedPlacement.TimerResetCount);
+				//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayManager::RunLockDownSystem() -> TimerResetCount Used: %d"), ExtendedPlacement.TimerResetCount);
 			}
 			EnterPhase(EPhase::Lock);
 		}
 	}
 	else
 	{
-		UE_LOG(LogTemp, Display, TEXT("ATetrisPlayManager::RunLockDownSystem() -> Tetrimino is not on the surface."));
+		//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayManager::RunLockDownSystem() -> Tetrimino is not on the surface."));
 		if (IsTimerActive(LockDownTimerHandle))
 		{
 			//ClearTimer(LockDownTimerHandle);
 			--ExtendedPlacement.TimerResetCount;
-			UE_LOG(LogTemp, Display, TEXT("ATetrisPlayManager::RunLockDownSystem() -> TimerResetCount Used: %d"), ExtendedPlacement.TimerResetCount);
+			//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayManager::RunLockDownSystem() -> TimerResetCount Used: %d"), ExtendedPlacement.TimerResetCount);
 		}
 	}
 }
