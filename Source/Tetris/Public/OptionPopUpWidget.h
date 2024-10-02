@@ -13,7 +13,7 @@ class UTetrisAudioManagerSubsystem;
  * 
  */
 UCLASS()
-class TETRIS_API UOptionPopupWidget : public UPopUpWidgetBase
+class TETRIS_API UOptionPopupWidget : public UPopupWidgetBase
 {
 	GENERATED_BODY()
 
