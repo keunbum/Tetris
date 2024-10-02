@@ -39,10 +39,6 @@ void ATetrimino::SetBoard(ABoard* const InBoard)
 	{
 		AttachToMatrix(Board->GetMatrixRoot());
 	}
-	else
-	{
-		DetachFromMatrix();
-	}
 }
 
 int32 ATetrimino::GetLowestRow() const
@@ -51,6 +47,17 @@ int32 ATetrimino::GetLowestRow() const
 	// X 값이 클수록 미노가 더 아래에 위치함.
 	const FIntPoint LowestMinoLocalLocation = *Algo::MinElement(MinoLocalLocations, [](const FIntPoint& A, const FIntPoint& B) { return A.X > B.X; });
 	return MatrixLocation.X + LowestMinoLocalLocation.X;
+}
+
+void ATetrimino::DetachFromBoard()
+{
+	GhostPiece = nullptr;
+
+	if (Board)
+	{
+		DetachFromMatrix();
+		Board = nullptr;
+	}
 }
 
 void ATetrimino::MoveBy(const FIntPoint& IntPoint2D)
