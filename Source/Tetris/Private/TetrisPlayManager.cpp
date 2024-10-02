@@ -388,8 +388,6 @@ void ATetrisPlayManager::MoveTetriminoDown()
 
 void ATetrisPlayManager::LockDown()
 {
-	//check(IsTetriminoInPlayOnSurface());
-	//ensureMsgf(IsTetriminoInPlayOnSurface(), TEXT("TetriminoInPlay is not on the surface."));
 	if (IsTimerActive(LockDownTimerHandle))
 	{
 		//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayManager::LockDown() - LockDownTimer is active, so it will be cleared."));
@@ -404,11 +402,8 @@ void ATetrisPlayManager::LockDown()
 
 	bIsTetriminoInPlayManipulable = false;
 
-	UE_LOG(LogTemp, Warning, TEXT("ATetrisPlayManager::LockDown()"));
-
-	if (!Board || !GameMode || !TetriminoInPlay)
+	if (!ensureMsgf(Board && TetriminoInPlay && GameMode, TEXT("Some of the necessary components are nullptr.")))
 	{
-		UE_LOG(LogTemp, Error, TEXT("Some of the necessary components are nullptr."));
 		return;
 	}
 
@@ -429,14 +424,7 @@ void ATetrisPlayManager::LockDown()
 	// Transfer of TetriminoInPlay's Minos to Board
 	TetriminoInPlay->DetachMinos();
 	Board->AddMinos(TetriminoInPlay);
-
-	// Remove TetriminoInPlay
-	ATetrimino* const OldTetriminoInPlay = TetriminoInPlay;
-	SetTetriminoInPlay(nullptr);
-	if (OldTetriminoInPlay)
-	{
-		OldTetriminoInPlay->Destroy();
-	}
+	RemoveTetriminoInPlay();
 
 	bIsTetriminoInPlayLockedDownFromLastHold = true;
 
