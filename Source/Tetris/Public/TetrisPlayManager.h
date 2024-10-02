@@ -107,6 +107,7 @@ private:
 	void MoveTetriminoTo(const FVector2D& Direction);
 	void MoveTetrimino();
 	void MoveTetriminoDown();
+	void MoveTetriminoToInternal(const FVector2D& Direction);
 	void MoveTetriminoInPlayToFinalFallingLocation();
 
 	/** Logics */
