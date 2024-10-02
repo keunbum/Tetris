@@ -649,18 +649,13 @@ bool ATetrisPlayManager::IsTimerActive(const FTimerHandle& TimerHandle) const
 
 void ATetrisPlayManager::SetTetriminoInPlay(ATetrimino* const InTetriminoInPlay)
 {
-	if (InTetriminoInPlay)
-	{
-		InTetriminoInPlay->SetBoard(Board);
-		InTetriminoInPlay->SetGhostPiece(GhostPiece);
-		ExtendedPlacement.Init(InTetriminoInPlay->GetLowestRow());
-	}
-	else
-	{
-		TetriminoInPlay->SetGhostPiece(nullptr);
-		TetriminoInPlay->SetBoard(nullptr);
-	}
 	TetriminoInPlay = InTetriminoInPlay;
+	if (TetriminoInPlay)
+	{
+		TetriminoInPlay->SetBoard(Board);
+		TetriminoInPlay->SetGhostPiece(GhostPiece);
+		ExtendedPlacement.Init(TetriminoInPlay->GetLowestRow());
+	}
 }
 
 ATetrimino* ATetrisPlayManager::PopTetriminoFromNextQueue()
