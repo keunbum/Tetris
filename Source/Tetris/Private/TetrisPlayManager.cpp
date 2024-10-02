@@ -252,10 +252,14 @@ void ATetrisPlayManager::RunGenerationPhase()
 	//UE_LOG(LogTemp, Display, TEXT("|-----------------------------------------------------------------------|"));
 	//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayManager::RunGenerationPhase()"));
 
-	ATetrimino* const NewTetriminoInPlay = PopTetriminoFromNextQueue();
-	SetTetriminoInPlay(NewTetriminoInPlay);
+	// TetriminoInPlay가 비어 있으면 NextQueue에서 꺼내온다. (HoldQueue에서 꺼내 왔다면 가져오지 않는다.)
+	if (!TetriminoInPlay)
+	{
+		ATetrimino* const NewTetriminoInPlay = PopTetriminoFromNextQueue();
+		SetTetriminoInPlay(NewTetriminoInPlay);
+	}
 
-	if (Board && GameMode)
+	if (ensureMsgf(Board && GameMode, TEXT("Some of the necessary components are nullptr.")))
 	{
 		// Check Game Over Condition
 		// Block Out Condition occurs when part of a newly-generated Tetrimino is blocked due to an existing Block in the Matrix.
@@ -269,8 +273,7 @@ void ATetrisPlayManager::RunGenerationPhase()
 	}
 
 	// TetriminoInPlay drops one row if no existing Block is in its path.
-	bIsTetriminoInPlayManipulable = true;
-	MoveTetriminoDown();
+	MoveTetriminoToInternal(ATetriminoBase::MoveDirectionDown);
 
 	EnterPhase(EPhase::Falling);
 }
@@ -278,6 +281,8 @@ void ATetrisPlayManager::RunGenerationPhase()
 void ATetrisPlayManager::RunFallingPhase()
 {
 	//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayManager::RunFallingPhase()"));
+
+	bIsTetriminoInPlayManipulable = true;
 
 	SetNormalFallTimer();
 }
