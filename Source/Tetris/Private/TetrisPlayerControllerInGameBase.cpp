@@ -206,7 +206,7 @@ void ATetrisPlayerControllerInGameBase::StartTetriminoMovement(const EKeyFlags K
 		EnumAddFlags(KeyPressingFlags, KeyPressed);
 
 		const FVector2D& DirectionPressed = GetDirectionByKeyFlag(KeyPressed);
-		GameMode->GetTetrisPlayManager()->StartMovement(DirectionPressed);
+		GameMode->GetTetrisPlayManager()->StartAutoRepeatMovement(DirectionPressed);
 	}
 }
 
@@ -222,12 +222,12 @@ void ATetrisPlayerControllerInGameBase::EndTetriminoMovement(const EKeyFlags Key
 			if (GameMode->GetTetrisPlayManager()->GetTetriminoMovementDirection() == DirectionReleased)
 			{
 				const FVector2D OppositeDirection = -DirectionReleased;
-				GameMode->GetTetrisPlayManager()->StartMovement(OppositeDirection);
+				GameMode->GetTetrisPlayManager()->StartAutoRepeatMovement(OppositeDirection);
 			}
 		}
 		else
 		{
-			GameMode->GetTetrisPlayManager()->EndMovement();
+			GameMode->GetTetrisPlayManager()->EndAutoRepeatMovement();
 		}
 		EnumRemoveFlags(KeyPressingFlags, KeyReleased);
 	}

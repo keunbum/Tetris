@@ -161,7 +161,7 @@ void ATetrisInGameGameMode::StartGamePlay()
 	GameStartTime = UGameplayStatics::GetTimeSeconds(GetWorld());
 	if (TetrisPlayManager)
 	{
-		TetrisPlayManager->ChangePhase(EPhase::Generation);
+		TetrisPlayManager->EnterPhase(EPhase::Generation);
 	}
 }
 

@@ -37,7 +37,7 @@ public:
 	virtual void Initialize();
 
 	bool IsKeyPressed(const EKeyFlags KeyFlag) const { return EnumHasAnyFlags(KeyPressingFlags, KeyFlag); }
-	bool IsSoftDropKeyPressed() const { return IsKeyPressed(EKeyFlags::SoftDrop); }
+	bool IsSoftDropOn() const { return IsKeyPressed(EKeyFlags::SoftDrop); }
 
 protected:
 	void InitializeCamera();

@@ -84,6 +84,6 @@ void ATetrisGameModeBase::UninitializeEffect()
 	}
 	else
 	{
-		UE_LOG(LogTemp, Error, TEXT("ATetrisGameModeBase::UninitializeEffect() - Failed to get BgmComponent"));
+		UE_LOG(LogTemp, Warning, TEXT("ATetrisGameModeBase::UninitializeEffect() - Failed to get BgmComponent"));
 	}
 }

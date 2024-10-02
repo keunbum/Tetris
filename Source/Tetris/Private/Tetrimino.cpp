@@ -39,18 +39,25 @@ void ATetrimino::SetBoard(ABoard* const InBoard)
 	{
 		AttachToMatrix(Board->GetMatrixRoot());
 	}
-	else
-	{
-		DetachFromMatrix();
-	}
 }
 
-int32 ATetrimino::GetLowestMinoX() const
+int32 ATetrimino::GetLowestRow() const
 {
 	const TArray<FIntPoint>& MinoLocalLocations = GetMinoTetriminoLocalLocations();
 	// X 값이 클수록 미노가 더 아래에 위치함.
 	const FIntPoint LowestMinoLocalLocation = *Algo::MinElement(MinoLocalLocations, [](const FIntPoint& A, const FIntPoint& B) { return A.X > B.X; });
 	return MatrixLocation.X + LowestMinoLocalLocation.X;
+}
+
+void ATetrimino::DetachFromBoard()
+{
+	GhostPiece = nullptr;
+
+	if (Board)
+	{
+		DetachFromMatrix();
+		Board = nullptr;
+	}
 }
 
 void ATetrimino::MoveBy(const FIntPoint& IntPoint2D)
@@ -72,6 +79,12 @@ void ATetrimino::RotateTo(const ETetriminoRotationDirection RotationDirection)
 	{
 		GhostPiece->RotateByFacing(NewFacing);
 	}
+}
+
+void ATetrimino::RotateToWithPointOffset(const ETetriminoRotationDirection RotationDirection, const FIntPoint& PointOffset)
+{
+	RotateTo(RotationDirection);
+	MoveBy(PointOffset);
 }
 
 void ATetrimino::AttachToMatrix(USceneComponent* const MatrixRoot)

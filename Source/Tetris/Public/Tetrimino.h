@@ -25,10 +25,12 @@ public:
 
 	void SetGhostPiece(AGhostPiece* const InGhostPiece);
 	void SetBoard(ABoard* const InBoard);
-	int32 GetLowestMinoX() const;
+	int32 GetLowestRow() const;
+	void DetachFromBoard();
 
 	void MoveBy(const FIntPoint& IntVector2D);
 	void RotateTo(const ETetriminoRotationDirection RotationDirection);
+	void RotateToWithPointOffset(const ETetriminoRotationDirection RotationDirection, const FIntPoint& PointOffset);
 
 private:
 	void AttachToMatrix(USceneComponent* const MatrixRoot);
@@ -43,7 +45,7 @@ private:
 
 private:
 	UPROPERTY(VisibleAnywhere)
-	TObjectPtr<ATetriminoBase> GhostPiece;
+	TObjectPtr<AGhostPiece> GhostPiece;
 
 	UPROPERTY()
 	TObjectPtr<ABoard> Board;
