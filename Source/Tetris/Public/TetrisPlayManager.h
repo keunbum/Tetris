@@ -149,7 +149,7 @@ private:
 private:
 	/** Normal Fall */
 	static constexpr bool bIsNormalFallTimerLoop = true;
-	static constexpr float NormalFallTimerInitialDelay = 0.0f;
+	static constexpr float NormalFallTimerInitialDelay = -1.0f;
 
 	/** Auto Repeat Movement */
 	static constexpr bool bIsAutoRepeatMovementLoop = true;
