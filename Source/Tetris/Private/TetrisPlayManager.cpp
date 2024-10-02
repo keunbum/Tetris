@@ -403,7 +403,7 @@ void ATetrisPlayManager::MoveTetriminoToInternal(const FVector2D& Direction)
 		TetriminoInPlay->MoveBy(MovementIntPoint);
 		if (ATetrisPlayManager::IsAutoRepeatMovement(Direction))
 		{
-			PlaySoundCue(SoundCueMap.FindRef(TEXT("MoveSoundCue")));
+			PlaySoundCue(SoundCueMap.FindRef(TEXT("AutoRepeatMovement")));
 		}
 		RunLockDownSystem();
 	}
@@ -490,7 +490,7 @@ void ATetrisPlayManager::RunSuperRotationSystem(const ETetriminoRotationDirectio
 		if (bIsRotationPossible)
 		{
 			TetriminoInPlay->RotateToWithPointOffset(RotationDirection, SRSRotationPointOffset);
-			PlaySoundCue(SoundCueMap.FindRef(TEXT("RotationSoundCue")));
+			PlaySoundCue(SoundCueMap.FindRef(TEXT("Rotation")));
 			//UE_LOG(LogTemp, Display, TEXT("%Rotation with Point%d."), PointIndex + 1);
 			RunLockDownSystem();
 			return;
