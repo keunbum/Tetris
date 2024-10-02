@@ -386,6 +386,15 @@ void ATetrisPlayManager::MoveTetriminoDown()
 	MoveTetriminoTo(ATetriminoBase::MoveDirectionDown);
 }
 
+void ATetrisPlayManager::MoveTetriminoInPlayToFinalFallingLocation()
+{
+	if (GhostPiece && TetriminoInPlay)
+	{
+		const FIntPoint FinalFallingMatrixLocation = GhostPiece->GetMatrixLocation();
+		TetriminoInPlay->SetRelativeLocationByMatrixLocation(FinalFallingMatrixLocation);
+	}
+}
+
 void ATetrisPlayManager::LockDown()
 {
 	if (IsTimerActive(LockDownTimerHandle))
@@ -549,15 +558,6 @@ bool ATetrisPlayManager::IsHoldingTetriminoInPlayAvailable() const
 bool ATetrisPlayManager::IsTetriminoInPlayOnSurface() const
 {
 	return Board && Board->IsDirectlyAboveSurface(TetriminoInPlay);
-}
-
-void ATetrisPlayManager::MoveTetriminoInPlayToFinalFallingLocation()
-{
-	if (GhostPiece && TetriminoInPlay)
-	{
-		const FIntPoint FinalFallingMatrixLocation = GhostPiece->GetMatrixLocation();
-		TetriminoInPlay->SetRelativeLocationByMatrixLocation(FinalFallingMatrixLocation);
-	}
 }
 
 void ATetrisPlayManager::SetAutoRepeatMovementTimer()
