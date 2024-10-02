@@ -388,6 +388,26 @@ void ATetrisPlayManager::MoveTetriminoInPlayToFinalFallingLocation()
 	}
 }
 
+void ATetrisPlayManager::MoveTetriminoToInternal(const FVector2D& Direction)
+{
+	if (!ensureMsgf(Board, TEXT("ATetrisPlayManager::MoveTetriminoTo() - Board is nullptr.")))
+	{
+		return;
+	}
+
+	const FIntPoint MovementIntPoint = ATetriminoBase::GetMatrixMovementIntPointByDirection(Direction);
+	const bool bIsMovementPossible = Board->IsMovementPossible(TetriminoInPlay, MovementIntPoint);
+	if (bIsMovementPossible)
+	{
+		TetriminoInPlay->MoveBy(MovementIntPoint);
+		RunLockDownSystem();
+	}
+	else
+	{
+		//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayManager::MoveTetriminoTo() - Movement is not possible."));
+	}
+}
+
 void ATetrisPlayManager::LockDown()
 {
 	if (IsTimerActive(LockDownTimerHandle))
@@ -682,24 +702,3 @@ void ATetrisPlayManager::PlayLockDownEffect(const TArray<UMino*>& MinoArray)
 	// TODO: LockDown Effect 추가
 	// 파라미터 수정될 여지 있음
 }
-
-void ATetrisPlayManager::MoveTetriminoToInternal(const FVector2D& Direction)
-{
-	if (!ensureMsgf(Board, TEXT("ATetrisPlayManager::MoveTetriminoTo() - Board is nullptr.")))
-	{
-		return;
-	}
-
-	const FIntPoint MovementIntPoint = ATetriminoBase::GetMatrixMovementIntPointByDirection(Direction);
-	const bool bIsMovementPossible = Board->IsMovementPossible(TetriminoInPlay, MovementIntPoint);
-	if (bIsMovementPossible)
-	{
-		TetriminoInPlay->MoveBy(MovementIntPoint);
-		RunLockDownSystem();
-	}
-	else
-	{
-		//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayManager::MoveTetriminoTo() - Movement is not possible."));
-	}
-}
-
