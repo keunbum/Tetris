@@ -68,7 +68,7 @@ public:
 	void Initialize();
 
 	/** Basic Member Variable Accessors */
-	const FVector2D& GetTetriminoMovementDirection() const { return TetriminoMovementDirection; }
+	const FVector2D& GetTetriminoMovementDirection() const { return AutoRepeatMovementDirection; }
 	float GetNormalFallSpeed() const { return NormalFallSpeed; }
 	void SetNormalFallSpeed(const float NewNormalFallSpeed) { NormalFallSpeed = NewNormalFallSpeed; }
 
@@ -77,8 +77,8 @@ public:
 	void EnterPhaseWithDelay(const EPhase NewPhase, const float Delay);
 
 	/** Event Handlers */
-	void StartMovement(const FVector2D& InMovementDirection);
-	void EndMovement();
+	void StartAutoRepeatMovement(const FVector2D& InMovementDirection);
+	void EndAutoRepeatMovement();
 	void StartSoftDrop();
 	void EndSoftDrop();
 	void DoHardDrop();
@@ -135,7 +135,7 @@ private:
 	bool IsTimerActive(const FTimerHandle& TimerHandle) const;
 
 	/** Basic Member Variable Accessors */
-	void SetTetriminoMovementDirection(const FVector2D& NewTetriminoMovementDirection) { TetriminoMovementDirection = NewTetriminoMovementDirection; }
+	void SetAutoRepeatMovementDirection(const FVector2D& NewTMovementDirection) { AutoRepeatMovementDirection = NewTMovementDirection; }
 	void SetTetriminoInPlay(ATetrimino* const InTetriminoInPlay);
 
 	/** Tetrimino Generation */
@@ -215,7 +215,7 @@ private:
 	TObjectPtr<UTetriminoGenerator> TetriminoGenerator;
 
 	UPROPERTY(VisibleAnywhere)
-	FVector2D TetriminoMovementDirection;
+	FVector2D AutoRepeatMovementDirection;
 
 	UPROPERTY(VisibleInstanceOnly)
 	FTetrisGamePlayInfo GamePlayInfo;
