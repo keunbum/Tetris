@@ -10,7 +10,7 @@
  * 
  */
 UCLASS()
-class TETRIS_API ATetrisSinglePlayerGameModeBase : public ATetrisInGameGameMode
+class TETRIS_API ATetrisSinglePlayerGameModeBase : public ATetrisIngameGameMode
 {
 	GENERATED_BODY()
 	

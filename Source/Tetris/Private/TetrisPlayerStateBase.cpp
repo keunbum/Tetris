@@ -7,10 +7,10 @@
 #include "HUDSingle.h"
 
 ATetrisPlayerStateBase::ATetrisPlayerStateBase()
-	: GameLevel(ATetrisInGameGameMode::DefaultGameLevel)
-	, LineClearCount(ATetrisInGameGameMode::DefaultLineCount)
+	: GameLevel(ATetrisIngameGameMode::DefaultGameLevel)
+	, LineClearCount(ATetrisIngameGameMode::DefaultLineCount)
 {
-	SetScore(ATetrisInGameGameMode::DefaultScore);
+	SetScore(ATetrisIngameGameMode::DefaultScore);
 }
 
 void ATetrisPlayerStateBase::Initialize(const IGoalSystemInterface* GoalSystem)

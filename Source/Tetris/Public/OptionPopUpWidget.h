@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "PopUpWidgetBase.h"
-#include "OptionPopUpWidget.generated.h"
+#include "OptionPopupWidget.generated.h"
 
 class USlider;
 class UTetrisAudioManagerSubsystem;
@@ -13,7 +13,7 @@ class UTetrisAudioManagerSubsystem;
  * 
  */
 UCLASS()
-class TETRIS_API UOptionPopUpWidget : public UPopUpWidgetBase
+class TETRIS_API UOptionPopupWidget : public UPopupWidgetBase
 {
 	GENERATED_BODY()
 

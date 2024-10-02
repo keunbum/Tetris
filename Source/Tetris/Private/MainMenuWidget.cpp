@@ -5,7 +5,7 @@
 #include "Kismet/GameplayStatics.h"
 
 #include "TetrisInGameGameMode.h"
-#include "OptionPopUpWidget.h"
+#include "OptionPopupWidget.h"
 #include "MenuButton.h"
 
 const FName UMainMenuWidget::OptionPopUpWidgetPath(TEXT("/Game/UI/WB_OptionPopUp"));
@@ -32,14 +32,14 @@ void UMainMenuWidget::NativeOnInitialized()
 
 	if (OptionPopUpWidgetClass)
 	{
-		OptionPopUpWidget = CreateWidget<UOptionPopUpWidget>(GetWorld(), OptionPopUpWidgetClass);
+		OptionPopUpWidget = CreateWidget<UOptionPopupWidget>(GetWorld(), OptionPopUpWidgetClass);
 	}
 }
 
 void UMainMenuWidget::OnStartClicked()
 {
 	// Open Tetris Level
-	UGameplayStatics::OpenLevel(GetWorld(), ATetrisInGameGameMode::TetrisLevelName);
+	UGameplayStatics::OpenLevel(GetWorld(), ATetrisIngameGameMode::TetrisLevelName);
 }
 
 void UMainMenuWidget::OnOptionClicked()

@@ -39,7 +39,7 @@ void ATetrisPlayManager::Initialize()
 	}
 
 	// GameMode
-	GameMode = World->GetAuthGameMode<ATetrisInGameGameMode>();
+	GameMode = World->GetAuthGameMode<ATetrisIngameGameMode>();
 	if (GameMode)
 	{
 		SetNormalFallSpeed(GameMode->GetCurrentLevelNormalFallSpeed());
@@ -579,7 +579,7 @@ void ATetrisPlayManager::SetAutoRepeatMovementTimer()
 
 void ATetrisPlayManager::SetSoftDropTimer()
 {
-	const float SoftDropSpeed = ATetrisInGameGameMode::GetSoftDropSpeed(NormalFallSpeed);
+	const float SoftDropSpeed = ATetrisIngameGameMode::GetSoftDropSpeed(NormalFallSpeed);
 	GetWorldTimerManager().SetTimer(SoftDropTimerHandle, this, &ATetrisPlayManager::MoveTetriminoDown, SoftDropSpeed, bSoftDropTimerLoop, SoftDropTimerInitialDelay);
 	//UE_LOG(LogTemp, Display, TEXT("Soft Drop Timer is set."));
 }
