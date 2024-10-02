@@ -10,6 +10,7 @@ ATetriminoQueue::ATetriminoQueue()
 	PrimaryActorTick.bCanEverTick = false;
 
 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
+	checkf(RootComponent, TEXT("ATetriminoQueue::ATetriminoQueue: RootComponent is nullptr."));
 }
 
 void ATetriminoQueue::Initialize(const int32 QueueSize, USceneComponent* const NewParentComponent)
@@ -23,12 +24,14 @@ void ATetriminoQueue::Initialize(const int32 QueueSize, USceneComponent* const N
 
 void ATetriminoQueue::Enqueue(ATetrimino* const Tetrimino)
 {
-	if (Tetrimino)
+	if (!ensureMsgf(Tetrimino, TEXT("ATetriminoQueue::Enqueue: Attempted to enqueue a nullptr Tetrimino.")))
 	{
-		TetriminoArray.Add(Tetrimino);
-		// Attach the Tetrimino to the queue's root component
-		Tetrimino->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+		return;
 	}
+
+	// Attach the Tetrimino to the queue's root component
+	Tetrimino->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+	TetriminoArray.Add(Tetrimino);
 }
 
 ATetrimino* ATetriminoQueue::Dequeue()

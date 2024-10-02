@@ -10,7 +10,6 @@
 #include "TetriminoQueue.generated.h"
 
 class ATetrimino;
-class ABoard;
 class USceneComponent;
 
 /**
@@ -50,6 +49,8 @@ public:
 
 	int32 Num() const { return TetriminoArray.Num(); }
 	bool IsEmpty() const { return TetriminoArray.IsEmpty(); }
+	ATetrimino* Last() const { return TetriminoArray.Last(); }
+	ATetrimino* First() const { return IsEmpty() ? nullptr : TetriminoArray[0]; }
 
 private:
 	static FVector GetTetriminoLocalLocationByIndex(const int32 Index);
