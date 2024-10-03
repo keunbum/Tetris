@@ -16,6 +16,7 @@ class ATetrimino;
 class AGhostPiece;
 class ATetriminoQueue;
 class UTetriminoGenerator;
+class USoundBase;
 
 UENUM()
 enum class EPhase : uint8
@@ -151,7 +152,6 @@ private:
 
 	/** Effect */
 	void PlayLockDownEffect(const TArray<UMino*>& MinoArray);
-	void PlaySFX(USoundBase* const Sound) const;
 	
 private:
 	/** Normal Fall */
@@ -236,7 +236,7 @@ private:
 
 	/** Audio */
 	UPROPERTY(EditDefaultsOnly, Category = "Audio")
-	TMap<FName, TObjectPtr<USoundCue>> SoundCueMap;
+	TMap<FName, TObjectPtr<USoundBase>> SoundMap;
 
 	/** Logic Timers */
 	FTimerHandle AutoRepeatMovementTimerHandle;
