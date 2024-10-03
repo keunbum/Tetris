@@ -70,6 +70,9 @@ void ATetrisIngameGameMode::UpdateGamePlay(const FTetrisGamePlayInfo& UpdateInfo
 void ATetrisIngameGameMode::RunGameOver()
 {
 	// 추후에 추가 로직 작성할 가능성 있음
+
+	UGameplayStatics::PlaySound2D(this, SfxMap.FindRef(TEXT("GameOver")));
+
 	if (TetrisPlayerController)
 	{
 		TetrisPlayerController->SetInputModeUIOnlyAndGameOver();

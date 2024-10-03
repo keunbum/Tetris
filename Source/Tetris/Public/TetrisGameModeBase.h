@@ -55,4 +55,8 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Audio")
 	float BgmFadeOutTime = 0.f;
+
+	// Sfx
+	UPROPERTY(EditDefaultsOnly, Category = "Audio")
+	TMap<FName, TObjectPtr<USoundBase>> SfxMap;
 };
