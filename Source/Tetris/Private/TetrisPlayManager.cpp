@@ -335,7 +335,7 @@ void ATetrisPlayManager::RunEliminatePhase()
 		const bool bIsLineCleared = GamePlayInfo.HitList.Num() > 0;
 		if (bIsLineCleared)
 		{
-			PlaySoundCue(SoundCueMap.FindRef(TEXT("LineClear")));
+			PlaySFX(SoundCueMap.FindRef(TEXT("LineClear")));
 		}
 	}
 
@@ -408,7 +408,7 @@ void ATetrisPlayManager::MoveTetriminoToInternal(const FVector2D& Direction)
 		TetriminoInPlay->MoveBy(MovementIntPoint);
 		if (ATetrisPlayManager::IsAutoRepeatMovement(Direction))
 		{
-			PlaySoundCue(SoundCueMap.FindRef(TEXT("AutoRepeatMovement")));
+			PlaySFX(SoundCueMap.FindRef(TEXT("AutoRepeatMovement")));
 		}
 		RunLockDownSystem();
 	}
@@ -471,7 +471,7 @@ void ATetrisPlayManager::ForceLockDown()
 
 void ATetrisPlayManager::HardDrop()
 {
-	PlaySoundCue(SoundCueMap.FindRef(TEXT("HardDrop")));
+	PlaySFX(SoundCueMap.FindRef(TEXT("HardDrop")));
 	// GhostPiece를 잠시 안보이게 한다.
 	if (GhostPiece)
 	{
@@ -496,7 +496,7 @@ void ATetrisPlayManager::RunSuperRotationSystem(const ETetriminoRotationDirectio
 		if (bIsRotationPossible)
 		{
 			TetriminoInPlay->RotateToWithPointOffset(RotationDirection, SRSRotationPointOffset);
-			PlaySoundCue(SoundCueMap.FindRef(TEXT("Rotation")));
+			PlaySFX(SoundCueMap.FindRef(TEXT("Rotation")));
 			//UE_LOG(LogTemp, Display, TEXT("%Rotation with Point%d."), PointIndex + 1);
 			RunLockDownSystem();
 			return;
@@ -715,14 +715,14 @@ void ATetrisPlayManager::PlayLockDownEffect(const TArray<UMino*>& MinoArray)
 	// 파라미터 수정될 여지 있음
 }
 
-void ATetrisPlayManager::PlaySoundCue(USoundCue* const SoundCue) const
+void ATetrisPlayManager::PlaySFX(USoundBase* const Sound) const
 {
-	if (SoundCue)
+	if (Sound)
 	{
-		UGameplayStatics::PlaySound2D(this, SoundCue);
+		UGameplayStatics::PlaySound2D(this, Sound);
 	}
 	else
 	{
-		UE_LOG(LogTemp, Error, TEXT("ATetrisPlayManager::PlaySoundCue() - SoundCue is nullptr."));
+		UE_LOG(LogTemp, Error, TEXT("ATetrisPlayManager::PlaySFX() - Sound is nullptr."));
 	}
 }

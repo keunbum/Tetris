@@ -151,7 +151,7 @@ private:
 
 	/** Effect */
 	void PlayLockDownEffect(const TArray<UMino*>& MinoArray);
-	void PlaySoundCue(USoundCue* const SoundCue) const;
+	void PlaySFX(USoundBase* const Sound) const;
 	
 private:
 	/** Normal Fall */
