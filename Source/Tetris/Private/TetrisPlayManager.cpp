@@ -332,7 +332,8 @@ void ATetrisPlayManager::RunEliminatePhase()
 	if (Board)
 	{
 		Board->ClearRows(GamePlayInfo.HitList);
-		if (GamePlayInfo.HitList.Num() > 0)
+		const bool bIsLineCleared = GamePlayInfo.HitList.Num() > 0;
+		if (bIsLineCleared)
 		{
 			PlaySoundCue(SoundCueMap.FindRef(TEXT("LineClear")));
 		}
