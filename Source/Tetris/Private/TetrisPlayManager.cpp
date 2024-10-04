@@ -12,7 +12,6 @@
 #include "TetriminoGenerator.h"
 #include "TetriminoQueue.h"
 #include "Kismet/GameplayStatics.h"
-#include "Sound/SoundCue.h"
 
 ATetrisPlayManager::ATetrisPlayManager()
 	: Phase(EPhase::None)
