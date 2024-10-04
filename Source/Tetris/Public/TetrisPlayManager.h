@@ -16,6 +16,7 @@ class ATetrimino;
 class AGhostPiece;
 class ATetriminoQueue;
 class UTetriminoGenerator;
+class USoundBase;
 
 UENUM()
 enum class EPhase : uint8
@@ -87,6 +88,7 @@ public:
 
 	/** static */
 	static FName GetPhaseName(const EPhase Phase);
+	static bool IsAutoRepeatMovement(const FVector2D& Direction) { return (Direction == ATetriminoBase::MoveDirectionLeft || Direction == ATetriminoBase::MoveDirectionRight); }
 
 private:
 	/**  Initialization */
@@ -114,13 +116,15 @@ private:
 	void LockDown();
 	void ForceLockDown();
 	void HardDrop();
-	void RunLockDownSystem();
+	void RunLockDownSystem(const bool bIsMovedOrRotated);
 	// Rotation
 	void RunSuperRotationSystem(const ETetriminoRotationDirection RotationDirection);
 	// CheckLineClear
 	void CheckLineClearPattern(TArray<int32>& OutHitList);
 	// Eliminate
 	void RemoveTetriminoInPlay();
+	// Game Over
+	void RunGameOver();
 	// Etc
 	bool IsHoldingTetriminoInPlayAvailable() const;
 	bool IsSoftDropOrNormalFall(const FVector2D& Direction) const { return Direction == ATetriminoBase::MoveDirectionDown; }
@@ -228,8 +232,13 @@ private:
 	/** Placement */
 	FExtendedPlacement ExtendedPlacement;
 
+	/** Test */
 	UPROPERTY(EditDefaultsOnly, Category = "Test")
 	ETetriminoShape TestSpawnShape = ETetriminoShape::None;
+
+	/** Audio */
+	UPROPERTY(EditDefaultsOnly, Category = "Audio")
+	TMap<FName, TObjectPtr<USoundBase>> SoundMap;
 
 	/** Logic Timers */
 	FTimerHandle AutoRepeatMovementTimerHandle;

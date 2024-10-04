@@ -12,6 +12,7 @@
 #include "GoalSystemFactory.h"
 #include "GoalSystemInterface.h"
 #include "HUDSingle.h"
+#include "Components/AudioComponent.h"
 
 const FName ATetrisIngameGameMode::TetrisLevelName = FName(TEXT("TetrisLevel"));
 
@@ -69,7 +70,11 @@ void ATetrisIngameGameMode::UpdateGamePlay(const FTetrisGamePlayInfo& UpdateInfo
 
 void ATetrisIngameGameMode::RunGameOver()
 {
-	// 추후에 추가 로직 작성할 가능성 있음
+	if (BgmComponent)
+	{
+		BgmComponent->FadeOut(BgmFadeOutTime, 0.f /* FadeVolumeLevel */);
+	}
+
 	if (TetrisPlayerController)
 	{
 		TetrisPlayerController->SetInputModeUIOnlyAndGameOver();

@@ -11,6 +11,7 @@
 #include "TetrisPlayerControllerSingle.h"
 #include "TetriminoGenerator.h"
 #include "TetriminoQueue.h"
+#include "Kismet/GameplayStatics.h"
 
 ATetrisPlayManager::ATetrisPlayManager()
 	: Phase(EPhase::None)
@@ -259,7 +260,7 @@ void ATetrisPlayManager::RunGenerationPhase()
 		SetTetriminoInPlay(NewTetriminoInPlay);
 	}
 
-	if (ensureMsgf(Board && GameMode, TEXT("Some of the necessary components are nullptr.")))
+	if (ensureMsgf(Board, TEXT("Board is nullptr.")))
 	{
 		// Check Game Over Condition
 		// Block Out Condition occurs when part of a newly-generated Tetrimino is blocked due to an existing Block in the Matrix.
@@ -267,7 +268,7 @@ void ATetrisPlayManager::RunGenerationPhase()
 		if (bIsBlockOutCondition)
 		{
 			//UE_LOG(LogTemp, Display, TEXT("Block Out Condition -> Game Over"));
-			GameMode->RunGameOver();
+			RunGameOver();
 			return;
 		}
 	}
@@ -330,6 +331,11 @@ void ATetrisPlayManager::RunEliminatePhase()
 	if (Board)
 	{
 		Board->ClearRows(GamePlayInfo.HitList);
+		const bool bIsLineCleared = GamePlayInfo.HitList.Num() > 0;
+		if (bIsLineCleared)
+		{
+			//UGameplayStatics::PlaySound2D(this, SoundMap.FindRef(TEXT("LineClear")));
+		}
 	}
 
 	EnterPhase(EPhase::Completion);
@@ -399,11 +405,15 @@ void ATetrisPlayManager::MoveTetriminoToInternal(const FVector2D& Direction)
 	if (bIsMovementPossible)
 	{
 		TetriminoInPlay->MoveBy(MovementIntPoint);
-		RunLockDownSystem();
+		if (ATetrisPlayManager::IsAutoRepeatMovement(Direction))
+		{
+			UGameplayStatics::PlaySound2D(this, SoundMap.FindRef(TEXT("AutoRepeatMovement")));
+		}
+		RunLockDownSystem(true /* bIsMovedOrRotated */);
 	}
 	else
 	{
-		//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayManager::MoveTetriminoTo() - Movement is not possible."));
+		RunLockDownSystem(false /* bIsMovedOrRotated */);
 	}
 }
 
@@ -423,7 +433,7 @@ void ATetrisPlayManager::LockDown()
 
 	bIsTetriminoInPlayManipulable = false;
 
-	if (!ensureMsgf(Board && TetriminoInPlay && GameMode, TEXT("Some of the necessary components are nullptr.")))
+	if (!ensureMsgf(Board && TetriminoInPlay, TEXT("Some of the necessary components are nullptr.")))
 	{
 		return;
 	}
@@ -437,8 +447,8 @@ void ATetrisPlayManager::LockDown()
 	const bool bIsLockOutCondition = Board->IsAboveSkyline(TetriminoInPlay);
 	if (bIsLockOutCondition)
 	{
-		//UE_LOG(LogTemp, Warning, TEXT("Lock Out Condition -> Game Over"));
-		GameMode->RunGameOver();
+		UE_LOG(LogTemp, Warning, TEXT("Lock Out Condition -> Game Over"));
+		RunGameOver();
 		return;
 	}
 
@@ -460,6 +470,7 @@ void ATetrisPlayManager::ForceLockDown()
 
 void ATetrisPlayManager::HardDrop()
 {
+	//UGameplayStatics::PlaySound2D(this, SoundMap.FindRef(TEXT("HardDrop")));
 	// GhostPiece를 잠시 안보이게 한다.
 	if (GhostPiece)
 	{
@@ -484,8 +495,9 @@ void ATetrisPlayManager::RunSuperRotationSystem(const ETetriminoRotationDirectio
 		if (bIsRotationPossible)
 		{
 			TetriminoInPlay->RotateToWithPointOffset(RotationDirection, SRSRotationPointOffset);
+			UGameplayStatics::PlaySound2D(this, SoundMap.FindRef(TEXT("Rotation")));
 			//UE_LOG(LogTemp, Display, TEXT("%Rotation with Point%d."), PointIndex + 1);
-			RunLockDownSystem();
+			RunLockDownSystem(true /* bIsMovedOrRotated */);
 			return;
 		}
 	}
@@ -510,43 +522,51 @@ void ATetrisPlayManager::CheckLineClearPattern(TArray<int32>& OutHitList)
 	}
 }
 
-void ATetrisPlayManager::RunLockDownSystem()
+void ATetrisPlayManager::RunLockDownSystem(const bool bIsMovedOrRotated)
 {
-	const int32 CurrentRow = TetriminoInPlay->GetLowestRow();
-	if (CurrentRow > ExtendedPlacement.LowestRow)
+	if (bIsMovedOrRotated)
 	{
-		//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayManager::RunLockDownSystem() -> It's a new lowest row: %d"), CurrentRow);
-		ExtendedPlacement.LowestRow = CurrentRow;
-		ExtendedPlacement.TimerResetCount = ExtendedPlacement.MaxTimerResetCount;
-	}
-
-	if (IsTetriminoInPlayOnSurface())
-	{
-		//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayManager::RunLockDownSystem() -> Tetrimino is on the surface."));
-		if (ExtendedPlacement.TimerResetCount <= 0)
+		const int32 CurrentRow = TetriminoInPlay->GetLowestRow();
+		if (CurrentRow > ExtendedPlacement.LowestRow)
 		{
-			//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayManager::RunLockDownSystem() -> Force Lock Down"));
-			ForceLockDown();
+			//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayManager::RunLockDownSystem() -> It's a new lowest row: %d"), CurrentRow);
+			ExtendedPlacement.LowestRow = CurrentRow;
+			ExtendedPlacement.TimerResetCount = ExtendedPlacement.MaxTimerResetCount;
+		}
+
+		if (IsTetriminoInPlayOnSurface())
+		{
+			//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayManager::RunLockDownSystem() -> Tetrimino is on the surface."));
+			if (ExtendedPlacement.TimerResetCount <= 0)
+			{
+				//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayManager::RunLockDownSystem() -> Force Lock Down"));
+				ForceLockDown();
+			}
+			else
+			{
+				if (IsTimerActive(LockDownTimerHandle))
+				{
+					--ExtendedPlacement.TimerResetCount;
+				}
+				EnterPhase(EPhase::Lock);
+			}
 		}
 		else
 		{
 			if (IsTimerActive(LockDownTimerHandle))
 			{
-				//ClearTimer(LockDownTimerHandle);
 				--ExtendedPlacement.TimerResetCount;
-				//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayManager::RunLockDownSystem() -> TimerResetCount Used: %d"), ExtendedPlacement.TimerResetCount);
 			}
-			EnterPhase(EPhase::Lock);
 		}
 	}
 	else
 	{
-		//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayManager::RunLockDownSystem() -> Tetrimino is not on the surface."));
-		if (IsTimerActive(LockDownTimerHandle))
+		if (IsTetriminoInPlayOnSurface())
 		{
-			//ClearTimer(LockDownTimerHandle);
-			--ExtendedPlacement.TimerResetCount;
-			//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayManager::RunLockDownSystem() -> TimerResetCount Used: %d"), ExtendedPlacement.TimerResetCount);
+			if (!IsTimerActive(LockDownTimerHandle))
+			{
+				EnterPhase(EPhase::Lock);
+			}
 		}
 	}
 }
@@ -558,6 +578,16 @@ void ATetrisPlayManager::RemoveTetriminoInPlay()
 		TetriminoInPlay->DetachFromBoard();
 		TetriminoInPlay->Destroy();
 		TetriminoInPlay = nullptr;
+	}
+}
+
+void ATetrisPlayManager::RunGameOver()
+{
+	UGameplayStatics::PlaySound2D(this, SoundMap.FindRef(TEXT("GameOver")));
+
+	if (GameMode)
+	{
+		GameMode->RunGameOver();
 	}
 }
 
