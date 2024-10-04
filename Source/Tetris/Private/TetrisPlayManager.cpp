@@ -410,11 +410,11 @@ void ATetrisPlayManager::MoveTetriminoToInternal(const FVector2D& Direction)
 		{
 			UGameplayStatics::PlaySound2D(this, SoundMap.FindRef(TEXT("AutoRepeatMovement")));
 		}
-		RunLockDownSystem();
+		RunLockDownSystem(true /* bIsMovedOrRotated */);
 	}
 	else
 	{
-		//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayManager::MoveTetriminoTo() - Movement is not possible."));
+		RunLockDownSystem(false /* bIsMovedOrRotated */);
 	}
 }
 
@@ -498,7 +498,7 @@ void ATetrisPlayManager::RunSuperRotationSystem(const ETetriminoRotationDirectio
 			TetriminoInPlay->RotateToWithPointOffset(RotationDirection, SRSRotationPointOffset);
 			UGameplayStatics::PlaySound2D(this, SoundMap.FindRef(TEXT("Rotation")));
 			//UE_LOG(LogTemp, Display, TEXT("%Rotation with Point%d."), PointIndex + 1);
-			RunLockDownSystem();
+			RunLockDownSystem(true /* bIsMovedOrRotated */);
 			return;
 		}
 	}
@@ -523,43 +523,51 @@ void ATetrisPlayManager::CheckLineClearPattern(TArray<int32>& OutHitList)
 	}
 }
 
-void ATetrisPlayManager::RunLockDownSystem()
+void ATetrisPlayManager::RunLockDownSystem(const bool bIsMovedOrRotated)
 {
-	const int32 CurrentRow = TetriminoInPlay->GetLowestRow();
-	if (CurrentRow > ExtendedPlacement.LowestRow)
+	if (bIsMovedOrRotated)
 	{
-		//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayManager::RunLockDownSystem() -> It's a new lowest row: %d"), CurrentRow);
-		ExtendedPlacement.LowestRow = CurrentRow;
-		ExtendedPlacement.TimerResetCount = ExtendedPlacement.MaxTimerResetCount;
-	}
-
-	if (IsTetriminoInPlayOnSurface())
-	{
-		//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayManager::RunLockDownSystem() -> Tetrimino is on the surface."));
-		if (ExtendedPlacement.TimerResetCount <= 0)
+		const int32 CurrentRow = TetriminoInPlay->GetLowestRow();
+		if (CurrentRow > ExtendedPlacement.LowestRow)
 		{
-			//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayManager::RunLockDownSystem() -> Force Lock Down"));
-			ForceLockDown();
+			//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayManager::RunLockDownSystem() -> It's a new lowest row: %d"), CurrentRow);
+			ExtendedPlacement.LowestRow = CurrentRow;
+			ExtendedPlacement.TimerResetCount = ExtendedPlacement.MaxTimerResetCount;
+		}
+
+		if (IsTetriminoInPlayOnSurface())
+		{
+			//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayManager::RunLockDownSystem() -> Tetrimino is on the surface."));
+			if (ExtendedPlacement.TimerResetCount <= 0)
+			{
+				//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayManager::RunLockDownSystem() -> Force Lock Down"));
+				ForceLockDown();
+			}
+			else
+			{
+				if (IsTimerActive(LockDownTimerHandle))
+				{
+					--ExtendedPlacement.TimerResetCount;
+				}
+				EnterPhase(EPhase::Lock);
+			}
 		}
 		else
 		{
 			if (IsTimerActive(LockDownTimerHandle))
 			{
-				//ClearTimer(LockDownTimerHandle);
 				--ExtendedPlacement.TimerResetCount;
-				//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayManager::RunLockDownSystem() -> TimerResetCount Used: %d"), ExtendedPlacement.TimerResetCount);
 			}
-			EnterPhase(EPhase::Lock);
 		}
 	}
 	else
 	{
-		//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayManager::RunLockDownSystem() -> Tetrimino is not on the surface."));
-		if (IsTimerActive(LockDownTimerHandle))
+		if (IsTetriminoInPlayOnSurface())
 		{
-			//ClearTimer(LockDownTimerHandle);
-			--ExtendedPlacement.TimerResetCount;
-			//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayManager::RunLockDownSystem() -> TimerResetCount Used: %d"), ExtendedPlacement.TimerResetCount);
+			if (!IsTimerActive(LockDownTimerHandle))
+			{
+				EnterPhase(EPhase::Lock);
+			}
 		}
 	}
 }

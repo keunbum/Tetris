@@ -116,7 +116,7 @@ private:
 	void LockDown();
 	void ForceLockDown();
 	void HardDrop();
-	void RunLockDownSystem();
+	void RunLockDownSystem(const bool bIsMovedOrRotated);
 	// Rotation
 	void RunSuperRotationSystem(const ETetriminoRotationDirection RotationDirection);
 	// CheckLineClear
