@@ -261,7 +261,7 @@ void ATetrisPlayManager::RunGenerationPhase()
 		SetTetriminoInPlay(NewTetriminoInPlay);
 	}
 
-	if (ensureMsgf(Board && GameMode, TEXT("Some of the necessary components are nullptr.")))
+	if (ensureMsgf(Board, TEXT("Board is nullptr.")))
 	{
 		// Check Game Over Condition
 		// Block Out Condition occurs when part of a newly-generated Tetrimino is blocked due to an existing Block in the Matrix.
@@ -269,7 +269,7 @@ void ATetrisPlayManager::RunGenerationPhase()
 		if (bIsBlockOutCondition)
 		{
 			//UE_LOG(LogTemp, Display, TEXT("Block Out Condition -> Game Over"));
-			GameMode->RunGameOver();
+			RunGameOver();
 			return;
 		}
 	}
@@ -434,7 +434,7 @@ void ATetrisPlayManager::LockDown()
 
 	bIsTetriminoInPlayManipulable = false;
 
-	if (!ensureMsgf(Board && TetriminoInPlay && GameMode, TEXT("Some of the necessary components are nullptr.")))
+	if (!ensureMsgf(Board && TetriminoInPlay, TEXT("Some of the necessary components are nullptr.")))
 	{
 		return;
 	}
@@ -448,8 +448,8 @@ void ATetrisPlayManager::LockDown()
 	const bool bIsLockOutCondition = Board->IsAboveSkyline(TetriminoInPlay);
 	if (bIsLockOutCondition)
 	{
-		//UE_LOG(LogTemp, Warning, TEXT("Lock Out Condition -> Game Over"));
-		GameMode->RunGameOver();
+		UE_LOG(LogTemp, Warning, TEXT("Lock Out Condition -> Game Over"));
+		RunGameOver();
 		return;
 	}
 
@@ -571,6 +571,16 @@ void ATetrisPlayManager::RemoveTetriminoInPlay()
 		TetriminoInPlay->DetachFromBoard();
 		TetriminoInPlay->Destroy();
 		TetriminoInPlay = nullptr;
+	}
+}
+
+void ATetrisPlayManager::RunGameOver()
+{
+	UGameplayStatics::PlaySound2D(this, SoundMap.FindRef(TEXT("GameOver")));
+
+	if (GameMode)
+	{
+		GameMode->RunGameOver();
 	}
 }
 
