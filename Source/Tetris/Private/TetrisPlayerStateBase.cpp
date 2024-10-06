@@ -28,9 +28,9 @@ void ATetrisPlayerStateBase::LevelUp(const IGoalSystemInterface* GoalSystem)
 
 	const int32 OldGoalLineClear = GetLineClearGoal(); // may be negative
 	const int32 NewLevelUpLineCountGoal = GoalSystem->GetLevelUpLineCountGoal(GetGameLevel());
-	const int32 NewGoalLineClear = OldGoalLineClear + NewLevelUpLineCountGoal;
-	check(NewGoalLineClear > 0);
-	SetLineClearGoal(NewGoalLineClear);
+	const int32 NewLineClearGoal = OldGoalLineClear + NewLevelUpLineCountGoal;
+	check(NewLineClearGoal > 0);
+	SetLineClearGoal(NewLineClearGoal);
 }
 
 FHUDSingleUpdateDisplayParams ATetrisPlayerStateBase::GetHUDSingleUpdateDisplayParams() const
