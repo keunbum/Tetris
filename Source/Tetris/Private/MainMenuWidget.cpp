@@ -8,8 +8,6 @@
 #include "OptionPopupWidget.h"
 #include "MenuButton.h"
 
-const FName UMainMenuWidget::OptionPopUpWidgetPath(TEXT("/Game/UI/WB_OptionPopUp"));
-
 void UMainMenuWidget::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();

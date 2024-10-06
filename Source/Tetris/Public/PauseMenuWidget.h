@@ -7,6 +7,7 @@
 #include "PauseMenuWidget.generated.h"
 
 class ATetrisPlayerControllerSingle;
+class UOptionPopupWidget;
 
 /**
  * 
@@ -31,6 +32,9 @@ private:
 	void OnRestartClicked();
 
 	UFUNCTION()
+	void OnOptionClicked();
+
+	UFUNCTION()
 	void OnExitClicked();
 
 private:
@@ -41,7 +45,18 @@ private:
 	TObjectPtr<UMenuButton> RestartButton;
 
 	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UMenuButton> OptionButton;
+
+	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UMenuButton> ExitButton;
+
+	/** Widget References */
+	UPROPERTY()
+	TObjectPtr<UOptionPopupWidget> OptionPopUpWidget;
+
+	/** Widget Class References */
+	UPROPERTY(EditDefaultsOnly, Category = "Classes")
+	TSubclassOf<UOptionPopupWidget> OptionPopUpWidgetClass;
 
 	UPROPERTY()
 	TObjectPtr<ATetrisPlayerControllerSingle> TetrisPlayerController;

@@ -7,6 +7,7 @@
 #include "MenuButton.h"
 #include "TetrisPlayerControllerSingle.h"
 #include "MainMenuGameMode.h"
+#include "OptionPopupWidget.h"
 
 void UPauseMenuWidget::NativeOnInitialized()
 {
@@ -22,10 +23,20 @@ void UPauseMenuWidget::NativeOnInitialized()
 		MenuButtons.Add(RestartButton);
 		RestartButton->OnClicked.AddDynamic(this, &UPauseMenuWidget::OnRestartClicked);
 	}
+	if (OptionButton)
+	{
+		MenuButtons.Add(OptionButton);
+		OptionButton->OnClicked.AddDynamic(this, &UPauseMenuWidget::OnOptionClicked);
+	}
 	if (ExitButton)
 	{
 		MenuButtons.Add(ExitButton);
 		ExitButton->OnClicked.AddDynamic(this, &UPauseMenuWidget::OnExitClicked);
+	}
+
+	if (OptionPopUpWidgetClass)
+	{
+		OptionPopUpWidget = CreateWidget<UOptionPopupWidget>(GetWorld(), OptionPopUpWidgetClass);
 	}
 
 	TetrisPlayerController = Cast<ATetrisPlayerControllerSingle>(GetOwningPlayer());
@@ -64,6 +75,14 @@ void UPauseMenuWidget::OnRestartClicked()
 {
 	// Restart the level
 	UGameplayStatics::OpenLevel(this, GetWorld()->GetFName());
+}
+
+void UPauseMenuWidget::OnOptionClicked()
+{
+	if (OptionPopUpWidget)
+	{
+		OptionPopUpWidget->AddToViewport();
+	}
 }
 
 void UPauseMenuWidget::OnExitClicked()

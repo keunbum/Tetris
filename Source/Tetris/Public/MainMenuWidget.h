@@ -31,9 +31,6 @@ private:
 	UFUNCTION()
 	void OnExitClicked();
 
-public:
-	static const FName OptionPopUpWidgetPath;
-
 private:
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UMenuButton> StartButton;
