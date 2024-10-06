@@ -107,14 +107,14 @@ private:
 	static const FMinoInfo BackgroundMinoInfo;
 	static const FMinoInfo SpecialMinoInfo;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Classes");
+	TSubclassOf<UMino> MinoClass;
+
 	UPROPERTY(EditInstanceOnly, Category = "Location")
 	FVector NextQueueRelativeLocation;
 
 	UPROPERTY(EditInstanceOnly, Category = "Location")
 	FVector HoldQueueRelativeLocation;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Classes");
-	TSubclassOf<UMino> MinoClass;
 
 	UPROPERTY()
 	TObjectPtr<USceneComponent> MatrixRoot;
