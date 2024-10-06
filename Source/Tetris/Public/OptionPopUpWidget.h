@@ -6,7 +6,7 @@
 #include "PopUpWidgetBase.h"
 #include "OptionPopupWidget.generated.h"
 
-class USlider;
+class UAnalogSlider;
 class UTetrisAudioManagerSubsystem;
 
 /**
@@ -29,7 +29,7 @@ protected:
 
 private:
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<USlider> BgmVolumeSlider;
+	TObjectPtr<UAnalogSlider> BgmVolumeSlider;
 
 	UPROPERTY()
 	TObjectPtr<UTetrisAudioManagerSubsystem> AudioManager;
