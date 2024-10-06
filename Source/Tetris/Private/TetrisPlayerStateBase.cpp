@@ -15,7 +15,7 @@ ATetrisPlayerStateBase::ATetrisPlayerStateBase()
 
 void ATetrisPlayerStateBase::Initialize(const IGoalSystemInterface* GoalSystem)
 {
-	const int32 InitialLineClearGoal = GoalSystem->GetLevelUpLineCountGoal(GetGameLevel());
+	const int32 InitialLineClearGoal = GoalSystem->GetLevelUpLineCountGoal(GameLevel);
 	SetLineClearGoal(InitialLineClearGoal);
 }
 
@@ -38,7 +38,7 @@ void ATetrisPlayerStateBase::LevelUp(const IGoalSystemInterface* GoalSystem)
 
 FHUDSingleUpdateDisplayParams ATetrisPlayerStateBase::GetHUDSingleUpdateDisplayParams() const
 {
-	return FHUDSingleUpdateDisplayParams(GetGameLevel(), GetLineClearCount(), GetLineClearGoal());
+	return FHUDSingleUpdateDisplayParams(GameLevel, LineClearCount, LineClearGoal);
 }
 
 void ATetrisPlayerStateBase::UpdateState(const FTetrisGamePlayInfo& PlayInfo)
@@ -50,8 +50,8 @@ void ATetrisPlayerStateBase::UpdateState(const FTetrisGamePlayInfo& PlayInfo)
 void ATetrisPlayerStateBase::DebugPrint() const
 {
 	UE_LOG(LogTemp, Display, TEXT("ATetrisPlayerStateBase::DebugPrint()"));
-	UE_LOG(LogTemp, Display, TEXT("GameLevel: %d"), GetGameLevel());
-	UE_LOG(LogTemp, Display, TEXT("LineClearCount: %d"), GetLineClearCount());
-	UE_LOG(LogTemp, Display, TEXT("TotalLineClearCount: %d"), GetTotalLineClearCount());
-	UE_LOG(LogTemp, Display, TEXT("LineClearGoal: %d"), GetLineClearGoal());
+	UE_LOG(LogTemp, Display, TEXT("GameLevel: %d"), GameLevel);
+	UE_LOG(LogTemp, Display, TEXT("LineClearCount: %d"), LineClearCount);
+	UE_LOG(LogTemp, Display, TEXT("TotalLineClearCount: %d"), TotalLineClearCount);
+	UE_LOG(LogTemp, Display, TEXT("LineClearGoal: %d"), LineClearGoal);
 }
