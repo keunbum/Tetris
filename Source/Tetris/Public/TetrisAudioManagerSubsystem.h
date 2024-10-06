@@ -30,9 +30,8 @@ public:
 	void SaveSettings();
 
 private:
-	void InitializeSoundMixAndClasses();
+	void LoadSoundControlDataAsset();
 	void LoadSettings();
-	USoundClass* LoadSoundClassObject(const FName& Path);
 	void LoadSoundClassVolumeSettings();
 
 	void SetSoundClassVolume(USoundClass* const SoundClass, const float NewVolume);
@@ -41,6 +40,7 @@ private:
 	void SetSoundMixClassOverrideInGameThread(USoundMix* const SoundMix, USoundClass* const SoundClass, const float Volume = 1.0f, const float Pitch = 1.0f, const float FadeInTime = 0.0f, const bool bApplyToChildren = true);
 
 public:
+	static const FName SoundControlDataAssetPath;
 	static const FName MainSoundMixPath;
 	static const FName MainSoundClassPath;
 	static const FName BgmSoundClassPath;

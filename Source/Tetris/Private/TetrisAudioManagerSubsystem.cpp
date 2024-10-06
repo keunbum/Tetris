@@ -6,11 +6,9 @@
 #include "Sound/SoundMix.h"
 #include "Async/Async.h"
 #include "Misc/ConfigCacheIni.h"
+#include "SoundControlDataAsset.h"
 
-const FName UTetrisAudioManagerSubsystem::MainSoundMixPath(TEXT("/Game/Audio/MainSoundMix"));
-const FName UTetrisAudioManagerSubsystem::MainSoundClassPath(TEXT("/Game/Audio/MainSoundClass"));
-const FName UTetrisAudioManagerSubsystem::BgmSoundClassPath(TEXT("/Game/Audio/BgmSoundClass"));
-
+const FName UTetrisAudioManagerSubsystem::SoundControlDataAssetPath(TEXT("/Game/Audio/SoundControlData"));
 const FString UTetrisAudioManagerSubsystem::AudioConfigSectionName(TEXT("/Script/Tetris.AudioManagerSubsystem"));
 const FString UTetrisAudioManagerSubsystem::AudioConfigFileName(GGameUserSettingsIni);
 
@@ -18,7 +16,7 @@ void UTetrisAudioManagerSubsystem::Initialize(FSubsystemCollectionBase& Collecti
 {
 	Super::Initialize(Collection);
 
-	InitializeSoundMixAndClasses();
+	LoadSoundControlDataAsset();
 	LoadSettings();
 }
 
@@ -49,24 +47,29 @@ void UTetrisAudioManagerSubsystem::SaveSettings()
 	}
 }
 
-void UTetrisAudioManagerSubsystem::InitializeSoundMixAndClasses()
+void UTetrisAudioManagerSubsystem::LoadSoundControlDataAsset()
 {
-	// MainSoundMix
-	MainSoundMix = LoadObject<USoundMix>(nullptr, *MainSoundMixPath.ToString());
-	if (!MainSoundMix)
+	if (const USoundControlDataAsset* SoundControlDataAsset = LoadObject<USoundControlDataAsset>(nullptr, *SoundControlDataAssetPath.ToString()))
 	{
-		UE_LOG(LogTemp, Error, TEXT("UTetrisAudioManagerSubsystem::Initialize() - Failed to load MainSoundMix"));
-		return;
-	}
-
-	AsyncTask(ENamedThreads::GameThread, [this]()
+		MainSoundMix = SoundControlDataAsset->MainSoundMix;
+		if (!MainSoundMix)
 		{
-			UGameplayStatics::SetBaseSoundMix(GetWorld(), MainSoundMix);
-		});
+			UE_LOG(LogTemp, Error, TEXT("UTetrisAudioManagerSubsystem::Initialize() - Failed to load MainSoundMix"));
+			return;
+		}
+		AsyncTask(ENamedThreads::GameThread, [this]()
+			{
+				UGameplayStatics::SetBaseSoundMix(GetWorld(), MainSoundMix);
+			});
 
-	// SoundClasses
-	MainSoundClass = LoadSoundClassObject(MainSoundClassPath);
-	BgmSoundClass = LoadSoundClassObject(BgmSoundClassPath);
+		MainSoundClass = SoundControlDataAsset->MainSoundClass;
+		BgmSoundClass = SoundControlDataAsset->BgmSoundClass;
+		SfxSoundClass = SoundControlDataAsset->SfxSoundClass;
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("UTetrisAudioManagerSubsystem::Initialize() - Failed to load SoundControlDataAsset"));
+	}
 }
 
 void UTetrisAudioManagerSubsystem::LoadSettings()
@@ -74,24 +77,11 @@ void UTetrisAudioManagerSubsystem::LoadSettings()
 	LoadSoundClassVolumeSettings();
 }
 
-USoundClass* UTetrisAudioManagerSubsystem::LoadSoundClassObject(const FName& Path)
-{
-	if (USoundClass* const SoundClass = LoadObject<USoundClass>(nullptr, *Path.ToString()))
-	{
-		SetSoundClassVolume(SoundClass, UTetrisAudioManagerSubsystem::DefaultVolume);
-		return SoundClass;
-	}
-
-	UE_LOG(LogTemp, Error, TEXT("UTetrisAudioManagerSubsystem::LoadSoundClassObject() - Failed to load SoundClass"));
-	checkNoEntry();
-	return nullptr;
-}
-
 void UTetrisAudioManagerSubsystem::LoadSoundClassVolumeSettings()
 {
 	if (GConfig)
 	{
-		for (USoundClass* const SoundClass : { MainSoundClass, BgmSoundClass })
+		for (USoundClass* const SoundClass : { MainSoundClass, BgmSoundClass, SfxSoundClass })
 		{
 			if (SoundClass)
 			{
