@@ -42,6 +42,7 @@ float ATetrisIngameGameMode::GetCurrentLevelNormalFallSpeed() const
 		return ATetrisIngameGameMode::CalculateNormalFallSpeed(TetrisPlayerState->GetGameLevel());
 	}
 
+	checkNoEntry();
 	return 0.f;
 }
 
