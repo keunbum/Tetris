@@ -13,6 +13,7 @@ class UInputMappingContext;
 class UInputAction;
 class ATetrisIngameGameMode;
 class ATetrisPlayManager;
+class ATetrisIngameCameraActor;
 
 UENUM()
 enum class EKeyFlags : uint8
@@ -105,4 +106,8 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	TObjectPtr<UInputAction> HoldAction;
+
+	/** Classes */
+	UPROPERTY(EditDefaultsOnly, Category = "Classes")
+	TSubclassOf<ATetrisIngameCameraActor> CameraActorClass;
 };

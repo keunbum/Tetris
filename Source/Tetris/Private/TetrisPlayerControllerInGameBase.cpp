@@ -2,7 +2,7 @@
 
 #include "TetrisPlayerControllerInGameBase.h"
 
-#include "Camera/CameraActor.h"
+#include "TetrisIngameCameraActor.h"
 #include "Camera/CameraComponent.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
@@ -27,7 +27,7 @@ void ATetrisPlayerControllerIngameBase::InitializeCamera()
 {
 	if (UWorld* const World = GetWorld())
 	{
-		if (ACameraActor* const CameraActor = Cast<ACameraActor>(UGameplayStatics::GetActorOfClass(World, ACameraActor::StaticClass())))
+		if (ATetrisIngameCameraActor* const CameraActor = Cast<ATetrisIngameCameraActor>(UGameplayStatics::GetActorOfClass(World, CameraActorClass)))
 		{
 			// ViewTarget을 GameStartCamera로 설정.
 			SetViewTarget(CameraActor);
