@@ -103,10 +103,10 @@ protected:
 	float GameStartTime; // seconds
 
 	/** Classes */
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, Category = "Classes")
 	TSubclassOf<ATetrisPlayManager> TetrisPlayManagerClass = nullptr;
 
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, Category = "Classes")
 	TSubclassOf<UHUDSingle> HUDWidgetClass = nullptr;
 
 	/** Objects */
