@@ -12,7 +12,7 @@ class ATetrisIngameGameMode;
 /**
  * 
  */
-UCLASS()
+UCLASS(Abstract)
 class TETRIS_API UHUDBase : public UUserWidget
 {
 	GENERATED_BODY()
