@@ -27,9 +27,15 @@ protected:
 	UFUNCTION()
 	void OnBgmVolumeSliderValueChanged(const float NewVolume);
 
+	UFUNCTION()
+	void OnSfxVolumeSliderValueChanged(const float NewVolume);
+
 private:
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UAnalogSlider> BgmVolumeSlider;
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UAnalogSlider> SfxVolumeSlider;
 
 	UPROPERTY()
 	TObjectPtr<UTetrisAudioManagerSubsystem> AudioManager;
