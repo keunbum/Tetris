@@ -29,15 +29,21 @@ ABoard::ABoard()
 	MatrixRoot = CreateAndSetupSceneComponent(TEXT("MatrixRoot"), RootComponent);
 
 	/** BackgroundRoot */
-	BackgroundRoot = CreateAndSetupSceneComponent(TEXT("BackgroundRoot"), RootComponent);
+	BackgroundRoot = CreateAndSetupSceneComponent(TEXT("BackgroundRoot"), MatrixRoot);
 
 	/** NextQueueRoot */
-	NextQueueRoot = CreateAndSetupSceneComponent(TEXT("NextQueueRoot"), RootComponent);
-	NextQueueRoot->SetRelativeLocation(NextQueueRelativeLocation);
+	NextQueueRoot = CreateAndSetupSceneComponent(TEXT("NextQueueRoot"), MatrixRoot);
+	if (NextQueueRoot)
+	{
+		NextQueueRoot->SetRelativeLocation(NextQueueRelativeLocation);
+	}
 
 	/** HoldQueueRoot */
-	HoldQueueRoot = CreateAndSetupSceneComponent(TEXT("HoldQueueRoot"), RootComponent);
-	HoldQueueRoot->SetRelativeLocation(HoldQueueRelativeLocation);
+	HoldQueueRoot = CreateAndSetupSceneComponent(TEXT("HoldQueueRoot"), MatrixRoot);
+	if (HoldQueueRoot)
+	{
+		HoldQueueRoot->SetRelativeLocation(HoldQueueRelativeLocation);
+	}
 }
 
 void ABoard::Initialize()
@@ -235,7 +241,9 @@ USceneComponent* ABoard::CreateAndSetupSceneComponent(const FName& ComponentName
 	if (USceneComponent* const SceneComponent = CreateDefaultSubobject<USceneComponent>(ComponentName))
 	{
 		SceneComponent->SetupAttachment(Parent);
+		return SceneComponent;
 	}
+	checkNoEntry();
 	return nullptr;
 }
 
