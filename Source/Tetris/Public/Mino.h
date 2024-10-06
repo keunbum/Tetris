@@ -58,7 +58,7 @@ private:
 	static constexpr float DefaultUnitLength = 100.f;
 
 public:
-	static constexpr float MinoScale = 0.125f;
+	static constexpr float MinoScale = 1.0f;
 	static constexpr float UnitLength = DefaultUnitLength * MinoScale;
 
 private:
