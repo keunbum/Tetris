@@ -1,6 +1,7 @@
 // Copyright Ryu KeunBeom. All Rights Reserved.
 
 #include "HUDBase.h"
+#include "TextBlockBase.h"
 
 FString UHUDBase::GetFormattedTimeString(const float TimeInSeconds)
 {
@@ -10,4 +11,11 @@ FString UHUDBase::GetFormattedTimeString(const float TimeInSeconds)
 	const int32 Seconds = TotalSeconds % 60;
 	const int32 Decimal = FMath::FloorToInt((TimeInSeconds - TotalSeconds) * 10.0f);
 	return FString::Printf(TEXT("%02d:%02d.%d"), Minutes, Seconds, Decimal);
+}
+void UHUDBase::UpdateTextBlock(UTextBlockBase* const TextBlock, const FString& NewText)
+{
+	if (TextBlock)
+	{
+		TextBlock->SetText(FText::FromString(NewText));
+	}
 }

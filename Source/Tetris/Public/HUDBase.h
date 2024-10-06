@@ -6,7 +6,7 @@
 #include "Blueprint/UserWidget.h"
 #include "HUDBase.generated.h"
 
-class UTextBlock;
+class UTextBlockBase;
 class ATetrisIngameGameMode;
 
 /**
@@ -20,6 +20,7 @@ class TETRIS_API UHUDBase : public UUserWidget
 public:
 	/** static methods */
 	static FString GetFormattedTimeString(const float TimeInSeconds);
+	static void UpdateTextBlock(UTextBlockBase* const TextBlock, const FString& NewText);
 
 public:
 	static constexpr float TimeDisplayUpdateInterval = 0.1f;
