@@ -20,6 +20,7 @@ class TETRIS_API UHUDBase : public UUserWidget
 public:
 	/** static methods */
 	static FString GetFormattedTimeString(const float TimeInSeconds);
+	static void UpdateTextBlockWithNameAndValue(UTextBlockBase* const TextBlock, const FString& Name, const FString& Value);
 	static void UpdateTextBlock(UTextBlockBase* const TextBlock, const FString& NewText);
 
 public:
