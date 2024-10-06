@@ -20,7 +20,7 @@ void UHUDSingle::InitializeHUD(const FHUDSingleUpdateDisplayParams& DisplayParam
 void UHUDSingle::UpdateDisplay(const FHUDSingleUpdateDisplayParams& DisplayParams)
 {
 	UpdateLevelDisplay(DisplayParams.Level);
-	UpdateGoalDisplay(DisplayParams.Goal);
+	UpdateLineClearDisplay(DisplayParams.Goal);
 }
 
 void UHUDSingle::UpdateLevelDisplay(const int32 NewLevel)
@@ -29,10 +29,10 @@ void UHUDSingle::UpdateLevelDisplay(const int32 NewLevel)
 	UHUDBase::UpdateTextBlock(LevelText, LevelString);
 }
 
-void UHUDSingle::UpdateGoalDisplay(const int32 NewGoal)
+void UHUDSingle::UpdateLineClearDisplay(const int32 NewGoal)
 {
 	const FString GoalString = FString::Printf(TEXT("%-15s %10d"), TEXT("Goal"), NewGoal);
-	UHUDBase::UpdateTextBlock(GoalText, GoalString);
+	UHUDBase::UpdateTextBlock(LineClearText, GoalString);
 }
 
 void UHUDSingle::UpdateTimeDisplay(const float NewTime)

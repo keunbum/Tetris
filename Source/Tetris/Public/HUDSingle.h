@@ -43,7 +43,7 @@ public:
 
 private:
 	void UpdateLevelDisplay(const int32 NewLevel);
-	void UpdateGoalDisplay(const int32 NewGoal);
+	void UpdateLineClearDisplay(const int32 NewGoal);
 	void UpdateTimeDisplay(const float NewTime);
 
 	void OnUpdateTime();
@@ -53,7 +53,7 @@ protected:
 	TObjectPtr<UTextBlockBase> LevelText;
 
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UTextBlockBase> GoalText;
+	TObjectPtr<UTextBlockBase> LineClearText;
 
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UTextBlockBase> TimeText;
