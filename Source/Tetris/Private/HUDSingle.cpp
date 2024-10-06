@@ -20,26 +20,28 @@ void UHUDSingle::InitializeHUD(const FHUDSingleUpdateDisplayParams& DisplayParam
 void UHUDSingle::UpdateDisplay(const FHUDSingleUpdateDisplayParams& DisplayParams)
 {
 	UpdateLevelDisplay(DisplayParams.Level);
-	UpdateLineClearDisplay(DisplayParams.Goal);
+	UpdateLineClearDisplay(DisplayParams.LineClear, DisplayParams.LineClearGoal);
 }
 
 void UHUDSingle::UpdateLevelDisplay(const int32 NewLevel)
 {
-	const FString LevelString = FString::Printf(TEXT("%-15s %10d"), TEXT("Level"), NewLevel);
-	UHUDBase::UpdateTextBlock(LevelText, LevelString);
+	static constexpr wchar_t Name[] = TEXT("Level");
+	const FString LevelString = FString::Printf(TEXT("%d"), NewLevel);
+	UHUDBase::UpdateTextBlockWithNameAndValue(LevelText, Name, LevelString);
 }
 
-void UHUDSingle::UpdateLineClearDisplay(const int32 NewGoal)
+void UHUDSingle::UpdateLineClearDisplay(const int32 NewLineClear, const int32 NewLineClearGoal)
 {
-	const FString GoalString = FString::Printf(TEXT("%-15s %10d"), TEXT("Goal"), NewGoal);
-	UHUDBase::UpdateTextBlock(LineClearText, GoalString);
+	static constexpr wchar_t Name[] = TEXT("Line Clear");
+	const FString LineClearValueString = FString::Printf(TEXT("%d / %d"), NewLineClear, NewLineClearGoal);
+	UHUDBase::UpdateTextBlockWithNameAndValue(LineClearText, Name, LineClearValueString);
 }
 
 void UHUDSingle::UpdateTimeDisplay(const float NewTime)
 {
+	static constexpr wchar_t Name[] = TEXT("Time");
 	const FString ElapsedTimeString = UHUDBase::GetFormattedTimeString(NewTime);
-	const FString TimeString = FString::Printf(TEXT("%-10s %10s"), TEXT("Time"), *ElapsedTimeString);
-	UHUDBase::UpdateTextBlock(TimeText, TimeString);
+	UHUDBase::UpdateTextBlockWithNameAndValue(TimeText, Name, ElapsedTimeString);
 }
 
 void UHUDSingle::OnUpdateTime()

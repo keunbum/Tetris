@@ -14,18 +14,20 @@ struct FHUDSingleUpdateDisplayParams
 	GENERATED_USTRUCT_BODY()
 
 	FHUDSingleUpdateDisplayParams()
-		: FHUDSingleUpdateDisplayParams(0, 0)
+		: FHUDSingleUpdateDisplayParams(0, 0, 0)
 	{
 	}
 
-	FHUDSingleUpdateDisplayParams(const int32 InLevel, const int32 InGoal)
+	FHUDSingleUpdateDisplayParams(const int32 InLevel, const int32 InLineClear, const int32 InLineClearGoal)
 		: Level(InLevel)
-		, Goal(InGoal)
+		, LineClear(InLineClear)
+		, LineClearGoal(InLineClearGoal)
 	{
 	}
 
 	int32 Level;
-	int32 Goal;
+	int32 LineClear;
+	int32 LineClearGoal;
 };
 
 /**
@@ -43,7 +45,7 @@ public:
 
 private:
 	void UpdateLevelDisplay(const int32 NewLevel);
-	void UpdateLineClearDisplay(const int32 NewGoal);
+	void UpdateLineClearDisplay(const int32 NewLineClear, const int32 NewLineClearGoal);
 	void UpdateTimeDisplay(const float NewTime);
 
 	void OnUpdateTime();

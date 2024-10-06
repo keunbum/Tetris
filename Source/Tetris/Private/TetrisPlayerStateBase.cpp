@@ -21,28 +21,30 @@ void ATetrisPlayerStateBase::Initialize(const IGoalSystemInterface* GoalSystem)
 
 void ATetrisPlayerStateBase::LevelUp(const IGoalSystemInterface* GoalSystem)
 {
-	AddGameLevel(1);
+	GameLevel += 1;
+	AddTotalLineClearCount(LineClearCount);
 
-	AddTotalLineClearCount(GetLineClearCount());
-	SetLineClearCount(0);
+	const int32 LineClearOver = LineClearCount - LineClearGoal;
 
-	const int32 OldGoalLineClear = GetLineClearGoal(); // may be negative
-	const int32 NewLevelUpLineCountGoal = GoalSystem->GetLevelUpLineCountGoal(GetGameLevel());
-	const int32 NewLineClearGoal = OldGoalLineClear + NewLevelUpLineCountGoal;
-	check(NewLineClearGoal > 0);
-	SetLineClearGoal(NewLineClearGoal);
+	const int32 NewLevelUpLineCountGoal = GoalSystem->GetLevelUpLineCountGoal(GameLevel);
+	check(NewLevelUpLineCountGoal > 0);
+
+	const int32 NewLineClearCount = LineClearOver;
+	checkf(FMath::IsWithin(NewLineClearCount, 0, NewLevelUpLineCountGoal), TEXT("NewLineClearCount: %d, NewLevelUpLineCountGoal: %d"), NewLineClearCount, NewLevelUpLineCountGoal);
+
+	SetLineClearCount(NewLineClearCount);
+	SetLineClearGoal(NewLevelUpLineCountGoal);
 }
 
 FHUDSingleUpdateDisplayParams ATetrisPlayerStateBase::GetHUDSingleUpdateDisplayParams() const
 {
-	return FHUDSingleUpdateDisplayParams(GetGameLevel(), GetLineClearGoal());
+	return FHUDSingleUpdateDisplayParams(GetGameLevel(), GetLineClearCount(), GetLineClearGoal());
 }
 
 void ATetrisPlayerStateBase::UpdateState(const FTetrisGamePlayInfo& PlayInfo)
 {
 	const int32 ClearedLineCount = PlayInfo.HitList.Num();
 	AddLineClearCount(ClearedLineCount);
-	SubtractLineClearGoal(ClearedLineCount);
 }
 
 void ATetrisPlayerStateBase::DebugPrint() const
