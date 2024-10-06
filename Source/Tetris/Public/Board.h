@@ -111,6 +111,9 @@ private:
 	TSubclassOf<UMino> MinoClass;
 
 	UPROPERTY(EditInstanceOnly, Category = "Location")
+	FVector MatrixRelativeLocation;
+
+	UPROPERTY(EditInstanceOnly, Category = "Location")
 	FVector NextQueueRelativeLocation;
 
 	UPROPERTY(EditInstanceOnly, Category = "Location")
