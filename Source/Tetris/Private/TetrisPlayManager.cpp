@@ -29,7 +29,7 @@ ATetrisPlayManager::ATetrisPlayManager()
 
 void ATetrisPlayManager::Initialize()
 {
-	UE_LOG(LogTemp, Display, TEXT("TetrisPlayManager is initialized()"));
+	//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayManager::Initialize()"));
 
 	// World
 	UWorld* const World = GetWorld();

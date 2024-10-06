@@ -86,7 +86,7 @@ public:
 	/** Default Value */
 	static constexpr int32 DefaultGameLevel = 1;
 	static constexpr int32 DefaultScore = 0;
-	static constexpr int32 DefaultLineCount = 0;
+	static constexpr int32 DefaultLineClearCount = 0;
 
 	// Level Name
 	static const FName TetrisLevelName;
@@ -103,10 +103,10 @@ protected:
 	float GameStartTime; // seconds
 
 	/** Classes */
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, Category = "Classes")
 	TSubclassOf<ATetrisPlayManager> TetrisPlayManagerClass = nullptr;
 
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, Category = "Classes")
 	TSubclassOf<UHUDSingle> HUDWidgetClass = nullptr;
 
 	/** Objects */
