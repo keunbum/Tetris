@@ -15,8 +15,8 @@ ATetrisPlayerStateBase::ATetrisPlayerStateBase()
 
 void ATetrisPlayerStateBase::Initialize(const IGoalSystemInterface* GoalSystem)
 {
-	const int32 InitialGoalLineClear = GoalSystem->GetLevelUpLineCountGoal(GetGameLevel());
-	SetGoalLineClear(InitialGoalLineClear);
+	const int32 InitialLineClearGoal = GoalSystem->GetLevelUpLineCountGoal(GetGameLevel());
+	SetLineClearGoal(InitialLineClearGoal);
 	DebugPrint();
 }
 
@@ -27,23 +27,23 @@ void ATetrisPlayerStateBase::LevelUp(const IGoalSystemInterface* GoalSystem)
 	AddTotalLineClearCount(GetLineClearCount());
 	SetLineClearCount(0);
 
-	const int32 OldGoalLineClear = GetGoalLineClear(); // may be negative
+	const int32 OldGoalLineClear = GetLineClearGoal(); // may be negative
 	const int32 NewLevelUpLineCountGoal = GoalSystem->GetLevelUpLineCountGoal(GetGameLevel());
 	const int32 NewGoalLineClear = OldGoalLineClear + NewLevelUpLineCountGoal;
 	check(NewGoalLineClear > 0);
-	SetGoalLineClear(NewGoalLineClear);
+	SetLineClearGoal(NewGoalLineClear);
 }
 
 FHUDSingleUpdateDisplayParams ATetrisPlayerStateBase::GetHUDSingleUpdateDisplayParams() const
 {
-	return FHUDSingleUpdateDisplayParams(GetGameLevel(), GetGoalLineClear());
+	return FHUDSingleUpdateDisplayParams(GetGameLevel(), GetLineClearGoal());
 }
 
 void ATetrisPlayerStateBase::UpdateState(const FTetrisGamePlayInfo& PlayInfo)
 {
 	const int32 ClearedLineCount = PlayInfo.HitList.Num();
 	AddLineClearCount(ClearedLineCount);
-	SubtractGoalLineClear(ClearedLineCount);
+	SubtractLineClearGoal(ClearedLineCount);
 }
 
 void ATetrisPlayerStateBase::DebugPrint() const
@@ -52,5 +52,5 @@ void ATetrisPlayerStateBase::DebugPrint() const
 	UE_LOG(LogTemp, Display, TEXT("GameLevel: %d"), GetGameLevel());
 	UE_LOG(LogTemp, Display, TEXT("LineClearCount: %d"), GetLineClearCount());
 	UE_LOG(LogTemp, Display, TEXT("TotalLineClearCount: %d"), GetTotalLineClearCount());
-	UE_LOG(LogTemp, Display, TEXT("GoalLineClear: %d"), GetGoalLineClear());
+	UE_LOG(LogTemp, Display, TEXT("LineClearGoal: %d"), GetLineClearGoal());
 }

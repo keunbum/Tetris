@@ -44,10 +44,10 @@ public:
 	void SetTotalLineClearCount(const int32 NewTotalLineClearCount) { TotalLineClearCount = NewTotalLineClearCount; }
 	void AddTotalLineClearCount(const int32 Value) { SetTotalLineClearCount(GetTotalLineClearCount() + Value); }
 
-	// GoalLineClear (현재 레벨에서 목표로 하는 라인 클리어 수)
-	int32 GetGoalLineClear() const { return GoalLineClear; }
-	void SetGoalLineClear(const int32 NewGoalLineClear) { GoalLineClear = NewGoalLineClear; }
-	void SubtractGoalLineClear(const int32 Value) { SetGoalLineClear(GetGoalLineClear() - Value); }
+	// LineClearGoal (현재 레벨에서 목표로 하는 라인 클리어 수)
+	int32 GetLineClearGoal() const { return LineClearGoal; }
+	void SetLineClearGoal(const int32 NewLineClearGoal) { LineClearGoal = NewLineClearGoal; }
+	void SubtractLineClearGoal(const int32 Value) { SetLineClearGoal(GetLineClearGoal() - Value); }
 
 	FHUDSingleUpdateDisplayParams GetHUDSingleUpdateDisplayParams() const;
 
@@ -65,5 +65,5 @@ private:
 	int32 TotalLineClearCount;
 
 	UPROPERTY(VisibleAnywhere, Category = "Player State")
-	int32 GoalLineClear;
+	int32 LineClearGoal;
 };
