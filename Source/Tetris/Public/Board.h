@@ -103,20 +103,26 @@ public:
 	static constexpr int32 TetriminoDefaultSpawnLocationX = ABoard::SkyLine;
 	static constexpr int32 TetriminoDefaultSpawnLocationY = ABoard::VisibleBeginCol + 3;
 
+	static constexpr int32 MatrixVisibleWidth = VisibleWidth * UMino::UnitLength;
+	static constexpr int32 MatrixVisibleHeight = VisibleHeight * UMino::UnitLength;
+
 private:
 	static const FMinoInfo BackgroundMinoInfo;
 	static const FMinoInfo SpecialMinoInfo;
 
-	UPROPERTY(EditDefaultsOnly)
-	FVector NextQueueRelativeLocation;
-
-	UPROPERTY(EditDefaultsOnly)
-	FVector HoldQueueRelativeLocation;
-
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, Category = "Classes");
 	TSubclassOf<UMino> MinoClass;
 
-	UPROPERTY()
+	UPROPERTY(EditInstanceOnly, Category = "Location")
+	FVector MatrixRelativeLocation;
+
+	UPROPERTY(EditInstanceOnly, Category = "Location")
+	FVector NextQueueRelativeLocation;
+
+	UPROPERTY(EditInstanceOnly, Category = "Location")
+	FVector HoldQueueRelativeLocation;
+
+	UPROPERTY(EditInstanceOnly, Category = "Location")
 	TObjectPtr<USceneComponent> MatrixRoot;
 
 	UPROPERTY()

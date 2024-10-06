@@ -13,6 +13,7 @@ class UInputMappingContext;
 class UInputAction;
 class ATetrisIngameGameMode;
 class ATetrisPlayManager;
+class ATetrisIngameCameraActor;
 
 UENUM()
 enum class EKeyFlags : uint8
@@ -71,9 +72,6 @@ protected:
 private:
 	static constexpr int32 MappingContextDefaultPriority = 0;
 
-	UPROPERTY(EditDefaultsOnly)
-	float OrthoWidth = 8000 * UMino::MinoScale;
-
 	/** 입력 상태 추적 */
 	UPROPERTY()
 	EKeyFlags KeyPressingFlags;
@@ -105,4 +103,8 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	TObjectPtr<UInputAction> HoldAction;
+
+	/** Classes */
+	UPROPERTY(EditDefaultsOnly, Category = "Classes")
+	TSubclassOf<ATetrisIngameCameraActor> CameraActorClass;
 };

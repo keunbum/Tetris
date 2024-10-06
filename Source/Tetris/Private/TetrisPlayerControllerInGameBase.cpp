@@ -2,7 +2,7 @@
 
 #include "TetrisPlayerControllerInGameBase.h"
 
-#include "Camera/CameraActor.h"
+#include "TetrisIngameCameraActor.h"
 #include "Camera/CameraComponent.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
@@ -25,20 +25,13 @@ void ATetrisPlayerControllerIngameBase::Initialize()
 
 void ATetrisPlayerControllerIngameBase::InitializeCamera()
 {
-	if (UWorld* const World = GetWorld())
+	if (ATetrisIngameCameraActor* const CameraActor = Cast<ATetrisIngameCameraActor>(UGameplayStatics::GetActorOfClass(GetWorld(), CameraActorClass)))
 	{
-		if (ACameraActor* const CameraActor = Cast<ACameraActor>(UGameplayStatics::GetActorOfClass(World, ACameraActor::StaticClass())))
-		{
-			// ViewTarget을 GameStartCamera로 설정.
-			SetViewTarget(CameraActor);
-
-			// 카메라를 정사영 모드로 설정.
-			if (CameraActor->GetCameraComponent())
-			{
-				CameraActor->GetCameraComponent()->SetProjectionMode(ECameraProjectionMode::Orthographic);
-				CameraActor->GetCameraComponent()->OrthoWidth = OrthoWidth; // 필요에 따라 조정
-			}
-		}
+		SetViewTarget(CameraActor);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("ATetrisPlayerControllerIngameBase::InitializeCamera() CameraActor is nullptr"));
 	}
 }
 
