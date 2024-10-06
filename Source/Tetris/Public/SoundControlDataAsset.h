@@ -26,4 +26,7 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Audio")
 	TObjectPtr<USoundClass> BgmSoundClass;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Audio")
+	TObjectPtr<USoundClass> SfxSoundClass;
 };
