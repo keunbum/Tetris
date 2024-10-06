@@ -1,7 +1,7 @@
 // Copyright Ryu KeunBeom. All Rights Reserved.
 
 #include "OptionPopupWidget.h"
-#include "Components/Slider.h"
+#include "AnalogSlider.h"
 #include "TetrisAudioManagerSubsystem.h"
 
 
