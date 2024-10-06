@@ -122,8 +122,8 @@ float UTetrisAudioManagerSubsystem::GetSoundClassVolume(USoundClass* const Sound
 		return *Volume;
 	}
 
-	checkNoEntry();
-	return 0.0f;
+	UE_LOG(LogTemp, Warning, TEXT("UTetrisAudioManagerSubsystem::GetSoundClassVolume() - No volume found for SoundClass, so return default value"));
+	return 1.0f;
 }
 
 void UTetrisAudioManagerSubsystem::SetSoundMixClassOverrideInGameThread(USoundMix* const SoundMix, USoundClass* const SoundClass, const float Volume, const float Pitch, const float FadeInTime, const bool bApplyToChildren)
