@@ -6,6 +6,8 @@
 #include "HUDBase.h"
 #include "HUDSingle.generated.h"
 
+class UTextBlockBase;
+
 USTRUCT()
 struct FHUDSingleUpdateDisplayParams
 {
@@ -48,13 +50,13 @@ private:
 
 protected:
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UTextBlock> LevelText;
+	TObjectPtr<UTextBlockBase> LevelText;
 
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UTextBlock> GoalText;
+	TObjectPtr<UTextBlockBase> GoalText;
 
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<UTextBlock> TimeText;
+	TObjectPtr<UTextBlockBase> TimeText;
 
 	FTimerHandle UpdateTimeTimerHandle;
 };
