@@ -103,6 +103,9 @@ public:
 	static constexpr int32 TetriminoDefaultSpawnLocationX = ABoard::SkyLine;
 	static constexpr int32 TetriminoDefaultSpawnLocationY = ABoard::VisibleBeginCol + 3;
 
+	static constexpr int32 MatrixVisibleWidth = TotalWidth * UMino::UnitLength;
+	static constexpr int32 MatrixVisibleHeight = VisibleHeight * UMino::UnitLength;
+
 private:
 	static const FMinoInfo BackgroundMinoInfo;
 	static const FMinoInfo SpecialMinoInfo;
