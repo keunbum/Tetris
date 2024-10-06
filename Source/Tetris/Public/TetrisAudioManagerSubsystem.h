@@ -63,5 +63,8 @@ private:
 	TObjectPtr<USoundClass> BgmSoundClass;
 
 	UPROPERTY()
+	TObjectPtr<USoundClass> SfxSoundClass;
+
+	UPROPERTY()
 	TMap<FName, float> SoundClassVolumes; // SoundClassName, Volume
 };
