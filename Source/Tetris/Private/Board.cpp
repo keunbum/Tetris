@@ -184,10 +184,10 @@ FIntPoint ABoard::GetFinalFallingMatrixLocation(const ATetrimino* Tetrimino) con
 
 void ABoard::InitializeBackground()
 {
-	for (int32 Row = TotalBeginRow; Row < TotalEndRow; ++Row)
+	for (int32 Row = VisibleBeginRow; Row < VisibleEndRow; ++Row)
 	{
-		const FMinoInfo& MinoInfo = (Row == SkyLine ? SpecialMinoInfo : BackgroundMinoInfo);
-		for (int32 Col = TotalBeginCol; Col < TotalEndCol; ++Col)
+		const FMinoInfo& MinoInfo = BackgroundMinoInfo;
+		for (int32 Col = VisibleBeginCol; Col < VisibleEndCol; ++Col)
 		{
 			const FIntPoint MinoMatrixLocation(Row, Col);
 			static constexpr float Z = 0.f - UMino::UnitLength;
