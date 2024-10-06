@@ -113,7 +113,7 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	FVector HoldQueueRelativeLocation;
 
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, Category = "Classes");
 	TSubclassOf<UMino> MinoClass;
 
 	UPROPERTY()
