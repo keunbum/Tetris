@@ -17,7 +17,6 @@ void ATetrisPlayerStateBase::Initialize(const IGoalSystemInterface* GoalSystem)
 {
 	const int32 InitialLineClearGoal = GoalSystem->GetLevelUpLineCountGoal(GetGameLevel());
 	SetLineClearGoal(InitialLineClearGoal);
-	DebugPrint();
 }
 
 void ATetrisPlayerStateBase::LevelUp(const IGoalSystemInterface* GoalSystem)
