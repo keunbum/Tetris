@@ -107,10 +107,10 @@ private:
 	static const FMinoInfo BackgroundMinoInfo;
 	static const FMinoInfo SpecialMinoInfo;
 
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditInstanceOnly, Category = "Location")
 	FVector NextQueueRelativeLocation;
 
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditInstanceOnly, Category = "Location")
 	FVector HoldQueueRelativeLocation;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Classes");
