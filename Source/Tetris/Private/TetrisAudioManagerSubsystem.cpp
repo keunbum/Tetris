@@ -35,6 +35,11 @@ void UTetrisAudioManagerSubsystem::SetBgmVolume(const float NewVolume)
 	SetSoundClassVolume(BgmSoundClass, NewVolume);
 }
 
+void UTetrisAudioManagerSubsystem::SetSfxVolume(const float NewVolume)
+{
+	SetSoundClassVolume(SfxSoundClass, NewVolume);
+}
+
 void UTetrisAudioManagerSubsystem::SaveSettings()
 {
 	if (GConfig)

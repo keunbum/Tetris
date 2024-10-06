@@ -27,6 +27,9 @@ public:
 	void SetBgmVolume(const float NewVolume);
 	float GetBgmVolume() const { return GetSoundClassVolume(BgmSoundClass); }
 
+	void SetSfxVolume(const float NewVolume);
+	float GetSfxVolume() const { return GetSoundClassVolume(SfxSoundClass); }
+
 	void SaveSettings();
 
 private:
