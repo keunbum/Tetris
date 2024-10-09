@@ -52,7 +52,7 @@ enum class ETetriminoRotationDirection : int8
 struct FTetriminoShapeInfo
 {
 	TMap<ETetriminoFacing, TArray<FIntPoint>> MinoTetriminoLocalLocationsByFacing;
-	FLinearColor Color;
+	FLinearColor BaseColor;
 	FIntPoint InitialMatrixLocation;
 	TMap<ETetriminoFacing, TMap<ETetriminoRotationDirection, TArray<FIntPoint>>> SRSRotationPointOffsetsTable; // Super Rotation System Rotation Point Table
 };

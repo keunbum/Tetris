@@ -16,7 +16,7 @@ class UMaterialInterface;
 struct FMinoInfo
 {
 	FString MaterialPath;
-	FLinearColor Color;
+	FLinearColor BaseColor;
 	float Opacity;
 	int32 TranslucentSortPriority;
 
@@ -25,9 +25,9 @@ struct FMinoInfo
 	{
 	}
 
-	FMinoInfo(const FString& InMaterialPath, const FLinearColor& InColor, const float InOpacity, const int32 InTranslucentSortPriority)
+	FMinoInfo(const FString& InMaterialPath, const FLinearColor& InBaseColor, const float InOpacity, const int32 InTranslucentSortPriority)
 		: MaterialPath(InMaterialPath)
-		, Color(InColor)
+		, BaseColor(InBaseColor)
 		, Opacity(InOpacity)
 		, TranslucentSortPriority(InTranslucentSortPriority)
 	{
