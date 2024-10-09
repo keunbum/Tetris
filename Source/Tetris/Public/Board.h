@@ -122,16 +122,16 @@ private:
 	UPROPERTY(EditInstanceOnly, Category = "Location")
 	FVector HoldQueueRelativeLocation;
 
-	UPROPERTY(EditInstanceOnly, Category = "Location")
+	UPROPERTY(EditInstanceOnly, Category = "USceneComponent")
 	TObjectPtr<USceneComponent> MatrixRoot;
 
-	UPROPERTY()
+	UPROPERTY(EditInstanceOnly, Category = "USceneComponent")
 	TObjectPtr<USceneComponent> BackgroundRoot;
 
-	UPROPERTY()
+	UPROPERTY(EditInstanceOnly, Category = "USceneComponent")
 	TObjectPtr<USceneComponent> NextQueueRoot;
 
-	UPROPERTY()
+	UPROPERTY(EditInstanceOnly, Category = "USceneComponent")
 	TObjectPtr<USceneComponent> HoldQueueRoot;
 
 	UPROPERTY(VisibleAnywhere)
