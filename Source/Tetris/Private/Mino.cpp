@@ -7,6 +7,7 @@
 const FName UMino::BaseColorParameterName = TEXT("BaseColor");
 const FName UMino::OpacityParameterName = TEXT("Opacity");
 const FString UMino::CubeMeshPath = TEXT("/Engine/BasicShapes/Cube.Cube");
+const FString UMino::DefaultMaterialPath = TEXT("/Game/Material/M_MinoMaterial");
 
 UMino::UMino()
 {

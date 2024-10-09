@@ -60,6 +60,7 @@ private:
 public:
 	static constexpr float MinoScale = 1.0f;
 	static constexpr float UnitLength = DefaultUnitLength * MinoScale;
+	static const FString DefaultMaterialPath;
 
 private:
 	static const FName BaseColorParameterName;
