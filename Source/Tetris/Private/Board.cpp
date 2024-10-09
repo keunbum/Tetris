@@ -53,7 +53,7 @@ ABoard::ABoard()
 
 void ABoard::Initialize()
 {
-	InitializeBackground();
+	//InitializeBackground();
 	InitializeMinoMatrix();
 }
 
