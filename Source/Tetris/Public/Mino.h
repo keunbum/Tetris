@@ -36,7 +36,7 @@ struct FMinoInfo
 
 /**
  * @class UMino
- * @brief Represents a specialized static mesh component used in a multiplayer Tetris game.
+ * @brief Represents a specialized static mesh component used in a Tetris.
  */
 UCLASS()
 class TETRIS_API UMino : public UStaticMeshComponent
