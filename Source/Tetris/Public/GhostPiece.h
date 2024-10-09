@@ -22,6 +22,6 @@ public:
 	void AttachToMatrix(USceneComponent* const MatrixRoot);
 
 private:
-	static constexpr float Opacity = 0.5f;
+	static constexpr float Opacity = 0.1f;
 	static constexpr int32 TranslucentSortPriority = 0;
 };
