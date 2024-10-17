@@ -58,7 +58,6 @@ public:
 
 private:
 	/** Initializes */
-	void InitializeBackground();
 	void InitializeMinoMatrix();
 
 	/** Check Methods */
@@ -109,7 +108,6 @@ public:
 	static constexpr int32 MatrixVisibleHeight = VisibleHeight * UMino::UnitLength;
 
 private:
-	static const FMinoInfo BackgroundMinoInfo;
 	static const FMinoInfo SpecialMinoInfo;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Classes");
@@ -126,10 +124,7 @@ private:
 
 	UPROPERTY(EditInstanceOnly, Category = "USceneComponent")
 	TObjectPtr<USceneComponent> MatrixRoot;
-
-	UPROPERTY(EditInstanceOnly, Category = "USceneComponent")
-	TObjectPtr<USceneComponent> BackgroundRoot;
-
+	
 	UPROPERTY(EditInstanceOnly, Category = "USceneComponent")
 	TObjectPtr<USceneComponent> NextQueueRoot;
 

@@ -10,7 +10,6 @@
 #include "Algo/AllOf.h"
 #include "TetriminoBase.h"
 
-const FMinoInfo ABoard::BackgroundMinoInfo = FMinoInfo(TEXT("/Game/Material/M_MinoMaterial"), FLinearColor::Gray, 1.0f, 0);
 const FMinoInfo ABoard::SpecialMinoInfo = FMinoInfo(TEXT("/Game/Material/M_MinoMaterial"), FLinearColor::Black, 1.0f, 0);
 
 ABoard::ABoard()
@@ -33,9 +32,6 @@ ABoard::ABoard()
 		MatrixRoot->SetRelativeLocation(MatrixRelativeLocation);
 	}
 
-	/** BackgroundRoot */
-	BackgroundRoot = CreateAndSetupSceneComponent(TEXT("BackgroundRoot"), MatrixRoot);
-
 	/** NextQueueRoot */
 	NextQueueRoot = CreateAndSetupSceneComponent(TEXT("NextQueueRoot"), MatrixRoot);
 	if (NextQueueRoot)
@@ -53,7 +49,6 @@ ABoard::ABoard()
 
 void ABoard::Initialize()
 {
-	//InitializeBackground();
 	InitializeMinoMatrix();
 }
 
@@ -183,23 +178,6 @@ FIntPoint ABoard::GetFinalFallingMatrixLocation(const ATetrimino* Tetrimino) con
 int32 ABoard::GetMatrixIndexByMatrixLocation(const FIntPoint& MatrixLocation)
 {
 	return TotalWidth * MatrixLocation.X + MatrixLocation.Y;
-}
-
-void ABoard::InitializeBackground()
-{
-	for (int32 Row = VisibleBeginRow; Row < VisibleEndRow; ++Row)
-	{
-		const FMinoInfo& MinoInfo = BackgroundMinoInfo;
-		for (int32 Col = VisibleBeginCol; Col < VisibleEndCol; ++Col)
-		{
-			const FIntPoint MinoMatrixLocation(Row, Col);
-			static constexpr float Z = 0.f - UMino::UnitLength;
-			if (UMino* const Mino = UMino::CreateMino(this, MinoInfo))
-			{
-				Mino->AttachToWithMatrixLocation(BackgroundRoot, MinoMatrixLocation, Z);
-			}
-		}
-	}
 }
 
 void ABoard::InitializeMinoMatrix()
