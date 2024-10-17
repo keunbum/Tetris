@@ -119,16 +119,16 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "Classes");
 	TSubclassOf<UMino> MinoClass;
 
-	UPROPERTY(EditInstanceOnly, Category = "Location")
+	UPROPERTY(VisibleAnywhere, Category = "Location")
 	FVector MatrixRelativeLocation;
 
-	UPROPERTY(EditInstanceOnly, Category = "Location")
+	UPROPERTY(VisibleAnywhere, Category = "Location")
 	FVector NextQueueRelativeLocation;
 
-	UPROPERTY(EditInstanceOnly, Category = "Location")
+	UPROPERTY(VisibleAnywhere, Category = "Location")
 	FVector HoldQueueRelativeLocation;
 
-	UPROPERTY(EditInstanceOnly, Category = "Location")
+	UPROPERTY(VisibleAnywhere, Category = "Location")
 	FVector WallRelativeLocation;
 
 	UPROPERTY(EditInstanceOnly, Category = "USceneComponent")
