@@ -53,6 +53,9 @@ public:
 	// Returns the final falling location of the Tetrimino in the matrix.
 	FIntPoint GetFinalFallingMatrixLocation(const ATetrimino* Tetrimino) const;
 
+	/** Static Methods */
+	static int32 GetMatrixIndexByMatrixLocation(const FIntPoint& MatrixLocation);
+
 private:
 	/** Initializes */
 	void InitializeBackground();
@@ -63,7 +66,6 @@ private:
 	bool IsMinoLocationsPossible(const TArray<FIntPoint>& MinoLocalMatrixLocations, const FIntPoint& TetriminoMatrixLocation) const;
 
 	/** Get/Set Methods */
-	int32 GetMatrixIndexByMatrixLocation(const FIntPoint& MatrixLocation) const;
 	UMino* GetMinoByMatrixLocation(const FIntPoint& MatrixLocation) const;
 	void SetMinoByMatrixLocation(UMino* const Mino, const FIntPoint& MatrixLocation);
 

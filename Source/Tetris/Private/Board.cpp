@@ -180,6 +180,11 @@ FIntPoint ABoard::GetFinalFallingMatrixLocation(const ATetrimino* Tetrimino) con
 	return FIntPoint::ZeroValue;
 }
 
+int32 ABoard::GetMatrixIndexByMatrixLocation(const FIntPoint& MatrixLocation)
+{
+	return TotalWidth * MatrixLocation.X + MatrixLocation.Y;
+}
+
 void ABoard::InitializeBackground()
 {
 	for (int32 Row = VisibleBeginRow; Row < VisibleEndRow; ++Row)
@@ -207,20 +212,15 @@ void ABoard::InitializeMinoMatrix()
 	}
 }
 
-int32 ABoard::GetMatrixIndexByMatrixLocation(const FIntPoint& MatrixLocation) const
-{
-	return TotalWidth * MatrixLocation.X + MatrixLocation.Y;
-}
-
 UMino* ABoard::GetMinoByMatrixLocation(const FIntPoint& MatrixLocation) const
 {
-	const int32 Index = GetMatrixIndexByMatrixLocation(MatrixLocation);
+	const int32 Index = ABoard::GetMatrixIndexByMatrixLocation(MatrixLocation);
 	return MinoMatrix[Index];
 }
 
 void ABoard::SetMinoByMatrixLocation(UMino* const Mino, const FIntPoint& MatrixLocation)
 {
-	const int32 Index = GetMatrixIndexByMatrixLocation(MatrixLocation);
+	const int32 Index = ABoard::GetMatrixIndexByMatrixLocation(MatrixLocation);
 	MinoMatrix[Index] = Mino;
 }
 
