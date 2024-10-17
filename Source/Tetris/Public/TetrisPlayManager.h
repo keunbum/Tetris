@@ -144,7 +144,7 @@ private:
 	bool IsTimerActive(const FTimerHandle& TimerHandle) const;
 
 	/** Basic Member Variable Accessors */
-	void SetAutoRepeatMovementDirection(const FVector2D& NewTMovementDirection) { AutoRepeatMovementDirection = NewTMovementDirection; }
+	void SetAutoRepeatMovementDirection(const FVector2D& NewMovementDirection) { AutoRepeatMovementDirection = NewMovementDirection; }
 	void SetTetriminoInPlay(ATetrimino* const InTetriminoInPlay);
 
 	/** Tetrimino Generation */
