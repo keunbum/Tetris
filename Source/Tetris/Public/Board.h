@@ -59,6 +59,7 @@ public:
 private:
 	/** Create */
 	void CreateBoardComponents();
+	void CreateMatrixWalls();
 	
 	/** Initializes */
 	void InitializeMinoMatrix();
@@ -110,6 +111,8 @@ public:
 	static constexpr int32 MatrixVisibleWidth = VisibleWidth * UMino::UnitLength;
 	static constexpr int32 MatrixVisibleHeight = VisibleHeight * UMino::UnitLength;
 
+	static const FName WallMeshPath;
+
 private:
 	static const FMinoInfo SpecialMinoInfo;
 
@@ -142,4 +145,7 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 	TArray<TObjectPtr<UMino>> MinoMatrix;
+
+	UPROPERTY(EditAnywhere)
+	TArray<TObjectPtr<UStaticMeshComponent>> Walls;
 };

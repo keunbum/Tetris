@@ -10,6 +10,7 @@
 #include "Algo/AllOf.h"
 #include "TetriminoBase.h"
 
+const FName ABoard::WallMeshPath = TEXT("/Engine/BasicShapes/Plane");
 const FMinoInfo ABoard::SpecialMinoInfo = FMinoInfo(TEXT("/Game/Material/M_MinoMaterial"), FLinearColor::Black, 1.0f, 0);
 
 ABoard::ABoard()
@@ -19,6 +20,7 @@ ABoard::ABoard()
 	MinoClass = UMino::StaticClass();
 
 	CreateBoardComponents();
+	CreateMatrixWalls();
 }
 
 void ABoard::Initialize()
@@ -167,6 +169,27 @@ void ABoard::CreateBoardComponents()
 	NextQueueRoot = CreateAndSetupSceneComponent(TEXT("NextQueueRoot"), MatrixRoot, NextQueueRelativeLocation);
 	HoldQueueRoot = CreateAndSetupSceneComponent(TEXT("HoldQueueRoot"), MatrixRoot, HoldQueueRelativeLocation);
 	WallRoot = CreateAndSetupSceneComponent(TEXT("WallRoot"), MatrixRoot, WallRelativeLocation);
+}
+
+void ABoard::CreateMatrixWalls()
+{
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> WallMesh(*ABoard::WallMeshPath.ToString());
+	if (!ensureMsgf(WallMesh.Succeeded(), TEXT("Failed to Load WallMesh")))
+	{
+		return;
+	}
+
+	static constexpr int32 WallNum = 4;
+	Walls.Reserve(WallNum);
+	for (const TCHAR* ComponentName : { TEXT("LeftWall"), TEXT("RightWall"), TEXT("BackWall"), TEXT("Floor") })
+	{
+		if (UStaticMeshComponent* const Wall = CreateDefaultSubobject<UStaticMeshComponent>(ComponentName))
+		{
+			Wall->SetupAttachment(WallRoot);
+			Wall->SetStaticMesh(WallMesh.Object);
+			Walls.Add(Wall);
+		}
+	}
 }
 
 void ABoard::InitializeMinoMatrix()
