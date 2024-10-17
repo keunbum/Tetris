@@ -16,7 +16,7 @@ UMino::UMino()
 	static const ConstructorHelpers::FObjectFinder<UStaticMesh> CubeMesh(*UMino::CubeMeshPath);
 	if (CubeMesh.Succeeded())
 	{
-		SetStaticMesh(CubeMesh.Object);
+		UStaticMeshComponent::SetStaticMesh(CubeMesh.Object);
 	}
 
 	SetWorldScale3D(FVector(MinoScale));
