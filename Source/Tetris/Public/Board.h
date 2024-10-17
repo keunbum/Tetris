@@ -131,16 +131,16 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = "Location")
 	FVector WallRelativeLocation;
 
-	UPROPERTY(EditInstanceOnly, Category = "USceneComponent")
+	UPROPERTY(VisibleAnywhere, Category = "USceneComponent")
 	TObjectPtr<USceneComponent> MatrixRoot;
 	
-	UPROPERTY(EditInstanceOnly, Category = "USceneComponent")
+	UPROPERTY(VisibleAnywhere, Category = "USceneComponent")
 	TObjectPtr<USceneComponent> NextQueueRoot;
 
-	UPROPERTY(EditInstanceOnly, Category = "USceneComponent")
+	UPROPERTY(VisibleAnywhere, Category = "USceneComponent")
 	TObjectPtr<USceneComponent> HoldQueueRoot;
 
-	UPROPERTY(EditAnywhere, Category = "USceneComponent")
+	UPROPERTY(VisibleAnywhere, Category = "USceneComponent")
 	TObjectPtr<USceneComponent> WallRoot;
 
 	UPROPERTY(VisibleAnywhere)
