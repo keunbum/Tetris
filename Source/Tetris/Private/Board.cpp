@@ -18,33 +18,7 @@ ABoard::ABoard()
 
 	MinoClass = UMino::StaticClass();
 
-	// 음수/양수 순서대로 FVector(우/좌, 아래/위, 생략)
-	MatrixRelativeLocation = FVector(MatrixVisibleWidth / 2, MatrixVisibleHeight, 0.f);
-	NextQueueRelativeLocation = FVector(UMino::UnitLength * -12.f, UMino::UnitLength * -15.f, -UMino::UnitLength * 10);
-	HoldQueueRelativeLocation = FVector(UMino::UnitLength * 6.f, UMino::UnitLength * -15.f, -UMino::UnitLength * 10);
-
-	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
-
-	/** MatrixRoot */
-	MatrixRoot = CreateAndSetupSceneComponent(TEXT("MatrixRoot"), RootComponent);
-	if (MatrixRoot)
-	{
-		MatrixRoot->SetRelativeLocation(MatrixRelativeLocation);
-	}
-
-	/** NextQueueRoot */
-	NextQueueRoot = CreateAndSetupSceneComponent(TEXT("NextQueueRoot"), MatrixRoot);
-	if (NextQueueRoot)
-	{
-		NextQueueRoot->SetRelativeLocation(NextQueueRelativeLocation);
-	}
-
-	/** HoldQueueRoot */
-	HoldQueueRoot = CreateAndSetupSceneComponent(TEXT("HoldQueueRoot"), MatrixRoot);
-	if (HoldQueueRoot)
-	{
-		HoldQueueRoot->SetRelativeLocation(HoldQueueRelativeLocation);
-	}
+	CreateBoardComponents();
 }
 
 void ABoard::Initialize()
@@ -180,6 +154,21 @@ int32 ABoard::GetMatrixIndexByMatrixLocation(const FIntPoint& MatrixLocation)
 	return TotalWidth * MatrixLocation.X + MatrixLocation.Y;
 }
 
+void ABoard::CreateBoardComponents()
+{
+	// 음수/양수 순서대로 FVector(우/좌, 아래/위, 생략)
+	MatrixRelativeLocation = FVector(MatrixVisibleWidth / 2, MatrixVisibleHeight, 0.f);
+	NextQueueRelativeLocation = FVector(UMino::UnitLength * -12.f, UMino::UnitLength * -15.f, -UMino::UnitLength * 10);
+	HoldQueueRelativeLocation = FVector(UMino::UnitLength * 6.f, UMino::UnitLength * -15.f, -UMino::UnitLength * 10);
+	WallRelativeLocation = FVector(0, 0, 0);
+
+	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
+	MatrixRoot = CreateAndSetupSceneComponent(TEXT("MatrixRoot"), RootComponent, MatrixRelativeLocation);
+	NextQueueRoot = CreateAndSetupSceneComponent(TEXT("NextQueueRoot"), MatrixRoot, NextQueueRelativeLocation);
+	HoldQueueRoot = CreateAndSetupSceneComponent(TEXT("HoldQueueRoot"), MatrixRoot, HoldQueueRelativeLocation);
+	WallRoot = CreateAndSetupSceneComponent(TEXT("WallRoot"), MatrixRoot, WallRelativeLocation);
+}
+
 void ABoard::InitializeMinoMatrix()
 {
 	MinoMatrix.Reserve(TotalHeight * TotalWidth);
@@ -219,11 +208,12 @@ bool ABoard::IsMinoLocationsPossible(const TArray<FIntPoint>& MinoTetriminoLocal
 	);
 }
 
-USceneComponent* ABoard::CreateAndSetupSceneComponent(const FName& ComponentName, USceneComponent* const Parent)
+USceneComponent* ABoard::CreateAndSetupSceneComponent(const FName& ComponentName, USceneComponent* const Parent, const FVector& RelativeLocation)
 {
 	if (USceneComponent* const SceneComponent = CreateDefaultSubobject<USceneComponent>(ComponentName))
 	{
 		SceneComponent->SetupAttachment(Parent);
+		SceneComponent->SetRelativeLocation(RelativeLocation);
 		return SceneComponent;
 	}
 	checkNoEntry();

@@ -57,6 +57,9 @@ public:
 	static int32 GetMatrixIndexByMatrixLocation(const FIntPoint& MatrixLocation);
 
 private:
+	/** Create */
+	void CreateBoardComponents();
+	
 	/** Initializes */
 	void InitializeMinoMatrix();
 
@@ -69,7 +72,7 @@ private:
 	void SetMinoByMatrixLocation(UMino* const Mino, const FIntPoint& MatrixLocation);
 
 	/** Non-const Methods */
-	USceneComponent* CreateAndSetupSceneComponent(const FName& ComponentName, USceneComponent* const Parent);
+	USceneComponent* CreateAndSetupSceneComponent(const FName& ComponentName, USceneComponent* const Parent, const FVector& RelativeLocation);
 	void AddMino(UMino* const Mino, const FIntPoint& MinoMatrixLocation);
 	void ClearRow(const int32 TargetRow);
 	void MoveRow(const int32 TargetRow, const int32 MoveDistance);
@@ -122,6 +125,9 @@ private:
 	UPROPERTY(EditInstanceOnly, Category = "Location")
 	FVector HoldQueueRelativeLocation;
 
+	UPROPERTY(EditInstanceOnly, Category = "Location")
+	FVector WallRelativeLocation;
+
 	UPROPERTY(EditInstanceOnly, Category = "USceneComponent")
 	TObjectPtr<USceneComponent> MatrixRoot;
 	
@@ -130,6 +136,9 @@ private:
 
 	UPROPERTY(EditInstanceOnly, Category = "USceneComponent")
 	TObjectPtr<USceneComponent> HoldQueueRoot;
+
+	UPROPERTY(EditAnywhere, Category = "USceneComponent")
+	TObjectPtr<USceneComponent> WallRoot;
 
 	UPROPERTY(VisibleAnywhere)
 	TArray<TObjectPtr<UMino>> MinoMatrix;
