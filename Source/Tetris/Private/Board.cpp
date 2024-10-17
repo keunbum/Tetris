@@ -160,9 +160,9 @@ void ABoard::CreateBoardComponents()
 {
 	// 음수/양수 순서대로 FVector(우/좌, 아래/위, 생략)
 	MatrixRelativeLocation = FVector(MatrixVisibleWidth / 2, MatrixVisibleHeight, 0.f);
-	NextQueueRelativeLocation = FVector(UMino::UnitLength * -12.f, UMino::UnitLength * -15.f, -UMino::UnitLength * 10);
-	HoldQueueRelativeLocation = FVector(UMino::UnitLength * 6.f, UMino::UnitLength * -15.f, -UMino::UnitLength * 10);
-	WallRelativeLocation = FVector(0, 0, 0);
+	NextQueueRelativeLocation = UMino::UnitLength * FVector(-12.f, -15.f, -10.f);
+	HoldQueueRelativeLocation = UMino::UnitLength * FVector(6.f, -15.f, -10.f);
+	WallRelativeLocation = UMino::UnitLength * FVector(0, 0, 0);
 
 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
 	MatrixRoot = CreateAndSetupSceneComponent(TEXT("MatrixRoot"), RootComponent, MatrixRelativeLocation);
