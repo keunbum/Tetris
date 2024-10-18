@@ -31,7 +31,7 @@ struct FTetrisGamePlayInfo
 /**
  * 
  */
-UCLASS()
+UCLASS(Abstract, NotBlueprintable)
 class TETRIS_API ATetrisIngameGameMode : public ATetrisGameModeBase
 {
 	GENERATED_BODY()
