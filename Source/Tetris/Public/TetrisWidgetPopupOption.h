@@ -3,8 +3,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "PopUpWidgetBase.h"
-#include "OptionPopupWidget.generated.h"
+#include "TetrisWidgetPopupBase.h"
+#include "TetrisWidgetPopupOption.generated.h"
+
 
 class UAnalogSlider;
 class UTetrisAudioManagerSubsystem;
@@ -13,10 +14,10 @@ class UTetrisAudioManagerSubsystem;
  * 
  */
 UCLASS()
-class TETRIS_API UOptionPopupWidget : public UPopupWidgetBase
+class TETRIS_API UTetrisWidgetPopupOption : public UTetrisWidgetPopupBase
 {
 	GENERATED_BODY()
-
+	
 protected:
 	/** UUserWidget Interface */
 	virtual void NativeOnInitialized() override;

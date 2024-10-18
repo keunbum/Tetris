@@ -4,15 +4,15 @@
 
 #include "CoreMinimal.h"
 #include "TetrisGameModeBase.h"
-#include "MainMenuGameMode.generated.h"
+#include "TetrisGameModeMainMenu.generated.h"
 
-class UMainMenuWidget;
+class UTetrisWidgetMenuMain;
 
 /**
  * 
  */
 UCLASS()
-class TETRIS_API AMainMenuGameMode : public ATetrisGameModeBase
+class TETRIS_API ATetrisGameModeMainMenu : public ATetrisGameModeBase
 {
 	GENERATED_BODY()
 
@@ -31,9 +31,9 @@ public:
 private:
 	/** Widget References */
 	UPROPERTY()
-	TObjectPtr<UMainMenuWidget> MainMenuWidget;
+	TObjectPtr<UTetrisWidgetMenuMain> MainMenuWidget;
 
 	/** Widget Class References */
 	UPROPERTY(EditDefaultsOnly, Category = "Classes")
-	TSubclassOf<UMainMenuWidget> MainMenuWidgetClass;
+	TSubclassOf<UTetrisWidgetMenuMain> MainMenuWidgetClass;
 };

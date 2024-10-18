@@ -7,12 +7,12 @@
 #include "InputTriggers.h"
 
 #include "TetriminoBase.h"
-#include "TetrisSinglePlayerGameMode.h"
+#include "TetrisGameModeIngameBase.h"
 #include "TetrisPlayManager.h"
 
 void ATetrisPlayerControllerIngameBase::Initialize()
 {
-	GameMode = GetWorld()->GetAuthGameMode<ATetrisSinglePlayerGameMode>();
+	GameMode = GetWorld()->GetAuthGameMode<ATetrisGameModeIngameBase>();
 
 	KeyPressingFlags = EKeyFlags::None;
 

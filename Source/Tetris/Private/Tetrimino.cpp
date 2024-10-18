@@ -2,7 +2,7 @@
 
 #include "Tetrimino.h"
 
-#include "GhostPiece.h"
+#include "TetriminoGhostPiece.h"
 #include "Board.h"
 #include "Mino.h"
 #include "Algo/MinElement.h"
@@ -19,7 +19,7 @@ const FMinoInfo ATetrimino::GetMinoInfo() const
 	return FMinoInfo(UMino::DefaultMaterialPath, ShapeInfo.BaseColor, ATetrimino::Opacity, ATetrimino::TranslucentSortPriority);
 }
 
-void ATetrimino::SetGhostPiece(AGhostPiece* const InGhostPiece)
+void ATetrimino::SetGhostPiece(ATetriminoGhostPiece* const InGhostPiece)
 {
 	GhostPiece = InGhostPiece;
 	if (GhostPiece && Board)

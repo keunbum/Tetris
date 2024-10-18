@@ -7,7 +7,7 @@
 #include "Tetrimino.generated.h"
 
 class ABoard;
-class AGhostPiece;
+class ATetriminoGhostPiece;
 
 /**
  * @class ATetrimino
@@ -23,7 +23,7 @@ public:
 
 	virtual const FMinoInfo GetMinoInfo() const override;
 
-	void SetGhostPiece(AGhostPiece* const InGhostPiece);
+	void SetGhostPiece(ATetriminoGhostPiece* const InGhostPiece);
 	void SetBoard(ABoard* const InBoard);
 	int32 GetLowestRow() const;
 	void DetachFromBoard();
@@ -45,7 +45,7 @@ private:
 
 private:
 	UPROPERTY(VisibleAnywhere)
-	TObjectPtr<AGhostPiece> GhostPiece;
+	TObjectPtr<ATetriminoGhostPiece> GhostPiece;
 
 	UPROPERTY()
 	TObjectPtr<ABoard> Board;

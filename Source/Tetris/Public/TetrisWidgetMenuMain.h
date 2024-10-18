@@ -3,16 +3,16 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "MenuWidgetBase.h"
-#include "MainMenuWidget.generated.h"
+#include "TetrisWidgetMenuBase.h"
+#include "TetrisWidgetMenuMain.generated.h"
 
-class UOptionPopupWidget;
+class UTetrisWidgetPopupOption;
 
 /**
  * 
  */
 UCLASS()
-class TETRIS_API UMainMenuWidget : public UMenuWidgetBase
+class TETRIS_API UTetrisWidgetMenuMain : public UTetrisWidgetMenuBase
 {
 	GENERATED_BODY()
 
@@ -42,11 +42,11 @@ private:
 	TObjectPtr<UMenuButton> ExitButton;
 
 	/** Widget References */
-	// OptionPopUpWidget
+	// WidgetPopupOption
 	UPROPERTY()
-	TObjectPtr<UOptionPopupWidget> OptionPopUpWidget;
+	TObjectPtr<UTetrisWidgetPopupOption> WidgetPopupOption;
 
 	/** Widget Class References */
 	UPROPERTY(EditDefaultsOnly, Category = "Classes")
-	TSubclassOf<UOptionPopupWidget> OptionPopUpWidgetClass;
+	TSubclassOf<UTetrisWidgetPopupOption> WidgetPopupOptionClass;
 };

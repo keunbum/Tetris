@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "TetriminoBase.h"
-#include "GhostPiece.generated.h"
+#include "TetriminoGhostPiece.generated.h"
 
 class ABoard;
 
@@ -12,7 +12,7 @@ class ABoard;
  * 
  */
 UCLASS()
-class TETRIS_API AGhostPiece : public ATetriminoBase
+class TETRIS_API ATetriminoGhostPiece : public ATetriminoBase
 {
 	GENERATED_BODY()
 

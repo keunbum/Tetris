@@ -1,10 +1,10 @@
 // Copyright Ryu KeunBeom. All Rights Reserved.
 
-#include "MenuWidgetBase.h"
+#include "TetrisWidgetMenuBase.h"
 
 #include "MenuButton.h"
 
-bool UMenuWidgetBase::GetMenuMoveDirection(const FKey& Key, EMenuMoveDirection& OutMenuMoveDirection)
+bool UTetrisWidgetMenuBase::GetMenuMoveDirection(const FKey& Key, EMenuMoveDirection& OutMenuMoveDirection)
 {
 	static const TArray<TPair<TFunction<bool(const FKey&)>, EMenuMoveDirection>> FuncAndDirectionPairs =
 	{
@@ -26,7 +26,7 @@ bool UMenuWidgetBase::GetMenuMoveDirection(const FKey& Key, EMenuMoveDirection& 
 	return false;
 }
 
-FName UMenuWidgetBase::GetMenuMoveDirectionName(const EMenuMoveDirection MenuMoveDirection)
+FName UTetrisWidgetMenuBase::GetMenuMoveDirectionName(const EMenuMoveDirection MenuMoveDirection)
 {
 	switch (MenuMoveDirection)
 	{
@@ -44,21 +44,21 @@ FName UMenuWidgetBase::GetMenuMoveDirectionName(const EMenuMoveDirection MenuMov
 	}
 }
 
-void UMenuWidgetBase::NativeOnInitialized()
+void UTetrisWidgetMenuBase::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
 
 	bIsFocusable = true;
 }
 
-void UMenuWidgetBase::NativeConstruct()
+void UTetrisWidgetMenuBase::NativeConstruct()
 {
 	Super::NativeConstruct();
 
 	SetInitialFocus();
 }
 
-FReply UMenuWidgetBase::NativeOnPreviewKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent)
+FReply UTetrisWidgetMenuBase::NativeOnPreviewKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent)
 {
 	if (IsNoButtonFocused())
 	{
@@ -76,9 +76,9 @@ FReply UMenuWidgetBase::NativeOnPreviewKeyDown(const FGeometry& InGeometry, cons
 
 	const FKey Key = InKeyEvent.GetKey();
 	if (EMenuMoveDirection MenuMoveDirection = EMenuMoveDirection::None;
-		UMenuWidgetBase::GetMenuMoveDirection(Key, MenuMoveDirection))
+		UTetrisWidgetMenuBase::GetMenuMoveDirection(Key, MenuMoveDirection))
 	{
-		const int32 MoveDelta = UMenuWidgetBase::GetMenuMoveDelta(MenuMoveDirection);
+		const int32 MoveDelta = UTetrisWidgetMenuBase::GetMenuMoveDelta(MenuMoveDirection);
 		MoveMenuButtonFocus(MoveDelta);
 		return FReply::Handled();
 	}
@@ -86,20 +86,20 @@ FReply UMenuWidgetBase::NativeOnPreviewKeyDown(const FGeometry& InGeometry, cons
 	return Super::NativeOnPreviewKeyDown(InGeometry, InKeyEvent);
 }
 
-void UMenuWidgetBase::SetDefaultMenuButtonFocus()
+void UTetrisWidgetMenuBase::SetDefaultMenuButtonFocus()
 {
 	SetMenuButtonFocusByButtonIndex(DefaultFocusedButtonIndex);
 }
 
-void UMenuWidgetBase::SetWidgetFocusOnly()
+void UTetrisWidgetMenuBase::SetWidgetFocusOnly()
 {
 	// 초기에 포커싱된 버튼 없음.
-	FocusedButtonIndex = UMenuWidgetBase::InvalidButtonIndex;
+	FocusedButtonIndex = UTetrisWidgetMenuBase::InvalidButtonIndex;
 	// 위젯 자체에는 포커싱이 걸려야 키보드 입력을 받을 수 있음.
 	SetFocus();
 }
 
-void UMenuWidgetBase::SetMenuButtonFocusByButtonIndex(const int32 NewFocusedButtonIndex)
+void UTetrisWidgetMenuBase::SetMenuButtonFocusByButtonIndex(const int32 NewFocusedButtonIndex)
 {
 	FocusedButtonIndex = NewFocusedButtonIndex;
 	if (UMenuButton* const MenuButton = MenuButtons[FocusedButtonIndex])
@@ -108,13 +108,13 @@ void UMenuWidgetBase::SetMenuButtonFocusByButtonIndex(const int32 NewFocusedButt
 	}
 }
 
-void UMenuWidgetBase::MoveMenuButtonFocus(const int32 MoveDelta)
+void UTetrisWidgetMenuBase::MoveMenuButtonFocus(const int32 MoveDelta)
 {
 	const int32 NewFocusedButtonIndex = (FocusedButtonIndex + MoveDelta + MenuButtons.Num()) % MenuButtons.Num();
 	SetMenuButtonFocusByButtonIndex(NewFocusedButtonIndex);
 }
 
-void UMenuWidgetBase::SetInitialFocus()
+void UTetrisWidgetMenuBase::SetInitialFocus()
 {
 	SetWidgetFocusOnly();
 }

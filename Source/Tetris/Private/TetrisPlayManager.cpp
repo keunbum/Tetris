@@ -5,9 +5,9 @@
 #include "Math/UnrealMathUtility.h"
 
 #include "Board.h"
-#include "TetrisInGameGameMode.h"
+#include "TetrisGameModeIngameBase.h"
 #include "Tetrimino.h"
-#include "GhostPiece.h"
+#include "TetriminoGhostPiece.h"
 #include "TetrisPlayerControllerIngameSingle.h"
 #include "TetriminoGenerator.h"
 #include "TetriminoQueue.h"
@@ -21,7 +21,7 @@ ATetrisPlayManager::ATetrisPlayManager()
 	, NormalFallSpeed(-1.0f)
 	, TetriminoClass(ATetrimino::StaticClass())
 	, TetriminoInPlay(nullptr)
-	, GhostPieceClass(AGhostPiece::StaticClass())
+	, GhostPieceClass(ATetriminoGhostPiece::StaticClass())
 	, GhostPiece(nullptr)
 {
 	PrimaryActorTick.bCanEverTick = false;
@@ -40,7 +40,7 @@ void ATetrisPlayManager::Initialize()
 	}
 
 	// GameMode
-	GameMode = World->GetAuthGameMode<ATetrisIngameGameMode>();
+	GameMode = World->GetAuthGameMode<ATetrisGameModeIngameBase>();
 	if (GameMode)
 	{
 		SetNormalFallSpeed(GameMode->GetCurrentLevelNormalFallSpeed());
@@ -53,7 +53,7 @@ void ATetrisPlayManager::Initialize()
 		Board->Initialize();
 
 		// GhostPiece
-		GhostPiece = World->SpawnActor<AGhostPiece>(GhostPieceClass);
+		GhostPiece = World->SpawnActor<ATetriminoGhostPiece>(GhostPieceClass);
 		if (GhostPiece)
 		{
 			GhostPiece->AttachToMatrix(Board->GetMatrixRoot());
@@ -609,7 +609,7 @@ void ATetrisPlayManager::SetAutoRepeatMovementTimer()
 
 void ATetrisPlayManager::SetSoftDropTimer()
 {
-	const float SoftDropSpeed = ATetrisIngameGameMode::GetSoftDropSpeed(NormalFallSpeed);
+	const float SoftDropSpeed = ATetrisGameModeIngameBase::GetSoftDropSpeed(NormalFallSpeed);
 	GetWorldTimerManager().SetTimer(SoftDropTimerHandle, this, &ATetrisPlayManager::MoveTetriminoDown, SoftDropSpeed, bSoftDropTimerLoop, SoftDropTimerInitialDelay);
 	//UE_LOG(LogTemp, Display, TEXT("Soft Drop Timer is set."));
 }
