@@ -3,14 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "MenuWidgetBase.h"
+#include "TetrisWidgetMenuBase.h"
 #include "GameoverMenuWidget.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class TETRIS_API UGameoverMenuWidget : public UMenuWidgetBase
+class TETRIS_API UGameoverMenuWidget : public UTetrisWidgetMenuBase
 {
 	GENERATED_BODY()
 	

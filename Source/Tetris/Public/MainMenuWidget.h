@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "MenuWidgetBase.h"
+#include "TetrisWidgetMenuBase.h"
 #include "MainMenuWidget.generated.h"
 
 class UTetrisWidgetPopupOption;
@@ -12,7 +12,7 @@ class UTetrisWidgetPopupOption;
  * 
  */
 UCLASS()
-class TETRIS_API UMainMenuWidget : public UMenuWidgetBase
+class TETRIS_API UMainMenuWidget : public UTetrisWidgetMenuBase
 {
 	GENERATED_BODY()
 

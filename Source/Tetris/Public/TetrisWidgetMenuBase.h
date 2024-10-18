@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "TetrisWidgetBase.h"
-#include "MenuWidgetBase.generated.h"
+#include "TetrisWidgetMenuBase.generated.h"
 
 class UMenuButton;
 
@@ -24,7 +24,7 @@ ENUM_CLASS_FLAGS(EMenuMoveDirection);
  *
  */
 UCLASS(Abstract)
-class TETRIS_API UMenuWidgetBase : public UTetrisWidgetBase
+class TETRIS_API UTetrisWidgetMenuBase : public UTetrisWidgetBase
 {
 	GENERATED_BODY()
 
