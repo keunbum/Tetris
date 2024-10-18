@@ -10,7 +10,7 @@
 #include "TetrisIngameGameMode.generated.h"
 
 class ATetrisPlayManager;
-class ATetrisPlayerControllerSingle;
+class ATetrisPlayerControllerIngameSingle;
 class ATetrisPlayerStateBase;
 class IGoalSystemInterface;
 class UHUDSingle;
@@ -47,7 +47,7 @@ public:
 	// Here, speed means the seconds it takes to move one line.
 	float GetCurrentLevelNormalFallSpeed() const;
 	ATetrisPlayManager* GetTetrisPlayManager() const { return TetrisPlayManager; }
-	ATetrisPlayerControllerSingle* GetTetrisPlayerController() const { return TetrisPlayerController; }
+	ATetrisPlayerControllerIngameSingle* GetTetrisPlayerController() const { return TetrisPlayerController; }
 
 	void UpdateGamePlay(const FTetrisGamePlayInfo& UpdateInfo);
 	void RunGameOver();
@@ -114,7 +114,7 @@ protected:
 	TObjectPtr<ATetrisPlayManager> TetrisPlayManager;
 
 	UPROPERTY()
-	TObjectPtr<ATetrisPlayerControllerSingle> TetrisPlayerController;
+	TObjectPtr<ATetrisPlayerControllerIngameSingle> TetrisPlayerController;
 
 	UPROPERTY()
 	TObjectPtr<ATetrisPlayerStateBase> TetrisPlayerState;

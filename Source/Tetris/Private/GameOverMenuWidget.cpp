@@ -4,7 +4,7 @@
 #include "Kismet/GameplayStatics.h"
 
 #include "MenuButton.h"
-#include "TetrisPlayerControllerSingle.h"
+#include "TetrisPlayerControllerIngameSingle.h"
 #include "MainMenuGameMode.h"
 
 void UGameoverMenuWidget::NativeOnInitialized()

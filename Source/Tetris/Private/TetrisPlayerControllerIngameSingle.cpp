@@ -1,6 +1,6 @@
 // Copyright Ryu KeunBeom. All Rights Reserved.
 
-#include "TetrisPlayerControllerSingle.h"
+#include "TetrisPlayerControllerIngameSingle.h"
 
 #include "EnhancedInputComponent.h"
 #include "InputTriggers.h"
@@ -8,7 +8,7 @@
 #include "PauseMenuWidget.h"
 #include "GameoverMenuWidget.h"
 
-void ATetrisPlayerControllerSingle::SetInputModeGameOnlyAndUnPause()
+void ATetrisPlayerControllerIngameSingle::SetInputModeGameOnlyAndUnPause()
 {
 	// Set the input mode to GameOnly
 	const FInputModeGameOnly InputMode;
@@ -24,7 +24,7 @@ void ATetrisPlayerControllerSingle::SetInputModeGameOnlyAndUnPause()
 	UGameplayStatics::SetGamePaused(GetWorld(), false);
 }
 
-void ATetrisPlayerControllerSingle::SetInputModeUIOnlyAndPause()
+void ATetrisPlayerControllerIngameSingle::SetInputModeUIOnlyAndPause()
 {
 	if (!PauseMenuWidget)
 	{
@@ -43,7 +43,7 @@ void ATetrisPlayerControllerSingle::SetInputModeUIOnlyAndPause()
 	UGameplayStatics::SetGamePaused(GetWorld(), true);
 }
 
-void ATetrisPlayerControllerSingle::SetInputModeUIOnlyAndGameOver()
+void ATetrisPlayerControllerIngameSingle::SetInputModeUIOnlyAndGameOver()
 {
 	if (!GameOverMenuWidget)
 	{
@@ -65,19 +65,19 @@ void ATetrisPlayerControllerSingle::SetInputModeUIOnlyAndGameOver()
 	UGameplayStatics::SetGamePaused(GetWorld(), true);
 }
 
-void ATetrisPlayerControllerSingle::BindInputActions(UEnhancedInputComponent* const EnhancedInputComponent)
+void ATetrisPlayerControllerIngameSingle::BindInputActions(UEnhancedInputComponent* const EnhancedInputComponent)
 {
 	Super::BindInputActions(EnhancedInputComponent);
 
 	// Pause
 	if (PauseAction)
 	{
-		EnhancedInputComponent->BindAction(PauseAction, ETriggerEvent::Started, this, &ATetrisPlayerControllerSingle::OnPause);
+		EnhancedInputComponent->BindAction(PauseAction, ETriggerEvent::Started, this, &ATetrisPlayerControllerIngameSingle::OnPause);
 	}
 }
 
-void ATetrisPlayerControllerSingle::OnPause(const FInputActionValue& ActionValue)
+void ATetrisPlayerControllerIngameSingle::OnPause(const FInputActionValue& ActionValue)
 {
-	//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayerControllerSingle::OnPause()"));
+	//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayerControllerIngameSingle::OnPause()"));
 	SetInputModeUIOnlyAndPause();
 }
