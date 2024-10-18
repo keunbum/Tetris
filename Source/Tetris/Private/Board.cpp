@@ -225,7 +225,8 @@ void ABoard::CreateTestMinos()
 	// Matrix의 보이는 영역을 채울 테스트용 미노들을 생성한다.
 	for (int32 Row = VisibleBeginRow; Row < VisibleEndRow; ++Row)
 	{
-		const FMinoInfo& MinoInfo = SpecialMinoInfo;
+		static const FMinoInfo BlackMinoInfo = FMinoInfo(TEXT("/Game/Material/M_MinoMaterial_Black"), FLinearColor::Black, 1.0f, 0);
+		const FMinoInfo& MinoInfo = Row == VisibleBeginRow ? BlackMinoInfo : SpecialMinoInfo;
 		for (int32 Col = VisibleBeginCol; Col < VisibleEndCol; ++Col)
 		{
 			const FIntPoint MinoMatrixLocation(Row, Col);
