@@ -8,7 +8,9 @@
 #include "Materials/MaterialInterface.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Algo/AllOf.h"
+#include "Camera/CameraComponent.h"
 #include "TetriminoBase.h"
+#include "GameFramework/PlayerController.h"
 
 const FName ABoard::WallMeshPath = TEXT("/Engine/BasicShapes/Plane");
 const FMinoInfo ABoard::SpecialMinoInfo = FMinoInfo(TEXT("/Game/Material/M_MinoMaterial"), FLinearColor::Black, 1.0f, 0);
@@ -26,6 +28,11 @@ ABoard::ABoard()
 void ABoard::Initialize()
 {
 	InitializeMinoMatrix();
+
+	if (APlayerController* const PlayerController = GetWorld()->GetFirstPlayerController())
+	{
+		PlayerController->SetViewTarget(this);
+	}
 }
 
 bool ABoard::IsDirectlyAboveSurface(const ATetrimino* Tetrimino) const
@@ -163,12 +170,20 @@ void ABoard::CreateBoardComponents()
 	NextQueueRelativeLocation = UMino::UnitLength * FVector(-12.f, -15.f, -10.f);
 	HoldQueueRelativeLocation = UMino::UnitLength * FVector(6.f, -15.f, -10.f);
 	WallRelativeLocation = UMino::UnitLength * FVector(0, 0, 0);
+	CameraRelativeLocation = UMino::UnitLength * FVector(-VisibleWidth / 2, -30.f, 31.f);
 
 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
 	MatrixRoot = CreateAndSetupSceneComponent(TEXT("MatrixRoot"), RootComponent, MatrixRelativeLocation);
 	NextQueueRoot = CreateAndSetupSceneComponent(TEXT("NextQueueRoot"), MatrixRoot, NextQueueRelativeLocation);
 	HoldQueueRoot = CreateAndSetupSceneComponent(TEXT("HoldQueueRoot"), MatrixRoot, HoldQueueRelativeLocation);
 	WallRoot = CreateAndSetupSceneComponent(TEXT("WallRoot"), MatrixRoot, WallRelativeLocation);
+
+	// Initialize and configure the camera component
+	Camera = CreateAndSetupComponent<UCameraComponent>(TEXT("Camera"), MatrixRoot, CameraRelativeLocation);
+	if (Camera)
+	{
+		Camera->SetRelativeRotation(FRotator(-90.f, 0.f, 90.f));
+	}
 }
 
 void ABoard::CreateMatrixWalls()

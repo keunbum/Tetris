@@ -12,6 +12,7 @@
 
 struct FMinoInfo;
 class UMino;
+class UCameraComponent;
 
 /**
  * @class ABoard
@@ -130,6 +131,9 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = "Location")
 	FVector WallRelativeLocation;
 
+	UPROPERTY(VisibleAnywhere, Category = "Location")
+	FVector CameraRelativeLocation;
+
 	UPROPERTY(VisibleAnywhere, Category = "USceneComponent")
 	TObjectPtr<USceneComponent> MatrixRoot;
 	
@@ -141,6 +145,9 @@ private:
 
 	UPROPERTY(VisibleAnywhere, Category = "USceneComponent")
 	TObjectPtr<USceneComponent> WallRoot;
+
+	UPROPERTY(VisibleAnywhere, Category = "UCameraComponent")
+	TObjectPtr<UCameraComponent> Camera;
 
 	UPROPERTY(VisibleAnywhere)
 	TArray<TObjectPtr<UMino>> MinoMatrix;
