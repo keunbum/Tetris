@@ -166,9 +166,9 @@ int32 ABoard::GetMatrixIndexByMatrixLocation(const FIntPoint& MatrixLocation)
 void ABoard::CreateBoardComponents()
 {
 	// 음수/양수 순서대로 FVector(우/좌, 아래/위, 생략)
-	MatrixRelativeLocation = FVector(MatrixVisibleWidth / 2, MatrixVisibleHeight, 0.f);
-	NextQueueRelativeLocation = UMino::UnitLength * FVector(-12.f, -15.f, -10.f);
-	HoldQueueRelativeLocation = UMino::UnitLength * FVector(6.f, -15.f, -10.f);
+	MatrixRelativeLocation = UMino::UnitLength * FVector(0.f, 0.f, 0.f);
+	NextQueueRelativeLocation = UMino::UnitLength * FVector(-15.f, -15.f, -10.f);
+	HoldQueueRelativeLocation = UMino::UnitLength * FVector(8.f, -15.f, -10.f);
 	WallRelativeLocation = UMino::UnitLength * FVector(0, 0, 0);
 	CameraRelativeLocation = UMino::UnitLength * FVector(-VisibleWidth / 2, -30.f, 31.f);
 
