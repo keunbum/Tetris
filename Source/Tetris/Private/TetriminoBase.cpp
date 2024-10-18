@@ -438,7 +438,7 @@ void ATetriminoBase::InitializeMinoArray()
 
 	for (const FIntPoint& MinoTetriminoLocalLocation : MinoTetriminoLocalLocations)
 	{
-		if (UMino* const Mino = UMino::CreateMino(this, MinoInfo))
+		if (UMino* const Mino = UMino::NewMino(this, MinoInfo))
 		{
 			Mino->AttachToWithMatrixLocation(RootComponent, MinoTetriminoLocalLocation);
 			MinoArray.Add(Mino);

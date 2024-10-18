@@ -49,7 +49,7 @@ public:
 	void SetRelativeLocationByMatrixLocation(const FIntPoint& MatrixLocation, const float Z = 0.0f);
 	void AttachToWithMatrixLocation(USceneComponent* const Parent, const FIntPoint& MatrixLocation, const float Z = 0.0f);
 
-	static UMino* CreateMino(UObject* const InOuter, const FMinoInfo& MinoInfo);
+	static UMino* NewMino(UObject* const InOuter, const FMinoInfo& MinoInfo);
 	static FVector GetRelativeLocationByMatrixLocation(const FIntPoint& MatrixLocation, const float Z = 0.0f);
 	static UMaterialInterface* GetMaterialByMinoInfo(const FMinoInfo& MinoInfo);
 	static UMaterialInstanceDynamic* GetMaterialInstanceByMinoInfo(UObject* const InOuter, const FMinoInfo& MinoInfo);

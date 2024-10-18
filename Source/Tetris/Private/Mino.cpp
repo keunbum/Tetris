@@ -33,7 +33,7 @@ void UMino::AttachToWithMatrixLocation(USceneComponent* const Parent, const FInt
 	SetRelativeLocationByMatrixLocation(MatrixLocation, Z);
 }
 
-UMino* UMino::CreateMino(UObject* const InOuter, const FMinoInfo& MinoInfo)
+UMino* UMino::NewMino(UObject* const InOuter, const FMinoInfo& MinoInfo)
 {
 	if (UMino* const Mino = NewObject<UMino>(InOuter))
 	{
