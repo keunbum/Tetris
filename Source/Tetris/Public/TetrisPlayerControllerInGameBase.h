@@ -12,7 +12,6 @@
 class UInputMappingContext;
 class UInputAction;
 class ATetrisIngameGameMode;
-class ATetrisPlayManager;
 
 UENUM()
 enum class EKeyFlags : uint8
