@@ -1,18 +1,18 @@
 // Copyright Ryu KeunBeom. All Rights Reserved.
 
-#include "TetrisPlayerControllerInGameBase.h"
+#include "TetrisPlayerControllerIngameBase.h"
 
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputTriggers.h"
 
 #include "TetriminoBase.h"
-#include "TetrisSinglePlayerGameModeBase.h"
+#include "TetrisSinglePlayerGameMode.h"
 #include "TetrisPlayManager.h"
 
 void ATetrisPlayerControllerIngameBase::Initialize()
 {
-	GameMode = GetWorld()->GetAuthGameMode<ATetrisSinglePlayerGameModeBase>();
+	GameMode = GetWorld()->GetAuthGameMode<ATetrisSinglePlayerGameMode>();
 
 	KeyPressingFlags = EKeyFlags::None;
 

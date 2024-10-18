@@ -5,7 +5,7 @@
 #include "Kismet/GameplayStatics.h"
 
 #include "MenuButton.h"
-#include "TetrisPlayerControllerSingle.h"
+#include "TetrisPlayerControllerIngameSingle.h"
 #include "MainMenuGameMode.h"
 #include "OptionPopupWidget.h"
 
@@ -39,7 +39,7 @@ void UPauseMenuWidget::NativeOnInitialized()
 		OptionPopUpWidget = CreateWidget<UOptionPopupWidget>(GetWorld(), OptionPopUpWidgetClass);
 	}
 
-	TetrisPlayerController = Cast<ATetrisPlayerControllerSingle>(GetOwningPlayer());
+	TetrisPlayerController = Cast<ATetrisPlayerControllerIngameSingle>(GetOwningPlayer());
 }
 
 void UPauseMenuWidget::NativeConstruct()

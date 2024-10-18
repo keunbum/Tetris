@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "TetrisPlayerControllerInGameBase.h"
 
-#include "TetrisPlayerControllerSingle.generated.h"
+#include "TetrisPlayerControllerIngameSingle.generated.h"
 
 class UPauseMenuWidget;
 class UGameoverMenuWidget;
@@ -14,7 +14,7 @@ class UGameoverMenuWidget;
  * 
  */
 UCLASS()
-class TETRIS_API ATetrisPlayerControllerSingle : public ATetrisPlayerControllerIngameBase
+class TETRIS_API ATetrisPlayerControllerIngameSingle : public ATetrisPlayerControllerIngameBase
 {
 	GENERATED_BODY()
 

@@ -7,8 +7,8 @@
 #include "Blueprint/UserWidget.h"
 
 #include "TetrisPlayManager.h"
-#include "TetrisPlayerControllerSingle.h"
-#include "TetrisPlayerStateBase.h"
+#include "TetrisPlayerControllerIngameSingle.h"
+#include "TetrisPlayerState.h"
 #include "GoalSystemFactory.h"
 #include "GoalSystemInterface.h"
 #include "HUDSingle.h"
@@ -27,7 +27,7 @@ void ATetrisIngameGameMode::PostLogin(APlayerController* const NewPlayer)
 {
 	Super::PostLogin(NewPlayer);
 
-	TetrisPlayerState = Cast<ATetrisPlayerStateBase>(NewPlayer->PlayerState);
+	TetrisPlayerState = Cast<ATetrisPlayerState>(NewPlayer->PlayerState);
 }
 
 float ATetrisIngameGameMode::GetElapsedTime() const
@@ -114,7 +114,7 @@ void ATetrisIngameGameMode::Initialize()
 		TetrisPlayManager = World->SpawnActor<ATetrisPlayManager>(TetrisPlayManagerClass);
 
 		// TetrisPlayerController
-		TetrisPlayerController = Cast<ATetrisPlayerControllerSingle>(UGameplayStatics::GetPlayerController(World, PlayerIndex));
+		TetrisPlayerController = Cast<ATetrisPlayerControllerIngameSingle>(UGameplayStatics::GetPlayerController(World, PlayerIndex));
 
 		// GoalSystem
 		if (IGoalSystemInterface* const GoalSystemInterface = GoalSystemFactory::CreateGoalSystemInterface(GoalSystemType, this))

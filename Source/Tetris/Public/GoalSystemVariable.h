@@ -7,13 +7,13 @@
 
 #include "GoalSystemInterface.h"
 
-#include "VariableGoalSystem.generated.h"
+#include "GoalSystemVariable.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class TETRIS_API UVariableGoalSystem : public UObject, public IGoalSystemInterface
+class TETRIS_API UGoalSystemVariable : public UObject, public IGoalSystemInterface
 {
 	GENERATED_BODY()
 	

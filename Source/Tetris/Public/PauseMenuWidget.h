@@ -6,7 +6,7 @@
 #include "MenuWidgetBase.h"
 #include "PauseMenuWidget.generated.h"
 
-class ATetrisPlayerControllerSingle;
+class ATetrisPlayerControllerIngameSingle;
 class UOptionPopupWidget;
 
 /**
@@ -59,5 +59,5 @@ private:
 	TSubclassOf<UOptionPopupWidget> OptionPopUpWidgetClass;
 
 	UPROPERTY()
-	TObjectPtr<ATetrisPlayerControllerSingle> TetrisPlayerController;
+	TObjectPtr<ATetrisPlayerControllerIngameSingle> TetrisPlayerController;
 };

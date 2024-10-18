@@ -7,7 +7,7 @@
 
 #include "TetrisInGameGameMode.h"
 
-#include "TetrisPlayerStateBase.generated.h"
+#include "TetrisPlayerState.generated.h"
 
 class IGoalSystemInterface;
 struct FHUDSingleUpdateDisplayParams;
@@ -16,12 +16,12 @@ struct FHUDSingleUpdateDisplayParams;
  * 
  */
 UCLASS()
-class TETRIS_API ATetrisPlayerStateBase : public APlayerState
+class TETRIS_API ATetrisPlayerState : public APlayerState
 {
 	GENERATED_BODY()
 
 public:
-	ATetrisPlayerStateBase();
+	ATetrisPlayerState();
 
 	void Initialize(const IGoalSystemInterface* GoalSystem);
 
