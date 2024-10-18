@@ -1,34 +1,34 @@
 // Copyright Ryu KeunBeom. All Rights Reserved.
 
-#include "GameoverMenuWidget.h"
+#include "TetrisWidgetMenuGameover.h"
 #include "Kismet/GameplayStatics.h"
 
 #include "MenuButton.h"
 #include "TetrisGameModeMainMenu.h"
 
-void UGameoverMenuWidget::NativeOnInitialized()
+void UTetrisWidgetMenuGameover::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
 
 	if (RestartButton)
 	{
 		MenuButtons.Add(RestartButton);
-		RestartButton->OnClicked.AddDynamic(this, &UGameoverMenuWidget::OnRestartClicked);
+		RestartButton->OnClicked.AddDynamic(this, &UTetrisWidgetMenuGameover::OnRestartClicked);
 	}
 	if (HomeButton)
 	{
 		MenuButtons.Add(HomeButton);
-		HomeButton->OnClicked.AddDynamic(this, &UGameoverMenuWidget::OnHomeClicked);
+		HomeButton->OnClicked.AddDynamic(this, &UTetrisWidgetMenuGameover::OnHomeClicked);
 	}
 }
 
-void UGameoverMenuWidget::OnRestartClicked()
+void UTetrisWidgetMenuGameover::OnRestartClicked()
 {
 	// Restart the level
 	UGameplayStatics::OpenLevel(this, GetWorld()->GetFName());
 }
 
-void UGameoverMenuWidget::OnHomeClicked()
+void UTetrisWidgetMenuGameover::OnHomeClicked()
 {
 	// Go to the Main Menu
 	UGameplayStatics::OpenLevel(this, ATetrisGameModeMainMenu::MainMenuLevelName);

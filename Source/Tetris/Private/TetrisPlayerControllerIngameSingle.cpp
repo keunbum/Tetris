@@ -6,7 +6,7 @@
 #include "InputTriggers.h"
 #include "Kismet/GameplayStatics.h"
 #include "PauseMenuWidget.h"
-#include "GameoverMenuWidget.h"
+#include "TetrisWidgetMenuGameover.h"
 
 void ATetrisPlayerControllerIngameSingle::SetInputModeGameOnlyAndUnPause()
 {
@@ -47,7 +47,7 @@ void ATetrisPlayerControllerIngameSingle::SetInputModeUIOnlyAndGameOver()
 {
 	if (!GameOverMenuWidget)
 	{
-		GameOverMenuWidget = CreateWidget<UGameoverMenuWidget>(this, GameOverMenuWidgetClass);
+		GameOverMenuWidget = CreateWidget<UTetrisWidgetMenuGameover>(this, GameOverMenuWidgetClass);
 	}
 
 	// Set the input mode to UIOnly
