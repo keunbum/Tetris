@@ -115,7 +115,7 @@ public:
 	static const FName WallMeshPath;
 
 private:
-	static const FMinoInfo SpecialMinoInfo;
+	static const FMinoInfo BackgroundBaseMinoInfo;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Classes");
 	TSubclassOf<UMino> MinoClass;

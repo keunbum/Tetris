@@ -13,7 +13,7 @@
 #include "GameFramework/PlayerController.h"
 
 const FName ABoard::WallMeshPath = TEXT("/Engine/BasicShapes/Cube");
-const FMinoInfo ABoard::SpecialMinoInfo = FMinoInfo(TEXT("/Game/Material/M_MinoMaterial"), FLinearColor::White, 1.0f, 0);
+const FMinoInfo ABoard::BackgroundBaseMinoInfo = FMinoInfo(TEXT("/Game/Material/M_MinoMaterial"), FLinearColor::White, 1.0f, 0);
 
 ABoard::ABoard()
 {
@@ -245,7 +245,7 @@ void ABoard::CreateTestMinos()
 	for (int32 Row = VisibleBeginRow; Row < VisibleEndRow; ++Row)
 	{
 		static const FMinoInfo BlackMinoInfo = FMinoInfo(TEXT("/Game/Material/M_MinoMaterial_Black"), FLinearColor::Black, 1.0f, 0);
-		const FMinoInfo& MinoInfo = Row == VisibleBeginRow ? BlackMinoInfo : SpecialMinoInfo;
+		const FMinoInfo& MinoInfo = Row == VisibleBeginRow ? BlackMinoInfo : BackgroundBaseMinoInfo;
 		for (int32 Col = VisibleBeginCol; Col < VisibleEndCol; ++Col)
 		{
 			const FIntPoint MinoMatrixLocation(Row, Col);
