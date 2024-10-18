@@ -22,9 +22,6 @@ ABoard::ABoard()
 	MinoClass = UMino::StaticClass();
 
 	CreateBoardComponents();
-	CreateMatrixWalls();
-
-	CreateTestMinos();
 }
 
 void ABoard::Initialize()
@@ -181,7 +178,8 @@ void ABoard::CreateBoardComponents()
 	WallRoot = CreateAndSetupSceneComponent(TEXT("WallRoot"), MatrixRoot, WallRelativeLocation);
 	BackgroundRoot = CreateAndSetupSceneComponent(TEXT("BackgroundRoot"), MatrixRoot, FVector::ZeroVector);
 
-	// Initialize and configure the camera component
+	CreateMatrixWalls();
+
 	Camera = CreateAndSetupComponent<UCameraComponent>(TEXT("Camera"), MatrixRoot, CameraRelativeLocation);
 	if (Camera)
 	{
