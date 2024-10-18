@@ -76,8 +76,21 @@ private:
 
 	/** Non-const Methods */
 	template<typename TReturnType>
-	TReturnType* CreateAndSetupComponent(const FName& ComponentName, USceneComponent* const Parent, const FVector& RelativeLocation);
-	USceneComponent* CreateAndSetupSceneComponent(const FName& ComponentName, USceneComponent* const Parent, const FVector& RelativeLocation) { return CreateAndSetupComponent<USceneComponent>(ComponentName, Parent, RelativeLocation); }
+	TReturnType* CreateAndSetupComponent(const FName& ComponentName, USceneComponent* const Parent, const FVector& RelativeLocation)
+	{
+		if (TReturnType* const Component = CreateDefaultSubobject<TReturnType>(ComponentName))
+		{
+			Component->SetupAttachment(Parent);
+			Component->SetRelativeLocation(RelativeLocation);
+			return Component;
+		}
+		checkNoEntry();
+		return nullptr;
+	}
+	USceneComponent* CreateAndSetupSceneComponent(const FName& ComponentName, USceneComponent* const Parent, const FVector& RelativeLocation)
+	{
+		return CreateAndSetupComponent<USceneComponent>(ComponentName, Parent, RelativeLocation);
+	}
 	void AddMino(UMino* const Mino, const FIntPoint& MinoMatrixLocation);
 	void ClearRow(const int32 TargetRow);
 	void MoveRow(const int32 TargetRow, const int32 MoveDistance);
@@ -158,15 +171,3 @@ private:
 	TArray<TObjectPtr<UStaticMeshComponent>> Walls;
 };
 
-template<typename TReturnType>
-inline TReturnType* ABoard::CreateAndSetupComponent(const FName& ComponentName, USceneComponent* const Parent, const FVector& RelativeLocation)
-{
-	if (TReturnType* const Component = CreateDefaultSubobject<TReturnType>(ComponentName))
-	{
-		Component->SetupAttachment(Parent);
-		Component->SetRelativeLocation(RelativeLocation);
-		return Component;
-	}
-	checkNoEntry();
-	return nullptr;
-}
