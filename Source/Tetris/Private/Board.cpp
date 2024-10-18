@@ -13,7 +13,7 @@
 #include "GameFramework/PlayerController.h"
 
 const FName ABoard::WallMeshPath = TEXT("/Engine/BasicShapes/Plane");
-const FMinoInfo ABoard::SpecialMinoInfo = FMinoInfo(TEXT("/Game/Material/M_MinoMaterial"), FLinearColor::Black, 1.0f, 0);
+const FMinoInfo ABoard::SpecialMinoInfo = FMinoInfo(TEXT("/Game/Material/M_MinoMaterial"), FLinearColor::White, 1.0f, 0);
 
 ABoard::ABoard()
 {
@@ -23,6 +23,8 @@ ABoard::ABoard()
 
 	CreateBoardComponents();
 	CreateMatrixWalls();
+
+	CreateTestMinos();
 }
 
 void ABoard::Initialize()
@@ -214,6 +216,31 @@ void ABoard::InitializeMinoMatrix()
 	{
 		UMino* const Mino = nullptr;
 		MinoMatrix.Add(Mino);
+	}
+}
+
+void ABoard::CreateTestMinos()
+{
+	// Matrix의 보이는 영역을 채울 테스트용 미노들을 생성한다.
+	for (int32 Row = VisibleBeginRow; Row < VisibleEndRow; ++Row)
+	{
+		const FMinoInfo& MinoInfo = SpecialMinoInfo;
+		for (int32 Col = VisibleBeginCol; Col < VisibleEndCol; ++Col)
+		{
+			const FIntPoint MinoMatrixLocation(Row, Col);
+			static constexpr float Z = 0.f;
+			const FString MinoName = FString::Printf(TEXT("Mino_%d_%d"), Row, Col);
+			if (UMino* const Mino = CreateDefaultSubobject<UMino>(*MinoName))
+			{
+				if (UMaterialInterface* const MinoMaterial = Cast<UMaterialInterface>(StaticLoadObject(UMaterialInterface::StaticClass(), nullptr, *MinoInfo.MaterialPath)))
+				{
+					static constexpr int32 ElementIndex = 0;
+					Mino->SetMaterial(ElementIndex, MinoMaterial);
+				}
+				Mino->SetTranslucentSortPriority(-2);
+				Mino->AttachToWithMatrixLocation(MatrixRoot, MinoMatrixLocation, Z);
+			}
+		}
 	}
 }
 

@@ -64,6 +64,7 @@ private:
 	
 	/** Initializes */
 	void InitializeMinoMatrix();
+	void CreateTestMinos();
 
 	/** Check Methods */
 	bool IsMatrixLocationEmpty(const FIntPoint& MatrixLocation) const;
