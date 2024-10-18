@@ -146,6 +146,8 @@ private:
 
 	UPROPERTY(VisibleAnywhere, Category = "USceneComponent")
 	TObjectPtr<USceneComponent> WallRoot;
+
+	UPROPERTY(VisibleAnywhere, Category = "USceneComponent")
 	TObjectPtr<USceneComponent> BackgroundRoot;
 
 	UPROPERTY(VisibleAnywhere, Category = "UCameraComponent")
