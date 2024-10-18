@@ -5,7 +5,7 @@
 #include "Kismet/GameplayStatics.h"
 
 #include "TetrisGameModeIngameBase.h"
-#include "OptionPopupWidget.h"
+#include "TetrisWidgetPopupOption.h"
 #include "MenuButton.h"
 
 void UMainMenuWidget::NativeOnInitialized()
@@ -28,9 +28,9 @@ void UMainMenuWidget::NativeOnInitialized()
 		ExitButton->OnClicked.AddDynamic(this, &UMainMenuWidget::OnExitClicked);
 	}
 
-	if (OptionPopUpWidgetClass)
+	if (WidgetPopupOptionClass)
 	{
-		OptionPopUpWidget = CreateWidget<UOptionPopupWidget>(GetWorld(), OptionPopUpWidgetClass);
+		WidgetPopupOption = CreateWidget<UTetrisWidgetPopupOption>(GetWorld(), WidgetPopupOptionClass);
 	}
 }
 
@@ -42,9 +42,9 @@ void UMainMenuWidget::OnStartClicked()
 
 void UMainMenuWidget::OnOptionClicked()
 {
-	if (OptionPopUpWidget)
+	if (WidgetPopupOption)
 	{
-		OptionPopUpWidget->AddToViewport();
+		WidgetPopupOption->AddToViewport();
 	}
 }
 

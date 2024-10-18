@@ -4,7 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "TetrisWidgetPopupBase.h"
-#include "OptionPopupWidget.generated.h"
+#include "TetrisWidgetPopupOption.generated.h"
+
 
 class UAnalogSlider;
 class UTetrisAudioManagerSubsystem;
@@ -13,10 +14,10 @@ class UTetrisAudioManagerSubsystem;
  * 
  */
 UCLASS()
-class TETRIS_API UOptionPopupWidget : public UTetrisWidgetPopupBase
+class TETRIS_API UTetrisWidgetPopupOption : public UTetrisWidgetPopupBase
 {
 	GENERATED_BODY()
-
+	
 protected:
 	/** UUserWidget Interface */
 	virtual void NativeOnInitialized() override;

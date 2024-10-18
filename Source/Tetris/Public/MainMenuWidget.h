@@ -6,7 +6,7 @@
 #include "MenuWidgetBase.h"
 #include "MainMenuWidget.generated.h"
 
-class UOptionPopupWidget;
+class UTetrisWidgetPopupOption;
 
 /**
  * 
@@ -42,11 +42,11 @@ private:
 	TObjectPtr<UMenuButton> ExitButton;
 
 	/** Widget References */
-	// OptionPopUpWidget
+	// WidgetPopupOption
 	UPROPERTY()
-	TObjectPtr<UOptionPopupWidget> OptionPopUpWidget;
+	TObjectPtr<UTetrisWidgetPopupOption> WidgetPopupOption;
 
 	/** Widget Class References */
 	UPROPERTY(EditDefaultsOnly, Category = "Classes")
-	TSubclassOf<UOptionPopupWidget> OptionPopUpWidgetClass;
+	TSubclassOf<UTetrisWidgetPopupOption> WidgetPopupOptionClass;
 };
