@@ -179,6 +179,7 @@ void ABoard::CreateBoardComponents()
 	NextQueueRoot = CreateAndSetupSceneComponent(TEXT("NextQueueRoot"), MatrixRoot, NextQueueRelativeLocation);
 	HoldQueueRoot = CreateAndSetupSceneComponent(TEXT("HoldQueueRoot"), MatrixRoot, HoldQueueRelativeLocation);
 	WallRoot = CreateAndSetupSceneComponent(TEXT("WallRoot"), MatrixRoot, WallRelativeLocation);
+	BackgroundRoot = CreateAndSetupSceneComponent(TEXT("BackgroundRoot"), MatrixRoot, FVector::ZeroVector);
 
 	// Initialize and configure the camera component
 	Camera = CreateAndSetupComponent<UCameraComponent>(TEXT("Camera"), MatrixRoot, CameraRelativeLocation);
@@ -238,7 +239,7 @@ void ABoard::CreateTestMinos()
 					Mino->SetMaterial(ElementIndex, MinoMaterial);
 				}
 				Mino->SetTranslucentSortPriority(-2);
-				Mino->AttachToWithMatrixLocation(MatrixRoot, MinoMatrixLocation, Z);
+				Mino->AttachToWithMatrixLocation(BackgroundRoot, MinoMatrixLocation, Z);
 			}
 		}
 	}
