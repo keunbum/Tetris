@@ -161,7 +161,7 @@ int32 ABoard::GetMatrixIndexByMatrixLocation(const FIntPoint& MatrixLocation)
 
 void ABoard::CreateBoardComponents()
 {
-	// 양수/음수 순서대로 FVector(좌/우, 위/아래, 생략)
+	// 양수/음수 순서대로 FVector(좌/우, 위/아래, 앞/뒤)
 	static const FVector MatrixRelativeLocation = UMino::UnitLength * FVector(0.f, 0.f, 0.f);
 	static const FVector NextQueueRelativeLocation = UMino::UnitLength * FVector(-15.f, -15.f, -10.f);
 	static const FVector HoldQueueRelativeLocation = UMino::UnitLength * FVector(8.f, -15.f, -10.f);
