@@ -87,10 +87,6 @@ private:
 		checkNoEntry();
 		return nullptr;
 	}
-	USceneComponent* CreateAndSetupSceneComponent(const FName& ComponentName, USceneComponent* const Parent, const FVector& RelativeLocation)
-	{
-		return CreateAndSetupComponent<USceneComponent>(ComponentName, Parent, RelativeLocation);
-	}
 	void AddMino(UMino* const Mino, const FIntPoint& MinoMatrixLocation);
 	void ClearRow(const int32 TargetRow);
 	void MoveRow(const int32 TargetRow, const int32 MoveDistance);

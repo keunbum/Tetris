@@ -171,11 +171,11 @@ void ABoard::CreateBoardComponents()
 	CameraRelativeLocation = UMino::UnitLength * FVector(-VisibleWidth / 2, -30.f, 31.f);
 
 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
-	MatrixRoot = CreateAndSetupSceneComponent(TEXT("MatrixRoot"), RootComponent, MatrixRelativeLocation);
-	NextQueueRoot = CreateAndSetupSceneComponent(TEXT("NextQueueRoot"), MatrixRoot, NextQueueRelativeLocation);
-	HoldQueueRoot = CreateAndSetupSceneComponent(TEXT("HoldQueueRoot"), MatrixRoot, HoldQueueRelativeLocation);
-	WallRoot = CreateAndSetupSceneComponent(TEXT("WallRoot"), MatrixRoot, WallRelativeLocation);
-	BackgroundRoot = CreateAndSetupSceneComponent(TEXT("BackgroundRoot"), MatrixRoot, FVector::ZeroVector);
+	MatrixRoot = CreateAndSetupComponent<USceneComponent>(TEXT("MatrixRoot"), RootComponent, MatrixRelativeLocation);
+	NextQueueRoot = CreateAndSetupComponent<USceneComponent>(TEXT("NextQueueRoot"), MatrixRoot, NextQueueRelativeLocation);
+	HoldQueueRoot = CreateAndSetupComponent<USceneComponent>(TEXT("HoldQueueRoot"), MatrixRoot, HoldQueueRelativeLocation);
+	WallRoot = CreateAndSetupComponent<USceneComponent>(TEXT("WallRoot"), MatrixRoot, WallRelativeLocation);
+	BackgroundRoot = CreateAndSetupComponent<USceneComponent>(TEXT("BackgroundRoot"), MatrixRoot, FVector::ZeroVector);
 
 	CreateMatrixWalls();
 
