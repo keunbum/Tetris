@@ -16,7 +16,7 @@ class UMaterialInterface;
 struct FMinoInfo
 {
 	FString MaterialPath;
-	FLinearColor Color;
+	FLinearColor BaseColor;
 	float Opacity;
 	int32 TranslucentSortPriority;
 
@@ -25,9 +25,9 @@ struct FMinoInfo
 	{
 	}
 
-	FMinoInfo(const FString& InMaterialPath, const FLinearColor& InColor, const float InOpacity, const int32 InTranslucentSortPriority)
+	FMinoInfo(const FString& InMaterialPath, const FLinearColor& InBaseColor, const float InOpacity, const int32 InTranslucentSortPriority)
 		: MaterialPath(InMaterialPath)
-		, Color(InColor)
+		, BaseColor(InBaseColor)
 		, Opacity(InOpacity)
 		, TranslucentSortPriority(InTranslucentSortPriority)
 	{
@@ -36,7 +36,7 @@ struct FMinoInfo
 
 /**
  * @class UMino
- * @brief Represents a specialized static mesh component used in a multiplayer Tetris game.
+ * @brief Represents a specialized static mesh component used for the Tetrimino.
  */
 UCLASS()
 class TETRIS_API UMino : public UStaticMeshComponent
@@ -49,7 +49,7 @@ public:
 	void SetRelativeLocationByMatrixLocation(const FIntPoint& MatrixLocation, const float Z = 0.0f);
 	void AttachToWithMatrixLocation(USceneComponent* const Parent, const FIntPoint& MatrixLocation, const float Z = 0.0f);
 
-	static UMino* CreateMino(UObject* const InOuter, const FMinoInfo& MinoInfo);
+	static UMino* NewMino(UObject* const InOuter, const FMinoInfo& MinoInfo);
 	static FVector GetRelativeLocationByMatrixLocation(const FIntPoint& MatrixLocation, const float Z = 0.0f);
 	static UMaterialInterface* GetMaterialByMinoInfo(const FMinoInfo& MinoInfo);
 	static UMaterialInstanceDynamic* GetMaterialInstanceByMinoInfo(UObject* const InOuter, const FMinoInfo& MinoInfo);
@@ -60,6 +60,7 @@ private:
 public:
 	static constexpr float MinoScale = 1.0f;
 	static constexpr float UnitLength = DefaultUnitLength * MinoScale;
+	static const FString DefaultMaterialPath;
 
 private:
 	static const FName BaseColorParameterName;

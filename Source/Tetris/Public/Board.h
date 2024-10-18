@@ -12,6 +12,7 @@
 
 struct FMinoInfo;
 class UMino;
+class UCameraComponent;
 
 /**
  * @class ABoard
@@ -53,9 +54,17 @@ public:
 	// Returns the final falling location of the Tetrimino in the matrix.
 	FIntPoint GetFinalFallingMatrixLocation(const ATetrimino* Tetrimino) const;
 
+	/** Static Methods */
+	static int32 GetMatrixIndexByMatrixLocation(const FIntPoint& MatrixLocation);
+
 private:
+	/** Create */
+	void CreateBoardComponents();
+	void CreateMatrixWalls();
+	// Matrix Transform 확인을 위한 테스트용 메서드
+	void CreateBackgroundMinos();
+
 	/** Initializes */
-	void InitializeBackground();
 	void InitializeMinoMatrix();
 
 	/** Check Methods */
@@ -63,12 +72,22 @@ private:
 	bool IsMinoLocationsPossible(const TArray<FIntPoint>& MinoLocalMatrixLocations, const FIntPoint& TetriminoMatrixLocation) const;
 
 	/** Get/Set Methods */
-	int32 GetMatrixIndexByMatrixLocation(const FIntPoint& MatrixLocation) const;
 	UMino* GetMinoByMatrixLocation(const FIntPoint& MatrixLocation) const;
 	void SetMinoByMatrixLocation(UMino* const Mino, const FIntPoint& MatrixLocation);
 
 	/** Non-const Methods */
-	USceneComponent* CreateAndSetupSceneComponent(const FName& ComponentName, USceneComponent* const Parent);
+	template<typename TReturnType>
+	TReturnType* CreateAndSetupComponent(const FName& ComponentName, USceneComponent* const Parent, const FVector& RelativeLocation)
+	{
+		if (TReturnType* const Component = CreateDefaultSubobject<TReturnType>(ComponentName))
+		{
+			Component->SetupAttachment(Parent);
+			Component->SetRelativeLocation(RelativeLocation);
+			return Component;
+		}
+		checkNoEntry();
+		return nullptr;
+	}
 	void AddMino(UMino* const Mino, const FIntPoint& MinoMatrixLocation);
 	void ClearRow(const int32 TargetRow);
 	void MoveRow(const int32 TargetRow, const int32 MoveDistance);
@@ -103,37 +122,32 @@ public:
 	static constexpr int32 TetriminoDefaultSpawnLocationX = ABoard::SkyLine;
 	static constexpr int32 TetriminoDefaultSpawnLocationY = ABoard::VisibleBeginCol + 3;
 
-	static constexpr int32 MatrixVisibleWidth = VisibleWidth * UMino::UnitLength;
-	static constexpr int32 MatrixVisibleHeight = VisibleHeight * UMino::UnitLength;
-
 private:
-	static const FMinoInfo BackgroundMinoInfo;
-	static const FMinoInfo SpecialMinoInfo;
-
 	UPROPERTY(EditDefaultsOnly, Category = "Classes");
 	TSubclassOf<UMino> MinoClass;
 
-	UPROPERTY(EditInstanceOnly, Category = "Location")
-	FVector MatrixRelativeLocation;
-
-	UPROPERTY(EditInstanceOnly, Category = "Location")
-	FVector NextQueueRelativeLocation;
-
-	UPROPERTY(EditInstanceOnly, Category = "Location")
-	FVector HoldQueueRelativeLocation;
-
-	UPROPERTY(EditInstanceOnly, Category = "Location")
+	UPROPERTY(VisibleAnywhere, Category = "USceneComponent")
 	TObjectPtr<USceneComponent> MatrixRoot;
-
-	UPROPERTY()
-	TObjectPtr<USceneComponent> BackgroundRoot;
-
-	UPROPERTY()
+	
+	UPROPERTY(VisibleAnywhere, Category = "USceneComponent")
 	TObjectPtr<USceneComponent> NextQueueRoot;
 
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere, Category = "USceneComponent")
 	TObjectPtr<USceneComponent> HoldQueueRoot;
+
+	UPROPERTY(VisibleAnywhere, Category = "USceneComponent")
+	TObjectPtr<USceneComponent> WallRoot;
+
+	UPROPERTY(VisibleAnywhere, Category = "USceneComponent")
+	TObjectPtr<USceneComponent> BackgroundRoot;
+
+	UPROPERTY(VisibleAnywhere, Category = "UCameraComponent")
+	TObjectPtr<UCameraComponent> Camera;
 
 	UPROPERTY(VisibleAnywhere)
 	TArray<TObjectPtr<UMino>> MinoMatrix;
+
+	UPROPERTY(EditAnywhere)
+	TArray<TObjectPtr<UStaticMeshComponent>> Walls;
 };
+

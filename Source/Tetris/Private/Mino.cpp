@@ -7,13 +7,16 @@
 const FName UMino::BaseColorParameterName = TEXT("BaseColor");
 const FName UMino::OpacityParameterName = TEXT("Opacity");
 const FString UMino::CubeMeshPath = TEXT("/Engine/BasicShapes/Cube.Cube");
+//const FString UMino::DefaultMaterialPath = TEXT("/Game/Material/M_MinoMaterial");
+const FString UMino::DefaultMaterialPath = TEXT("/Game/Material/M_MinoOutline");
+
 
 UMino::UMino()
 {
 	static const ConstructorHelpers::FObjectFinder<UStaticMesh> CubeMesh(*UMino::CubeMeshPath);
 	if (CubeMesh.Succeeded())
 	{
-		SetStaticMesh(CubeMesh.Object);
+		UStaticMeshComponent::SetStaticMesh(CubeMesh.Object);
 	}
 
 	SetWorldScale3D(FVector(MinoScale));
@@ -30,7 +33,7 @@ void UMino::AttachToWithMatrixLocation(USceneComponent* const Parent, const FInt
 	SetRelativeLocationByMatrixLocation(MatrixLocation, Z);
 }
 
-UMino* UMino::CreateMino(UObject* const InOuter, const FMinoInfo& MinoInfo)
+UMino* UMino::NewMino(UObject* const InOuter, const FMinoInfo& MinoInfo)
 {
 	if (UMino* const Mino = NewObject<UMino>(InOuter))
 	{
@@ -66,7 +69,7 @@ UMaterialInstanceDynamic* UMino::GetMaterialInstanceByMinoInfo(UObject* const In
 	{
 		if (UMaterialInstanceDynamic* const DynamicMaterialInstance = UMaterialInstanceDynamic::Create(BaseMaterial, InOuter))
 		{
-			DynamicMaterialInstance->SetVectorParameterValue(UMino::BaseColorParameterName, MinoInfo.Color);
+			DynamicMaterialInstance->SetVectorParameterValue(UMino::BaseColorParameterName, MinoInfo.BaseColor);
 			DynamicMaterialInstance->SetScalarParameterValue(UMino::OpacityParameterName, MinoInfo.Opacity);
 			return DynamicMaterialInstance;
 		}

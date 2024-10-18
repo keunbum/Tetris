@@ -8,10 +8,9 @@
 #include "Materials/MaterialInterface.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Algo/AllOf.h"
+#include "Camera/CameraComponent.h"
 #include "TetriminoBase.h"
-
-const FMinoInfo ABoard::BackgroundMinoInfo = FMinoInfo(TEXT("/Game/Material/M_MinoMaterial"), FLinearColor::Gray, 1.0f, 0);
-const FMinoInfo ABoard::SpecialMinoInfo = FMinoInfo(TEXT("/Game/Material/M_MinoMaterial"), FLinearColor::Black, 1.0f, 0);
+#include "GameFramework/PlayerController.h"
 
 ABoard::ABoard()
 {
@@ -19,42 +18,17 @@ ABoard::ABoard()
 
 	MinoClass = UMino::StaticClass();
 
-	// 음수/양수 순서대로 FVector(우/좌, 아래/위, 생략)
-	MatrixRelativeLocation = FVector(MatrixVisibleWidth / 2 - UMino::UnitLength / 2, MatrixVisibleHeight, 0.f);
-	NextQueueRelativeLocation = FVector(UMino::UnitLength * -12.f, UMino::UnitLength * -15.f, 0.f);
-	HoldQueueRelativeLocation = FVector(UMino::UnitLength * 6.f, UMino::UnitLength * -15.f, 0.f);
-
-	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
-
-	/** MatrixRoot */
-	MatrixRoot = CreateAndSetupSceneComponent(TEXT("MatrixRoot"), RootComponent);
-	if (MatrixRoot)
-	{
-		MatrixRoot->SetRelativeLocation(MatrixRelativeLocation);
-	}
-
-	/** BackgroundRoot */
-	BackgroundRoot = CreateAndSetupSceneComponent(TEXT("BackgroundRoot"), MatrixRoot);
-
-	/** NextQueueRoot */
-	NextQueueRoot = CreateAndSetupSceneComponent(TEXT("NextQueueRoot"), MatrixRoot);
-	if (NextQueueRoot)
-	{
-		NextQueueRoot->SetRelativeLocation(NextQueueRelativeLocation);
-	}
-
-	/** HoldQueueRoot */
-	HoldQueueRoot = CreateAndSetupSceneComponent(TEXT("HoldQueueRoot"), MatrixRoot);
-	if (HoldQueueRoot)
-	{
-		HoldQueueRoot->SetRelativeLocation(HoldQueueRelativeLocation);
-	}
+	CreateBoardComponents();
 }
 
 void ABoard::Initialize()
 {
-	InitializeBackground();
 	InitializeMinoMatrix();
+
+	if (APlayerController* const PlayerController = GetWorld()->GetFirstPlayerController())
+	{
+		PlayerController->SetViewTarget(this);
+	}
 }
 
 bool ABoard::IsDirectlyAboveSurface(const ATetrimino* Tetrimino) const
@@ -180,17 +154,100 @@ FIntPoint ABoard::GetFinalFallingMatrixLocation(const ATetrimino* Tetrimino) con
 	return FIntPoint::ZeroValue;
 }
 
-void ABoard::InitializeBackground()
+int32 ABoard::GetMatrixIndexByMatrixLocation(const FIntPoint& MatrixLocation)
 {
+	return TotalWidth * MatrixLocation.X + MatrixLocation.Y;
+}
+
+void ABoard::CreateBoardComponents()
+{
+	// 양수/음수 순서대로 FVector(좌/우, 위/아래, 앞/뒤)
+	static const FVector MatrixRelativeLocation = UMino::UnitLength * FVector(0.f, 0.f, 0.f);
+	static const FVector NextQueueRelativeLocation = UMino::UnitLength * FVector(-15.f, -15.f, -10.f);
+	static const FVector HoldQueueRelativeLocation = UMino::UnitLength * FVector(8.f, -15.f, -10.f);
+	static const FVector WallRelativeLocation = UMino::UnitLength * FVector(0.f, -(ABoard::TotalHeight - ABoard::VisibleHeight), 0.f);
+	static const FVector CameraRelativeLocation = UMino::UnitLength * FVector(-VisibleWidth / 2, -30.f, 31.f);
+
+	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
+	MatrixRoot = CreateAndSetupComponent<USceneComponent>(TEXT("MatrixRoot"), RootComponent, MatrixRelativeLocation);
+	NextQueueRoot = CreateAndSetupComponent<USceneComponent>(TEXT("NextQueueRoot"), MatrixRoot, NextQueueRelativeLocation);
+	HoldQueueRoot = CreateAndSetupComponent<USceneComponent>(TEXT("HoldQueueRoot"), MatrixRoot, HoldQueueRelativeLocation);
+	WallRoot = CreateAndSetupComponent<USceneComponent>(TEXT("WallRoot"), MatrixRoot, WallRelativeLocation);
+	BackgroundRoot = CreateAndSetupComponent<USceneComponent>(TEXT("BackgroundRoot"), MatrixRoot, FVector::ZeroVector);
+
+	CreateMatrixWalls();
+
+	Camera = CreateAndSetupComponent<UCameraComponent>(TEXT("Camera"), MatrixRoot, CameraRelativeLocation);
+	if (Camera)
+	{
+		Camera->SetRelativeRotation(FRotator(-90.f, 0.f, 90.f));
+	}
+}
+
+void ABoard::CreateMatrixWalls()
+{
+	static const TCHAR* WallMeshPath = TEXT("/Engine/BasicShapes/Cube");
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> WallMesh(WallMeshPath);
+	if (!ensureMsgf(WallMesh.Succeeded(), TEXT("Failed to Load WallMesh")))
+	{
+		return;
+	}
+
+	static constexpr int32 WallNum = 4;
+	Walls.Reserve(WallNum);
+
+	if (UStaticMeshComponent* const LeftWall = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("LeftWall")))
+	{
+		LeftWall->SetRelativeTransform(FTransform(FRotator(0.f, 0.f, 0.f), UMino::UnitLength * FVector(0.55f, -9.5f, 0.f), FVector(0.1f, 20.f, 1.f)));
+		Walls.Add(LeftWall);
+	}
+
+	if (UStaticMeshComponent* const RightWall = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("RightWall")))
+	{
+		RightWall->SetRelativeTransform(FTransform(FRotator(0.f, 0.f, 0.f), UMino::UnitLength * FVector(-9.55f, -9.50f, 0.f), FVector(0.1f, 20.f, 1.f)));
+		Walls.Add(RightWall);
+	}
+
+	if (UStaticMeshComponent* const BackWall = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("BackWall")))
+	{
+		BackWall->SetRelativeTransform(FTransform(FRotator(0.f, 0.f, 0.f), UMino::UnitLength * FVector(-4.5f, -9.5f, -0.55f), FVector(10.f, 20.f, 0.1f)));
+		Walls.Add(BackWall);
+	}
+
+	if (UStaticMeshComponent* const Floor = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Floor")))
+	{
+		Floor->SetRelativeTransform(FTransform(FRotator(0.f, 0.f, 0.f), UMino::UnitLength * FVector(-4.5f, -19.55f, 0.f), FVector(10.2f, 0.1f, 1.f)));
+		Walls.Add(Floor);
+	}
+
+	for (UStaticMeshComponent* const Wall : Walls)
+	{
+		Wall->SetupAttachment(WallRoot);
+		Wall->SetStaticMesh(WallMesh.Object);
+	}
+}
+
+void ABoard::CreateBackgroundMinos()
+{
+	// Matrix의 배경 역할을 하는 Mino들을 생성.
 	for (int32 Row = VisibleBeginRow; Row < VisibleEndRow; ++Row)
 	{
-		const FMinoInfo& MinoInfo = BackgroundMinoInfo;
+		static const FMinoInfo FirstRowMinoInfo = FMinoInfo(TEXT("/Game/Material/M_MinoMaterial_Black"), FLinearColor::Black, 1.0f, 0);
+		static const FMinoInfo BackgroundBaseMinoInfo = FMinoInfo(TEXT("/Game/Material/M_MinoMaterial"), FLinearColor::White, 1.0f, 0);
+		const FMinoInfo& MinoInfo = (Row == VisibleBeginRow ? FirstRowMinoInfo : BackgroundBaseMinoInfo);
 		for (int32 Col = VisibleBeginCol; Col < VisibleEndCol; ++Col)
 		{
 			const FIntPoint MinoMatrixLocation(Row, Col);
-			static constexpr float Z = 0.f - UMino::UnitLength;
-			if (UMino* const Mino = UMino::CreateMino(this, MinoInfo))
+			static constexpr float Z = 0.f;
+			const FString MinoName = FString::Printf(TEXT("Mino_%d_%d"), Row, Col);
+			if (UMino* const Mino = CreateDefaultSubobject<UMino>(*MinoName))
 			{
+				if (UMaterialInterface* const MinoMaterial = Cast<UMaterialInterface>(StaticLoadObject(UMaterialInterface::StaticClass(), nullptr, *MinoInfo.MaterialPath)))
+				{
+					static constexpr int32 ElementIndex = 0;
+					Mino->SetMaterial(ElementIndex, MinoMaterial);
+				}
+				Mino->SetTranslucentSortPriority(-2);
 				Mino->AttachToWithMatrixLocation(BackgroundRoot, MinoMatrixLocation, Z);
 			}
 		}
@@ -207,20 +264,15 @@ void ABoard::InitializeMinoMatrix()
 	}
 }
 
-int32 ABoard::GetMatrixIndexByMatrixLocation(const FIntPoint& MatrixLocation) const
-{
-	return TotalWidth * MatrixLocation.X + MatrixLocation.Y;
-}
-
 UMino* ABoard::GetMinoByMatrixLocation(const FIntPoint& MatrixLocation) const
 {
-	const int32 Index = GetMatrixIndexByMatrixLocation(MatrixLocation);
+	const int32 Index = ABoard::GetMatrixIndexByMatrixLocation(MatrixLocation);
 	return MinoMatrix[Index];
 }
 
 void ABoard::SetMinoByMatrixLocation(UMino* const Mino, const FIntPoint& MatrixLocation)
 {
-	const int32 Index = GetMatrixIndexByMatrixLocation(MatrixLocation);
+	const int32 Index = ABoard::GetMatrixIndexByMatrixLocation(MatrixLocation);
 	MinoMatrix[Index] = Mino;
 }
 
@@ -239,17 +291,6 @@ bool ABoard::IsMinoLocationsPossible(const TArray<FIntPoint>& MinoTetriminoLocal
 			&& (IsMatrixLocationEmpty(NewMinoLocalMatrixLocation));
 		}
 	);
-}
-
-USceneComponent* ABoard::CreateAndSetupSceneComponent(const FName& ComponentName, USceneComponent* const Parent)
-{
-	if (USceneComponent* const SceneComponent = CreateDefaultSubobject<USceneComponent>(ComponentName))
-	{
-		SceneComponent->SetupAttachment(Parent);
-		return SceneComponent;
-	}
-	checkNoEntry();
-	return nullptr;
 }
 
 void ABoard::AddMino(UMino* const Mino, const FIntPoint& MinoMatrixLocation)
