@@ -60,7 +60,7 @@ struct FTetriminoShapeInfo
 /**
  * @class ATetriminoBase
  */
-UCLASS()
+UCLASS(Abstract)
 class TETRIS_API ATetriminoBase : public AActor
 {
 	GENERATED_BODY()
