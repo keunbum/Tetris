@@ -4,7 +4,7 @@
 
 #include "Kismet/GameplayStatics.h"
 
-#include "TetrisInGameGameMode.h"
+#include "TetrisGameModeIngameBase.h"
 #include "OptionPopupWidget.h"
 #include "MenuButton.h"
 
@@ -37,7 +37,7 @@ void UMainMenuWidget::NativeOnInitialized()
 void UMainMenuWidget::OnStartClicked()
 {
 	// Open Tetris Level
-	UGameplayStatics::OpenLevel(GetWorld(), ATetrisIngameGameMode::TetrisLevelName);
+	UGameplayStatics::OpenLevel(GetWorld(), ATetrisGameModeIngameBase::TetrisLevelName);
 }
 
 void UMainMenuWidget::OnOptionClicked()

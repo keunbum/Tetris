@@ -6,12 +6,12 @@
 #include "GameFramework/Actor.h"
 
 #include "TetriminoBase.h"
-#include "TetrisInGameGameMode.h"
+#include "TetrisGameModeIngameBase.h"
 #include "Board.h"
 
 #include "TetrisPlayManager.generated.h"
 
-class ATetrisIngameGameMode;
+class ATetrisGameModeIngameBase;
 class ATetrimino;
 class AGhostPiece;
 class ATetriminoQueue;
@@ -194,7 +194,7 @@ private:
 	float NormalFallSpeed;
 
 	UPROPERTY()
-	TObjectPtr<ATetrisIngameGameMode> GameMode;
+	TObjectPtr<ATetrisGameModeIngameBase> GameMode;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Classes")
 	TSubclassOf<ATetrimino> TetriminoClass;

@@ -11,7 +11,7 @@
 
 class UInputMappingContext;
 class UInputAction;
-class ATetrisIngameGameMode;
+class ATetrisGameModeIngameBase;
 
 UENUM()
 enum class EKeyFlags : uint8
@@ -64,7 +64,7 @@ private:
 
 protected:
 	UPROPERTY()
-	TObjectPtr<ATetrisIngameGameMode> GameMode;
+	TObjectPtr<ATetrisGameModeIngameBase> GameMode;
 
 private:
 	static constexpr int32 MappingContextDefaultPriority = 0;

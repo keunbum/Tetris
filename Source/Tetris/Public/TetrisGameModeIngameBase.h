@@ -7,7 +7,7 @@
 
 #include "GoalSystemFactory.h"
 
-#include "TetrisIngameGameMode.generated.h"
+#include "TetrisGameModeIngameBase.generated.h"
 
 class ATetrisPlayManager;
 class ATetrisPlayerControllerIngameSingle;
@@ -32,12 +32,12 @@ struct FTetrisGamePlayInfo
  * 
  */
 UCLASS(Abstract, NotBlueprintable)
-class TETRIS_API ATetrisIngameGameMode : public ATetrisGameModeBase
+class TETRIS_API ATetrisGameModeIngameBase : public ATetrisGameModeBase
 {
 	GENERATED_BODY()
 	
 public:
-	ATetrisIngameGameMode();
+	ATetrisGameModeIngameBase();
 
 	/** AGameModeBase */
 	virtual void PostLogin(APlayerController* const NewPlayer) override;
