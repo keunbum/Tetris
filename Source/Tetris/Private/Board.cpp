@@ -12,7 +12,7 @@
 #include "TetriminoBase.h"
 #include "GameFramework/PlayerController.h"
 
-const FName ABoard::WallMeshPath = TEXT("/Engine/BasicShapes/Plane");
+const FName ABoard::WallMeshPath = TEXT("/Engine/BasicShapes/Cube");
 const FMinoInfo ABoard::SpecialMinoInfo = FMinoInfo(TEXT("/Game/Material/M_MinoMaterial"), FLinearColor::White, 1.0f, 0);
 
 ABoard::ABoard()
