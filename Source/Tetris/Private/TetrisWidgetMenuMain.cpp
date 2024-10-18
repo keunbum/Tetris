@@ -1,6 +1,6 @@
 // Copyright Ryu KeunBeom. All Rights Reserved.
 
-#include "MainMenuWidget.h"
+#include "TetrisWidgetMenuMain.h"
 
 #include "Kismet/GameplayStatics.h"
 
@@ -8,24 +8,24 @@
 #include "TetrisWidgetPopupOption.h"
 #include "MenuButton.h"
 
-void UMainMenuWidget::NativeOnInitialized()
+void UTetrisWidgetMenuMain::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
 
 	if (StartButton)
 	{
 		MenuButtons.Add(StartButton);
-		StartButton->OnClicked.AddDynamic(this, &UMainMenuWidget::OnStartClicked);
+		StartButton->OnClicked.AddDynamic(this, &UTetrisWidgetMenuMain::OnStartClicked);
 	}
 	if (OptionButton)
 	{
 		MenuButtons.Add(OptionButton);
-		OptionButton->OnClicked.AddDynamic(this, &UMainMenuWidget::OnOptionClicked);
+		OptionButton->OnClicked.AddDynamic(this, &UTetrisWidgetMenuMain::OnOptionClicked);
 	}
 	if (ExitButton)
 	{
 		MenuButtons.Add(ExitButton);
-		ExitButton->OnClicked.AddDynamic(this, &UMainMenuWidget::OnExitClicked);
+		ExitButton->OnClicked.AddDynamic(this, &UTetrisWidgetMenuMain::OnExitClicked);
 	}
 
 	if (WidgetPopupOptionClass)
@@ -34,13 +34,13 @@ void UMainMenuWidget::NativeOnInitialized()
 	}
 }
 
-void UMainMenuWidget::OnStartClicked()
+void UTetrisWidgetMenuMain::OnStartClicked()
 {
 	// Open Tetris Level
 	UGameplayStatics::OpenLevel(GetWorld(), ATetrisGameModeIngameBase::TetrisLevelName);
 }
 
-void UMainMenuWidget::OnOptionClicked()
+void UTetrisWidgetMenuMain::OnOptionClicked()
 {
 	if (WidgetPopupOption)
 	{
@@ -48,7 +48,7 @@ void UMainMenuWidget::OnOptionClicked()
 	}
 }
 
-void UMainMenuWidget::OnExitClicked()
+void UTetrisWidgetMenuMain::OnExitClicked()
 {
 	// Exit Game
 	UKismetSystemLibrary::QuitGame(GetWorld(), nullptr, EQuitPreference::Quit, false);

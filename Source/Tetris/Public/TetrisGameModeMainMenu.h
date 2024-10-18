@@ -6,7 +6,7 @@
 #include "TetrisGameModeBase.h"
 #include "TetrisGameModeMainMenu.generated.h"
 
-class UMainMenuWidget;
+class UTetrisWidgetMenuMain;
 
 /**
  * 
@@ -31,9 +31,9 @@ public:
 private:
 	/** Widget References */
 	UPROPERTY()
-	TObjectPtr<UMainMenuWidget> MainMenuWidget;
+	TObjectPtr<UTetrisWidgetMenuMain> MainMenuWidget;
 
 	/** Widget Class References */
 	UPROPERTY(EditDefaultsOnly, Category = "Classes")
-	TSubclassOf<UMainMenuWidget> MainMenuWidgetClass;
+	TSubclassOf<UTetrisWidgetMenuMain> MainMenuWidgetClass;
 };

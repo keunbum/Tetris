@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "TetrisWidgetMenuBase.h"
-#include "MainMenuWidget.generated.h"
+#include "TetrisWidgetMenuMain.generated.h"
 
 class UTetrisWidgetPopupOption;
 
@@ -12,7 +12,7 @@ class UTetrisWidgetPopupOption;
  * 
  */
 UCLASS()
-class TETRIS_API UMainMenuWidget : public UTetrisWidgetMenuBase
+class TETRIS_API UTetrisWidgetMenuMain : public UTetrisWidgetMenuBase
 {
 	GENERATED_BODY()
 

@@ -1,7 +1,7 @@
 // Copyright Ryu KeunBeom. All Rights Reserved.
 
 #include "TetrisGameModeMainMenu.h"
-#include "MainMenuWidget.h"
+#include "TetrisWidgetMenuMain.h"
 
 const FName ATetrisGameModeMainMenu::MainMenuLevelName(TEXT("MainMenuLevel"));
 
@@ -14,7 +14,7 @@ void ATetrisGameModeMainMenu::BeginPlay()
 	{
 		if (MainMenuWidgetClass)
 		{
-			MainMenuWidget = CreateWidget<UMainMenuWidget>(GetWorld(), MainMenuWidgetClass);
+			MainMenuWidget = CreateWidget<UTetrisWidgetMenuMain>(GetWorld(), MainMenuWidgetClass);
 			if (MainMenuWidget)
 			{
 				MainMenuWidget->AddToViewport();
