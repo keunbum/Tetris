@@ -171,7 +171,7 @@ void ABoard::CreateBoardComponents()
 	MatrixRelativeLocation = UMino::UnitLength * FVector(0.f, 0.f, 0.f);
 	NextQueueRelativeLocation = UMino::UnitLength * FVector(-15.f, -15.f, -10.f);
 	HoldQueueRelativeLocation = UMino::UnitLength * FVector(8.f, -15.f, -10.f);
-	WallRelativeLocation = UMino::UnitLength * FVector(0, 0, 0);
+	WallRelativeLocation = UMino::UnitLength * FVector(0.f, -(ABoard::TotalHeight - ABoard::VisibleHeight), 0.f);
 	CameraRelativeLocation = UMino::UnitLength * FVector(-VisibleWidth / 2, -30.f, 31.f);
 
 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
