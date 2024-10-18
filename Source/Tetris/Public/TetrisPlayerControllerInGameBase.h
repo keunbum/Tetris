@@ -13,7 +13,6 @@ class UInputMappingContext;
 class UInputAction;
 class ATetrisIngameGameMode;
 class ATetrisPlayManager;
-class ATetrisIngameCameraActor;
 
 UENUM()
 enum class EKeyFlags : uint8
@@ -41,7 +40,6 @@ public:
 	bool IsSoftDropOn() const { return IsKeyPressed(EKeyFlags::SoftDrop); }
 
 protected:
-	void InitializeCamera();
 	void InitializeInput();
 
 	/** ATetrisPlayerControllerBase */
@@ -103,8 +101,4 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	TObjectPtr<UInputAction> HoldAction;
-
-	/** Classes */
-	UPROPERTY(EditDefaultsOnly, Category = "Classes")
-	TSubclassOf<ATetrisIngameCameraActor> CameraActorClass;
 };

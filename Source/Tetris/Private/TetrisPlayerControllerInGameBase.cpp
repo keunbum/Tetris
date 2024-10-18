@@ -2,8 +2,6 @@
 
 #include "TetrisPlayerControllerInGameBase.h"
 
-#include "TetrisIngameCameraActor.h"
-#include "Camera/CameraComponent.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputTriggers.h"
@@ -19,25 +17,17 @@ void ATetrisPlayerControllerIngameBase::Initialize()
 
 	KeyPressingFlags = EKeyFlags::None;
 
-	InitializeCamera();
 	InitializeInput();
-}
-
-void ATetrisPlayerControllerIngameBase::InitializeCamera()
-{
-	if (ATetrisIngameCameraActor* const CameraActor = Cast<ATetrisIngameCameraActor>(UGameplayStatics::GetActorOfClass(GetWorld(), CameraActorClass)))
-	{
-		SetViewTarget(CameraActor);
-	}
-	else
-	{
-		UE_LOG(LogTemp, Error, TEXT("ATetrisPlayerControllerIngameBase::InitializeCamera() CameraActor is nullptr"));
-	}
 }
 
 void ATetrisPlayerControllerIngameBase::InitializeInput()
 {
 	UEnhancedInputComponent* const EnhancedInputComponent = Cast<UEnhancedInputComponent>(InputComponent);
+	if (!ensureMsgf(EnhancedInputComponent, TEXT("InputComponent is not UEnhancedInputComponent.")))
+	{
+		return;
+	}
+	
 	BindInputActions(EnhancedInputComponent);
 
 	if (InGameInputMappingContext)
