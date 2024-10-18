@@ -231,18 +231,6 @@ bool ABoard::IsMinoLocationsPossible(const TArray<FIntPoint>& MinoTetriminoLocal
 	);
 }
 
-USceneComponent* ABoard::CreateAndSetupSceneComponent(const FName& ComponentName, USceneComponent* const Parent, const FVector& RelativeLocation)
-{
-	if (USceneComponent* const SceneComponent = CreateDefaultSubobject<USceneComponent>(ComponentName))
-	{
-		SceneComponent->SetupAttachment(Parent);
-		SceneComponent->SetRelativeLocation(RelativeLocation);
-		return SceneComponent;
-	}
-	checkNoEntry();
-	return nullptr;
-}
-
 void ABoard::AddMino(UMino* const Mino, const FIntPoint& MinoMatrixLocation)
 {
 	// Change ownership of the component to the board
