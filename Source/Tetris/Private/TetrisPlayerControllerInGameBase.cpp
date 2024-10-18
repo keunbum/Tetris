@@ -5,7 +5,6 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputTriggers.h"
-#include "Kismet/GameplayStatics.h"
 
 #include "TetriminoBase.h"
 #include "TetrisSinglePlayerGameModeBase.h"
