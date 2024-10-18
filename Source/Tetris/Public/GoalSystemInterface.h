@@ -6,7 +6,7 @@
 #include "UObject/Interface.h"
 #include "GoalSystemInterface.generated.h"
 
-class ATetrisPlayerStateBase;
+class ATetrisPlayerState;
 
 // This class does not need to be modified.
 UINTERFACE(MinimalAPI)
@@ -23,6 +23,6 @@ class TETRIS_API IGoalSystemInterface
 	GENERATED_BODY()
 
 public:
-	bool IsLevelUpCondition(const ATetrisPlayerStateBase& TetrisPlayerStateBase) const;
+	bool IsLevelUpCondition(const ATetrisPlayerState& TetrisPlayerStateBase) const;
 	virtual int32 GetLevelUpLineCountGoal(const int32 GameLevel) const = 0;
 };

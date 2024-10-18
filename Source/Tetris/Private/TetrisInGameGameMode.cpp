@@ -8,7 +8,7 @@
 
 #include "TetrisPlayManager.h"
 #include "TetrisPlayerControllerIngameSingle.h"
-#include "TetrisPlayerStateBase.h"
+#include "TetrisPlayerState.h"
 #include "GoalSystemFactory.h"
 #include "GoalSystemInterface.h"
 #include "HUDSingle.h"
@@ -27,7 +27,7 @@ void ATetrisIngameGameMode::PostLogin(APlayerController* const NewPlayer)
 {
 	Super::PostLogin(NewPlayer);
 
-	TetrisPlayerState = Cast<ATetrisPlayerStateBase>(NewPlayer->PlayerState);
+	TetrisPlayerState = Cast<ATetrisPlayerState>(NewPlayer->PlayerState);
 }
 
 float ATetrisIngameGameMode::GetElapsedTime() const

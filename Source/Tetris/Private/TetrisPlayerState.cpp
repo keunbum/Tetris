@@ -1,25 +1,25 @@
 // Copyright Ryu KeunBeom. All Rights Reserved.
 
-#include "TetrisPlayerStateBase.h"
+#include "TetrisPlayerState.h"
 
 #include "TetrisInGameGameMode.h"
 #include "GoalSystemInterface.h"
 #include "HUDSingle.h"
 
-ATetrisPlayerStateBase::ATetrisPlayerStateBase()
+ATetrisPlayerState::ATetrisPlayerState()
 	: GameLevel(ATetrisIngameGameMode::DefaultGameLevel)
 	, LineClearCount(ATetrisIngameGameMode::DefaultLineClearCount)
 {
 	SetScore(ATetrisIngameGameMode::DefaultScore);
 }
 
-void ATetrisPlayerStateBase::Initialize(const IGoalSystemInterface* GoalSystem)
+void ATetrisPlayerState::Initialize(const IGoalSystemInterface* GoalSystem)
 {
 	const int32 InitialLineClearGoal = GoalSystem->GetLevelUpLineCountGoal(GameLevel);
 	SetLineClearGoal(InitialLineClearGoal);
 }
 
-void ATetrisPlayerStateBase::LevelUp(const IGoalSystemInterface* GoalSystem)
+void ATetrisPlayerState::LevelUp(const IGoalSystemInterface* GoalSystem)
 {
 	GameLevel += 1;
 	AddTotalLineClearCount(LineClearCount);
@@ -36,20 +36,20 @@ void ATetrisPlayerStateBase::LevelUp(const IGoalSystemInterface* GoalSystem)
 	SetLineClearGoal(NewLevelUpLineCountGoal);
 }
 
-FHUDSingleUpdateDisplayParams ATetrisPlayerStateBase::GetHUDSingleUpdateDisplayParams() const
+FHUDSingleUpdateDisplayParams ATetrisPlayerState::GetHUDSingleUpdateDisplayParams() const
 {
 	return FHUDSingleUpdateDisplayParams(GameLevel, LineClearCount, LineClearGoal);
 }
 
-void ATetrisPlayerStateBase::UpdateState(const FTetrisGamePlayInfo& PlayInfo)
+void ATetrisPlayerState::UpdateState(const FTetrisGamePlayInfo& PlayInfo)
 {
 	const int32 ClearedLineCount = PlayInfo.HitList.Num();
 	AddLineClearCount(ClearedLineCount);
 }
 
-void ATetrisPlayerStateBase::DebugPrint() const
+void ATetrisPlayerState::DebugPrint() const
 {
-	UE_LOG(LogTemp, Display, TEXT("ATetrisPlayerStateBase::DebugPrint()"));
+	UE_LOG(LogTemp, Display, TEXT("ATetrisPlayerState::DebugPrint()"));
 	UE_LOG(LogTemp, Display, TEXT("GameLevel: %d"), GameLevel);
 	UE_LOG(LogTemp, Display, TEXT("LineClearCount: %d"), LineClearCount);
 	UE_LOG(LogTemp, Display, TEXT("TotalLineClearCount: %d"), TotalLineClearCount);

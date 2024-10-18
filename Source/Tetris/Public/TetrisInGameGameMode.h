@@ -11,7 +11,7 @@
 
 class ATetrisPlayManager;
 class ATetrisPlayerControllerIngameSingle;
-class ATetrisPlayerStateBase;
+class ATetrisPlayerState;
 class IGoalSystemInterface;
 class UHUDSingle;
 
@@ -117,7 +117,7 @@ protected:
 	TObjectPtr<ATetrisPlayerControllerIngameSingle> TetrisPlayerController;
 
 	UPROPERTY()
-	TObjectPtr<ATetrisPlayerStateBase> TetrisPlayerState;
+	TObjectPtr<ATetrisPlayerState> TetrisPlayerState;
 
 	UPROPERTY(VisibleInstanceOnly)
 	TObjectPtr<UHUDSingle> HUDWidget;
