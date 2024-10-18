@@ -164,11 +164,11 @@ int32 ABoard::GetMatrixIndexByMatrixLocation(const FIntPoint& MatrixLocation)
 void ABoard::CreateBoardComponents()
 {
 	// 양수/음수 순서대로 FVector(좌/우, 위/아래, 생략)
-	MatrixRelativeLocation = UMino::UnitLength * FVector(0.f, 0.f, 0.f);
-	NextQueueRelativeLocation = UMino::UnitLength * FVector(-15.f, -15.f, -10.f);
-	HoldQueueRelativeLocation = UMino::UnitLength * FVector(8.f, -15.f, -10.f);
-	WallRelativeLocation = UMino::UnitLength * FVector(0.f, -(ABoard::TotalHeight - ABoard::VisibleHeight), 0.f);
-	CameraRelativeLocation = UMino::UnitLength * FVector(-VisibleWidth / 2, -30.f, 31.f);
+	static const FVector MatrixRelativeLocation = UMino::UnitLength * FVector(0.f, 0.f, 0.f);
+	static const FVector NextQueueRelativeLocation = UMino::UnitLength * FVector(-15.f, -15.f, -10.f);
+	static const FVector HoldQueueRelativeLocation = UMino::UnitLength * FVector(8.f, -15.f, -10.f);
+	static const FVector WallRelativeLocation = UMino::UnitLength * FVector(0.f, -(ABoard::TotalHeight - ABoard::VisibleHeight), 0.f);
+	static const FVector CameraRelativeLocation = UMino::UnitLength * FVector(-VisibleWidth / 2, -30.f, 31.f);
 
 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
 	MatrixRoot = CreateAndSetupComponent<USceneComponent>(TEXT("MatrixRoot"), RootComponent, MatrixRelativeLocation);
