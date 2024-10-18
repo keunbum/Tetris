@@ -61,6 +61,7 @@ private:
 	/** Create */
 	void CreateBoardComponents();
 	void CreateMatrixWalls();
+	// Matrix Transform 확인을 위한 테스트용 메서드
 	void CreateBackgroundMinos();
 
 	/** Initializes */
