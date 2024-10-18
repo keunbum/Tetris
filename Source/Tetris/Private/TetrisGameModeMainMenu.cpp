@@ -1,11 +1,11 @@
 // Copyright Ryu KeunBeom. All Rights Reserved.
 
-#include "MainMenuGameMode.h"
+#include "TetrisGameModeMainMenu.h"
 #include "MainMenuWidget.h"
 
-const FName AMainMenuGameMode::MainMenuLevelName(TEXT("MainMenuLevel"));
+const FName ATetrisGameModeMainMenu::MainMenuLevelName(TEXT("MainMenuLevel"));
 
-void AMainMenuGameMode::BeginPlay()
+void ATetrisGameModeMainMenu::BeginPlay()
 {
 	Super::BeginPlay();
 
@@ -23,19 +23,19 @@ void AMainMenuGameMode::BeginPlay()
 	}
 }
 
-void AMainMenuGameMode::Initialize()
+void ATetrisGameModeMainMenu::Initialize()
 {
 	Super::Initialize();
 }
 
-void AMainMenuGameMode::SetInputMode()
+void ATetrisGameModeMainMenu::SetInputMode()
 {
 	// Set the input mode to UIOnly
 	const FInputModeUIOnly InputMode;
 	InternalSetInputMode(InputMode);
 }
 
-void AMainMenuGameMode::InitializeEffect()
+void ATetrisGameModeMainMenu::InitializeEffect()
 {
 	Super::InitializeEffect();
 }

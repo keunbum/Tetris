@@ -6,7 +6,7 @@
 
 #include "MenuButton.h"
 #include "TetrisPlayerControllerIngameSingle.h"
-#include "MainMenuGameMode.h"
+#include "TetrisGameModeMainMenu.h"
 #include "OptionPopupWidget.h"
 
 void UPauseMenuWidget::NativeOnInitialized()
@@ -88,5 +88,5 @@ void UPauseMenuWidget::OnOptionClicked()
 void UPauseMenuWidget::OnExitClicked()
 {
 	// Exit to Main Menu Level
-	UGameplayStatics::OpenLevel(this, AMainMenuGameMode::MainMenuLevelName);
+	UGameplayStatics::OpenLevel(this, ATetrisGameModeMainMenu::MainMenuLevelName);
 }

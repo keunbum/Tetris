@@ -4,8 +4,7 @@
 #include "Kismet/GameplayStatics.h"
 
 #include "MenuButton.h"
-#include "TetrisPlayerControllerIngameSingle.h"
-#include "MainMenuGameMode.h"
+#include "TetrisGameModeMainMenu.h"
 
 void UGameoverMenuWidget::NativeOnInitialized()
 {
@@ -32,5 +31,5 @@ void UGameoverMenuWidget::OnRestartClicked()
 void UGameoverMenuWidget::OnHomeClicked()
 {
 	// Go to the Main Menu
-	UGameplayStatics::OpenLevel(this, AMainMenuGameMode::MainMenuLevelName);
+	UGameplayStatics::OpenLevel(this, ATetrisGameModeMainMenu::MainMenuLevelName);
 }
