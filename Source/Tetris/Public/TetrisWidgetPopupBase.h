@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "TetrisWidgetBase.h"
-#include "PopupWidgetBase.generated.h"
+#include "TetrisWidgetPopupBase.generated.h"
 
 class UButtonBase;
 
@@ -12,7 +12,7 @@ class UButtonBase;
  * 
  */
 UCLASS(Abstract)
-class TETRIS_API UPopupWidgetBase : public UTetrisWidgetBase
+class TETRIS_API UTetrisWidgetPopupBase : public UTetrisWidgetBase
 {
 	GENERATED_BODY()
 

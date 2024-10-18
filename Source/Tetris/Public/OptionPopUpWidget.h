@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "PopUpWidgetBase.h"
+#include "TetrisWidgetPopupBase.h"
 #include "OptionPopupWidget.generated.h"
 
 class UAnalogSlider;
@@ -13,7 +13,7 @@ class UTetrisAudioManagerSubsystem;
  * 
  */
 UCLASS()
-class TETRIS_API UOptionPopupWidget : public UPopupWidgetBase
+class TETRIS_API UOptionPopupWidget : public UTetrisWidgetPopupBase
 {
 	GENERATED_BODY()
 
