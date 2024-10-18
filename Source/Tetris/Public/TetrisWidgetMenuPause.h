@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "TetrisWidgetMenuBase.h"
-#include "PauseMenuWidget.generated.h"
+#include "TetrisWidgetMenuPause.generated.h"
 
 class ATetrisPlayerControllerIngameSingle;
 class UTetrisWidgetPopupOption;
@@ -13,7 +13,7 @@ class UTetrisWidgetPopupOption;
  * 
  */
 UCLASS()
-class TETRIS_API UPauseMenuWidget : public UTetrisWidgetMenuBase
+class TETRIS_API UTetrisWidgetMenuPause : public UTetrisWidgetMenuBase
 {
 	GENERATED_BODY()
 	

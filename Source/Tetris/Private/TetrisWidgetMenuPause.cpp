@@ -1,6 +1,6 @@
 // Copyright Ryu KeunBeom. All Rights Reserved.
 
-#include "PauseMenuWidget.h"
+#include "TetrisWidgetMenuPause.h"
 
 #include "Kismet/GameplayStatics.h"
 
@@ -9,29 +9,29 @@
 #include "TetrisGameModeMainMenu.h"
 #include "TetrisWidgetPopupOption.h"
 
-void UPauseMenuWidget::NativeOnInitialized()
+void UTetrisWidgetMenuPause::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
 
 	if (ResumeButton)
 	{
 		MenuButtons.Add(ResumeButton);
-		ResumeButton->OnClicked.AddDynamic(this, &UPauseMenuWidget::OnResumeClicked);
+		ResumeButton->OnClicked.AddDynamic(this, &UTetrisWidgetMenuPause::OnResumeClicked);
 	}
 	if (RestartButton)
 	{
 		MenuButtons.Add(RestartButton);
-		RestartButton->OnClicked.AddDynamic(this, &UPauseMenuWidget::OnRestartClicked);
+		RestartButton->OnClicked.AddDynamic(this, &UTetrisWidgetMenuPause::OnRestartClicked);
 	}
 	if (OptionButton)
 	{
 		MenuButtons.Add(OptionButton);
-		OptionButton->OnClicked.AddDynamic(this, &UPauseMenuWidget::OnOptionClicked);
+		OptionButton->OnClicked.AddDynamic(this, &UTetrisWidgetMenuPause::OnOptionClicked);
 	}
 	if (ExitButton)
 	{
 		MenuButtons.Add(ExitButton);
-		ExitButton->OnClicked.AddDynamic(this, &UPauseMenuWidget::OnExitClicked);
+		ExitButton->OnClicked.AddDynamic(this, &UTetrisWidgetMenuPause::OnExitClicked);
 	}
 
 	if (WidgetPopupOptionClass)
@@ -42,14 +42,14 @@ void UPauseMenuWidget::NativeOnInitialized()
 	TetrisPlayerController = Cast<ATetrisPlayerControllerIngameSingle>(GetOwningPlayer());
 }
 
-void UPauseMenuWidget::NativeConstruct()
+void UTetrisWidgetMenuPause::NativeConstruct()
 {
 	Super::NativeConstruct();
 
 	SetDefaultMenuButtonFocus();
 }
 
-FReply UPauseMenuWidget::NativeOnPreviewKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent)
+FReply UTetrisWidgetMenuPause::NativeOnPreviewKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent)
 {
 	const FKey Key = InKeyEvent.GetKey();
 
@@ -63,7 +63,7 @@ FReply UPauseMenuWidget::NativeOnPreviewKeyDown(const FGeometry& InGeometry, con
 	return Super::NativeOnPreviewKeyDown(InGeometry, InKeyEvent);
 }
 
-void UPauseMenuWidget::OnResumeClicked()
+void UTetrisWidgetMenuPause::OnResumeClicked()
 {
 	if (TetrisPlayerController)
 	{
@@ -71,13 +71,13 @@ void UPauseMenuWidget::OnResumeClicked()
 	}
 }
 
-void UPauseMenuWidget::OnRestartClicked()
+void UTetrisWidgetMenuPause::OnRestartClicked()
 {
 	// Restart the level
 	UGameplayStatics::OpenLevel(this, GetWorld()->GetFName());
 }
 
-void UPauseMenuWidget::OnOptionClicked()
+void UTetrisWidgetMenuPause::OnOptionClicked()
 {
 	if (WidgetPopupOption)
 	{
@@ -85,7 +85,7 @@ void UPauseMenuWidget::OnOptionClicked()
 	}
 }
 
-void UPauseMenuWidget::OnExitClicked()
+void UTetrisWidgetMenuPause::OnExitClicked()
 {
 	// Exit to Main Menu Level
 	UGameplayStatics::OpenLevel(this, ATetrisGameModeMainMenu::MainMenuLevelName);
