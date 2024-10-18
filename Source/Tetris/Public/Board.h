@@ -61,10 +61,10 @@ private:
 	/** Create */
 	void CreateBoardComponents();
 	void CreateMatrixWalls();
-	
+	void CreateBackgroundMinos();
+
 	/** Initializes */
 	void InitializeMinoMatrix();
-	void CreateTestMinos();
 
 	/** Check Methods */
 	bool IsMatrixLocationEmpty(const FIntPoint& MatrixLocation) const;
@@ -115,8 +115,6 @@ public:
 	static const FName WallMeshPath;
 
 private:
-	static const FMinoInfo BackgroundBaseMinoInfo;
-
 	UPROPERTY(EditDefaultsOnly, Category = "Classes");
 	TSubclassOf<UMino> MinoClass;
 

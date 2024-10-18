@@ -13,7 +13,6 @@
 #include "GameFramework/PlayerController.h"
 
 const FName ABoard::WallMeshPath = TEXT("/Engine/BasicShapes/Cube");
-const FMinoInfo ABoard::BackgroundBaseMinoInfo = FMinoInfo(TEXT("/Game/Material/M_MinoMaterial"), FLinearColor::White, 1.0f, 0);
 
 ABoard::ABoard()
 {
@@ -229,23 +228,14 @@ void ABoard::CreateMatrixWalls()
 	}
 }
 
-void ABoard::InitializeMinoMatrix()
+void ABoard::CreateBackgroundMinos()
 {
-	MinoMatrix.Reserve(TotalHeight * TotalWidth);
-	for (int32 _ = 0; _ < TotalHeight * TotalWidth; ++_)
-	{
-		UMino* const Mino = nullptr;
-		MinoMatrix.Add(Mino);
-	}
-}
-
-void ABoard::CreateTestMinos()
-{
-	// Matrix의 보이는 영역을 채울 테스트용 미노들을 생성한다.
+	// Matrix의 배경 역할을 하는 Mino들을 생성.
 	for (int32 Row = VisibleBeginRow; Row < VisibleEndRow; ++Row)
 	{
-		static const FMinoInfo BlackMinoInfo = FMinoInfo(TEXT("/Game/Material/M_MinoMaterial_Black"), FLinearColor::Black, 1.0f, 0);
-		const FMinoInfo& MinoInfo = Row == VisibleBeginRow ? BlackMinoInfo : BackgroundBaseMinoInfo;
+		static const FMinoInfo FirstRowMinoInfo = FMinoInfo(TEXT("/Game/Material/M_MinoMaterial_Black"), FLinearColor::Black, 1.0f, 0);
+		static const FMinoInfo BackgroundBaseMinoInfo = FMinoInfo(TEXT("/Game/Material/M_MinoMaterial"), FLinearColor::White, 1.0f, 0);
+		const FMinoInfo& MinoInfo = (Row == VisibleBeginRow ? FirstRowMinoInfo : BackgroundBaseMinoInfo);
 		for (int32 Col = VisibleBeginCol; Col < VisibleEndCol; ++Col)
 		{
 			const FIntPoint MinoMatrixLocation(Row, Col);
@@ -262,6 +252,16 @@ void ABoard::CreateTestMinos()
 				Mino->AttachToWithMatrixLocation(BackgroundRoot, MinoMatrixLocation, Z);
 			}
 		}
+	}
+}
+
+void ABoard::InitializeMinoMatrix()
+{
+	MinoMatrix.Reserve(TotalHeight * TotalWidth);
+	for (int32 _ = 0; _ < TotalHeight * TotalWidth; ++_)
+	{
+		UMino* const Mino = nullptr;
+		MinoMatrix.Add(Mino);
 	}
 }
 
