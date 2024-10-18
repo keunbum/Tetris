@@ -12,8 +12,6 @@
 #include "TetriminoBase.h"
 #include "GameFramework/PlayerController.h"
 
-const FName ABoard::WallMeshPath = TEXT("/Engine/BasicShapes/Cube");
-
 ABoard::ABoard()
 {
 	PrimaryActorTick.bCanEverTick = false;
@@ -188,7 +186,8 @@ void ABoard::CreateBoardComponents()
 
 void ABoard::CreateMatrixWalls()
 {
-	static ConstructorHelpers::FObjectFinder<UStaticMesh> WallMesh(*ABoard::WallMeshPath.ToString());
+	static const TCHAR* WallMeshPath = TEXT("/Engine/BasicShapes/Cube");
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> WallMesh(WallMeshPath);
 	if (!ensureMsgf(WallMesh.Succeeded(), TEXT("Failed to Load WallMesh")))
 	{
 		return;

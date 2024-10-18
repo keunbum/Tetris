@@ -121,8 +121,6 @@ public:
 	static constexpr int32 TetriminoDefaultSpawnLocationX = ABoard::SkyLine;
 	static constexpr int32 TetriminoDefaultSpawnLocationY = ABoard::VisibleBeginCol + 3;
 
-	static const FName WallMeshPath;
-
 private:
 	UPROPERTY(EditDefaultsOnly, Category = "Classes");
 	TSubclassOf<UMino> MinoClass;
