@@ -13,7 +13,7 @@
 
 class ATetrisGameModeIngameBase;
 class ATetrimino;
-class AGhostPiece;
+class ATetriminoGhostPiece;
 class ATetriminoQueue;
 class UTetriminoGenerator;
 class USoundBase;
@@ -209,10 +209,10 @@ private:
 	TObjectPtr<ABoard> Board;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Classes")
-	TSubclassOf<AGhostPiece> GhostPieceClass;
+	TSubclassOf<ATetriminoGhostPiece> GhostPieceClass;
 
 	UPROPERTY(VisibleAnywhere)
-	TObjectPtr<AGhostPiece> GhostPiece;
+	TObjectPtr<ATetriminoGhostPiece> GhostPiece;
 
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<ATetriminoQueue> NextQueue;

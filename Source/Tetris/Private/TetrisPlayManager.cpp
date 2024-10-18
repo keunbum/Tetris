@@ -7,7 +7,7 @@
 #include "Board.h"
 #include "TetrisGameModeIngameBase.h"
 #include "Tetrimino.h"
-#include "GhostPiece.h"
+#include "TetriminoGhostPiece.h"
 #include "TetrisPlayerControllerIngameSingle.h"
 #include "TetriminoGenerator.h"
 #include "TetriminoQueue.h"
@@ -21,7 +21,7 @@ ATetrisPlayManager::ATetrisPlayManager()
 	, NormalFallSpeed(-1.0f)
 	, TetriminoClass(ATetrimino::StaticClass())
 	, TetriminoInPlay(nullptr)
-	, GhostPieceClass(AGhostPiece::StaticClass())
+	, GhostPieceClass(ATetriminoGhostPiece::StaticClass())
 	, GhostPiece(nullptr)
 {
 	PrimaryActorTick.bCanEverTick = false;
@@ -53,7 +53,7 @@ void ATetrisPlayManager::Initialize()
 		Board->Initialize();
 
 		// GhostPiece
-		GhostPiece = World->SpawnActor<AGhostPiece>(GhostPieceClass);
+		GhostPiece = World->SpawnActor<ATetriminoGhostPiece>(GhostPieceClass);
 		if (GhostPiece)
 		{
 			GhostPiece->AttachToMatrix(Board->GetMatrixRoot());
