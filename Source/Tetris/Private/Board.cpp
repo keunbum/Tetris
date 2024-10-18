@@ -197,14 +197,35 @@ void ABoard::CreateMatrixWalls()
 
 	static constexpr int32 WallNum = 4;
 	Walls.Reserve(WallNum);
-	for (const TCHAR* ComponentName : { TEXT("LeftWall"), TEXT("RightWall"), TEXT("BackWall"), TEXT("Floor") })
+
+	if (UStaticMeshComponent* const LeftWall = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("LeftWall")))
 	{
-		if (UStaticMeshComponent* const Wall = CreateDefaultSubobject<UStaticMeshComponent>(ComponentName))
-		{
-			Wall->SetupAttachment(WallRoot);
-			Wall->SetStaticMesh(WallMesh.Object);
-			Walls.Add(Wall);
-		}
+		LeftWall->SetRelativeTransform(FTransform(FRotator(0.f, 0.f, 0.f), UMino::UnitLength * FVector(0.55f, -9.5f, 0.f), FVector(0.1f, 20.f, 1.f)));
+		Walls.Add(LeftWall);
+	}
+
+	if (UStaticMeshComponent* const RightWall = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("RightWall")))
+	{
+		RightWall->SetRelativeTransform(FTransform(FRotator(0.f, 0.f, 0.f), UMino::UnitLength * FVector(-9.55f, -9.50f, 0.f), FVector(0.1f, 20.f, 1.f)));
+		Walls.Add(RightWall);
+	}
+
+	if (UStaticMeshComponent* const BackWall = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("BackWall")))
+	{
+		BackWall->SetRelativeTransform(FTransform(FRotator(0.f, 0.f, 0.f), UMino::UnitLength * FVector(-4.5f, -9.5f, -0.55f), FVector(10.f, 20.f, 0.1f)));
+		Walls.Add(BackWall);
+	}
+
+	if (UStaticMeshComponent* const Floor = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Floor")))
+	{
+		Floor->SetRelativeTransform(FTransform(FRotator(0.f, 0.f, 0.f), UMino::UnitLength * FVector(-4.5f, -19.55f, 0.f), FVector(10.2f, 0.1f, 1.f)));
+		Walls.Add(Floor);
+	}
+
+	for (UStaticMeshComponent* const Wall : Walls)
+	{
+		Wall->SetupAttachment(WallRoot);
+		Wall->SetStaticMesh(WallMesh.Object);
 	}
 }
 
