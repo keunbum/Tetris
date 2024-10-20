@@ -60,13 +60,15 @@ void UTetrisWidgetMenuBase::NativeConstruct()
 
 FReply UTetrisWidgetMenuBase::NativeOnPreviewKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent)
 {
+	// 포커싱된 버튼이 없다면 첫 번째(디폴트) 버튼에 포커싱.
 	if (IsNoButtonFocused())
 	{
 		SetDefaultMenuButtonFocus();
 		return FReply::Handled();
 	}
 
-	// if this widget has no keyboard focus, then set keyboard focus to current button index.
+	// 버튼에 포커싱된 적 있지만, 다른 위젯에 포커싱 되었다가 돌아와 버튼 포커싱이 풀린 경우, 다시 맞춤.
+	checkf(FMath::IsWithin(FocusedButtonIndex, 0, MenuButtons.Num()), TEXT("Invalid FocusedButtonIndex: %d"), FocusedButtonIndex);
 	if (UMenuButton* const MenuButton = MenuButtons[FocusedButtonIndex];
 		MenuButton && !MenuButton->HasKeyboardFocus())
 	{
@@ -74,6 +76,7 @@ FReply UTetrisWidgetMenuBase::NativeOnPreviewKeyDown(const FGeometry& InGeometry
 		return FReply::Handled();
 	}
 
+	// 버튼 포커싱 되어 있다면 사용자 입력에 따라 버튼 이동.
 	const FKey Key = InKeyEvent.GetKey();
 	if (EMenuMoveDirection MenuMoveDirection = EMenuMoveDirection::None;
 		UTetrisWidgetMenuBase::GetMenuMoveDirection(Key, MenuMoveDirection))
@@ -102,6 +105,7 @@ void UTetrisWidgetMenuBase::SetWidgetFocusOnly()
 void UTetrisWidgetMenuBase::SetMenuButtonFocusByButtonIndex(const int32 NewFocusedButtonIndex)
 {
 	FocusedButtonIndex = NewFocusedButtonIndex;
+	checkf(FMath::IsWithin(FocusedButtonIndex, 0, MenuButtons.Num()), TEXT("Invalid FocusedButtonIndex: %d"), FocusedButtonIndex);
 	if (UMenuButton* const MenuButton = MenuButtons[FocusedButtonIndex])
 	{
 		MenuButton->SetFocus();
@@ -110,6 +114,8 @@ void UTetrisWidgetMenuBase::SetMenuButtonFocusByButtonIndex(const int32 NewFocus
 
 void UTetrisWidgetMenuBase::MoveMenuButtonFocus(const int32 MoveDelta)
 {
+	// 끝단 버튼에서 이동하면 반대쪽 끝단 버튼으로 이동.
+	// 연결 리스트로 구현할 수도 있지만 편의상 배열로 구현.
 	const int32 NewFocusedButtonIndex = (FocusedButtonIndex + MoveDelta + MenuButtons.Num()) % MenuButtons.Num();
 	SetMenuButtonFocusByButtonIndex(NewFocusedButtonIndex);
 }
