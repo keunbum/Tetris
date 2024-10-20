@@ -4,23 +4,21 @@
 
 #include "Engine/World.h"
 #include "Kismet/GameplayStatics.h"
-#include "Blueprint/UserWidget.h"
 
 #include "TetrisPlayManager.h"
 #include "TetrisPlayerControllerIngameSingle.h"
 #include "TetrisPlayerState.h"
 #include "GoalSystemFactory.h"
 #include "GoalSystemInterface.h"
-#include "HUDSingle.h"
 #include "Components/AudioComponent.h"
+#include "TetrisHudIngameBase.h"
 
 const FName ATetrisGameModeIngameBase::TetrisLevelName = FName(TEXT("TetrisLevel"));
 
 ATetrisGameModeIngameBase::ATetrisGameModeIngameBase()
 	: GoalSystemType(EGoalSystemType::None)
 {
-	// Unreal Editor에서 PlayerStateClass를 설정할 수 있도록 함
-	PlayerStateClass = nullptr;
+	PlayerStateClass = ATetrisPlayerState::StaticClass();
 }
 
 void ATetrisGameModeIngameBase::PostLogin(APlayerController* const NewPlayer)
@@ -59,9 +57,12 @@ void ATetrisGameModeIngameBase::UpdateGamePlay(const FTetrisGamePlayInfo& Update
 		}
 
 		// Update HUD
-		if (HUDWidget)
+		if (TetrisPlayerController)
 		{
-			HUDWidget->UpdateDisplay(TetrisPlayerState->GetHUDSingleUpdateDisplayParams());
+			if (ATetrisHudIngameBase* const Hud = Cast<ATetrisHudIngameBase>(TetrisPlayerController->GetHUD()))
+			{
+				Hud->Update();
+			}
 		}
 	}
 }
@@ -123,9 +124,6 @@ void ATetrisGameModeIngameBase::Initialize()
 			}
 		}
 
-		// HUDWidget
-		HUDWidget = CreateWidget<UHUDSingle>(World, HUDWidgetClass);
-
 		/** Call Initialize methods */
 		if (TetrisPlayManager)
 		{
@@ -138,11 +136,6 @@ void ATetrisGameModeIngameBase::Initialize()
 		if (TetrisPlayerState)
 		{
 			TetrisPlayerState->Initialize(GoalSystem.GetInterface());
-
-			if (HUDWidget)
-			{
-				HUDWidget->InitializeHUD(TetrisPlayerState->GetHUDSingleUpdateDisplayParams(), this);
-			}
 		}
 	}
 }

@@ -13,7 +13,6 @@ class ATetrisPlayManager;
 class ATetrisPlayerControllerIngameSingle;
 class ATetrisPlayerState;
 class IGoalSystemInterface;
-class UHUDSingle;
 
 USTRUCT()
 struct FTetrisGamePlayInfo
@@ -48,6 +47,7 @@ public:
 	float GetCurrentLevelNormalFallSpeed() const;
 	ATetrisPlayManager* GetTetrisPlayManager() const { return TetrisPlayManager; }
 	ATetrisPlayerControllerIngameSingle* GetTetrisPlayerController() const { return TetrisPlayerController; }
+	ATetrisPlayerState* GetTetrisPlayerState() const { return TetrisPlayerState; }
 
 	void UpdateGamePlay(const FTetrisGamePlayInfo& UpdateInfo);
 	void RunGameOver();
@@ -106,9 +106,6 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Classes")
 	TSubclassOf<ATetrisPlayManager> TetrisPlayManagerClass = nullptr;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Classes")
-	TSubclassOf<UHUDSingle> HUDWidgetClass = nullptr;
-
 	/** Objects */
 	UPROPERTY()
 	TObjectPtr<ATetrisPlayManager> TetrisPlayManager;
@@ -118,9 +115,6 @@ protected:
 
 	UPROPERTY()
 	TObjectPtr<ATetrisPlayerState> TetrisPlayerState;
-
-	UPROPERTY(VisibleInstanceOnly)
-	TObjectPtr<UHUDSingle> HUDWidget;
 
 	/** Interfaces */
 	UPROPERTY()
