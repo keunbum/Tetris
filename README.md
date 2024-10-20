@@ -36,7 +36,7 @@
 - [Tetris Effect](https://namu.wiki/w/Tetris%20Effect)
 
 ### Coding Standard
-[Unreal Engine Coding Standard](https://dev.epicgames.com/documentation/en-us/unreal-engine/epic-cplusplus-coding-standard-for-unreal-engine)를 준수한다.
+[Unreal Engine Coding Standard](https://dev.epicgames.com/documentation/en-us/unreal-engine/epic-cplusplus-coding-standard-for-unreal-engine) 준수.
 
 ---
 
@@ -53,26 +53,25 @@
 ### 1. 도입
 #### 1.1. 기본 용어
 
-##### **Line Clear**
+**Line Clear**  
 가로 행이 블록으로 완전히 채워지면 매트릭스에서 제거되는 상태. 클리어된 라인 위의 모든 조각(piece)은 아래로 이동하여 공간을 채운다.  
 
-##### **Lock Down**
+**Lock Down**  
 플레이 중인(매트릭스에 나와 있는) 테트로미노가 잠겨 플레이어가 이를 더 이상 조작할 수 없는 지점.  
 일반적으로 테트로미노가 지면(매트릭스의 바닥이나 기존 블록)에 착지하고 나서 0.5초 후에 발생한다.  
 
-##### **Matrix**
+**Matrix**  
 활성 게임 영역을 만드는 직사각형 셀 배열로, 일반적으로 너비 10열 x 20행이다.  
 
-##### **Mino**
+**Mino**  
 테트로미노를 이루는 단일 정사각형 모양의 구성 요소.  
 
-##### **Skyline**
+**Skyline**  
 매트릭스 상단의 수평선. 테트로미노는 스카이 라인 바로 위에서 떨어지기 시작한다.
 
-##### **Tetromino(테트로미노)**
+**Tetromino(테트로미노)**  
 측면을 따라 연결된 4개의 미노들로 구성된 기하학적 Tetris® 모양.  
 각각 고유한 색상으로 표시되는 4개의 미노들을 사용하여 총 7개의 테트로미노를 만들 수 있다.  
-
 ![Tetriminos](https://static.wikia.nocookie.net/tetrisconcept/images/c/ca/Tetromino_image.png/revision/latest?cb=20090706171943)
 
 
@@ -82,29 +81,29 @@
 
 ![Tetris Interface](./Documents/Tetris_Interface.png)
 
-##### **1. The Matrix**
+**1. The Matrix**  
 게임 플레이가 발생하는 영역이다. 표준 매트릭스 치수는 높이 20셀 x 너비 10셀이다.
 
-##### **2. Tetromino in Play**
+**2. Tetromino in Play**  
 매트릭스에 들어와 있는 테트로미노.  
 플레이어는 이 테트로미노를 오른쪽 또는 왼쪽으로 이동하고, 시계 방향 또는 반시계 방향으로 회전하고, 하드 또는 소프트 드롭으로 조작할 수 있다.  
 하드 드롭을 하면 테트로미노가 즉시 똑바로 떨어져서 착지한 첫 번째 표면에 고정된다(잠긴다).  
 소프트 드롭은 버튼을 놓을 때까지 현재 낙하 속도보다 20배 빠르게 테트로미노를 떨어뜨린다.
 
-##### **3. Next Queue**
+**3. Next Queue**  
 넥스트 큐를 통해 플레이어는 생성되어 플레이에 투입될 다음 테트로미노를 볼 수 있다.
 
-##### **4. Ghost Piece**
+**4. Ghost Piece**  
 **Tetromino in Play**의 복사본이며 플레이어에게 플레이 테트로미노가 현재 위치에서 "떨어지면" 멈출 위치를 알려준다. 고스트 피스는 테트로미노 윤곽선 또는 테트로미노의 반투명한 "유령" 이미지로 나타날 수 있다.
 
-##### **5. Game Information**
+**5. Game Information**  
 플레이 중인 게임과 관련된 정보가 화면에 표시된다.
 
 - 경과시간
 - 현재 레벨
 - 지워진 줄 수 / 지워야 할 남은 줄 수
 
-##### **6. Hold Queue**
+**6. Hold Queue**  
 홀드 큐를 통해 플레이어는 떨어지는 테트리미노를 고정(홀드)할 수 있다.
 홀드 큐에 이미 있는 테트리미노가 있는 경우 꺼내온다.
 
@@ -119,13 +118,6 @@ Tetris는 일명 **bag** 시스템([7-bag system](https://namu.wiki/w/%ED%85%8C%
 공급하는 순서를 의미한다. 새로운 테트로미노가 생성되어 매트릭스 내에서 떨어지기 시작할 때마다 가방의 라인 맨  
 앞에 있는 테트로미노는 Next Queue의 끝에 배치되어 모든 테트로미노를 하나씩 앞으로 밀어낸다.  
 가방이 비워지면 다시 채워지고 섞인다.
-
-#### 3.2 시작 위치 및 방향
-
-테트로미노는 모두 북쪽을 향하도록 (Next Queue에서 보이는 것과 같이) 스카이라인 바로 위 21번째 및 22번째 행에서 생성된다.  
-매트릭스를 가로지르는 10개의 셀이 있는데, 너비가 3-미노인 모든 테트로미노는 가로로 4번째 셀에서 6번째 셀까지 이어진다.  
-이는 T-Tetromino, L-Tetromino, J-Tetromino, S-Tetromino, Z-Tetromino을 포함한다.  
-I-Tetromino와 O-Tetromino는 정확히 중앙에 생성된다. I-Tetrimino는 22번째 행이 아닌 21번째 행에서 생성되며, 4번째 셀에서 7번째 셀까지 늘어난다. O-Tetrimino는 5번째와 6번째 셀에서 생성된다.
 
 
 ### 4. 컨트롤
@@ -143,13 +135,10 @@ I-Tetromino와 O-Tetromino는 정확히 중앙에 생성된다. I-Tetrimino는 2
 
 
 ### 5. 테트로미노 조작
-게임 플레이 중에는 오로지 하나의 테트로미노만이 매트릭스 내에서 떨어진다.  
-플레이어는 떨어지는 테트로미노(즉, [Tetromino in play](#2-tetromino-in-play))를 이동, 회전, 소프트 드롭, 하드 드롭 및 홀드 할 수 있다.
 
 ### 5.1 이동(Movement)
 
-테트로미노(Tetromino in play)는 한 번에 한 셀씩 스카이라인 바로 위에서 떨어지고 한 번에 한 셀씩 왼쪽과 오른쪽으로 이동한다.    
-오른쪽, 왼쪽 및 아래쪽 이동만 허용된다. [점유 중인 셀](#block)과 매트릭스 벽 및 바닥으로의 이동은 허용되지 않는다.
+테트로미노(Tetromino in play)는 한 번에 한 셀씩 스카이라인 바로 위에서 떨어지고 한 번에 한 셀씩 왼쪽과 오른쪽으로 이동한다. 오른쪽, 왼쪽 및 아래쪽 이동만 허용된다.
 
 ### 5.2 자동 반복(Auto-Repeat)
 
