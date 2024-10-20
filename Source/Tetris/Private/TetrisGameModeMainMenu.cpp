@@ -10,16 +10,10 @@ void ATetrisGameModeMainMenu::BeginPlay()
 	Super::BeginPlay();
 
 	// Create Main Menu Widget
-	if (!MainMenuWidget)
+	MainMenuWidget = CreateWidget<UTetrisWidgetMenuMain>(GetWorld(), MainMenuWidgetClass);
+	if (MainMenuWidget)
 	{
-		if (MainMenuWidgetClass)
-		{
-			MainMenuWidget = CreateWidget<UTetrisWidgetMenuMain>(GetWorld(), MainMenuWidgetClass);
-			if (MainMenuWidget)
-			{
-				MainMenuWidget->AddToViewport();
-			}
-		}
+		MainMenuWidget->AddToViewport();
 	}
 }
 
