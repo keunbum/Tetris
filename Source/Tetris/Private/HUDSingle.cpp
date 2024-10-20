@@ -2,7 +2,7 @@
 
 #include "HUDSingle.h"
 
-void UHUDSingle::InitializeHUD(const FHUDSingleUpdateDisplayParams& DisplayParams)
+void UHUDSingle::InitializeDisplay(const FHUDSingleUpdateDisplayParams& DisplayParams)
 {
 	UpdateDisplay(DisplayParams);
 }

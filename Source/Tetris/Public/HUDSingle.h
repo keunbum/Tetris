@@ -37,7 +37,7 @@ class TETRIS_API UHUDSingle : public UHUDBase
 	GENERATED_BODY()
 	
 public:
-	void InitializeHUD(const FHUDSingleUpdateDisplayParams& DisplayParams);
+	void InitializeDisplay(const FHUDSingleUpdateDisplayParams& DisplayParams);
 
 	void UpdateDisplay(const FHUDSingleUpdateDisplayParams& DisplayParams);
 	void UpdateTimeDisplay(const float NewTime);

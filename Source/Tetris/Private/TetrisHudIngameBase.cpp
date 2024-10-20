@@ -28,7 +28,7 @@ void ATetrisHudIngameBase::BeginPlay()
 	{
 		return;
 	}
-	HudWidget->InitializeHUD(TetrisPlayerState->GetHUDSingleUpdateDisplayParams());
+	HudWidget->InitializeDisplay(TetrisPlayerState->GetHUDSingleUpdateDisplayParams());
 	HudWidget->AddToViewport();
 
 	// 경과 시간 업데이트 타이머 시작
