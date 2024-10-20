@@ -17,12 +17,16 @@ class TETRIS_API ATetrisGameModeMainMenu : public ATetrisGameModeBase
 	GENERATED_BODY()
 
 protected:
+	/** AGameModeBase */
 	virtual void BeginPlay() override;
+	/** ~AGameModeBase */
 
 protected:
+	/** ATetrisGameModeBase */
 	virtual void Initialize() override;
 	virtual void SetInputMode() override;
 	virtual void InitializeEffect() override;
+	/** ~ATetrisGameModeBase */
 
 public:
 	// Level Name
