@@ -52,13 +52,10 @@ void ATetrisGameModeIngameBase::UpdateGamePlay(const FTetrisGamePlayInfo& Update
 	{
 		TetrisPlayerState->UpdateState(UpdateInfo);
 
-		if (GoalSystem)
+		const bool bIsLevelUpCondition = (GoalSystem && GoalSystem->IsLevelUpCondition(*TetrisPlayerState));
+		if (bIsLevelUpCondition)
 		{
-			const bool bIsLevelUpCondition = GoalSystem->IsLevelUpCondition(*TetrisPlayerState);
-			if (bIsLevelUpCondition)
-			{
-				LevelUp();
-			}
+			LevelUp();
 		}
 
 		// Update HUD
