@@ -30,6 +30,14 @@
 
 개인 프로젝트이지만 단위 기능 구현마다 [Pull Request](https://github.com/keunbum/Tetris/pulls?q=is%3Apr+is%3Aclosed)를 통해 진행 상황을 정리하고 간단한 코드 리뷰 진행.
 
+### Best Practice
+
+- [TETRIS 99](https://namu.wiki/w/TETRIS%2099)
+- [Tetris Effect](https://namu.wiki/w/Tetris%20Effect)
+
+### Coding Standard
+[Unreal Engine Coding Standard](https://dev.epicgames.com/documentation/en-us/unreal-engine/epic-cplusplus-coding-standard-for-unreal-engine)를 준수한다.
+
 ---
 
 ## 시현 영상
