@@ -5,12 +5,11 @@
 
 FString UHUDBase::GetFormattedTimeString(const float TimeInSeconds)
 {
-	// Convert to MM:SS.s
+	// Convert to MM:SS
 	const int32 TotalSeconds = FMath::FloorToInt(TimeInSeconds);
 	const int32 Minutes = TotalSeconds / 60;
 	const int32 Seconds = TotalSeconds % 60;
-	const int32 Decimal = FMath::FloorToInt((TimeInSeconds - TotalSeconds) * 10.0f);
-	return FString::Printf(TEXT("%02d:%02d.%d"), Minutes, Seconds, Decimal);
+	return FString::Printf(TEXT("%02d : %02d"), Minutes, Seconds);
 }
 
 void UHUDBase::UpdateTextBlockWithNameAndValue(UTextBlockBase* const TextBlock, const FString& Name, const FString& Value)
@@ -19,7 +18,7 @@ void UHUDBase::UpdateTextBlockWithNameAndValue(UTextBlockBase* const TextBlock, 
 	const int32 Margin = TotalStringLength - (Name.Len() + Value.Len());
 	ensureMsgf(Margin >= 0, TEXT("TextBlock Name: %s, Value: %s"), *Name, *Value);
 	const FString Text = FString::Printf(TEXT("%s%*s"), *Name, Margin, *Value);
-	UpdateTextBlock(TextBlock, Text);
+	UHUDBase::UpdateTextBlock(TextBlock, Text);
 }
 
 void UHUDBase::UpdateTextBlock(UTextBlockBase* const TextBlock, const FString& NewText)

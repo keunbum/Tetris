@@ -6,8 +6,6 @@
 #include "HUDBase.h"
 #include "HUDSingle.generated.h"
 
-class UTextBlockBase;
-
 USTRUCT()
 struct FHUDSingleUpdateDisplayParams
 {
@@ -39,16 +37,14 @@ class TETRIS_API UHUDSingle : public UHUDBase
 	GENERATED_BODY()
 	
 public:
-	void InitializeHUD(const FHUDSingleUpdateDisplayParams& DisplayParams, ATetrisGameModeIngameBase* const InTetrisGameMode);
+	void InitializeHUD(const FHUDSingleUpdateDisplayParams& DisplayParams);
 
 	void UpdateDisplay(const FHUDSingleUpdateDisplayParams& DisplayParams);
+	void UpdateTimeDisplay(const float NewTime);
 
 private:
 	void UpdateLevelDisplay(const int32 NewLevel);
 	void UpdateLineClearDisplay(const int32 NewLineClear, const int32 NewLineClearGoal);
-	void UpdateTimeDisplay(const float NewTime);
-
-	void OnUpdateTime();
 
 protected:
 	UPROPERTY(meta = (BindWidget))
@@ -59,6 +55,4 @@ protected:
 
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UTextBlockBase> TimeText;
-
-	FTimerHandle UpdateTimeTimerHandle;
 };

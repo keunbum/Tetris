@@ -5,6 +5,7 @@
 #include "TetrisGameModeIngameBase.h"
 #include "GoalSystemInterface.h"
 #include "HUDSingle.h"
+#include "TetrisHudIngameBase.h"
 
 ATetrisPlayerState::ATetrisPlayerState()
 	: GameLevel(ATetrisGameModeIngameBase::DefaultGameLevel)
