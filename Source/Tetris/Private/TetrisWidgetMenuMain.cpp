@@ -28,10 +28,7 @@ void UTetrisWidgetMenuMain::NativeOnInitialized()
 		ExitButton->OnClicked.AddDynamic(this, &UTetrisWidgetMenuMain::OnExitClicked);
 	}
 
-	if (WidgetPopupOptionClass)
-	{
-		WidgetPopupOption = CreateWidget<UTetrisWidgetPopupOption>(GetWorld(), WidgetPopupOptionClass);
-	}
+	WidgetPopupOption = CreateWidget<UTetrisWidgetPopupOption>(GetWorld(), WidgetPopupOptionClass);
 }
 
 void UTetrisWidgetMenuMain::OnStartClicked()
