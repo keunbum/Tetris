@@ -200,3 +200,208 @@ Tetris의 멀티플레이어 아케이드 변형은 이 유형의 잠금을 사�
 
 ---
 
+## 설계
+
+### 프로그램 흐름
+
+![Basic_FlowChart](./Documents/Basic_FlowChart.png)
+
+### 클래스 디자인
+
+- #### UserWidget
+![UserWidgets](./Documents/UserWidgets.png)
+
+- #### Actor and ActorComponent
+![ActorsAndActorComponents](./Documents/Actors_ActorComponents.png)
+
+- #### GameMode and PlayerState
+![GameModes_PlayerStates](./Documents/GameModes_PlayerStates.png)
+
+- #### PlayerController
+<img src="./Documents/PlayerControllers.png" style="width: 50%; height: 50%">
+
+- #### UObject and UInterface
+<img src="./Documents/UObjects_UInterfaces.png" style="width: 100%; height: 100%">
+
+- ### Etc
+<img src="./Documents/Class_Etc.png" style="width: 100%; height: 100%">
+
+---
+
+## 구현
+
+로직은 대부분 블루프린트 대신 C++로 작성하였다.
+
+### UI
+
+UUserWidget을 상속 받은 C++ 클래스 작성 후, 이를 상속 받은 위젯 블루프린트 구현.  
+분량이 많아 일부 클래스만 첨부.  
+
+#### UTetrisWidgetMenuBase ([header](./Source/Tetris/Public/TetrisWidgetMenuBase.h) / [source](./Source/Tetris/Private/TetrisWidgetMenuBase.cpp))  
+키보드로 메뉴 이동 시 버튼 포커싱을 처리하는 로직.
+
+```cpp
+FReply UTetrisWidgetMenuBase::NativeOnPreviewKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent)
+{
+	// 포커싱된 버튼이 없다면 첫 번째(디폴트) 버튼에 포커싱.
+	if (IsNoButtonFocused())
+	{
+		SetDefaultMenuButtonFocus();
+		return FReply::Handled();
+	}
+
+	// 버튼에 포커싱된 적 있지만, 다른 위젯에 포커싱 되었다가 돌아와 버튼 포커싱이 풀린 경우, 다시 맞춤.
+	checkf(FMath::IsWithin(FocusedButtonIndex, 0, MenuButtons.Num()), TEXT("Invalid FocusedButtonIndex: %d"), FocusedButtonIndex);
+	if (UMenuButton* const MenuButton = MenuButtons[FocusedButtonIndex];
+		MenuButton && !MenuButton->HasKeyboardFocus())
+	{
+		MenuButton->SetKeyboardFocus();
+		return FReply::Handled();
+	}
+
+	// 버튼 포커싱 되어 있다면 사용자 입력에 따라 버튼 이동.
+	const FKey Key = InKeyEvent.GetKey();
+	if (EMenuMoveDirection MenuMoveDirection = EMenuMoveDirection::None;
+		UTetrisWidgetMenuBase::GetMenuMoveDirection(Key, MenuMoveDirection))
+	{
+		const int32 MoveDelta = UTetrisWidgetMenuBase::GetMenuMoveDelta(MenuMoveDirection);
+		MoveMenuButtonFocus(MoveDelta);
+		return FReply::Handled();
+	}
+
+	return Super::NativeOnPreviewKeyDown(InGeometry, InKeyEvent);
+}
+
+void UTetrisWidgetMenuBase::MoveMenuButtonFocus(const int32 MoveDelta)
+{
+	// 끝단 버튼에서 이동하면 반대쪽 끝단 버튼으로 이동.
+	// 연결 리스트로 구현할 수도 있지만 편의상 배열로 구현.
+	const int32 NewFocusedButtonIndex = (FocusedButtonIndex + MoveDelta + MenuButtons.Num()) % MenuButtons.Num();
+	SetMenuButtonFocusByButtonIndex(NewFocusedButtonIndex);
+}
+
+```
+
+#### UTetrisWidgetMenuMain
+메인 메뉴용 위젯 블루프린트인 [WB_MenuMain](./Content/UI/WB_MenuMain.uasset)가 상속 받는 클래스.  
+버튼 포커싱 처리를 위해 배열(MenuButtons)로 버튼 관리.
+
+##### TetrisWidgetMenuMain.h
+```cpp
+#include "CoreMinimal.h"
+#include "TetrisWidgetMenuBase.h"
+#include "TetrisWidgetMenuMain.generated.h"
+
+class UTetrisWidgetPopupOption;
+
+/**
+ * 
+ */
+UCLASS()
+class TETRIS_API UTetrisWidgetMenuMain : public UTetrisWidgetMenuBase
+{
+	GENERATED_BODY()
+
+protected:
+	/** UUserWidget Interface */
+	virtual void NativeOnInitialized() override;
+	/** ~UUserWidget Interface */
+
+private:
+	UFUNCTION()
+	void OnStartClicked();
+
+	UFUNCTION()
+	void OnOptionClicked();
+
+	UFUNCTION()
+	void OnExitClicked();
+
+private:
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UMenuButton> StartButton;
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UMenuButton> OptionButton;
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UMenuButton> ExitButton;
+
+	/** Widget References */
+	UPROPERTY()
+	TObjectPtr<UTetrisWidgetPopupOption> WidgetPopupOption;
+
+	/** Widget Class References */
+	UPROPERTY(EditDefaultsOnly, Category = "Classes")
+	TSubclassOf<UTetrisWidgetPopupOption> WidgetPopupOptionClass;
+};
+```
+
+##### TetrisWidgetMenuMain.cpp
+```cpp
+
+#include "TetrisWidgetMenuMain.h"
+
+#include "Kismet/GameplayStatics.h"
+
+#include "TetrisGameModeIngameBase.h"
+#include "TetrisWidgetPopupOption.h"
+#include "MenuButton.h"
+
+void UTetrisWidgetMenuMain::NativeOnInitialized()
+{
+	Super::NativeOnInitialized();
+
+	if (StartButton)
+	{
+		MenuButtons.Add(StartButton);
+		StartButton->OnClicked.AddDynamic(this, &UTetrisWidgetMenuMain::OnStartClicked);
+	}
+	if (OptionButton)
+	{
+		MenuButtons.Add(OptionButton);
+		OptionButton->OnClicked.AddDynamic(this, &UTetrisWidgetMenuMain::OnOptionClicked);
+	}
+	if (ExitButton)
+	{
+		MenuButtons.Add(ExitButton);
+		ExitButton->OnClicked.AddDynamic(this, &UTetrisWidgetMenuMain::OnExitClicked);
+	}
+
+	if (WidgetPopupOptionClass)
+	{
+		WidgetPopupOption = CreateWidget<UTetrisWidgetPopupOption>(GetWorld(), WidgetPopupOptionClass);
+	}
+}
+
+void UTetrisWidgetMenuMain::OnStartClicked()
+{
+	// Open Tetris Level
+	UGameplayStatics::OpenLevel(GetWorld(), ATetrisGameModeIngameBase::TetrisLevelName);
+}
+
+void UTetrisWidgetMenuMain::OnOptionClicked()
+{
+	if (WidgetPopupOption)
+	{
+		WidgetPopupOption->AddToViewport();
+	}
+}
+
+void UTetrisWidgetMenuMain::OnExitClicked()
+{
+	// Exit Game
+	UKismetSystemLibrary::QuitGame(GetWorld(), nullptr, EQuitPreference::Quit, false);
+}
+
+```
+
+#### WB_MenuMain
+![WB_MenuMain](./Documents/WB_MenuMain.png)
+
+
+### 주요 클래스
+
+### 오디오
+
+---
