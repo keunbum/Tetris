@@ -42,7 +42,6 @@ private:
 	TObjectPtr<UMenuButton> ExitButton;
 
 	/** Widget References */
-	// WidgetPopupOption
 	UPROPERTY()
 	TObjectPtr<UTetrisWidgetPopupOption> WidgetPopupOption;
 
