@@ -1,7 +1,5 @@
 ﻿# Tetris
 
----
-
 ## Index
 
 - [시현 영상](#시현-영상)
@@ -20,7 +18,7 @@
 
 ## 개요
 
-언리얼 엔진으로 테트리스를 만드는 프로젝트.
+언리얼 엔진으로 테트리스를 만드는 프로젝트
 
 - 개발 기간: 2024.05.28 ~ (진행 중)
 - 개발 환경:
@@ -28,6 +26,7 @@
   - OS: Windows 11
   - Engine: Unreal Engine 5.1.1
   - IDE: Visual Studio 2022
+  - AI coding assistant: GitHub Copilot
   - Source Control: Git, GitHub
 
 ### 프로젝트 진행 방식
