@@ -19,8 +19,7 @@ const FName ATetrisGameModeIngameBase::TetrisLevelName = FName(TEXT("TetrisLevel
 ATetrisGameModeIngameBase::ATetrisGameModeIngameBase()
 	: GoalSystemType(EGoalSystemType::None)
 {
-	// Unreal Editor에서 PlayerStateClass를 설정할 수 있도록 함
-	PlayerStateClass = nullptr;
+	PlayerStateClass = ATetrisPlayerState::StaticClass();
 }
 
 void ATetrisGameModeIngameBase::PostLogin(APlayerController* const NewPlayer)
