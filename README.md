@@ -25,7 +25,7 @@
   - [프로그램 흐름](#프로그램-흐름)
   - [클래스 디자인](#클래스-디자인)
     - [UserWidget](#userwidget)
-    - [Actor and ActorComponent](#actor-and-actorcomponent)
+    - [Actor and ActorComponent and HUD](#actor-and-actorcomponent-and-hud)
     - [GameMode and PlayerState](#gamemode-and-playerstate)
     - [PlayerController](#playercontroller)
     - [UObject and UInterface](#uobject-and-uinterface)
