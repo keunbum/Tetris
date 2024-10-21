@@ -5,10 +5,21 @@
 #include "Mino.h"
 #include "Board.h"
 
+// (행, 열) 기반으로 방향을 나타냄. (0행 0열이 기준)
 const FVector2D ATetriminoBase::MoveDirectionLeft = FVector2D(0, -1);
 const FVector2D ATetriminoBase::MoveDirectionRight = -MoveDirectionLeft;
 const FVector2D ATetriminoBase::MoveDirectionDown = MoveDirectionLeft.GetRotated(90.f);
 
+/* 
+ * 테트리미노 모양별 정보
+ * 모두 (행, 열) 기반으로 표현됨.
+ * 예를 들어 T의 North가 {1, 1}, {2, 0}, {2, 1}, {2, 2}와 같이 표현되는 건 각각 1행 1열, 2행 0열, 2행 1열, 2행 2열에 해당하는 미노들이라는 뜻.
+ * 그림으로 나타내면 아래와 같다.
+ * x x x x
+ * x o x x
+ * o o o x
+ * x x x x
+ */
 const TMap<ETetriminoShape, FTetriminoShapeInfo> ATetriminoBase::TetriminoShapeInfos =
 {
 	{
