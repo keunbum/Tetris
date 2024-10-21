@@ -103,9 +103,9 @@ void UTetrisWidgetMenuBase::SetWidgetFocusOnly()
 
 void UTetrisWidgetMenuBase::SetMenuButtonFocusByButtonIndex(const int32 NewFocusedButtonIndex)
 {
-	FocusedButtonIndex = NewFocusedButtonIndex;
-	if (UMenuButton* const MenuButton = MenuButtons[FocusedButtonIndex])
+	if (UMenuButton* const MenuButton = MenuButtons[NewFocusedButtonIndex])
 	{
+		FocusedButtonIndex = NewFocusedButtonIndex;
 		MenuButton->SetFocus();
 	}
 }
