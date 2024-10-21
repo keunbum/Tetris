@@ -7,7 +7,7 @@
 #include "Misc/EnumClassFlags.h"
 
 #include "Mino.h"
-#include "TetrisPlayerControllerIngameBase.generated.h"
+#include "TetrisPlayerControllerIngame.generated.h"
 
 class UInputMappingContext;
 class UInputAction;
@@ -28,7 +28,7 @@ ENUM_CLASS_FLAGS(EKeyFlags)
  * 
  */
 UCLASS()
-class TETRIS_API ATetrisPlayerControllerIngameBase : public ATetrisPlayerControllerBase
+class TETRIS_API ATetrisPlayerControllerIngame : public ATetrisPlayerControllerBase
 {
 	GENERATED_BODY()
 	

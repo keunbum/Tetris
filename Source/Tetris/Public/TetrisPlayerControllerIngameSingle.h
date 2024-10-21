@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "TetrisPlayerControllerInGameBase.h"
+#include "TetrisPlayerControllerIngame.h"
 
 #include "TetrisPlayerControllerIngameSingle.generated.h"
 
@@ -14,7 +14,7 @@ class UTetrisWidgetMenuGameover;
  * 
  */
 UCLASS()
-class TETRIS_API ATetrisPlayerControllerIngameSingle : public ATetrisPlayerControllerIngameBase
+class TETRIS_API ATetrisPlayerControllerIngameSingle : public ATetrisPlayerControllerIngame
 {
 	GENERATED_BODY()
 
