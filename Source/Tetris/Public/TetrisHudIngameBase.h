@@ -41,12 +41,6 @@ protected:
 	UPROPERTY()
 	TObjectPtr<ATetrisPlayerState> TetrisPlayerState;
 
-	//UPROPERTY()
-	//TObjectPtr<UHUDSingle> HudWidget;
-
-	//UPROPERTY(EditDefaultsOnly, Category = "Classes")
-	//TSubclassOf<UHUDSingle> HudWidgetClass;
-
 	UPROPERTY()
 	TObjectPtr<UTetrisWidgetHudIngame> HudWidget;
 
