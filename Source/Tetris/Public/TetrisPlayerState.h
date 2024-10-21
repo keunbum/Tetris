@@ -10,7 +10,6 @@
 #include "TetrisPlayerState.generated.h"
 
 class IGoalSystemInterface;
-struct FHUDSingleUpdateDisplayParams;
 struct FHudIngameUpdateDisplayParams;
 
 /**
