@@ -43,7 +43,7 @@ protected:
 	void SetDefaultMenuButtonFocus();
 	void SetWidgetFocusOnly();
 
-	bool IsNoButtonFocused() const { return FocusedButtonIndex == InvalidButtonIndex; }
+	bool IsNoButtonFocused() const { return FocusedButtonIndex == UTetrisWidgetMenuBase::InvalidButtonIndex; }
 
 	void SetMenuButtonFocusByButtonIndex(const int32 NewFocusedButtonIndex);
 	void MoveMenuButtonFocus(const int32 MoveDelta);
