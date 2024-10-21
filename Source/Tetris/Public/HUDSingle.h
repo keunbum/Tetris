@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "HUDBase.h"
+#include "TetrisWidgetHudBase.h"
 #include "HUDSingle.generated.h"
 
 USTRUCT()
@@ -32,7 +32,7 @@ struct FHUDSingleUpdateDisplayParams
  * 
  */
 UCLASS()
-class TETRIS_API UHUDSingle : public UHUDBase
+class TETRIS_API UHUDSingle : public UTetrisWidgetHudBase
 {
 	GENERATED_BODY()
 	

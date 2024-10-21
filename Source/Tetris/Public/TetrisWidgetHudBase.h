@@ -3,8 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Blueprint/UserWidget.h"
-#include "HUDBase.generated.h"
+#include "TetrisWidgetBase.h"
+#include "TetrisWidgetHudBase.generated.h"
 
 class UTextBlockBase;
 
@@ -12,7 +12,7 @@ class UTextBlockBase;
  * 
  */
 UCLASS(Abstract)
-class TETRIS_API UHUDBase : public UUserWidget
+class TETRIS_API UTetrisWidgetHudBase : public UTetrisWidgetBase
 {
 	GENERATED_BODY()
 

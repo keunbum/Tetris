@@ -16,20 +16,20 @@ void UHUDSingle::UpdateDisplay(const FHUDSingleUpdateDisplayParams& DisplayParam
 void UHUDSingle::UpdateTimeDisplay(const float NewTime)
 {
 	static constexpr TCHAR Name[] = TEXT("Time");
-	const FString ElapsedTimeString = UHUDBase::GetFormattedTimeString(NewTime);
-	UHUDBase::UpdateTextBlockWithNameAndValue(TimeText, Name, ElapsedTimeString);
+	const FString ElapsedTimeString = UTetrisWidgetHudBase::GetFormattedTimeString(NewTime);
+	UTetrisWidgetHudBase::UpdateTextBlockWithNameAndValue(TimeText, Name, ElapsedTimeString);
 }
 
 void UHUDSingle::UpdateLevelDisplay(const int32 NewLevel)
 {
 	static constexpr TCHAR Name[] = TEXT("Level");
 	const FString LevelString = FString::Printf(TEXT("%d"), NewLevel);
-	UHUDBase::UpdateTextBlockWithNameAndValue(LevelText, Name, LevelString);
+	UTetrisWidgetHudBase::UpdateTextBlockWithNameAndValue(LevelText, Name, LevelString);
 }
 
 void UHUDSingle::UpdateLineClearDisplay(const int32 NewLineClear, const int32 NewLineClearGoal)
 {
 	static constexpr TCHAR Name[] = TEXT("Line Clear");
 	const FString LineClearValueString = FString::Printf(TEXT("%d / %d"), NewLineClear, NewLineClearGoal);
-	UHUDBase::UpdateTextBlockWithNameAndValue(LineClearText, Name, LineClearValueString);
+	UTetrisWidgetHudBase::UpdateTextBlockWithNameAndValue(LineClearText, Name, LineClearValueString);
 }
