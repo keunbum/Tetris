@@ -3,20 +3,20 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "HUDBase.h"
-#include "HUDSingle.generated.h"
+#include "TetrisWidgetHudBase.h"
+#include "TetrisWidgetHudIngame.generated.h"
 
 USTRUCT()
-struct FHUDSingleUpdateDisplayParams
+struct FHudIngameUpdateDisplayParams
 {
 	GENERATED_USTRUCT_BODY()
 
-	FHUDSingleUpdateDisplayParams()
-		: FHUDSingleUpdateDisplayParams(0, 0, 0)
+	FHudIngameUpdateDisplayParams()
+		: FHudIngameUpdateDisplayParams(0, 0, 0)
 	{
 	}
 
-	FHUDSingleUpdateDisplayParams(const int32 InLevel, const int32 InLineClear, const int32 InLineClearGoal)
+	FHudIngameUpdateDisplayParams(const int32 InLevel, const int32 InLineClear, const int32 InLineClearGoal)
 		: Level(InLevel)
 		, LineClear(InLineClear)
 		, LineClearGoal(InLineClearGoal)
@@ -32,14 +32,14 @@ struct FHUDSingleUpdateDisplayParams
  * 
  */
 UCLASS()
-class TETRIS_API UHUDSingle : public UHUDBase
+class TETRIS_API UTetrisWidgetHudIngame : public UTetrisWidgetHudBase
 {
 	GENERATED_BODY()
 	
 public:
-	void InitializeDisplay(const FHUDSingleUpdateDisplayParams& DisplayParams);
+	void InitializeDisplay(const FHudIngameUpdateDisplayParams& DisplayParams);
 
-	void UpdateDisplay(const FHUDSingleUpdateDisplayParams& DisplayParams);
+	void UpdateDisplay(const FHudIngameUpdateDisplayParams& DisplayParams);
 	void UpdateTimeDisplay(const float NewTime);
 
 private:

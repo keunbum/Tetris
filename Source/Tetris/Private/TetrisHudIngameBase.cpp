@@ -5,7 +5,7 @@
 #include "TetrisPlayerState.h"
 #include "TetrisGameModeIngameBase.h"
 #include "Engine/World.h"
-#include "HUDSingle.h"
+#include "TetrisWidgetHudIngame.h"
 
 void ATetrisHudIngameBase::BeginPlay()
 {
@@ -23,13 +23,15 @@ void ATetrisHudIngameBase::BeginPlay()
 		return;
 	}
 
-	HudWidget = CreateWidget<UHUDSingle>(GetWorld(), HudWidgetClass);
+	HudWidget = CreateWidget<UTetrisWidgetHudIngame>(GetWorld(), HudWidgetClass);
 	if (!ensureMsgf(HudWidget, TEXT("HudWidget is nullptr")))
 	{
 		return;
 	}
-	HudWidget->InitializeDisplay(TetrisPlayerState->GetHUDSingleUpdateDisplayParams());
+	HudWidget->InitializeDisplay(TetrisPlayerState->GetHudIngameUpdateDisplayParams());
 	HudWidget->AddToViewport();
+
+
 
 	// 경과 시간 업데이트 타이머 시작
 	FTimerHandle UpdateTimeTimerHandle;
@@ -40,7 +42,7 @@ void ATetrisHudIngameBase::Update()
 {
 	if (TetrisPlayerState && HudWidget)
 	{
-		HudWidget->UpdateDisplay(TetrisPlayerState->GetHUDSingleUpdateDisplayParams());
+		HudWidget->UpdateDisplay(TetrisPlayerState->GetHudIngameUpdateDisplayParams());
 	}
 }
 
