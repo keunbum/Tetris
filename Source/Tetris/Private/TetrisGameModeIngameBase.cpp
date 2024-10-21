@@ -11,7 +11,7 @@
 #include "GoalSystemFactory.h"
 #include "GoalSystemInterface.h"
 #include "Components/AudioComponent.h"
-#include "TetrisHudIngameBase.h"
+#include "TetrisHudIngame.h"
 
 const FName ATetrisGameModeIngameBase::TetrisLevelName = FName(TEXT("TetrisLevel"));
 
@@ -59,7 +59,7 @@ void ATetrisGameModeIngameBase::UpdateGamePlay(const FTetrisGamePlayInfo& Update
 		// Update HUD
 		if (TetrisPlayerController)
 		{
-			if (ATetrisHudIngameBase* const Hud = Cast<ATetrisHudIngameBase>(TetrisPlayerController->GetHUD()))
+			if (ATetrisHudIngame* const Hud = Cast<ATetrisHudIngame>(TetrisPlayerController->GetHUD()))
 			{
 				Hud->Update();
 			}

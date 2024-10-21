@@ -1,13 +1,13 @@
 // Copyright Ryu KeunBeom. All Rights Reserved.
 
 
-#include "TetrisHudIngameBase.h"
+#include "TetrisHudIngame.h"
 #include "TetrisPlayerState.h"
 #include "TetrisGameModeIngameBase.h"
 #include "Engine/World.h"
 #include "TetrisWidgetHudIngame.h"
 
-void ATetrisHudIngameBase::BeginPlay()
+void ATetrisHudIngame::BeginPlay()
 {
 	Super::BeginPlay();
 
@@ -35,10 +35,10 @@ void ATetrisHudIngameBase::BeginPlay()
 
 	// 경과 시간 업데이트 타이머 시작
 	FTimerHandle UpdateTimeTimerHandle;
-	GetWorld()->GetTimerManager().SetTimer(UpdateTimeTimerHandle, this, &ATetrisHudIngameBase::OnUpdateTime, ATetrisHudIngameBase::TimeDisplayUpdateInterval, /* InbLoop */ true, /* InFirstDelay */ 0.0f);
+	GetWorld()->GetTimerManager().SetTimer(UpdateTimeTimerHandle, this, &ATetrisHudIngame::OnUpdateTime, ATetrisHudIngame::TimeDisplayUpdateInterval, /* InbLoop */ true, /* InFirstDelay */ 0.0f);
 }
 
-void ATetrisHudIngameBase::Update()
+void ATetrisHudIngame::Update()
 {
 	if (TetrisPlayerState && HudWidget)
 	{
@@ -46,7 +46,7 @@ void ATetrisHudIngameBase::Update()
 	}
 }
 
-void ATetrisHudIngameBase::OnUpdateTime()
+void ATetrisHudIngame::OnUpdateTime()
 {
 	if (TetrisGameMode && HudWidget)
 	{

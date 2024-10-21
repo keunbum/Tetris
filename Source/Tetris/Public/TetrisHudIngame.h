@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "TetrisHudBase.h"
-#include "TetrisHudIngameBase.generated.h"
+#include "TetrisHudIngame.generated.h"
 
 class ATetrisGameModeIngameBase;
 class ATetrisPlayerState;
@@ -14,7 +14,7 @@ class UTetrisWidgetHudIngame;
  * 
  */
 UCLASS(Abstract)
-class TETRIS_API ATetrisHudIngameBase : public ATetrisHudBase
+class TETRIS_API ATetrisHudIngame : public ATetrisHudBase
 {
 	GENERATED_BODY()
 

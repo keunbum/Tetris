@@ -3,14 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "TetrisHudIngameBase.h"
+#include "TetrisHudIngame.h"
 #include "TetrisHudSingle.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class TETRIS_API ATetrisHudSingle : public ATetrisHudIngameBase
+class TETRIS_API ATetrisHudSingle : public ATetrisHudIngame
 {
 	GENERATED_BODY()
 	
