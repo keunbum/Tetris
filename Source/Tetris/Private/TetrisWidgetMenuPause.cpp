@@ -53,7 +53,7 @@ FReply UTetrisWidgetMenuPause::NativeOnPreviewKeyDown(const FGeometry& InGeometr
 {
 	const FKey Key = InKeyEvent.GetKey();
 
-	if (static const TArray<FKey> ResumeKeys = { EKeys::Q, EKeys::BackSpace };
+	if (static const TArray<FKey> ResumeKeys = { EKeys::Escape, EKeys::F1 };
 		ResumeKeys.Contains(Key))
 	{
 		OnResumeClicked();
