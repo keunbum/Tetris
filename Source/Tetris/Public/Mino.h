@@ -11,7 +11,7 @@ class UMaterialInterface;
 
 /**
  * @struct FMinoInfo
- * @brief Represents information about a "Mino" object.
+ * @brief Mino 객체 생성용 정보 구조체
  */
 struct FMinoInfo
 {
@@ -36,7 +36,7 @@ struct FMinoInfo
 
 /**
  * @class UMino
- * @brief Represents a specialized static mesh component used for the Tetrimino.
+ * @brief 테트리미노의 각 블록을 나타내는 StaticMeshComponent 클래스
  */
 UCLASS()
 class TETRIS_API UMino : public UStaticMeshComponent
