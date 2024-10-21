@@ -269,10 +269,146 @@ Tetris의 멀티플레이어 아케이드 변형은 이 유형의 잠금을 사�
 UUserWidget을 상속 받은 C++ 클래스 작성 후, 이를 상속 받은 위젯 블루프린트 구현.  
 (분량이 많아 일부 클래스만 샘플 코드 첨부)
 
-#### UTetrisWidgetMenuBase ([header](./Source/Tetris/Public/TetrisWidgetMenuBase.h) / [source](./Source/Tetris/Private/TetrisWidgetMenuBase.cpp))  
-키보드로 메뉴 이동 시 버튼 포커싱을 처리하는 로직.
+#### UTetrisWidgetMenuBase  
+모든 메뉴 위젯의 기본이 되는 클래스.  
+메뉴 버튼 이동 시 양끝단 버튼에서도 반대쪽 끝단 버튼으로 이동하는 기능을 구현하기 위해 버튼을 담는 배열(MenuButtons)을 도입하였다.
 
+##### TetrisWidgetMenuBase.h
 ```cpp
+// Copyright Ryu KeunBeom. All Rights Reserved.
+
+#pragma once
+
+#include "CoreMinimal.h"
+#include "TetrisWidgetBase.h"
+#include "TetrisWidgetMenuBase.generated.h"
+
+class UMenuButton;
+
+UENUM()
+enum class EMenuMoveDirection : uint8
+{
+	None = 0,
+	Up = 1,
+	Down = 2,
+	Left = 3,
+	Right = 4,
+};
+
+/**
+ *
+ */
+UCLASS(Abstract)
+class TETRIS_API UTetrisWidgetMenuBase : public UTetrisWidgetBase
+{
+	GENERATED_BODY()
+
+public:
+	/** static methods */
+	static bool GetMenuMoveDirection(const FKey& Key, EMenuMoveDirection& OutMenuMoveDirection);
+	static bool IsMenuMoveDirectionValid(const EMenuMoveDirection MenuMoveDirection) { return MenuMoveDirection != EMenuMoveDirection::None; }
+	static int32 GetMenuMoveDelta(const EMenuMoveDirection MenuMoveDirection) { return ((static_cast<int32>(MenuMoveDirection) & 1) == 1) ? -1 : 1; }
+	static FName GetMenuMoveDirectionName(const EMenuMoveDirection MenuMoveDirection);
+
+protected:
+	/** UUserWidget Interface */
+	virtual void NativeOnInitialized() override;
+	virtual void NativeConstruct() override;
+	virtual FReply NativeOnPreviewKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent) override;
+	/** ~UUserWidget Interface */
+
+	void SetDefaultMenuButtonFocus();
+	void SetWidgetFocusOnly();
+
+	bool IsNoButtonFocused() const { return FocusedButtonIndex == UTetrisWidgetMenuBase::InvalidButtonIndex; }
+
+	void SetMenuButtonFocusByButtonIndex(const int32 NewFocusedButtonIndex);
+	void MoveMenuButtonFocus(const int32 MoveDelta);
+
+private:
+	void SetInitialFocus();
+
+	/** static methods */
+	static bool IsUpKey(const FKey& Key) { return (Key == EKeys::Up || Key == EKeys::Gamepad_DPad_Up || Key == EKeys::Gamepad_LeftStick_Up); }
+	static bool IsDownKey(const FKey& Key) { return (Key == EKeys::Down || Key == EKeys::Gamepad_DPad_Down || Key == EKeys::Gamepad_LeftStick_Down); }
+	static bool IsLeftKey(const FKey& Key) { return (Key == EKeys::Left || Key == EKeys::Gamepad_DPad_Left || Key == EKeys::Gamepad_LeftStick_Left); }
+	static bool IsRightKey(const FKey& Key) { return (Key == EKeys::Right || Key == EKeys::Gamepad_DPad_Right || Key == EKeys::Gamepad_LeftStick_Right); }
+
+protected:
+	static constexpr int32 InvalidButtonIndex = -1;
+	static constexpr int32 DefaultFocusedButtonIndex = 0;
+
+	UPROPERTY()
+	TArray<TObjectPtr<UMenuButton>> MenuButtons;
+
+	UPROPERTY(VisibleAnywhere)
+	int32 FocusedButtonIndex = 0;
+};
+
+```
+
+##### TetrisWidgetMenuBase.cpp
+```cpp
+// Copyright Ryu KeunBeom. All Rights Reserved.
+
+#include "TetrisWidgetMenuBase.h"
+
+#include "MenuButton.h"
+
+bool UTetrisWidgetMenuBase::GetMenuMoveDirection(const FKey& Key, EMenuMoveDirection& OutMenuMoveDirection)
+{
+	static const TArray<TPair<TFunction<bool(const FKey&)>, EMenuMoveDirection>> FuncAndDirectionPairs =
+	{
+		{ IsUpKey, EMenuMoveDirection::Up },
+		{ IsDownKey, EMenuMoveDirection::Down },
+		{ IsLeftKey, EMenuMoveDirection::Left },
+		{ IsRightKey, EMenuMoveDirection::Right }
+	};
+
+	for (const auto& [Func, Direction] : FuncAndDirectionPairs)
+	{
+		if (Func(Key))
+		{
+			OutMenuMoveDirection = Direction;
+			return true;
+		}
+	}
+
+	return false;
+}
+
+FName UTetrisWidgetMenuBase::GetMenuMoveDirectionName(const EMenuMoveDirection MenuMoveDirection)
+{
+	switch (MenuMoveDirection)
+	{
+	case EMenuMoveDirection::Up:
+		return TEXT("Up");
+	case EMenuMoveDirection::Down:
+		return TEXT("Down");
+	case EMenuMoveDirection::Left:
+		return TEXT("Left");
+	case EMenuMoveDirection::Right:
+		return TEXT("Right");
+	default:
+		checkNoEntry();
+		return NAME_None;
+	}
+}
+
+void UTetrisWidgetMenuBase::NativeOnInitialized()
+{
+	Super::NativeOnInitialized();
+
+	bIsFocusable = true;
+}
+
+void UTetrisWidgetMenuBase::NativeConstruct()
+{
+	Super::NativeConstruct();
+
+	SetInitialFocus();
+}
+
 FReply UTetrisWidgetMenuBase::NativeOnPreviewKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent)
 {
 	// 포커싱된 버튼이 없다면 첫 번째(디폴트) 버튼에 포커싱.
@@ -303,12 +439,40 @@ FReply UTetrisWidgetMenuBase::NativeOnPreviewKeyDown(const FGeometry& InGeometry
 	return Super::NativeOnPreviewKeyDown(InGeometry, InKeyEvent);
 }
 
+void UTetrisWidgetMenuBase::SetDefaultMenuButtonFocus()
+{
+	SetMenuButtonFocusByButtonIndex(DefaultFocusedButtonIndex);
+}
+
+void UTetrisWidgetMenuBase::SetWidgetFocusOnly()
+{
+	// 초기에 포커싱된 버튼 없음.
+	FocusedButtonIndex = UTetrisWidgetMenuBase::InvalidButtonIndex;
+	// 위젯 자체에는 포커싱이 걸려야 키보드 입력을 받을 수 있음.
+	SetFocus();
+}
+
+void UTetrisWidgetMenuBase::SetMenuButtonFocusByButtonIndex(const int32 NewFocusedButtonIndex)
+{
+	if (UMenuButton* const MenuButton = MenuButtons[NewFocusedButtonIndex])
+	{
+		FocusedButtonIndex = NewFocusedButtonIndex;
+		MenuButton->SetFocus();
+	}
+}
+
 void UTetrisWidgetMenuBase::MoveMenuButtonFocus(const int32 MoveDelta)
 {
 	// 끝단 버튼에서 이동하면 반대쪽 끝단 버튼으로 이동.
+	// (0번 버튼에서 위로 이동하면 (N-1)번 버튼으로, (N-1)번 버튼에서 아래로 이동하면 0번 버튼으로)
 	// 연결 리스트로 구현할 수도 있지만 편의상 배열로 구현.
 	const int32 NewFocusedButtonIndex = (FocusedButtonIndex + MoveDelta + MenuButtons.Num()) % MenuButtons.Num();
 	SetMenuButtonFocusByButtonIndex(NewFocusedButtonIndex);
+}
+
+void UTetrisWidgetMenuBase::SetInitialFocus()
+{
+	SetWidgetFocusOnly();
 }
 
 ```
