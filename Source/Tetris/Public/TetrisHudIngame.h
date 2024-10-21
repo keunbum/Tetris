@@ -4,17 +4,17 @@
 
 #include "CoreMinimal.h"
 #include "TetrisHudBase.h"
-#include "TetrisHudIngameBase.generated.h"
+#include "TetrisHudIngame.generated.h"
 
-class ATetrisGameModeIngameBase;
+class ATetrisGameModeIngame;
 class ATetrisPlayerState;
 class UTetrisWidgetHudIngame;
 
 /**
  * 
  */
-UCLASS(Abstract)
-class TETRIS_API ATetrisHudIngameBase : public ATetrisHudBase
+UCLASS()
+class TETRIS_API ATetrisHudIngame : public ATetrisHudBase
 {
 	GENERATED_BODY()
 
@@ -35,7 +35,7 @@ private:
 
 protected:
 	UPROPERTY()
-	TObjectPtr<ATetrisGameModeIngameBase> TetrisGameMode;
+	TObjectPtr<ATetrisGameModeIngame> TetrisGameMode;
 
 	UPROPERTY()
 	TObjectPtr<ATetrisPlayerState> TetrisPlayerState;

@@ -7,11 +7,11 @@
 #include "Misc/EnumClassFlags.h"
 
 #include "Mino.h"
-#include "TetrisPlayerControllerIngameBase.generated.h"
+#include "TetrisPlayerControllerIngame.generated.h"
 
 class UInputMappingContext;
 class UInputAction;
-class ATetrisGameModeIngameBase;
+class ATetrisGameModeIngame;
 
 UENUM()
 enum class EKeyFlags : uint8
@@ -28,7 +28,7 @@ ENUM_CLASS_FLAGS(EKeyFlags)
  * 
  */
 UCLASS()
-class TETRIS_API ATetrisPlayerControllerIngameBase : public ATetrisPlayerControllerBase
+class TETRIS_API ATetrisPlayerControllerIngame : public ATetrisPlayerControllerBase
 {
 	GENERATED_BODY()
 	
@@ -64,7 +64,7 @@ private:
 
 protected:
 	UPROPERTY()
-	TObjectPtr<ATetrisGameModeIngameBase> GameMode;
+	TObjectPtr<ATetrisGameModeIngame> GameMode;
 
 private:
 	static constexpr int32 MappingContextDefaultPriority = 0;
