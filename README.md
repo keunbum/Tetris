@@ -240,8 +240,8 @@ Tetris의 멀티플레이어 아케이드 변형은 이 유형의 잠금을 사�
 - #### UserWidget
 ![UserWidgets](./Documents/UserWidgets.png)
 
-- #### Actor and ActorComponent
-![ActorsAndActorComponents](./Documents/Actors_ActorComponents.png)
+- #### Actor and ActorComponent and HUD
+![ActorsAndActorComponentsAndHUD](./Documents/Actors_ActorComponents_HUDs.png)
 
 - #### GameMode and PlayerState
 ![GameModes_PlayerStates](./Documents/GameModes_PlayerStates.png)
@@ -264,7 +264,7 @@ Tetris의 멀티플레이어 아케이드 변형은 이 유형의 잠금을 사�
 ### UI
 
 UUserWidget을 상속 받은 C++ 클래스 작성 후, 이를 상속 받은 위젯 블루프린트 구현.  
-분량이 많아 일부 클래스만 첨부.  
+(분량이 많아 일부 클래스만 샘플 코드 첨부)
 
 #### UTetrisWidgetMenuBase ([header](./Source/Tetris/Public/TetrisWidgetMenuBase.h) / [source](./Source/Tetris/Private/TetrisWidgetMenuBase.cpp))  
 키보드로 메뉴 이동 시 버튼 포커싱을 처리하는 로직.
