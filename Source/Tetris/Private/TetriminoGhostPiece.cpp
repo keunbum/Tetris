@@ -7,7 +7,7 @@
 const FMinoInfo ATetriminoGhostPiece::GetMinoInfo() const
 {
 	const FTetriminoShapeInfo& ShapeInfo = GetTetriminoShapeInfo();
-	return FMinoInfo(UMino::DefaultMaterialPath, ShapeInfo.BaseColor, ATetriminoGhostPiece::Opacity, ATetriminoGhostPiece::TranslucentSortPriority);
+	return FMinoInfo(UMino::MaterialOutlinePath, ShapeInfo.BaseColor, ATetriminoGhostPiece::Opacity, ATetriminoGhostPiece::TranslucentSortPriority);
 }
 
 void ATetriminoGhostPiece::AttachToMatrix(USceneComponent* const MatrixRoot)
