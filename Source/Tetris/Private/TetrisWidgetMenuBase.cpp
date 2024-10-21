@@ -113,6 +113,7 @@ void UTetrisWidgetMenuBase::SetMenuButtonFocusByButtonIndex(const int32 NewFocus
 void UTetrisWidgetMenuBase::MoveMenuButtonFocus(const int32 MoveDelta)
 {
 	// 끝단 버튼에서 이동하면 반대쪽 끝단 버튼으로 이동.
+	// (0번 버튼에서 위로 이동하면 (N-1)번 버튼으로, (N-1)번 버튼에서 아래로 이동하면 0번 버튼으로)
 	// 연결 리스트로 구현할 수도 있지만 편의상 배열로 구현.
 	const int32 NewFocusedButtonIndex = (FocusedButtonIndex + MoveDelta + MenuButtons.Num()) % MenuButtons.Num();
 	SetMenuButtonFocusByButtonIndex(NewFocusedButtonIndex);
