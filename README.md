@@ -3,6 +3,9 @@
 ## Index
 
 - [개요](#개요)
+  - [프로젝트 진행 방식](#프로젝트-진행-방식)
+  - [Best Practice](#best-practice)
+  - [Coding Standard](#coding-standard)
 - [시현 영상](#시현-영상)
 - [요구 사항 분석](#요구-사항-분석)
   - [1. 도입](#1-도입)
