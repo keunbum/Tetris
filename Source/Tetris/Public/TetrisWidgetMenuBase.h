@@ -12,13 +12,11 @@ UENUM()
 enum class EMenuMoveDirection : uint8
 {
 	None = 0,
-	Up = 1 << 0,
-	Down = 1 << 1,
-	Left = 1 << 2,
-	Right = 1 << 3,
+	Up = 1,
+	Down = 2,
+	Left = 3,
+	Right = 4,
 };
-
-ENUM_CLASS_FLAGS(EMenuMoveDirection);
 
 /**
  *
@@ -45,7 +43,7 @@ protected:
 	void SetDefaultMenuButtonFocus();
 	void SetWidgetFocusOnly();
 
-	bool IsNoButtonFocused() const { return FocusedButtonIndex == InvalidButtonIndex; }
+	bool IsNoButtonFocused() const { return FocusedButtonIndex == UTetrisWidgetMenuBase::InvalidButtonIndex; }
 
 	void SetMenuButtonFocusByButtonIndex(const int32 NewFocusedButtonIndex);
 	void MoveMenuButtonFocus(const int32 MoveDelta);

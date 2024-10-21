@@ -68,7 +68,6 @@ FReply UTetrisWidgetMenuBase::NativeOnPreviewKeyDown(const FGeometry& InGeometry
 	}
 
 	// 버튼에 포커싱된 적 있지만, 다른 위젯에 포커싱 되었다가 돌아와 버튼 포커싱이 풀린 경우, 다시 맞춤.
-	checkf(FMath::IsWithin(FocusedButtonIndex, 0, MenuButtons.Num()), TEXT("Invalid FocusedButtonIndex: %d"), FocusedButtonIndex);
 	if (UMenuButton* const MenuButton = MenuButtons[FocusedButtonIndex];
 		MenuButton && !MenuButton->HasKeyboardFocus())
 	{
@@ -104,10 +103,9 @@ void UTetrisWidgetMenuBase::SetWidgetFocusOnly()
 
 void UTetrisWidgetMenuBase::SetMenuButtonFocusByButtonIndex(const int32 NewFocusedButtonIndex)
 {
-	FocusedButtonIndex = NewFocusedButtonIndex;
-	checkf(FMath::IsWithin(FocusedButtonIndex, 0, MenuButtons.Num()), TEXT("Invalid FocusedButtonIndex: %d"), FocusedButtonIndex);
-	if (UMenuButton* const MenuButton = MenuButtons[FocusedButtonIndex])
+	if (UMenuButton* const MenuButton = MenuButtons[NewFocusedButtonIndex])
 	{
+		FocusedButtonIndex = NewFocusedButtonIndex;
 		MenuButton->SetFocus();
 	}
 }
@@ -115,6 +113,7 @@ void UTetrisWidgetMenuBase::SetMenuButtonFocusByButtonIndex(const int32 NewFocus
 void UTetrisWidgetMenuBase::MoveMenuButtonFocus(const int32 MoveDelta)
 {
 	// 끝단 버튼에서 이동하면 반대쪽 끝단 버튼으로 이동.
+	// (0번 버튼에서 위로 이동하면 (N-1)번 버튼으로, (N-1)번 버튼에서 아래로 이동하면 0번 버튼으로)
 	// 연결 리스트로 구현할 수도 있지만 편의상 배열로 구현.
 	const int32 NewFocusedButtonIndex = (FocusedButtonIndex + MoveDelta + MenuButtons.Num()) % MenuButtons.Num();
 	SetMenuButtonFocusByButtonIndex(NewFocusedButtonIndex);

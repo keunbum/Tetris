@@ -3,6 +3,9 @@
 ## Index
 
 - [개요](#개요)
+  - [프로젝트 진행 방식](#프로젝트-진행-방식)
+  - [Best Practice](#best-practice)
+  - [Coding Standard](#coding-standard)
 - [시현 영상](#시현-영상)
 - [요구 사항 분석](#요구-사항-분석)
   - [1. 도입](#1-도입)
@@ -25,7 +28,7 @@
   - [프로그램 흐름](#프로그램-흐름)
   - [클래스 디자인](#클래스-디자인)
     - [UserWidget](#userwidget)
-    - [Actor and ActorComponent](#actor-and-actorcomponent)
+    - [Actor and ActorComponent and HUD](#actor-and-actorcomponent-and-hud)
     - [GameMode and PlayerState](#gamemode-and-playerstate)
     - [PlayerController](#playercontroller)
     - [UObject and UInterface](#uobject-and-uinterface)
@@ -34,7 +37,7 @@
   - [UI](#ui)
     - [UTetrisWidgetMenuBase](#utetriswidgetmenubase)
     - [UTetrisWidgetMenuMain](#utetriswidgetmenumain)
-  - [주요 클래스](#주요-클래스)
+  - [핵심 클래스](#핵심-클래스)
   - [오디오](#오디오)
 
 ---
@@ -143,7 +146,7 @@
 Tetris는 일명 **bag** 시스템([7-bag system](https://namu.wiki/w/%ED%85%8C%ED%8A%B8%EB%A6%AC%EC%8A%A4/%EC%9A%A9%EC%96%B4#s-5.3))을 사용하여 게임 플레이 중에 나타나는 테트로미노의 순서를 결정한다.  
 이 시스템은 7개의 테트로미노 간 균등한 분배를 허용한다.
 
-7개의 서로 다른 테트로미노를 가상의 가방(bag)에 넣은 후 무작위 순서로 섞는다. 이 순서는 곧 bag이 [Next Queue](#3-next-queue)에  
+7개의 서로 다른 테트로미노를 가상의 가방(bag)에 넣은 후 무작위 순서로 섞는다. 이 순서는 곧 bag이 Next Queue에  
 공급하는 순서를 의미한다. 새로운 테트로미노가 생성되어 매트릭스 내에서 떨어지기 시작할 때마다 가방의 라인 맨  
 앞에 있는 테트로미노는 Next Queue의 끝에 배치되어 모든 테트로미노를 하나씩 앞으로 밀어낸다.  
 가방이 비워지면 다시 채워지고 섞인다.
@@ -176,7 +179,7 @@ Tetris는 일명 **bag** 시스템([7-bag system](https://namu.wiki/w/%ED%85%8C%
 
 이동 버튼을 누르는 시간과 자동 반복이 시작되는 시간 사이에 약 0.3초 정도의 지연(**자동 반복 지연 시간**)이 있어야 한다. 
 이러한 **자동 반복 지연**은 테트로미노의 원치 않는 추가 움직임을 방지한다. 자동 반복은 왼쪽/오른쪽 이동에만 영향을 미친다.
-자동 반복은 이동 버튼을 누르고 있는 동안 다음 테트로미노가 나오기 전(현재 테트로미노 [잠금](#lock-down) 후)까지 계속된다.
+자동 반복은 이동 버튼을 누르고 있는 동안 다음 테트로미노가 나오기 전(현재 테트로미노 잠금 후)까지 계속된다.
 
 또한 자동 반복이 시작되고 플레이어가 반대 방향 버튼을 누르고 있으면 테트로미노는 초기 지연과 함께 
 반대 방향으로 이동을 시작해야 한다. 이것은 주로 둘 이상의 방향 버튼을 동시에 누를 수 있는 키보드나 휴대폰과 같은 이동 버튼이 있는 장치에 적용된다.
@@ -190,19 +193,19 @@ Tetris는 일명 **bag** 시스템([7-bag system](https://namu.wiki/w/%ED%85%8C%
 
 ### 5.4 하드 드롭(Hard Drop)
 
-하드 드롭 명령은 테트로미노를 즉시 떨어뜨리고 바로 아래 표면에 고정시킨다. 하드 드롭된 테트로미노가 현재 위치에서 [잠기기](#lock-down)까지 떨어지는 데 걸리는 시간은 0.0001초이다. 하드 드롭에는 자동 반복이 없다.
+하드 드롭 명령은 테트로미노를 즉시 떨어뜨리고 바로 아래 표면에 고정시킨다. 하드 드롭된 테트로미노가 현재 위치에서 잠기기까지 떨어지는 데 걸리는 시간은 0.0001초이다. 하드 드롭에는 자동 반복이 없다.
 
 ### 5.5 소프트 드롭(Soft Drop)
 
 소프트 드롭 명령을 누르면 플레이 중인 테트로미노가 일반 낙하 속도보다 20배 빠른 속도(라인당 초 단위로 측정됨. 즉, 한 줄 이동하는데 몇 초 걸리는지)로 떨어진다. 소프트 드롭 버튼에서 손을 떼면 테트로미노가 정상 낙하 속도를 재개한다. 예를 들어 정상적인 낙하 속도가 라인당 0.5초이면 소프트 드롭 속도는 라인당 (0.5 / 20) = 0.025초이다.
 
-플레이어가 테트로미노를 표면에 떨어질 때까지 소프트 드롭하면 잠금 타이머가 0이 되기 전에는 [잠금](#lock-down)이 발생하지 않는다. 
+플레이어가 테트로미노를 표면에 떨어질 때까지 소프트 드롭하면 잠금 타이머가 0이 되기 전에는 잠금이 발생하지 않는다. 
 
 아래로 이동을 계속하려면 소프트 드롭 버튼을 길게 누른다. 소프트 드롭은 버튼을 누르고 있는 동안 다음 테트로미노가 나올 때까지 계속된다.
 
 ### 5.6 홀드(Hold)
 
-Hold 명령을 사용하면 플레이 중인 테트로미노가 [홀드 큐](#8-hold-queue)에 배치된다. 이전에 가지고 있던 테트로미노는 생성 위치(스카이 라인 바로 위)와 북쪽을 향하는 방향에서 시작하여 매트릭스 상단에서 떨어지기 시작한다. 하나의 테트로미노만 홀드할 수 있다.
+Hold 명령을 사용하면 플레이 중인 테트로미노가 Hold Queue에 배치된다. 이전에 가지고 있던 테트로미노는 생성 위치(스카이 라인 바로 위)와 북쪽을 향하는 방향에서 시작하여 매트릭스 상단에서 떨어지기 시작한다. 하나의 테트로미노만 홀드할 수 있다.
 
 잠금은 반드시 보류와 보류 사이에 발생해야 한다. 예를 들어 처음에는 첫 번째 테트로미노가 생성되고 떨어지기 시작한다. 플레이어는 이 테트로미노를 홀드하기로 결정한다. 그러면 즉시 Next Queue에서 다음 테트로미노가 생성되고 떨어지기 시작한다. 플레이어는 다른 테트로미노를 홀드하고 싶다면 먼저 이 테트로미노(플레이 테트로미노)를 잠가야 한다. 즉, 동일한 테트로미노를 두 번 이상 홀드 할 수 없다.
 
@@ -240,8 +243,8 @@ Tetris의 멀티플레이어 아케이드 변형은 이 유형의 잠금을 사�
 - #### UserWidget
 ![UserWidgets](./Documents/UserWidgets.png)
 
-- #### Actor and ActorComponent
-![ActorsAndActorComponents](./Documents/Actors_ActorComponents.png)
+- #### Actor and ActorComponent and HUD
+![ActorsAndActorComponentsAndHUD](./Documents/Actors_ActorComponents_HUDs.png)
 
 - #### GameMode and PlayerState
 ![GameModes_PlayerStates](./Documents/GameModes_PlayerStates.png)
@@ -264,12 +267,148 @@ Tetris의 멀티플레이어 아케이드 변형은 이 유형의 잠금을 사�
 ### UI
 
 UUserWidget을 상속 받은 C++ 클래스 작성 후, 이를 상속 받은 위젯 블루프린트 구현.  
-분량이 많아 일부 클래스만 첨부.  
+(분량이 많아 일부 클래스만 샘플 코드 첨부)
 
-#### UTetrisWidgetMenuBase ([header](./Source/Tetris/Public/TetrisWidgetMenuBase.h) / [source](./Source/Tetris/Private/TetrisWidgetMenuBase.cpp))  
-키보드로 메뉴 이동 시 버튼 포커싱을 처리하는 로직.
+#### UTetrisWidgetMenuBase  
+모든 메뉴 위젯의 기본이 되는 클래스.  
+메뉴 버튼 이동 시 양끝단 버튼에서도 반대쪽 끝단 버튼으로 이동하는 기능을 구현하기 위해 버튼을 담는 배열(MenuButtons)을 도입하였다.
 
+##### TetrisWidgetMenuBase.h
 ```cpp
+// Copyright Ryu KeunBeom. All Rights Reserved.
+
+#pragma once
+
+#include "CoreMinimal.h"
+#include "TetrisWidgetBase.h"
+#include "TetrisWidgetMenuBase.generated.h"
+
+class UMenuButton;
+
+UENUM()
+enum class EMenuMoveDirection : uint8
+{
+	None = 0,
+	Up = 1,
+	Down = 2,
+	Left = 3,
+	Right = 4,
+};
+
+/**
+ *
+ */
+UCLASS(Abstract)
+class TETRIS_API UTetrisWidgetMenuBase : public UTetrisWidgetBase
+{
+	GENERATED_BODY()
+
+public:
+	/** static methods */
+	static bool GetMenuMoveDirection(const FKey& Key, EMenuMoveDirection& OutMenuMoveDirection);
+	static bool IsMenuMoveDirectionValid(const EMenuMoveDirection MenuMoveDirection) { return MenuMoveDirection != EMenuMoveDirection::None; }
+	static int32 GetMenuMoveDelta(const EMenuMoveDirection MenuMoveDirection) { return ((static_cast<int32>(MenuMoveDirection) & 1) == 1) ? -1 : 1; }
+	static FName GetMenuMoveDirectionName(const EMenuMoveDirection MenuMoveDirection);
+
+protected:
+	/** UUserWidget Interface */
+	virtual void NativeOnInitialized() override;
+	virtual void NativeConstruct() override;
+	virtual FReply NativeOnPreviewKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent) override;
+	/** ~UUserWidget Interface */
+
+	void SetDefaultMenuButtonFocus();
+	void SetWidgetFocusOnly();
+
+	bool IsNoButtonFocused() const { return FocusedButtonIndex == UTetrisWidgetMenuBase::InvalidButtonIndex; }
+
+	void SetMenuButtonFocusByButtonIndex(const int32 NewFocusedButtonIndex);
+	void MoveMenuButtonFocus(const int32 MoveDelta);
+
+private:
+	void SetInitialFocus();
+
+	/** static methods */
+	static bool IsUpKey(const FKey& Key) { return (Key == EKeys::Up || Key == EKeys::Gamepad_DPad_Up || Key == EKeys::Gamepad_LeftStick_Up); }
+	static bool IsDownKey(const FKey& Key) { return (Key == EKeys::Down || Key == EKeys::Gamepad_DPad_Down || Key == EKeys::Gamepad_LeftStick_Down); }
+	static bool IsLeftKey(const FKey& Key) { return (Key == EKeys::Left || Key == EKeys::Gamepad_DPad_Left || Key == EKeys::Gamepad_LeftStick_Left); }
+	static bool IsRightKey(const FKey& Key) { return (Key == EKeys::Right || Key == EKeys::Gamepad_DPad_Right || Key == EKeys::Gamepad_LeftStick_Right); }
+
+protected:
+	static constexpr int32 InvalidButtonIndex = -1;
+	static constexpr int32 DefaultFocusedButtonIndex = 0;
+
+	UPROPERTY()
+	TArray<TObjectPtr<UMenuButton>> MenuButtons;
+
+	UPROPERTY(VisibleAnywhere)
+	int32 FocusedButtonIndex = 0;
+};
+
+```
+
+##### TetrisWidgetMenuBase.cpp
+```cpp
+// Copyright Ryu KeunBeom. All Rights Reserved.
+
+#include "TetrisWidgetMenuBase.h"
+
+#include "MenuButton.h"
+
+bool UTetrisWidgetMenuBase::GetMenuMoveDirection(const FKey& Key, EMenuMoveDirection& OutMenuMoveDirection)
+{
+	static const TArray<TPair<TFunction<bool(const FKey&)>, EMenuMoveDirection>> FuncAndDirectionPairs =
+	{
+		{ IsUpKey, EMenuMoveDirection::Up },
+		{ IsDownKey, EMenuMoveDirection::Down },
+		{ IsLeftKey, EMenuMoveDirection::Left },
+		{ IsRightKey, EMenuMoveDirection::Right }
+	};
+
+	for (const auto& [Func, Direction] : FuncAndDirectionPairs)
+	{
+		if (Func(Key))
+		{
+			OutMenuMoveDirection = Direction;
+			return true;
+		}
+	}
+
+	return false;
+}
+
+FName UTetrisWidgetMenuBase::GetMenuMoveDirectionName(const EMenuMoveDirection MenuMoveDirection)
+{
+	switch (MenuMoveDirection)
+	{
+	case EMenuMoveDirection::Up:
+		return TEXT("Up");
+	case EMenuMoveDirection::Down:
+		return TEXT("Down");
+	case EMenuMoveDirection::Left:
+		return TEXT("Left");
+	case EMenuMoveDirection::Right:
+		return TEXT("Right");
+	default:
+		checkNoEntry();
+		return NAME_None;
+	}
+}
+
+void UTetrisWidgetMenuBase::NativeOnInitialized()
+{
+	Super::NativeOnInitialized();
+
+	bIsFocusable = true;
+}
+
+void UTetrisWidgetMenuBase::NativeConstruct()
+{
+	Super::NativeConstruct();
+
+	SetInitialFocus();
+}
+
 FReply UTetrisWidgetMenuBase::NativeOnPreviewKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent)
 {
 	// 포커싱된 버튼이 없다면 첫 번째(디폴트) 버튼에 포커싱.
@@ -280,7 +419,6 @@ FReply UTetrisWidgetMenuBase::NativeOnPreviewKeyDown(const FGeometry& InGeometry
 	}
 
 	// 버튼에 포커싱된 적 있지만, 다른 위젯에 포커싱 되었다가 돌아와 버튼 포커싱이 풀린 경우, 다시 맞춤.
-	checkf(FMath::IsWithin(FocusedButtonIndex, 0, MenuButtons.Num()), TEXT("Invalid FocusedButtonIndex: %d"), FocusedButtonIndex);
 	if (UMenuButton* const MenuButton = MenuButtons[FocusedButtonIndex];
 		MenuButton && !MenuButton->HasKeyboardFocus())
 	{
@@ -301,22 +439,53 @@ FReply UTetrisWidgetMenuBase::NativeOnPreviewKeyDown(const FGeometry& InGeometry
 	return Super::NativeOnPreviewKeyDown(InGeometry, InKeyEvent);
 }
 
+void UTetrisWidgetMenuBase::SetDefaultMenuButtonFocus()
+{
+	SetMenuButtonFocusByButtonIndex(DefaultFocusedButtonIndex);
+}
+
+void UTetrisWidgetMenuBase::SetWidgetFocusOnly()
+{
+	// 초기에 포커싱된 버튼 없음.
+	FocusedButtonIndex = UTetrisWidgetMenuBase::InvalidButtonIndex;
+	// 위젯 자체에는 포커싱이 걸려야 키보드 입력을 받을 수 있음.
+	SetFocus();
+}
+
+void UTetrisWidgetMenuBase::SetMenuButtonFocusByButtonIndex(const int32 NewFocusedButtonIndex)
+{
+	if (UMenuButton* const MenuButton = MenuButtons[NewFocusedButtonIndex])
+	{
+		FocusedButtonIndex = NewFocusedButtonIndex;
+		MenuButton->SetFocus();
+	}
+}
+
 void UTetrisWidgetMenuBase::MoveMenuButtonFocus(const int32 MoveDelta)
 {
 	// 끝단 버튼에서 이동하면 반대쪽 끝단 버튼으로 이동.
+	// (0번 버튼에서 위로 이동하면 (N-1)번 버튼으로, (N-1)번 버튼에서 아래로 이동하면 0번 버튼으로)
 	// 연결 리스트로 구현할 수도 있지만 편의상 배열로 구현.
 	const int32 NewFocusedButtonIndex = (FocusedButtonIndex + MoveDelta + MenuButtons.Num()) % MenuButtons.Num();
 	SetMenuButtonFocusByButtonIndex(NewFocusedButtonIndex);
+}
+
+void UTetrisWidgetMenuBase::SetInitialFocus()
+{
+	SetWidgetFocusOnly();
 }
 
 ```
 
 #### UTetrisWidgetMenuMain
 메인 메뉴용 위젯 블루프린트인 [WB_MenuMain](./Content/UI/WB_MenuMain.uasset)가 상속 받는 클래스.  
-버튼 포커싱 처리를 위해 배열(MenuButtons)로 버튼 관리.
 
 ##### TetrisWidgetMenuMain.h
 ```cpp
+// Copyright Ryu KeunBeom. All Rights Reserved.
+
+#pragma once
+
 #include "CoreMinimal.h"
 #include "TetrisWidgetMenuBase.h"
 #include "TetrisWidgetMenuMain.generated.h"
@@ -364,10 +533,12 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "Classes")
 	TSubclassOf<UTetrisWidgetPopupOption> WidgetPopupOptionClass;
 };
+
 ```
 
 ##### TetrisWidgetMenuMain.cpp
 ```cpp
+// Copyright Ryu KeunBeom. All Rights Reserved.
 
 #include "TetrisWidgetMenuMain.h"
 
@@ -397,10 +568,7 @@ void UTetrisWidgetMenuMain::NativeOnInitialized()
 		ExitButton->OnClicked.AddDynamic(this, &UTetrisWidgetMenuMain::OnExitClicked);
 	}
 
-	if (WidgetPopupOptionClass)
-	{
-		WidgetPopupOption = CreateWidget<UTetrisWidgetPopupOption>(GetWorld(), WidgetPopupOptionClass);
-	}
+	WidgetPopupOption = CreateWidget<UTetrisWidgetPopupOption>(GetWorld(), WidgetPopupOptionClass);
 }
 
 void UTetrisWidgetMenuMain::OnStartClicked()
@@ -429,8 +597,134 @@ void UTetrisWidgetMenuMain::OnExitClicked()
 ![WB_MenuMain](./Documents/WB_MenuMain.png)
 
 
-### 주요 클래스
+### 핵심 클래스
+
+#### UMino
+테트로미노에서 각 단위 블록을 모델링 한 클래스.  
+Mino 객체 생성 시 필요한 정보를 FMinoInfo를 구조체를 선언하여 주고 받았다.
+
+##### UMino.h
+```cpp
+// Copyright Ryu KeunBeom. All Rights Reserved.
+
+#pragma once
+
+#include "CoreMinimal.h"
+#include "Components/StaticMeshComponent.h"
+
+#include "Mino.generated.h"
+
+class UMaterialInterface;
+
+/**
+ * @struct FMinoInfo
+ * @brief Mino 객체 생성용 정보 구조체
+ */
+struct FMinoInfo
+{
+	FString MaterialPath;
+	FLinearColor BaseColor;
+	float Opacity;
+	int32 TranslucentSortPriority;
+
+	FMinoInfo()
+		: FMinoInfo(TEXT(""), FLinearColor::White, 1.0f, 0)
+	{
+	}
+
+	FMinoInfo(const FString& InMaterialPath, const FLinearColor& InBaseColor, const float InOpacity, const int32 InTranslucentSortPriority)
+		: MaterialPath(InMaterialPath)
+		, BaseColor(InBaseColor)
+		, Opacity(InOpacity)
+		, TranslucentSortPriority(InTranslucentSortPriority)
+	{
+	}
+};
+
+/**
+ * @class UMino
+ * @brief 테트리미노의 각 블록을 나타내는 StaticMeshComponent 클래스
+ */
+UCLASS()
+class TETRIS_API UMino : public UStaticMeshComponent
+{
+	GENERATED_BODY()
+
+public:
+	UMino();
+
+	void SetRelativeLocationByMatrixLocation(const FIntPoint& MatrixLocation, const float Z = 0.0f);
+	void AttachToWithMatrixLocation(USceneComponent* const Parent, const FIntPoint& MatrixLocation, const float Z = 0.0f);
+
+	static UMino* NewMino(UObject* const InOuter, const FMinoInfo& MinoInfo);
+	static FVector GetRelativeLocationByMatrixLocation(const FIntPoint& MatrixLocation, const float Z = 0.0f);
+	static UMaterialInterface* GetMaterialByMinoInfo(const FMinoInfo& MinoInfo);
+	static UMaterialInstanceDynamic* GetMaterialInstanceByMinoInfo(UObject* const InOuter, const FMinoInfo& MinoInfo);
+
+private:
+	static constexpr float DefaultUnitLength = 100.f;
+
+public:
+	static constexpr float MinoScale = 1.0f;
+	static constexpr float UnitLength = DefaultUnitLength * MinoScale;
+	static const FString DefaultMaterialPath;
+
+private:
+	static const FName BaseColorParameterName;
+	static const FName OpacityParameterName;
+	static const FString CubeMeshPath;
+};
+```
+
+미노 생성 핵심 로직
+
+```cpp
+UMino* UMino::NewMino(UObject* const InOuter, const FMinoInfo& MinoInfo)
+{
+	if (UMino* const Mino = NewObject<UMino>(InOuter))
+	{
+		if (UMaterialInstanceDynamic* const MaterialInstance = UMino::GetMaterialInstanceByMinoInfo(InOuter, MinoInfo))
+		{
+			static constexpr int32 ElementIndex = 0;
+			Mino->SetMaterial(ElementIndex, MaterialInstance);
+			Mino->SetTranslucentSortPriority(MinoInfo.TranslucentSortPriority);
+			Mino->RegisterComponent();
+			return Mino;
+		}
+	}
+	return nullptr;
+}
+
+UMaterialInterface* UMino::GetMaterialByMinoInfo(const FMinoInfo& MinoInfo)
+{
+	UMaterialInterface* const MinoMaterial = Cast<UMaterialInterface>(StaticLoadObject(UMaterialInterface::StaticClass(), nullptr, *MinoInfo.MaterialPath));
+	ensureMsgf(MinoMaterial != nullptr, TEXT("Failed to load material: %s"), *MinoInfo.MaterialPath);
+	return MinoMaterial;
+}
+
+UMaterialInstanceDynamic* UMino::GetMaterialInstanceByMinoInfo(UObject* const InOuter, const FMinoInfo& MinoInfo)
+{
+	if (UMaterialInterface* const BaseMaterial = UMino::GetMaterialByMinoInfo(MinoInfo))
+	{
+		if (UMaterialInstanceDynamic* const DynamicMaterialInstance = UMaterialInstanceDynamic::Create(BaseMaterial, InOuter))
+		{
+			DynamicMaterialInstance->SetVectorParameterValue(UMino::BaseColorParameterName, MinoInfo.BaseColor);
+			DynamicMaterialInstance->SetScalarParameterValue(UMino::OpacityParameterName, MinoInfo.Opacity);
+			return DynamicMaterialInstance;
+		}
+	}
+	return nullptr;
+}
+```
 
 ### 오디오
+
+#### (옵션 창 설명)
+
+#### (오디오 매니저 클래스 설명)
+
+### 입력
+
+### 기타
 
 ---
