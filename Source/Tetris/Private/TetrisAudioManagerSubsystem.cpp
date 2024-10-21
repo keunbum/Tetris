@@ -93,16 +93,19 @@ void UTetrisAudioManagerSubsystem::LoadSoundClassVolumeSettings()
 		{
 			if (SoundClass)
 			{
-				if (float Volume = GetSoundClassVolume(SoundClass);
-					GConfig->GetFloat(*AudioConfigSectionName, *SoundClass->GetName(), Volume, AudioConfigFileName))
+				float Volume = UTetrisAudioManagerSubsystem::DefaultVolume;
+				if (float VolumeSaved;
+					GConfig->GetFloat(*AudioConfigSectionName, *SoundClass->GetName(), VolumeSaved, AudioConfigFileName))
 				{
-					SetSoundClassVolume(SoundClass, Volume);
+					// 기존에 저장된 값이 있다면 불러온다.
+					Volume = VolumeSaved;
 				}
 				else
 				{
-					UE_LOG(LogTemp, Warning, TEXT("UTetrisAudioManagerSubsystem::LoadSoundClassVolumeSettings() - Failed to load SoundClass volume, set to default value"));
+					// 없다면 새로 저장한다.
 					GConfig->SetFloat(*AudioConfigSectionName, *SoundClass->GetName(), Volume, AudioConfigFileName);
 				}
+				SetSoundClassVolume(SoundClass, Volume);
 			}
 			else
 			{
@@ -125,8 +128,7 @@ float UTetrisAudioManagerSubsystem::GetSoundClassVolume(USoundClass* const Sound
 		return *Volume;
 	}
 
-	UE_LOG(LogTemp, Warning, TEXT("UTetrisAudioManagerSubsystem::GetSoundClassVolume() - No volume found for SoundClass, so return default value"));
-	return 1.0f;
+	return UTetrisAudioManagerSubsystem::DefaultVolume;
 }
 
 void UTetrisAudioManagerSubsystem::SetSoundMixClassOverrideInGameThread(USoundMix* const SoundMix, USoundClass* const SoundClass, const float Volume, const float Pitch, const float FadeInTime, const bool bApplyToChildren)
