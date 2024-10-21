@@ -68,7 +68,6 @@ FReply UTetrisWidgetMenuBase::NativeOnPreviewKeyDown(const FGeometry& InGeometry
 	}
 
 	// 버튼에 포커싱된 적 있지만, 다른 위젯에 포커싱 되었다가 돌아와 버튼 포커싱이 풀린 경우, 다시 맞춤.
-	checkf(FMath::IsWithin(FocusedButtonIndex, 0, MenuButtons.Num()), TEXT("Invalid FocusedButtonIndex: %d"), FocusedButtonIndex);
 	if (UMenuButton* const MenuButton = MenuButtons[FocusedButtonIndex];
 		MenuButton && !MenuButton->HasKeyboardFocus())
 	{
@@ -105,7 +104,6 @@ void UTetrisWidgetMenuBase::SetWidgetFocusOnly()
 void UTetrisWidgetMenuBase::SetMenuButtonFocusByButtonIndex(const int32 NewFocusedButtonIndex)
 {
 	FocusedButtonIndex = NewFocusedButtonIndex;
-	checkf(FMath::IsWithin(FocusedButtonIndex, 0, MenuButtons.Num()), TEXT("Invalid FocusedButtonIndex: %d"), FocusedButtonIndex);
 	if (UMenuButton* const MenuButton = MenuButtons[FocusedButtonIndex])
 	{
 		MenuButton->SetFocus();
