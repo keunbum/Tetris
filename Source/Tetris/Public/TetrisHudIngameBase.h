@@ -8,7 +8,6 @@
 
 class ATetrisGameModeIngameBase;
 class ATetrisPlayerState;
-class UHUDSingle;
 class UTetrisWidgetHudIngame;
 
 /**
