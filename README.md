@@ -597,7 +597,125 @@ void UTetrisWidgetMenuMain::OnExitClicked()
 ![WB_MenuMain](./Documents/WB_MenuMain.png)
 
 
-### 주요 클래스
+### 핵심 클래스
+
+#### UMino
+테트로미노에서 각 단위 블록을 모델링 한 클래스.  
+Mino 객체 생성 시 필요한 정보를 FMinoInfo를 구조체를 선언하여 주고 받았다.
+
+##### UMino.h
+```cpp
+// Copyright Ryu KeunBeom. All Rights Reserved.
+
+#pragma once
+
+#include "CoreMinimal.h"
+#include "Components/StaticMeshComponent.h"
+
+#include "Mino.generated.h"
+
+class UMaterialInterface;
+
+/**
+ * @struct FMinoInfo
+ * @brief Mino 객체 생성용 정보 구조체
+ */
+struct FMinoInfo
+{
+	FString MaterialPath;
+	FLinearColor BaseColor;
+	float Opacity;
+	int32 TranslucentSortPriority;
+
+	FMinoInfo()
+		: FMinoInfo(TEXT(""), FLinearColor::White, 1.0f, 0)
+	{
+	}
+
+	FMinoInfo(const FString& InMaterialPath, const FLinearColor& InBaseColor, const float InOpacity, const int32 InTranslucentSortPriority)
+		: MaterialPath(InMaterialPath)
+		, BaseColor(InBaseColor)
+		, Opacity(InOpacity)
+		, TranslucentSortPriority(InTranslucentSortPriority)
+	{
+	}
+};
+
+/**
+ * @class UMino
+ * @brief 테트리미노의 각 블록을 나타내는 StaticMeshComponent 클래스
+ */
+UCLASS()
+class TETRIS_API UMino : public UStaticMeshComponent
+{
+	GENERATED_BODY()
+
+public:
+	UMino();
+
+	void SetRelativeLocationByMatrixLocation(const FIntPoint& MatrixLocation, const float Z = 0.0f);
+	void AttachToWithMatrixLocation(USceneComponent* const Parent, const FIntPoint& MatrixLocation, const float Z = 0.0f);
+
+	static UMino* NewMino(UObject* const InOuter, const FMinoInfo& MinoInfo);
+	static FVector GetRelativeLocationByMatrixLocation(const FIntPoint& MatrixLocation, const float Z = 0.0f);
+	static UMaterialInterface* GetMaterialByMinoInfo(const FMinoInfo& MinoInfo);
+	static UMaterialInstanceDynamic* GetMaterialInstanceByMinoInfo(UObject* const InOuter, const FMinoInfo& MinoInfo);
+
+private:
+	static constexpr float DefaultUnitLength = 100.f;
+
+public:
+	static constexpr float MinoScale = 1.0f;
+	static constexpr float UnitLength = DefaultUnitLength * MinoScale;
+	static const FString DefaultMaterialPath;
+
+private:
+	static const FName BaseColorParameterName;
+	static const FName OpacityParameterName;
+	static const FString CubeMeshPath;
+};
+```
+
+미노 생성 핵심 로직
+
+```cpp
+UMino* UMino::NewMino(UObject* const InOuter, const FMinoInfo& MinoInfo)
+{
+	if (UMino* const Mino = NewObject<UMino>(InOuter))
+	{
+		if (UMaterialInstanceDynamic* const MaterialInstance = UMino::GetMaterialInstanceByMinoInfo(InOuter, MinoInfo))
+		{
+			static constexpr int32 ElementIndex = 0;
+			Mino->SetMaterial(ElementIndex, MaterialInstance);
+			Mino->SetTranslucentSortPriority(MinoInfo.TranslucentSortPriority);
+			Mino->RegisterComponent();
+			return Mino;
+		}
+	}
+	return nullptr;
+}
+
+UMaterialInterface* UMino::GetMaterialByMinoInfo(const FMinoInfo& MinoInfo)
+{
+	UMaterialInterface* const MinoMaterial = Cast<UMaterialInterface>(StaticLoadObject(UMaterialInterface::StaticClass(), nullptr, *MinoInfo.MaterialPath));
+	ensureMsgf(MinoMaterial != nullptr, TEXT("Failed to load material: %s"), *MinoInfo.MaterialPath);
+	return MinoMaterial;
+}
+
+UMaterialInstanceDynamic* UMino::GetMaterialInstanceByMinoInfo(UObject* const InOuter, const FMinoInfo& MinoInfo)
+{
+	if (UMaterialInterface* const BaseMaterial = UMino::GetMaterialByMinoInfo(MinoInfo))
+	{
+		if (UMaterialInstanceDynamic* const DynamicMaterialInstance = UMaterialInstanceDynamic::Create(BaseMaterial, InOuter))
+		{
+			DynamicMaterialInstance->SetVectorParameterValue(UMino::BaseColorParameterName, MinoInfo.BaseColor);
+			DynamicMaterialInstance->SetScalarParameterValue(UMino::OpacityParameterName, MinoInfo.Opacity);
+			return DynamicMaterialInstance;
+		}
+	}
+	return nullptr;
+}
+```
 
 ### 오디오
 
