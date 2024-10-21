@@ -479,10 +479,13 @@ void UTetrisWidgetMenuBase::SetInitialFocus()
 
 #### UTetrisWidgetMenuMain
 메인 메뉴용 위젯 블루프린트인 [WB_MenuMain](./Content/UI/WB_MenuMain.uasset)가 상속 받는 클래스.  
-버튼 포커싱 처리를 위해 배열(MenuButtons)로 버튼 관리.
 
 ##### TetrisWidgetMenuMain.h
 ```cpp
+// Copyright Ryu KeunBeom. All Rights Reserved.
+
+#pragma once
+
 #include "CoreMinimal.h"
 #include "TetrisWidgetMenuBase.h"
 #include "TetrisWidgetMenuMain.generated.h"
@@ -530,10 +533,12 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "Classes")
 	TSubclassOf<UTetrisWidgetPopupOption> WidgetPopupOptionClass;
 };
+
 ```
 
 ##### TetrisWidgetMenuMain.cpp
 ```cpp
+// Copyright Ryu KeunBeom. All Rights Reserved.
 
 #include "TetrisWidgetMenuMain.h"
 
@@ -563,10 +568,7 @@ void UTetrisWidgetMenuMain::NativeOnInitialized()
 		ExitButton->OnClicked.AddDynamic(this, &UTetrisWidgetMenuMain::OnExitClicked);
 	}
 
-	if (WidgetPopupOptionClass)
-	{
-		WidgetPopupOption = CreateWidget<UTetrisWidgetPopupOption>(GetWorld(), WidgetPopupOptionClass);
-	}
+	WidgetPopupOption = CreateWidget<UTetrisWidgetPopupOption>(GetWorld(), WidgetPopupOptionClass);
 }
 
 void UTetrisWidgetMenuMain::OnStartClicked()
