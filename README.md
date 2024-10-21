@@ -373,7 +373,7 @@ private:
 
 #include "Kismet/GameplayStatics.h"
 
-#include "TetrisGameModeIngameBase.h"
+#include "TetrisGameModeIngame.h"
 #include "TetrisWidgetPopupOption.h"
 #include "MenuButton.h"
 
@@ -406,7 +406,7 @@ void UTetrisWidgetMenuMain::NativeOnInitialized()
 void UTetrisWidgetMenuMain::OnStartClicked()
 {
 	// Open Tetris Level
-	UGameplayStatics::OpenLevel(GetWorld(), ATetrisGameModeIngameBase::TetrisLevelName);
+	UGameplayStatics::OpenLevel(GetWorld(), ATetrisGameModeIngame::TetrisLevelName);
 }
 
 void UTetrisWidgetMenuMain::OnOptionClicked()

@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerState.h"
 
-#include "TetrisGameModeIngameBase.h"
+#include "TetrisGameModeIngame.h"
 
 #include "TetrisPlayerState.generated.h"
 

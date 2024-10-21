@@ -6,7 +6,7 @@
 #include "TetrisHudBase.h"
 #include "TetrisHudIngame.generated.h"
 
-class ATetrisGameModeIngameBase;
+class ATetrisGameModeIngame;
 class ATetrisPlayerState;
 class UTetrisWidgetHudIngame;
 
@@ -35,7 +35,7 @@ private:
 
 protected:
 	UPROPERTY()
-	TObjectPtr<ATetrisGameModeIngameBase> TetrisGameMode;
+	TObjectPtr<ATetrisGameModeIngame> TetrisGameMode;
 
 	UPROPERTY()
 	TObjectPtr<ATetrisPlayerState> TetrisPlayerState;

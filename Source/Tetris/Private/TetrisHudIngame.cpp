@@ -3,7 +3,7 @@
 
 #include "TetrisHudIngame.h"
 #include "TetrisPlayerState.h"
-#include "TetrisGameModeIngameBase.h"
+#include "TetrisGameModeIngame.h"
 #include "Engine/World.h"
 #include "TetrisWidgetHudIngame.h"
 
@@ -11,7 +11,7 @@ void ATetrisHudIngame::BeginPlay()
 {
 	Super::BeginPlay();
 
-	TetrisGameMode = Cast<ATetrisGameModeIngameBase>(GetWorld()->GetAuthGameMode());
+	TetrisGameMode = Cast<ATetrisGameModeIngame>(GetWorld()->GetAuthGameMode());
 	if (!ensureMsgf(TetrisGameMode, TEXT("TetrisGameMode is nullptr")))
 	{
 		return;

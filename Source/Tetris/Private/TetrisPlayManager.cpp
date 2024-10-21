@@ -5,7 +5,7 @@
 #include "Math/UnrealMathUtility.h"
 
 #include "Board.h"
-#include "TetrisGameModeIngameBase.h"
+#include "TetrisGameModeIngame.h"
 #include "Tetrimino.h"
 #include "TetriminoGhostPiece.h"
 #include "TetrisPlayerControllerIngameSingle.h"
@@ -40,7 +40,7 @@ void ATetrisPlayManager::Initialize()
 	}
 
 	// GameMode
-	GameMode = World->GetAuthGameMode<ATetrisGameModeIngameBase>();
+	GameMode = World->GetAuthGameMode<ATetrisGameModeIngame>();
 	if (GameMode)
 	{
 		SetNormalFallSpeed(GameMode->GetCurrentLevelNormalFallSpeed());
@@ -609,7 +609,7 @@ void ATetrisPlayManager::SetAutoRepeatMovementTimer()
 
 void ATetrisPlayManager::SetSoftDropTimer()
 {
-	const float SoftDropSpeed = ATetrisGameModeIngameBase::GetSoftDropSpeed(NormalFallSpeed);
+	const float SoftDropSpeed = ATetrisGameModeIngame::GetSoftDropSpeed(NormalFallSpeed);
 	GetWorldTimerManager().SetTimer(SoftDropTimerHandle, this, &ATetrisPlayManager::MoveTetriminoDown, SoftDropSpeed, bSoftDropTimerLoop, SoftDropTimerInitialDelay);
 	//UE_LOG(LogTemp, Display, TEXT("Soft Drop Timer is set."));
 }
