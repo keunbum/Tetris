@@ -54,8 +54,10 @@ void UTetrisAudioManagerSubsystem::SaveSettings()
 
 void UTetrisAudioManagerSubsystem::LoadSoundControlDataAsset()
 {
+	// 언리얼 에디터에서 미리 작성한 파일을 읽는다.
 	if (const USoundControlDataAsset* SoundControlDataAsset = LoadObject<USoundControlDataAsset>(nullptr, *SoundControlDataAssetPath.ToString()))
 	{
+		// Set Main Sound Mix
 		MainSoundMix = SoundControlDataAsset->MainSoundMix;
 		if (!MainSoundMix)
 		{
@@ -67,6 +69,7 @@ void UTetrisAudioManagerSubsystem::LoadSoundControlDataAsset()
 				UGameplayStatics::SetBaseSoundMix(GetWorld(), MainSoundMix);
 			});
 
+		// Set Sound Classes
 		MainSoundClass = SoundControlDataAsset->MainSoundClass;
 		BgmSoundClass = SoundControlDataAsset->BgmSoundClass;
 		SfxSoundClass = SoundControlDataAsset->SfxSoundClass;
