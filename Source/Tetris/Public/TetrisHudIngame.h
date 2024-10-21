@@ -13,7 +13,7 @@ class UTetrisWidgetHudIngame;
 /**
  * 
  */
-UCLASS(Abstract)
+UCLASS()
 class TETRIS_API ATetrisHudIngame : public ATetrisHudBase
 {
 	GENERATED_BODY()
