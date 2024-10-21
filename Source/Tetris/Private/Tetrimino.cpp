@@ -16,7 +16,7 @@ ATetrimino::ATetrimino()
 const FMinoInfo ATetrimino::GetMinoInfo() const
 {
 	const FTetriminoShapeInfo& ShapeInfo = GetTetriminoShapeInfo();
-	return FMinoInfo(UMino::DefaultMaterialPath, ShapeInfo.BaseColor, ATetrimino::Opacity, ATetrimino::TranslucentSortPriority);
+	return FMinoInfo(UMino::MaterialOutlinePath, ShapeInfo.BaseColor, ATetrimino::Opacity, ATetrimino::TranslucentSortPriority);
 }
 
 void ATetrimino::SetGhostPiece(ATetriminoGhostPiece* const InGhostPiece)
