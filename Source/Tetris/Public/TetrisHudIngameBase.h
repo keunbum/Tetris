@@ -9,6 +9,7 @@
 class ATetrisGameModeIngameBase;
 class ATetrisPlayerState;
 class UHUDSingle;
+class UTetrisWidgetHudIngame;
 
 /**
  * 
@@ -40,9 +41,15 @@ protected:
 	UPROPERTY()
 	TObjectPtr<ATetrisPlayerState> TetrisPlayerState;
 
+	//UPROPERTY()
+	//TObjectPtr<UHUDSingle> HudWidget;
+
+	//UPROPERTY(EditDefaultsOnly, Category = "Classes")
+	//TSubclassOf<UHUDSingle> HudWidgetClass;
+
 	UPROPERTY()
-	TObjectPtr<UHUDSingle> HudWidget;
+	TObjectPtr<UTetrisWidgetHudIngame> HudWidget;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Classes")
-	TSubclassOf<UHUDSingle> HudWidgetClass;
+	TSubclassOf<UTetrisWidgetHudIngame> HudWidgetClass;
 };

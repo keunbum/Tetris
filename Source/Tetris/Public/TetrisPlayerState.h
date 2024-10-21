@@ -11,6 +11,7 @@
 
 class IGoalSystemInterface;
 struct FHUDSingleUpdateDisplayParams;
+struct FHudIngameUpdateDisplayParams;
 
 /**
  * 
@@ -48,7 +49,7 @@ public:
 	int32 GetLineClearGoal() const { return LineClearGoal; }
 	void SetLineClearGoal(const int32 NewLineClearGoal) { LineClearGoal = NewLineClearGoal; }
 
-	FHUDSingleUpdateDisplayParams GetHUDSingleUpdateDisplayParams() const;
+	FHudIngameUpdateDisplayParams GetHudIngameUpdateDisplayParams() const;
 
 	void UpdateState(const FTetrisGamePlayInfo& PlayInfo);
 	void DebugPrint() const;
