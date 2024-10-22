@@ -61,7 +61,7 @@ void UTetrisAudioManagerSubsystem::LoadSoundControlDataAsset()
 		MainSoundMix = SoundControlDataAsset->MainSoundMix;
 		if (!MainSoundMix)
 		{
-			UE_LOG(LogTemp, Error, TEXT("UTetrisAudioManagerSubsystem::Initialize() - Failed to load MainSoundMix"));
+			UE_LOG(LogTemp, Error, TEXT("%s - Failed to load MainSoundMix"), *FString(__FUNCTION__));
 			return;
 		}
 		AsyncTask(ENamedThreads::GameThread, [this]()
@@ -76,7 +76,7 @@ void UTetrisAudioManagerSubsystem::LoadSoundControlDataAsset()
 	}
 	else
 	{
-		UE_LOG(LogTemp, Error, TEXT("UTetrisAudioManagerSubsystem::Initialize() - Failed to load SoundControlDataAsset"));
+		UE_LOG(LogTemp, Error, TEXT("%s - Failed to load SoundControlDataAsset"), *FString(__FUNCTION__));
 	}
 }
 
@@ -109,7 +109,7 @@ void UTetrisAudioManagerSubsystem::LoadSoundClassVolumeSettings()
 			}
 			else
 			{
-				UE_LOG(LogTemp, Error, TEXT("UTetrisAudioManagerSubsystem::LoadSoundClassVolumeSettings() - Invalid SoundClass"));
+				UE_LOG(LogTemp, Error, TEXT("%s - Invalid SoundClass"), *FString(__FUNCTION__));
 			}
 		}
 	}
@@ -125,6 +125,7 @@ float UTetrisAudioManagerSubsystem::GetSoundClassVolume(USoundClass* const Sound
 {
 	if (const float* Volume = SoundClassVolumes.Find(SoundClass->GetFName()))
 	{
+		UE_LOG(LogTemp, Warning, TEXT("%s - %s: %f"), *FString(__FUNCTION__), *SoundClass->GetName(), *Volume);
 		return *Volume;
 	}
 
@@ -142,6 +143,6 @@ void UTetrisAudioManagerSubsystem::SetSoundMixClassOverrideInGameThread(USoundMi
 	}
 	else
 	{
-		UE_LOG(LogTemp, Error, TEXT("UTetrisAudioManagerSubsystem::SetSoundMixClassOverrideInGameThread() - Invalid SoundClassName"));
+		UE_LOG(LogTemp, Error, TEXT("%s - Invalid SoundClassName"), *FString(__FUNCTION__));
 	}
 }
