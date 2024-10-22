@@ -21,13 +21,13 @@ public:
 	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
 	virtual void Deinitialize() override;
 
-	void SetMainVolume(const float NewVolume);
+	void SetMainVolume(const float NewVolume) { SetSoundClassVolume(MainSoundClass, NewVolume); }
 	float GetMainVolume() const { return GetSoundClassVolume(MainSoundClass); }
 
-	void SetBgmVolume(const float NewVolume);
+	void SetBgmVolume(const float NewVolume) { SetSoundClassVolume(BgmSoundClass, NewVolume); }
 	float GetBgmVolume() const { return GetSoundClassVolume(BgmSoundClass); }
 
-	void SetSfxVolume(const float NewVolume);
+	void SetSfxVolume(const float NewVolume) { SetSoundClassVolume(SfxSoundClass, NewVolume); }
 	float GetSfxVolume() const { return GetSoundClassVolume(SfxSoundClass); }
 
 	void SaveSettings();
