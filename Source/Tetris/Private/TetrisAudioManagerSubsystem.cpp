@@ -101,6 +101,7 @@ void UTetrisAudioManagerSubsystem::LoadSoundClassVolumeSettings()
 			// 없다면 새로 저장한다.
 			GConfig->SetFloat(*AudioConfigSectionName.ToString(), *SoundClass->GetName(), Volume, AudioConfigFileName.ToString());
 		}
+
 		SetSoundClassVolume(SoundClass, Volume);
 	}
 }
