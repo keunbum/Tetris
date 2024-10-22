@@ -18,7 +18,7 @@ UMino::UMino()
 		UStaticMeshComponent::SetStaticMesh(CubeMesh.Object);
 	}
 
-	SetWorldScale3D(FVector(MinoScale));
+	SetWorldScale3D(FVector(UMino::MinoScale));
 }
 
 void UMino::SetRelativeLocationByMatrixLocation(const FIntPoint& MatrixLocation, const float Z)
@@ -51,7 +51,7 @@ UMino* UMino::NewMino(UObject* const InOuter, const FMinoInfo& MinoInfo)
 FVector UMino::GetRelativeLocationByMatrixLocation(const FIntPoint& MatrixLocation, const float Z)
 {
 	// 1. 크기 고려하여 실제 위치 계산
-	// 2. 행렬 기반 좌표를 XYZ 작표계로 변환
+	// 2. 행렬 기반 좌표를 XYZ 좌표계로 변환
 	const float X = -UnitLength * MatrixLocation.Y;
 	const float Y = -UnitLength * MatrixLocation.X;
 	return FVector(X, Y, Z);

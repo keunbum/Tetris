@@ -631,9 +631,43 @@ private:
 };
 ```
 
-미노 생성 핵심 로직
+##### UMino.cpp
 
 ```cpp
+// Copyright Ryu KeunBeom. All Rights Reserved.
+
+#include "Mino.h"
+
+#include "UObject/ConstructorHelpers.h"
+
+const FName UMino::BaseColorParameterName = TEXT("BaseColor");
+const FName UMino::OpacityParameterName = TEXT("Opacity");
+const FString UMino::CubeMeshPath = TEXT("/Engine/BasicShapes/Cube.Cube");
+const FString UMino::MaterialOutlinePath = TEXT("/Game/Material/M_MinoOutline");
+
+
+UMino::UMino()
+{
+	static const ConstructorHelpers::FObjectFinder<UStaticMesh> CubeMesh(*UMino::CubeMeshPath);
+	if (CubeMesh.Succeeded())
+	{
+		UStaticMeshComponent::SetStaticMesh(CubeMesh.Object);
+	}
+
+	SetWorldScale3D(FVector(UMino::MinoScale));
+}
+
+void UMino::SetRelativeLocationByMatrixLocation(const FIntPoint& MatrixLocation, const float Z)
+{
+	SetRelativeLocation(UMino::GetRelativeLocationByMatrixLocation(MatrixLocation, Z));
+}
+
+void UMino::AttachToWithMatrixLocation(USceneComponent* const Parent, const FIntPoint& MatrixLocation, const float Z)
+{
+	AttachToComponent(Parent, FAttachmentTransformRules::KeepRelativeTransform);
+	SetRelativeLocationByMatrixLocation(MatrixLocation, Z);
+}
+
 UMino* UMino::NewMino(UObject* const InOuter, const FMinoInfo& MinoInfo)
 {
 	if (UMino* const Mino = NewObject<UMino>(InOuter))
@@ -648,6 +682,15 @@ UMino* UMino::NewMino(UObject* const InOuter, const FMinoInfo& MinoInfo)
 		}
 	}
 	return nullptr;
+}
+
+FVector UMino::GetRelativeLocationByMatrixLocation(const FIntPoint& MatrixLocation, const float Z)
+{
+	// 1. 크기 고려하여 실제 위치 계산
+	// 2. 행렬 기반 좌표를 XYZ 좌표계로 변환
+	const float X = -UnitLength * MatrixLocation.Y;
+	const float Y = -UnitLength * MatrixLocation.X;
+	return FVector(X, Y, Z);
 }
 
 UMaterialInterface* UMino::GetMaterialByMinoInfo(const FMinoInfo& MinoInfo)
@@ -670,7 +713,21 @@ UMaterialInstanceDynamic* UMino::GetMaterialInstanceByMinoInfo(UObject* const In
 	}
 	return nullptr;
 }
+
 ```
+
+각 미노는 메시로 큐브를 이용했는데 경계면(정육면체의 각 모서리)을 눈에 띄게 하기 위해 머티리얼 그래프를 활용하였다.  
+(구현하기 위해 참고한 영상: https://youtu.be/KHiZfy5OlO8?si=k5IqeGzICTXFvT9D)
+
+##### M_MinoOutline (Material)
+![M_MinoOutline](./Documents/M_MinoOutline.png)
+
+##### CalculateEmphasizedBorderColor (Material Function)
+![CalculateEmphasizedBorderColor](./Documents/CalculateEmphasizedBorderColor.png)
+
+##### CalculateBorderEmphasisFactor (Material Function)
+![CalculateBorderEmphasisFactor](./Documents/CalculateBorderEmphasisFactor.png)
+
 
 ### 오디오
 
