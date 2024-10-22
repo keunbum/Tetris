@@ -3,40 +3,19 @@
 ## Index
 
 - [개요](#개요)
-  - [프로젝트 진행 방식](#프로젝트-진행-방식)
-  - [Best Practice](#best-practice)
-  - [Coding Standard](#coding-standard)
 - [시현 영상](#시현-영상)
 - [요구 사항 분석](#요구-사항-분석)
   - [1. 도입](#1-도입)
-    - [1.1. 기본 용어](#11-기본-용어)
   - [2. 기본 게임 흐름](#2-기본-게임-흐름)
-    - [2.1 인터페이스](#21-인터페이스)
   - [3. 테트로미노 생성](#3-테트로미노-생성)
-    - [3.1 무작위 생성](#31-무작위-생성)
   - [4. 컨트롤](#4-컨트롤)
   - [5. 테트로미노 조작](#5-테트로미노-조작)
-    - [5.1 이동(Movement)](#51-이동movement)
-    - [5.2 자동 반복(Auto-Repeat)](#52-자동-반복auto-repeat)
-    - [5.3 회전(Rotation)](#53-회전rotation)
-    - [5.4 하드 드롭(Hard Drop)](#54-하드-드롭hard-drop)
-    - [5.5 소프트 드롭(Soft Drop)](#55-소프트-드롭soft-drop)
-    - [5.6 홀드(Hold)](#56-홀드hold)
-    - [5.7 연장 배치 잠금(Extended Placement Lock Down)](#57-연장-배치-잠금extended-placement-lock-down)
   - [6. 레벨 및 목표](#6-레벨-및-목표)
 - [설계](#설계)
   - [프로그램 흐름](#프로그램-흐름)
   - [클래스 디자인](#클래스-디자인)
-    - [UserWidget](#userwidget)
-    - [Actor and ActorComponent and HUD](#actor-and-actorcomponent-and-hud)
-    - [GameMode and PlayerState](#gamemode-and-playerstate)
-    - [PlayerController](#playercontroller)
-    - [UObject and UInterface](#uobject-and-uinterface)
-    - [Etc](#etc)
 - [구현](#구현)
   - [UI](#ui)
-    - [UTetrisWidgetMenuBase](#utetriswidgetmenubase)
-    - [UTetrisWidgetMenuMain](#utetriswidgetmenumain)
   - [핵심 클래스](#핵심-클래스)
   - [오디오](#오디오)
 
@@ -84,9 +63,6 @@
 
 ### 1. 도입
 #### 1.1. 기본 용어
-
-**Line Clear**  
-가로 행이 블록으로 완전히 채워지면 매트릭스에서 제거되는 상태. 클리어된 라인 위의 모든 조각(piece)은 아래로 이동하여 공간을 채운다.  
 
 **Lock Down**  
 플레이 중인(매트릭스에 나와 있는) 테트로미노가 잠겨 플레이어가 이를 더 이상 조작할 수 없는 지점.  
@@ -209,27 +185,6 @@ Hold 명령을 사용하면 플레이 중인 테트로미노가 Hold Queue에 �
 
 잠금은 반드시 보류와 보류 사이에 발생해야 한다. 예를 들어 처음에는 첫 번째 테트로미노가 생성되고 떨어지기 시작한다. 플레이어는 이 테트로미노를 홀드하기로 결정한다. 그러면 즉시 Next Queue에서 다음 테트로미노가 생성되고 떨어지기 시작한다. 플레이어는 다른 테트로미노를 홀드하고 싶다면 먼저 이 테트로미노(플레이 테트로미노)를 잠가야 한다. 즉, 동일한 테트로미노를 두 번 이상 홀드 할 수 없다.
 
-### 5.7 연장 배치 잠금(Extended Placement Lock Down)
-
-옵션 메뉴의 기본 잠금 설정이다.  
-Tetris의 멀티플레이어 아케이드 변형은 이 유형의 잠금을 사용해야 한다.
-
-플레이 테트리미노가 매트릭스의 표면에 착지하면 잠금 타이머가 0.5초부터 카운트다운을 시작한다. 0에 도달하면 테트로미노가 잠기고 다음 테트로미노의 생성 단계가 시작된다. 잠금 타이머는 플레이어가 테트리미노를 단순히 움직이거나 회전시키면 0.5초로 재설정된다. 연장 배치에서 테트로미노는 잠금 타이머에 남은 시간에 관계없이 잠금 전에 왼쪽/오른쪽으로 15번 이동하거나 회전한다. 그러나 테트로미노가 도달한 가장 낮은 행보다 한 행 아래로 떨어지면 이 카운터가 재설정된다. 다른 모든 경우에는 재설정되지 않는다.
-
-참고: 테트로미노가 가장 낮은 선으로 떨어진 다음 이 선 위로 올라가면 15번의 이동/회전을 계속 사용한다. 이러한 움직임/회전이 사용되면 잠금 타이머가 재설정되지 않고 테트로미노가 접촉하는 첫 번째 표면에서 즉시 잠금된다. 표면에 닿지 않으면 더 이동/회전될 수 있다. 이전 최저선 아래의 선으로 떨어지면 다시 총 15회의 이동/회전을 받게 된다.
-
-### 6. 레벨 및 목표
-일반적인 Tetris 변형은 15단계 플레이(1에서 15까지)를 특징으로 한다.  
-레벨 업은 플레이어가 레벨당 필요한 라인 수를 지우거나 목표를 클리어할 때 발생한다.
-
-레벨이 올라감에 따라 낙하 속도가 증가하고 라인 클리어 및 T-스핀과 같은 작업에 대해 더 많은 포인트가 부여된다.
-
-변형/플랫폼에 가장 적합한 목표 시스템 유형을 선택하는 것이 좋다. 이 지침에는 두 가지가 나열되어 있다. 
-고정 목표 시스템은 레벨 15까지 각 레벨마다 10줄이 필요하고 가변 목표 시스템은 플레이어가 레벨 1에서 
-5줄, 레벨 2에서 10줄, 레벨 3에서 15줄을 클리어하는 식으로 레벨 15까지 각 레벨에서 5줄을 추가해야 한다.
-
-따라서 고정 목표 시스템에서는 레벨 15까지 150줄을 클리어해야 하는 반면, 가변 목표 시스템에서는 레벨 15까지 5줄씩 추가하면서 총 600줄을 클리어해야 한다.
-
 ---
 
 ## 설계
@@ -263,11 +218,11 @@ Tetris의 멀티플레이어 아케이드 변형은 이 유형의 잠금을 사�
 ## 구현
 
 로직은 대부분 블루프린트 대신 C++로 작성하였다.
+(분량이 많아 일부 클래스만 샘플 코드 첨부)
 
 ### UI
 
 UUserWidget을 상속 받은 C++ 클래스 작성 후, 이를 상속 받은 위젯 블루프린트 구현.  
-(분량이 많아 일부 클래스만 샘플 코드 첨부)
 
 #### UTetrisWidgetMenuBase  
 모든 메뉴 위젯의 기본이 되는 클래스.  
@@ -676,9 +631,43 @@ private:
 };
 ```
 
-미노 생성 핵심 로직
+##### UMino.cpp
 
 ```cpp
+// Copyright Ryu KeunBeom. All Rights Reserved.
+
+#include "Mino.h"
+
+#include "UObject/ConstructorHelpers.h"
+
+const FName UMino::BaseColorParameterName = TEXT("BaseColor");
+const FName UMino::OpacityParameterName = TEXT("Opacity");
+const FString UMino::CubeMeshPath = TEXT("/Engine/BasicShapes/Cube.Cube");
+const FString UMino::MaterialOutlinePath = TEXT("/Game/Material/M_MinoOutline");
+
+
+UMino::UMino()
+{
+	static const ConstructorHelpers::FObjectFinder<UStaticMesh> CubeMesh(*UMino::CubeMeshPath);
+	if (CubeMesh.Succeeded())
+	{
+		UStaticMeshComponent::SetStaticMesh(CubeMesh.Object);
+	}
+
+	SetWorldScale3D(FVector(UMino::MinoScale));
+}
+
+void UMino::SetRelativeLocationByMatrixLocation(const FIntPoint& MatrixLocation, const float Z)
+{
+	SetRelativeLocation(UMino::GetRelativeLocationByMatrixLocation(MatrixLocation, Z));
+}
+
+void UMino::AttachToWithMatrixLocation(USceneComponent* const Parent, const FIntPoint& MatrixLocation, const float Z)
+{
+	AttachToComponent(Parent, FAttachmentTransformRules::KeepRelativeTransform);
+	SetRelativeLocationByMatrixLocation(MatrixLocation, Z);
+}
+
 UMino* UMino::NewMino(UObject* const InOuter, const FMinoInfo& MinoInfo)
 {
 	if (UMino* const Mino = NewObject<UMino>(InOuter))
@@ -693,6 +682,15 @@ UMino* UMino::NewMino(UObject* const InOuter, const FMinoInfo& MinoInfo)
 		}
 	}
 	return nullptr;
+}
+
+FVector UMino::GetRelativeLocationByMatrixLocation(const FIntPoint& MatrixLocation, const float Z)
+{
+	// 1. 크기 고려하여 실제 위치 계산
+	// 2. 행렬 기반 좌표를 XYZ 좌표계로 변환
+	const float X = -UnitLength * MatrixLocation.Y;
+	const float Y = -UnitLength * MatrixLocation.X;
+	return FVector(X, Y, Z);
 }
 
 UMaterialInterface* UMino::GetMaterialByMinoInfo(const FMinoInfo& MinoInfo)
@@ -715,7 +713,21 @@ UMaterialInstanceDynamic* UMino::GetMaterialInstanceByMinoInfo(UObject* const In
 	}
 	return nullptr;
 }
+
 ```
+
+각 미노는 메시로 큐브를 이용했는데 경계면(정육면체의 각 모서리)을 눈에 띄게 하기 위해 머티리얼 그래프를 활용하였다.  
+(구현하기 위해 참고한 영상: https://youtu.be/KHiZfy5OlO8?si=k5IqeGzICTXFvT9D)
+
+##### M_MinoOutline (Material)
+![M_MinoOutline](./Documents/M_MinoOutline.png)
+
+##### CalculateEmphasizedBorderColor (Material Function)
+![CalculateEmphasizedBorderColor](./Documents/CalculateEmphasizedBorderColor.png)
+
+##### CalculateBorderEmphasisFactor (Material Function)
+![CalculateBorderEmphasisFactor](./Documents/CalculateBorderEmphasisFactor.png)
+
 
 ### 오디오
 
