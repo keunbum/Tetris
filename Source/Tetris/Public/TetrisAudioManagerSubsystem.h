@@ -44,7 +44,6 @@ private:
 
 public:
 	static const FName SoundControlDataAssetPath;
-
 	static const FName AudioConfigSectionName;
 	static const FName AudioConfigFileName;
 
