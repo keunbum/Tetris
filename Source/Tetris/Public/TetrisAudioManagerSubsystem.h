@@ -44,9 +44,6 @@ private:
 
 public:
 	static const FName SoundControlDataAssetPath;
-	static const FName MainSoundMixPath;
-	static const FName MainSoundClassPath;
-	static const FName BgmSoundClassPath;
 
 	static const FString AudioConfigSectionName;
 	static const FString AudioConfigFileName;
