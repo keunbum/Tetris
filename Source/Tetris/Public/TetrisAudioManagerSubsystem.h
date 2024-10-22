@@ -45,8 +45,8 @@ private:
 public:
 	static const FName SoundControlDataAssetPath;
 
-	static const FString AudioConfigSectionName;
-	static const FString AudioConfigFileName;
+	static const FName AudioConfigSectionName;
+	static const FName AudioConfigFileName;
 
 	static constexpr float DefaultVolume = 1.0f;
 
