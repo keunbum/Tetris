@@ -231,7 +231,7 @@ void ATetrisPlayManager::InitializeNextQueue()
 	if (NextQueue && GameMode && Board)
 	{
 		NextQueue->Initialize(GameMode->NextQueueSize, Board->GetNextQueueRoot());
-		for (int32 Count = 0; Count < GameMode->NextQueueSize; ++Count)
+		for (int32 _ = 0; _ < GameMode->NextQueueSize; ++_)
 		{
 			SpawnAndPushTetriminoToNextQueue();
 		}
