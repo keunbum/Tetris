@@ -106,6 +106,7 @@ void ATetrisPlayManager::EnterPhase(const EPhase NewPhase)
 		RunCompletionPhase();
 		break;
 	default:
+		checkNoEntry();
 		break;
 	}
 }
