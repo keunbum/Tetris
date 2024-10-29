@@ -73,8 +73,6 @@ void ATetrisPlayManager::Initialize()
 
 	// Etc
 	SetAutoRepeatMovementDirection(FVector2D::ZeroVector);
-
-	ClearAllTimers();
 }
 
 void ATetrisPlayManager::EnterPhase(const EPhase NewPhase)
