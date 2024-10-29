@@ -708,20 +708,21 @@ void ATetrisPlayManager::SpawnAndPushTetriminoToNextQueue()
 
 ATetrimino* ATetrisPlayManager::SpawnNextTetrimino() const
 {
-	if (TetriminoGenerator)
+	if (!TetriminoGenerator)
 	{
-		static constexpr bool bIsTetriminoSpawnRandom = true;
-		if constexpr (bIsTetriminoSpawnRandom)
-		{
-			return TetriminoGenerator->SpawnTetriminoByBagSystem(TetriminoClass);
-		}
-		else
-		{
-			return TetriminoGenerator->SpawnTetriminoByShape(TetriminoClass, TestSpawnShape);
-		}
+		UE_LOG(LogTemp, Warning, TEXT("%s - TetriminoGenerator is nullptr."), *FString(__FUNCTION__));
+		return nullptr;
 	}
 
-	return nullptr;
+	static constexpr bool bIsTetriminoSpawnRandom = true;
+	if constexpr (bIsTetriminoSpawnRandom)
+	{
+		return TetriminoGenerator->SpawnTetriminoByBagSystem(TetriminoClass);
+	}
+	else
+	{
+		return TetriminoGenerator->SpawnTetriminoByShape(TetriminoClass, TestSpawnShape);
+	}
 }
 
 void ATetrisPlayManager::PlayLockDownEffect(const TArray<UMino*>& MinoArray)
