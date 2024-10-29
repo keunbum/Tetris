@@ -675,6 +675,12 @@ void ATetrisPlayManager::SetTetriminoInPlay(ATetrimino* const InTetriminoInPlay)
 
 ATetrimino* ATetrisPlayManager::PopTetriminoFromNextQueue()
 {
+	if (!NextQueue)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("%s - NextQueue is nullptr."), *FString(__FUNCTION__));
+		return nullptr;
+	}
+
 	if (ATetrimino* const NextTetrimino = NextQueue->Dequeue())
 	{
 		SpawnAndPushTetriminoToNextQueue();
@@ -688,6 +694,12 @@ ATetrimino* ATetrisPlayManager::PopTetriminoFromNextQueue()
 
 void ATetrisPlayManager::SpawnAndPushTetriminoToNextQueue()
 {
+	if (!NextQueue)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("%s - NextQueue is nullptr."), *FString(__FUNCTION__));
+		return;
+	}
+
 	if (ATetrimino* const NewTetrimino = SpawnNextTetrimino())
 	{
 		NextQueue->Enqueue(NewTetrimino);
