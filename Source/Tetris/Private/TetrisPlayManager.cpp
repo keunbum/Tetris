@@ -252,7 +252,7 @@ void ATetrisPlayManager::RunGenerationPhase()
 	//UE_LOG(LogTemp, Display, TEXT("|-----------------------------------------------------------------------|"));
 	//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayManager::RunGenerationPhase()"));
 
-	// TetriminoInPlay가 비어 있으면 NextQueue에서 꺼내온다. (HoldQueue에서 꺼내 오는 경우가 있어서 필요)
+	// TetriminoInPlay가 비어 있으면 NextQueue에서 꺼내온다. (HoldQueue에서 꺼내 오는 경우가 있어서 확인 필요)
 	if (!TetriminoInPlay)
 	{
 		ATetrimino* const NewTetriminoInPlay = PopTetriminoFromNextQueue();
