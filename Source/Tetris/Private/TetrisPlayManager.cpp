@@ -73,8 +73,6 @@ void ATetrisPlayManager::Initialize()
 
 	// Etc
 	SetAutoRepeatMovementDirection(FVector2D::ZeroVector);
-
-	ClearAllTimers();
 }
 
 void ATetrisPlayManager::EnterPhase(const EPhase NewPhase)
@@ -108,6 +106,7 @@ void ATetrisPlayManager::EnterPhase(const EPhase NewPhase)
 		RunCompletionPhase();
 		break;
 	default:
+		checkNoEntry();
 		break;
 	}
 }
@@ -232,7 +231,7 @@ void ATetrisPlayManager::InitializeNextQueue()
 	if (NextQueue && GameMode && Board)
 	{
 		NextQueue->Initialize(GameMode->NextQueueSize, Board->GetNextQueueRoot());
-		for (int32 Count = 0; Count < GameMode->NextQueueSize; ++Count)
+		for (int32 _ = 0; _ < GameMode->NextQueueSize; ++_)
 		{
 			SpawnAndPushTetriminoToNextQueue();
 		}
@@ -253,7 +252,7 @@ void ATetrisPlayManager::RunGenerationPhase()
 	//UE_LOG(LogTemp, Display, TEXT("|-----------------------------------------------------------------------|"));
 	//UE_LOG(LogTemp, Display, TEXT("ATetrisPlayManager::RunGenerationPhase()"));
 
-	// TetriminoInPlay가 비어 있으면 NextQueue에서 꺼내온다. (HoldQueue에서 꺼내 오는 경우가 있어서 필요)
+	// TetriminoInPlay가 비어 있으면 NextQueue에서 꺼내온다. (HoldQueue에서 꺼내 오는 경우가 있어서 확인 필요)
 	if (!TetriminoInPlay)
 	{
 		ATetrimino* const NewTetriminoInPlay = PopTetriminoFromNextQueue();
@@ -635,13 +634,6 @@ void ATetrisPlayManager::ClearTimer(FTimerHandle& InOutTimerHandle)
 	GetWorldTimerManager().ClearTimer(InOutTimerHandle);
 }
 
-void ATetrisPlayManager::ClearTimerWithPrefix(const FString& Prefix, FTimerHandle& InOutTimerHandle)
-{
-	const FString TimerIsActive = IsTimerActive(InOutTimerHandle) ? TEXT("o") : TEXT("x");
-	UE_LOG(LogTemp, Display, TEXT("Before ClearTimer(): %s Timer is %s."), *Prefix, *TimerIsActive);
-	ClearTimer(InOutTimerHandle);
-}
-
 void ATetrisPlayManager::ClearTimers(const TArray<FTimerHandle*>& TimerHandles)
 {
 	for (FTimerHandle* const TimerHandle : TimerHandles)
@@ -663,12 +655,6 @@ void ATetrisPlayManager::ClearAllTimers()
 		&LockDownTimerHandle,
 	};
 	ClearTimers(TimerHandles);
-
-	//ClearTimerWithPrefix(TEXT("Auto Repeat Movement"), AutoRepeatMovementTimerHandle);
-	//ClearTimerWithPrefix(TEXT("Soft Drop"), SoftDropTimerHandle);
-	//ClearTimerWithPrefix(TEXT("Normal Fall"), NormalFallTimerHandle);
-	//ClearTimerWithPrefix(TEXT("Lock Down"), LockDownTimerHandle);
-	//ClearTimerWithPrefix(TEXT("Phase Change"), PhaseChangeTimerHandle);
 }
 
 bool ATetrisPlayManager::IsTimerActive(const FTimerHandle& TimerHandle) const
@@ -689,6 +675,12 @@ void ATetrisPlayManager::SetTetriminoInPlay(ATetrimino* const InTetriminoInPlay)
 
 ATetrimino* ATetrisPlayManager::PopTetriminoFromNextQueue()
 {
+	if (!NextQueue)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("%s - NextQueue is nullptr."), *FString(__FUNCTION__));
+		return nullptr;
+	}
+
 	if (ATetrimino* const NextTetrimino = NextQueue->Dequeue())
 	{
 		SpawnAndPushTetriminoToNextQueue();
@@ -702,6 +694,12 @@ ATetrimino* ATetrisPlayManager::PopTetriminoFromNextQueue()
 
 void ATetrisPlayManager::SpawnAndPushTetriminoToNextQueue()
 {
+	if (!NextQueue)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("%s - NextQueue is nullptr."), *FString(__FUNCTION__));
+		return;
+	}
+
 	if (ATetrimino* const NewTetrimino = SpawnNextTetrimino())
 	{
 		NextQueue->Enqueue(NewTetrimino);
@@ -710,20 +708,21 @@ void ATetrisPlayManager::SpawnAndPushTetriminoToNextQueue()
 
 ATetrimino* ATetrisPlayManager::SpawnNextTetrimino() const
 {
-	if (TetriminoGenerator)
+	if (!TetriminoGenerator)
 	{
-		static constexpr bool bIsTetriminoSpawnRandom = true;
-		if constexpr (bIsTetriminoSpawnRandom)
-		{
-			return TetriminoGenerator->SpawnTetriminoByBagSystem(TetriminoClass);
-		}
-		else
-		{
-			return TetriminoGenerator->SpawnTetriminoByShape(TetriminoClass, TestSpawnShape);
-		}
+		UE_LOG(LogTemp, Warning, TEXT("%s - TetriminoGenerator is nullptr."), *FString(__FUNCTION__));
+		return nullptr;
 	}
 
-	return nullptr;
+	static constexpr bool bIsTetriminoSpawnRandom = true;
+	if constexpr (bIsTetriminoSpawnRandom)
+	{
+		return TetriminoGenerator->SpawnTetriminoByBagSystem(TetriminoClass);
+	}
+	else
+	{
+		return TetriminoGenerator->SpawnTetriminoByShape(TetriminoClass, TestSpawnShape);
+	}
 }
 
 void ATetrisPlayManager::PlayLockDownEffect(const TArray<UMino*>& MinoArray)

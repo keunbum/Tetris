@@ -137,7 +137,6 @@ private:
 	void SetLockDownTimer();
 
 	void ClearTimer(FTimerHandle& InOutTimerHandle);
-	void ClearTimerWithPrefix(const FString& Prefix, FTimerHandle& InOutTimerHandle);
 	void ClearTimers(const TArray<FTimerHandle*>& TimerHandles);
 	void ClearAllTimers();
 
