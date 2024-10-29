@@ -635,13 +635,6 @@ void ATetrisPlayManager::ClearTimer(FTimerHandle& InOutTimerHandle)
 	GetWorldTimerManager().ClearTimer(InOutTimerHandle);
 }
 
-void ATetrisPlayManager::ClearTimerWithPrefix(const FString& Prefix, FTimerHandle& InOutTimerHandle)
-{
-	const FString TimerIsActive = IsTimerActive(InOutTimerHandle) ? TEXT("o") : TEXT("x");
-	UE_LOG(LogTemp, Display, TEXT("Before ClearTimer(): %s Timer is %s."), *Prefix, *TimerIsActive);
-	ClearTimer(InOutTimerHandle);
-}
-
 void ATetrisPlayManager::ClearTimers(const TArray<FTimerHandle*>& TimerHandles)
 {
 	for (FTimerHandle* const TimerHandle : TimerHandles)
@@ -663,12 +656,6 @@ void ATetrisPlayManager::ClearAllTimers()
 		&LockDownTimerHandle,
 	};
 	ClearTimers(TimerHandles);
-
-	//ClearTimerWithPrefix(TEXT("Auto Repeat Movement"), AutoRepeatMovementTimerHandle);
-	//ClearTimerWithPrefix(TEXT("Soft Drop"), SoftDropTimerHandle);
-	//ClearTimerWithPrefix(TEXT("Normal Fall"), NormalFallTimerHandle);
-	//ClearTimerWithPrefix(TEXT("Lock Down"), LockDownTimerHandle);
-	//ClearTimerWithPrefix(TEXT("Phase Change"), PhaseChangeTimerHandle);
 }
 
 bool ATetrisPlayManager::IsTimerActive(const FTimerHandle& TimerHandle) const
