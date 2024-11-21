@@ -961,8 +961,4 @@ void UTetrisAudioManagerSubsystem::SetSoundMixClassOverrideInGameThread(USoundMi
 
 ```
 
-### 입력
-
-### 기타
-
 ---
