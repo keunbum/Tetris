@@ -627,13 +627,14 @@ private:
 public:
 	static constexpr float MinoScale = 1.0f;
 	static constexpr float UnitLength = DefaultUnitLength * MinoScale;
-	static const FString DefaultMaterialPath;
+	static const FString MaterialOutlinePath;
 
 private:
 	static const FName BaseColorParameterName;
 	static const FName OpacityParameterName;
 	static const FString CubeMeshPath;
 };
+
 ```
 
 ##### UMino.cpp
